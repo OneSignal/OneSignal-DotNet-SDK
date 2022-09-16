@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.Xamarin.iOS", "OneSignalSDK.Xamarin.iOS\OneSignalSDK.Xamarin.iOS.csproj", "{5FF66A21-BA7B-48FD-8A7D-6A1092066306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.dotnet.iOS", "OneSignalSDK.dotnet.iOS\OneSignalSDK.dotnet.iOS.csproj", "{5FF66A21-BA7B-48FD-8A7D-6A1092066306}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.Xamarin.Android", "OneSignalSDK.Xamarin.Android\OneSignalSDK.Xamarin.Android.csproj", "{FB0C2961-BAFE-4346-B279-3B3941614DCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.dotnet.Android", "OneSignalSDK.dotnet.Android\OneSignalSDK.dotnet.Android.csproj", "{FB0C2961-BAFE-4346-B279-3B3941614DCD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.Xamarin", "OneSignalSDK.Xamarin\OneSignalSDK.Xamarin.csproj", "{D0FE8BC3-4B5F-45CC-B9F2-1795CB136BB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.dotnet", "OneSignalSDK.dotnet\OneSignalSDK.dotnet.csproj", "{D0FE8BC3-4B5F-45CC-B9F2-1795CB136BB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignal.Android.Binding", "OneSignal.Android.Binding\OneSignal.Android.Binding.csproj", "{9144F592-91B9-4ACA-BC3C-D771F8319996}"
 EndProject
@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.Xamarin.Core", "OneSignalSDK.Xamarin.Core\OneSignalSDK.Xamarin.Core.csproj", "{4A02EC63-E524-402B-8FD3-484FEFB172A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.dotnet.Core", "OneSignalSDK.dotnet.Core\OneSignalSDK.dotnet.Core.csproj", "{4A02EC63-E524-402B-8FD3-484FEFB172A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

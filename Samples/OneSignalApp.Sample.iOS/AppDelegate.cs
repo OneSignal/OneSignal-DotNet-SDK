@@ -63,7 +63,7 @@ namespace OneSignalApp.Sample.iOS
 
 
       // The following Exports are needed to run OneSignal in the iOS Simulator.
-      //   The simulator doesn't support push however this prevents a crash due to a Xamarin bug
+      //   The simulator doesn't support push however this prevents a crash due to a dotnet bug
       //   https://bugzilla.xamarin.com/show_bug.cgi?id=52660
       [Export("oneSignalApplicationDidBecomeActive:")]
       public void OneSignalApplicationDidBecomeActive(UIApplication application)

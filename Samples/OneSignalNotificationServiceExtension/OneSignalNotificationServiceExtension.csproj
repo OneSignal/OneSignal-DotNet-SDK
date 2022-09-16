@@ -82,7 +82,7 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS" />
+    <Reference Include="dotnet.iOS" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
@@ -98,18 +98,18 @@
     <Compile Include="NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OneSignalSDK.Xamarin.iOS\OneSignalSDK.Xamarin.iOS.csproj">
+    <ProjectReference Include="..\..\OneSignalSDK.dotnet.iOS\OneSignalSDK.dotnet.iOS.csproj">
       <Project>{5FF66A21-BA7B-48FD-8A7D-6A1092066306}</Project>
-      <Name>OneSignalSDK.Xamarin.iOS</Name>
+      <Name>OneSignalSDK.dotnet.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OneSignalSDK.Xamarin.Core\OneSignalSDK.Xamarin.Core.csproj">
+    <ProjectReference Include="..\..\OneSignalSDK.dotnet.Core\OneSignalSDK.dotnet.Core.csproj">
       <Project>{4A02EC63-E524-402B-8FD3-484FEFB172A1}</Project>
-      <Name>OneSignalSDK.Xamarin.Core</Name>
+      <Name>OneSignalSDK.dotnet.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OneSignal.iOS.Binding\OneSignal.iOS.Binding.csproj">
       <Name>OneSignal.iOS.Binding</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.AppExtension.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\dotnet\iOS\dotnet.iOS.AppExtension.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

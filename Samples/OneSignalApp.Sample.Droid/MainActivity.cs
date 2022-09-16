@@ -2,7 +2,7 @@
 using Android.Widget;
 using Android.OS;
 using OneSignalApp.Sample.Shared;
-using OneSignalSDK.Xamarin;
+using OneSignalSDK.dotnet;
 using System;
 
 namespace OneSignalApp.Sample.Droid
