@@ -284,7 +284,7 @@ typedef void (^OSFailureBlock)(NSError* error);
 
 + (void)disablePush:(BOOL)disable;
 
-// Only used for wrapping SDKs, such as Unity, Cordova, Xamarin, etc.
+// Only used for wrapping SDKs, such as Unity, Cordova, dotnet, etc.
 + (void)setMSDKType:(NSString* _Nonnull)type;
 
 #pragma mark Initialization

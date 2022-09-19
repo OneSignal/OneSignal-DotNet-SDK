@@ -1,7 +1,7 @@
 ﻿using System;
 using Foundation;
 using UserNotifications;
-using OneSignalSDK.Xamarin;
+using OneSignalSDK.dotnet;
 
 namespace OneSignalNotificationServiceExtension
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using OneSignalApp.Sample.Shared;
-using OneSignalSDK.Xamarin;
+using OneSignalSDK.dotnet;
 using UIKit;
 
 namespace OneSignalApp.Sample.iOS

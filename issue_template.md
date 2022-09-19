@@ -12,7 +12,7 @@
 
 **Environment**
 <!-- Example:
-1. What version of the Xamarin SDK are you using?
+1. What version of the dotnet SDK are you using?
 2. How did you add the SDK to your project (eg. nuget)
  -->
 
@@ -22,7 +22,7 @@
 <!--
   Example:
 
-  1. Add version 3.1.1 of the Xamarin SDK to your project
+  1. Add version 3.1.1 of the dotnet SDK to your project
   2. Initialize the SDK with your App ID
   3. Attempt to receive a push notification
 

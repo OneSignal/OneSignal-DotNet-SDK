@@ -1,4 +1,4 @@
-# Contributing to the OneSignal Xamarin SDK
+# Contributing to the OneSignal dotnet SDK
 
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
@@ -21,6 +21,6 @@ Before creating bug reports, please check this list of steps to follow.
 #### How Do I Submit a Good Bug Report
 * **Use a clear and descriptive title** for the issue to identify the problem.
 * **Include Reproducibility** It is nearly always a good idea to include steps to reproduce the issue. If you cannot reliably reproduce the issue yourself, that's ok, but reproducible steps help best.
-* **Describe your environment**, tell us what version of the Xamarin SDK you are using, how you added it to your project (ie. via nuget or manual), what type of project you are working on (ie. a Forms project), and so on.
+* **Describe your environment**, tell us what version of the dotnet SDK you are using, how you added it to your project (ie. via nuget or manual), what type of project you are working on (ie. a Forms project), and so on.
 * **Include a Stack Trace** If your issue involves a crash/exception, ***PLEASE*** post the stack trace to help us identify the root issue.
 * **Include an Example Project** This isn't required, but if you want your issue fixed quickly, it's often a good idea to include an example project as a zip and include it with the issue. You can also download the Demo project (included in the `/Samples` folder of this repo) and set up an example project with this code as a starting point.

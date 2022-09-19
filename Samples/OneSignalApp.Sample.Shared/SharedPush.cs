@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-using OneSignalSDK.Xamarin;
-using OneSignalSDK.Xamarin.Core;
+using OneSignalSDK.dotnet;
+using OneSignalSDK.dotnet.Core;
 
 namespace OneSignalApp.Sample.Shared
 {
