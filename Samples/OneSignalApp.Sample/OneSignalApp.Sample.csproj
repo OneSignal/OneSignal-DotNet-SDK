@@ -52,4 +52,10 @@
 	<ItemGroup>
 	  <PackageReference Include="OneSignalSDK.Xamarin" Version="4.2.0-beta1-maui-only" />
 	</ItemGroup>
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+	  <ProjectReference Include="..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj">
+		  <IsAppExtension>true</IsAppExtension>
+			<IsWatchApp>false</IsWatchApp>
+		</ProjectReference>
+	</ItemGroup>
 </Project>
