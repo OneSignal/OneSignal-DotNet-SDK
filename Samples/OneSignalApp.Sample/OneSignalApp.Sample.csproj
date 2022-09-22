@@ -15,7 +15,7 @@
 		<ApplicationTitle>OneSignalApp.Sample</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.onesignalapp.sample</ApplicationId>
+		<ApplicationId>com.onesignal.onesignalapp.sample</ApplicationId>
 		<ApplicationIdGuid>C211D32B-9E90-4FDF-B017-6714D77C41D6</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -28,9 +28,13 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
+		<Configurations>Release;Debug</Configurations>
 	</PropertyGroup>
 
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	  <DebugSymbols>true</DebugSymbols>
+	  <WarningLevel>4</WarningLevel>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -47,15 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="OneSignalSDK.Xamarin" />
-	</ItemGroup>
-	<ItemGroup>
 	  <PackageReference Include="OneSignalSDK.Xamarin" Version="4.2.0-beta1-maui-only" />
 	</ItemGroup>
-	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
-	  <ProjectReference Include="..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj">
-		  <IsAppExtension>true</IsAppExtension>
-			<IsWatchApp>false</IsWatchApp>
-		</ProjectReference>
-	</ItemGroup>
+	
 </Project>

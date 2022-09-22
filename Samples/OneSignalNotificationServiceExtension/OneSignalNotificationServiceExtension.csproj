@@ -4,13 +4,21 @@
         <OutputType>Library</OutputType>
 
       
-
+        <ApplicationId>com.onesignal.onesignalapp.sample.OneSignalNotificationServiceExtension</ApplicationId>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
+        
+        <DeviceSpecificBuild>True</DeviceSpecificBuild>
      </PropertyGroup>
 
      <PropertyGroup>
 		<IsAppExtension>True</IsAppExtension>
 		<IsWatchExtension>False</IsWatchExtension>
       </PropertyGroup>
+     <ItemGroup>
+       <None Remove="OneSignalSDK.Xamarin" />
+     </ItemGroup>
+     <ItemGroup>
+       <PackageReference Include="OneSignalSDK.Xamarin" Version="4.2.0-beta1-maui-only" />
+     </ItemGroup>
   </Project>
