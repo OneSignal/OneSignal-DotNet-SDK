@@ -47,7 +47,7 @@
 	  <PackageReference Include="OneSignalSDK.Xamarin" Version="4.2.0-beta1-maui-only" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj" >
+	  <ProjectReference Include="..\..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj">
 		<IsAppExtension>true</IsAppExtension>
 		<IsWatchApp>false</IsWatchApp>
 	  </ProjectReference>
