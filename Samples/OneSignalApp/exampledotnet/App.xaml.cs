@@ -1,6 +1,6 @@
 ﻿namespace exampledotnet;
-using OneSignalSDK.Xamarin;
-using OneSignalSDK.Xamarin.Core;
+using OneSignalSDK.dotnet;
+using OneSignalSDK.dotnet.Core;
 
 public partial class App : Application
 {

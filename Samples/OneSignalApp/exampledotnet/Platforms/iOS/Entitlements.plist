@@ -7,6 +7,6 @@
 		<string>group.com.onesignal.exampledotnet.onesignal</string>
 	</array>
 	<key>aps-environment</key>
-	<string>production</string>
+	<string>development</string>
 </dict>
 </plist>
