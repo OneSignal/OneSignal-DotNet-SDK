@@ -10,7 +10,7 @@
         <projectUrl>https://github.com/OneSignal/OneSignal-Dotnet-SDK</projectUrl>
         <icon>nuget_icon.png</icon>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>OneSignal for Xamarin</description>
+        <description>OneSignal for dotnet</description>
         <summary>OneSignal is a free push notification service for mobile apps. This plugin makes it easy to integrate your .Net6+ app with OneSignal</summary>
         <tags>xamarin, monodroid, MAUI, C#, OneSignal, push</tags>
         <dependencies>
