@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
-        <version>4.2.0-beta1-maui-only</version>
+        <version>1.0.0</version>
         <id>OneSignalSDK.dotnet</id>
-        <title>OneSignal SDK for dotnet</title>
+        <title>OneSignal SDK for .Net6+ </title>
         <authors>OneSignal</authors>
         <owners>OneSignal</owners>
-        <licenseUrl>https://github.com/OneSignal/OneSignal-dotnet-SDK/blob/master/LICENSE</licenseUrl>
-        <projectUrl>https://github.com/OneSignal/OneSignal-dotnet-SDK</projectUrl>
+        <licenseUrl>https://github.com/OneSignal/OneSignal-Dotnet-SDK/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/OneSignal/OneSignal-Dotnet-SDK</projectUrl>
         <icon>nuget_icon.png</icon>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>OneSignal for dotnet</description>
-        <summary>OneSignal is a free push notification service for mobile apps. This plugin makes it easy to integrate your dotnet app with OneSignal</summary>
-        <tags>xamarin, monodroid, C#, OneSignal, push</tags>
+        <description>OneSignal for Xamarin</description>
+        <summary>OneSignal is a free push notification service for mobile apps. This plugin makes it easy to integrate your .Net6+ app with OneSignal</summary>
+        <tags>xamarin, monodroid, MAUI, C#, OneSignal, push</tags>
         <dependencies>
             <group targetFramework="net6.0">
             </group>
@@ -27,15 +27,16 @@
                 <dependency id="Xamarin.AndroidX.AppCompat" version="1.4.2.1" />
                 <dependency id="Xamarin.AndroidX.Work.Runtime" version="2.7.1.4" />
 
-                <dependency id="Xamarin.Firebase.Messaging" version="122.0.0.6" />
+                <dependency id="Xamarin.Firebase.Messaging" version="123.0.8" />
                 <!-- Dagger is required for FCM, should be a "transitive dependency" but is not due to this bug:
-                     https://github.com/xamarin/dotnetComponents/issues/1069 -->
-                <dependency id="Xamarin.Google.Dagger" version="2.41.0.1" />
+                     https://github.com/xamarin/XamarinComponents/issues/1069 -->
+                <dependency id="Xamarin.Google.Dagger" version="2.41.0.2" />
+                <dependency id="Xamarin.GooglePlayServices.Base" version="118.1.0" />
             </group>
-            <!-- OneSignal-iOS-SDK requires iOS 9.0, however dotnet.iOS90 or dotnet.iOS9.0 does not work. -->
+            <!-- OneSignal-iOS-SDK requires iOS 9.0, however Xamarin.iOS90 or Xamarin.iOS9.0 does not work. -->
             <group targetFramework="Xamarin.iOS">
                 <!-- No 3rd party iOS specific dependencies -->
-                <!-- There are Apple framework dependencies, these are defined in OneSignalSDK.dotnet.targets -->
+                <!-- There are Apple framework dependencies, these are defined in OneSignalSDK.Xamarin.targets -->
             </group>
         </dependencies>
     </metadata>
@@ -46,11 +47,11 @@
         <file src="OneSignalSDK.dotnet.Core\bin\Release\net6.0\OneSignalSDK.dotnet.Core.pdb" target="lib\net6.0" />
         <file src="OneSignalSDK.dotnet.Core\bin\Release\net6.0\OneSignalSDK.dotnet.Core.dll" target="lib\net6.0" />
 
-        <!--dotnet.Android-->
-        <!-- Omit OneSignalSDK.dotnet.aar as it includes an extra copy of Kotlin which results in duplicate class build errors -->
+        <!--Xamarin.Android-->
+        <!-- Omit OneSignalSDK.Xamarin.aar as it includes an extra copy of Kotlin which results in duplicate class build errors -->
         <file src="OneSignalSDK.dotnet.Android\bin\Release\net6.0-android\*OneSignal*" exclude="**\OneSignalSDK.dotnet.aar" target="lib\net6.0-android21.0" />
 
-        <!--dotnet.iOS Unified-->
+        <!--Xamarin.iOS Unified-->
         <file src="OneSignalSDK.dotnet.iOS\bin\Release\net6.0-ios\*OneSignal*" target="lib\net6.0-ios10.0" />
 
         <!-- Workaround to support .XCFramework for iOS  -->
@@ -61,5 +62,5 @@
              This copies out the OneSignal.xcframework from the resources folder and adds a NativeReference to it in the app project. -->
         <file src="OneSignal.iOS.Binding\OneSignalSDK.dotnet.targets" target="build\net6.0-ios10.0\" />
         <file src="nuget_icon.png" />
-    </files>
+    </files>    
 </package>
