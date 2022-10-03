@@ -4,37 +4,80 @@
              x:Class="exampledotnet.MainPage">
 
     <ScrollView>
+        
         <VerticalStackLayout
             Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
+            Padding="30,30"
+            >
             <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
+                x:Name="RegisterForPush"
+                Text="Register For Push"
+                Clicked="OnRegisterForPush"
+                />
+            <Entry x:Name="ExternalUserID"
+               Placeholder="External User ID"
+               />
+            <Button
+                x:Name="SetExternalUserID"
+                Text="Set External User ID"
+                Clicked="OnSetExternalUserID"
+                />
+            <Button
+                x:Name="RemoveExternalUserID"
+                Text="Remove External User ID"
+                Clicked="OnRemoveExternalUserID"
+                />
+            <Label
+                    Text="Outcomes:"
+                    SemanticProperties.HeadingLevel="Level2"
+                    FontSize="18"
+                    HorizontalTextAlignment="Center"/>
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Padding="30,0"
+                Spacing="25">
+                <Entry x:Name="OutcomeWithValueKeyField"
+                   Placeholder="Key"
+                   WidthRequest="100"
+                   />
+                <Entry x:Name="OutcomeWithValueValueField"
+                   Placeholder="Value"
+                   WidthRequest="100"
+                   />
+            </HorizontalStackLayout>
+            <Button
+                x:Name="SendOutcomeWithValue"
+                Text="Send Outcome With Value"
+                Clicked="OnSendOutcomeWithValue"
+                />
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Padding="30,0"
+                Spacing="25">
+                <Entry x:Name="SendOutcomeKey"
+                   Placeholder="Key"
+                   WidthRequest="100"
+                   />
+                <Button
+                x:Name="SendOutcome"
+                Text="Send Outcome"
+                Clicked="OnSendOutcome"
+                />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Padding="30,0"
+                Spacing="25">
+                <Entry x:Name="SendUniqueOutcomeKey"
+                   Placeholder="Key"
+                   WidthRequest="100"
+                   />
+                <Button
+                x:Name="SendUniqueOutcome"
+                Text="Send Unique Outcome"
+                Clicked="OnSendOutcome"
+                />
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 
