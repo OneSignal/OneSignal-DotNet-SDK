@@ -32,8 +32,6 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	  <CodesignProvision>onesignal dotnet</CodesignProvision>
-	  <CodesignKey>Apple Development: Henry Boswell (7AVQJ54VCW)</CodesignKey>
 	  <MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
