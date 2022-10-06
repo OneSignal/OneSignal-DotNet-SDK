@@ -7,12 +7,12 @@ public partial class MainPage : ContentPage
 
     public MainPage()
     {
-	    InitializeComponent();
+        InitializeComponent();
     }
     private void OnRegisterForPush(object sender, EventArgs e)
     {
 	    // iOS only 
-	    SharedPush.RegisterIOS();
+        SharedPush.RegisterIOS();
     }
     private void OnSetExternalUserID(object sender, EventArgs e)
     {
