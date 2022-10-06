@@ -1,8 +1,10 @@
+
 <p align="center">
   <img src="https://media.onesignal.com/cms/Website%20Layout/logo-red.svg"/>
 </p>
 
 ### OneSignal .NET SDK
+//TODO link dotnet package
 [![NuGet](https://img.shields.io/nuget/v/OneSignalSDK.Xamarin.svg?label=NuGet)](https://www.nuget.org/packages/OneSignal.Xamarin)
 
 ---
@@ -33,3 +35,4 @@ To do
 * Android 4.0.3 (API Level 16) through 13 (API Level 33)
 * Multi-platform App UI and other .NET applications
 * For Xamarin support please use the [OneSignal-Xamarin-SDK](https://github.com/OneSignal/OneSignal-Xamarin-SDK)
+

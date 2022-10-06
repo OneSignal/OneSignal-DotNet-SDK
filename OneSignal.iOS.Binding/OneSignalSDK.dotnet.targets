@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="OneSignalAddOneSignalXCFramework" BeforeTargets="BeforeCompile">
+         <PropertyGroup>
+            <BindingResources>$(MSBuildThisFileDirectory)../../res/iOS</BindingResources>
+        </PropertyGroup>
+        <ItemGroup>
+            <NativeReference Include="$(BindingResources)/OneSignal.xcframework">
+                <Kind>Framework</Kind>
+                <SmartLink>False</SmartLink>
+                <ForceLoad>True</ForceLoad>
+                <Frameworks>SystemConfiguration UserNotifications WebKit CoreGraphics UIKit OneSignalOutcomes OneSignalCore OneSignalExtension</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(BindingResources)/OneSignalExtension.xcframework">
+                <Kind>Framework</Kind>
+                <SmartLink>False</SmartLink>
+                <ForceLoad>True</ForceLoad>
+                <Frameworks>UserNotifications OneSignalCore OneSignalOutcomes</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(BindingResources)/OneSignalOutcomes.xcframework">
+                <Kind>Framework</Kind>
+                <SmartLink>False</SmartLink>
+                <ForceLoad>True</ForceLoad>
+                <Frameworks>OneSignalCore</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(BindingResources)/OneSignalCore.xcframework">
+                <Kind>Framework</Kind>
+                <SmartLink>False</SmartLink>
+                <ForceLoad>True</ForceLoad>
+            </NativeReference>
+        </ItemGroup>
+    </Target>
+</Project>
