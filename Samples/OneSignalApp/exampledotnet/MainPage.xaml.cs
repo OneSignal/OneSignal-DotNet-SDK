@@ -4,17 +4,15 @@ namespace exampledotnet;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-	string externalUserID = "";
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+	    InitializeComponent();
+    }
     private void OnRegisterForPush(object sender, EventArgs e)
     {
-		// iOS only 
-		SharedPush.RegisterIOS();
+	    // iOS only 
+	    SharedPush.RegisterIOS();
     }
     private void OnSetExternalUserID(object sender, EventArgs e)
     {
