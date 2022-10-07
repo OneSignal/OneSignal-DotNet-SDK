@@ -47,11 +47,11 @@
         <file src="OneSignalSDK.dotnet.Core\bin\Release\net6.0\OneSignalSDK.dotnet.Core.pdb" target="lib\net6.0" />
         <file src="OneSignalSDK.dotnet.Core\bin\Release\net6.0\OneSignalSDK.dotnet.Core.dll" target="lib\net6.0" />
 
-        <!--Xamarin.Android-->
+        <!--net6.0-android-->
         <!-- Omit OneSignalSDK.Xamarin.aar as it includes an extra copy of Kotlin which results in duplicate class build errors -->
         <file src="OneSignalSDK.dotnet.Android\bin\Release\net6.0-android\*OneSignal*" exclude="**\OneSignalSDK.dotnet.aar" target="lib\net6.0-android21.0" />
 
-        <!--Xamarin.iOS Unified-->
+        <!--net6.0-ios-->
         <file src="OneSignalSDK.dotnet.iOS\bin\Release\net6.0-ios\*OneSignal*" target="lib\net6.0-ios10.0" />
 
         <!-- Workaround to support .XCFramework for iOS  -->
