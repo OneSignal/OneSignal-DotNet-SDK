@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
    public class InAppMessageOutcome {
       public string name;
       public float weight;

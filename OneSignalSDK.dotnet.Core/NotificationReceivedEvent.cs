@@ -1,5 +1,5 @@
 ﻿using System;
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
    public class NotificationReceivedEvent {
         public Notification notificationReceived;
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using OneSignalSDK.dotnet.Core;
-using Notification = OneSignalSDK.dotnet.Core.Notification;
+using OneSignalSDK.DotNet.Core;
+using Notification = OneSignalSDK.DotNet.Core.Notification;
 using OneSignalAndroid = Com.OneSignal.Android;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
-namespace OneSignalSDK.dotnet {
+namespace OneSignalSDK.DotNet {
    public static class NativeConversion {
 
       public static Notification NotificationToXam(OneSignalAndroid.OSNotification notification) {

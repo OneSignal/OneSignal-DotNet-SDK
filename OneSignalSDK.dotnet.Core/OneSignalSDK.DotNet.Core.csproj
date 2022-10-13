@@ -1,11 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <OutputType>Library</OutputType>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	  <OutputType>Library</OutputType>
 	  <ImplicitUsings>enable</ImplicitUsings>
-   <AssemblyName>OneSignalSDK.dotnet</AssemblyName>
-    <PackageId>OneSignalSDK.dotnet</PackageId>
+    <AssemblyName>OneSignalSDK.DotNet.Core</AssemblyName>
+    <PackageId>OneSignalSDK.DotNet.Core</PackageId>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -18,21 +21,26 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <DefineConstants>TRACE;PORTABLE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NET;NET6_0;NETCOREAPP</DefineConstants>
-    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize></Optimize>
+    <DefineConstants></DefineConstants>
+    <ConsolePause>true</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <DefineConstants>TRACE;PORTABLE;RELEASE;NETSTANDARD2_0</DefineConstants>
+    <NoWarn></NoWarn>
+    <AllowUnsafeBlocks></AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow></CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneSignalSDK.dotnet.Core\OneSignalSDK.dotnet.Core.csproj" />
+    <None Remove="NETStandard.Library" />
+    <None Remove="Microsoft.NETCore.Portable.Compatibility" />
   </ItemGroup>
 </Project>

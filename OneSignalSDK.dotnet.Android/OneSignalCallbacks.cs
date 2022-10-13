@@ -3,16 +3,16 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using OneSignalSDK.dotnet.Core;
+using OneSignalSDK.DotNet.Core;
 
 using OneSignalAndroid = Com.OneSignal.Android;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 using Org.Json;
 using Laters;
-using Notification = OneSignalSDK.dotnet.Core.Notification;
+using Notification = OneSignalSDK.DotNet.Core.Notification;
 
-namespace OneSignalSDK.dotnet {
+namespace OneSignalSDK.DotNet {
    public partial class OneSignalImplementation {
       private class JavaLaterProxy<TResult> : Java.Lang.Object, ILater<TResult> {
          public event Action<TResult> OnComplete {

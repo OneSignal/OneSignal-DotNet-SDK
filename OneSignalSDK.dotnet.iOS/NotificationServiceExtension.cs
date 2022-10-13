@@ -3,7 +3,7 @@ using UserNotifications;
 
 using OneSignaliOS = Com.OneSignal.iOS;
 
-namespace OneSignalSDK.dotnet
+namespace OneSignalSDK.DotNet
 {
    /// <summary>
    /// Public SDK API to be consumed by the App's iOS NotificationServiceExtension target

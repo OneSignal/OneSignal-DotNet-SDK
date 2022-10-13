@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
    [Serializable]
    public sealed class InAppMessageAction {
       /// <summary>

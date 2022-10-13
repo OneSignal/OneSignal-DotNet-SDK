@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OneSignalSDK.dotnet;
+using OneSignalSDK.DotNet;
 
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
    public abstract partial class OneSignalSDKInternal {
       public static OneSignalSDKInternal _default;
 

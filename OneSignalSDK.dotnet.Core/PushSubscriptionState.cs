@@ -1,5 +1,5 @@
 ﻿using System;
-namespace OneSignalSDK.dotnet.Core
+namespace OneSignalSDK.DotNet.Core
 {
     [Serializable]
    public sealed class PushSubscriptionState {

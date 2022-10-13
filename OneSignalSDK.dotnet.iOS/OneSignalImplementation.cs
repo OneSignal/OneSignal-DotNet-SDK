@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using OneSignalSDK.dotnet.Core;
+using OneSignalSDK.DotNet.Core;
 using Com.OneSignal.iOS;
 using Foundation;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 
 
-namespace OneSignalSDK.dotnet {
+namespace OneSignalSDK.DotNet {
    public partial class OneSignalImplementation : OneSignalSDKInternal {
       public LogLevel currentLogLevel;
       public LogLevel currentAlertLevel;
