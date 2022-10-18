@@ -14,8 +14,9 @@
     </PropertyGroup>
     <ItemGroup>
       <None Remove="OneSignalSDK.Xamarin" />
+      <None Remove="OneSignalSDK.dotnet" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="OneSignalSDK.Xamarin" Version="4.2.0-beta1-maui-only" />
+      <PackageReference Include="OneSignalSDK.dotnet" Version="1.0.0" />
     </ItemGroup>
 </Project>
