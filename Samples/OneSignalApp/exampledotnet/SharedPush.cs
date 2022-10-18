@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace exampledotnet;
-using OneSignalSDK.Xamarin.Core;
-using OneSignalSDK.Xamarin;
+using OneSignalSDK.DotNet.Core;
+using OneSignalSDK.DotNet;
 
 
 public static class SharedPush

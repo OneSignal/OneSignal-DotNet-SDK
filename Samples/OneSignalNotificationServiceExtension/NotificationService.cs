@@ -1,6 +1,6 @@
 ﻿using System;
 using Foundation;
-using OneSignalSDK.Xamarin;
+using OneSignalSDK.DotNet;
 using UIKit;
 using UserNotifications;
 

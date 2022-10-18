@@ -13,9 +13,11 @@
         <IsWatchExtension>false</IsWatchExtension>
     </PropertyGroup>
     <ItemGroup>
-      <None Remove="OneSignalSDK.Xamarin" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="OneSignalSDK.Xamarin" Version="4.2.0-beta1-maui-only" />
+      <None Remove="OneSignalSDK.DotNet" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="OneSignalSDK.DotNet" Version="1.0.1" />
     </ItemGroup>
 </Project>
