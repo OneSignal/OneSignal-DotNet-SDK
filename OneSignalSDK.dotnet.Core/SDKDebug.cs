@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
 
     //TODO: Finish Log
     public class SDKDebug {

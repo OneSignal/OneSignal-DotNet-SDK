@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Foundation;
-using OneSignalSDK.dotnet.Core;
+using OneSignalSDK.DotNet.Core;
 using OneSignaliOS = Com.OneSignal.iOS;
 
-namespace OneSignalSDK.dotnet {
+namespace OneSignalSDK.DotNet {
     public static class NativeConversion {
 
         public static Dictionary<string, object> NSDictToPureDict(NSDictionary nsDict) {

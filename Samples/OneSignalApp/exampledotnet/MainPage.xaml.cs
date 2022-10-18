@@ -32,12 +32,12 @@ public partial class MainPage : ContentPage
     private void OnSendOutcome(object sender, EventArgs e)
     {
         string sendOutcome = SendOutcomeKey.Text;
-        SharedPush.SendOutcome(externalUserID);
+        SharedPush.SendOutcome(sendOutcome);
     }
     private void OnSendUniqueOutcome(object sender, EventArgs e)
     {
         string sendOutcome = SendUniqueOutcomeKey.Text;
-        SharedPush.SendUniqueOutcome(externalUserID);
+        SharedPush.SendUniqueOutcome(sendOutcome);
     }
 }
 

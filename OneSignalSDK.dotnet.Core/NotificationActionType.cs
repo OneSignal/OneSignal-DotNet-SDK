@@ -1,5 +1,5 @@
 ﻿using System;
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
    public enum NotificationActionType {
       /// <summary>Notification was tapped on.</summary>
       Opened,

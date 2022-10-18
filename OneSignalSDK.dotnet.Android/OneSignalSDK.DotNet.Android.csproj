@@ -12,8 +12,8 @@
 		<SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>OneSignalSDK.Xamarin</RootNamespace>
-    <AssemblyName>OneSignalSDK.Xamarin</AssemblyName>
+    <RootNamespace>OneSignalSDK.DotNet</RootNamespace>
+    <AssemblyName>OneSignalSDK.DotNet</AssemblyName>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidTlsProvider>
@@ -280,15 +280,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\OneSignalSDK.dotnet\OneSignalSDK.dotnet.cs">
-      <Link>OneSignalSDK.Xamarin.cs</Link>
+    <Compile Include="..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.cs">
+      <Link>OneSignalSDK.DotNet.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OneSignal.Android.Binding\OneSignal.Android.Binding.csproj">
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj">
     </ProjectReference>
-    <ProjectReference Include="..\OneSignalSDK.dotnet.Core\OneSignalSDK.dotnet.Core.csproj">
-    </ProjectReference>
+    <ProjectReference Include="..\OneSignal.Android.Binding\OneSignal.Android.Binding.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Xamarin.AndroidX.Concurrent.Futures" />

@@ -9,8 +9,8 @@
 		<ImplicitUsings>true</ImplicitUsings>
 		<IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
 		<SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
-    <RootNamespace>OneSignalSDK.dotnet</RootNamespace>
-    <AssemblyName>OneSignalSDK.dotnet</AssemblyName>
+    <RootNamespace>OneSignalSDK.DotNet</RootNamespace>
+    <AssemblyName>OneSignalSDK.DotNet</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
   </PropertyGroup>
@@ -41,12 +41,12 @@
     <Reference Include="Microsoft.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\OneSignalSDK.dotnet\OneSignalSDK.dotnet.cs">
-      <Link>OneSignalSDK.dotnet.cs</Link>
+    <Compile Include="..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.cs">
+      <Link>OneSignalSDK.Dotnet.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OneSignalSDK.dotnet.Core\OneSignalSDK.dotnet.Core.csproj">
+    <ProjectReference Include="..\OneSignalSDK.Dotnet.Core\OneSignalSDK.DotNet.Core.csproj">
     </ProjectReference>
     <ProjectReference Include="..\OneSignal.iOS.Binding\OneSignal.iOS.Binding.csproj">
     </ProjectReference>

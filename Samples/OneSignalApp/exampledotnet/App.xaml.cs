@@ -1,6 +1,6 @@
 ﻿namespace exampledotnet;
-using OneSignalSDK.dotnet;
-using OneSignalSDK.dotnet.Core;
+using OneSignalSDK.DotNet;
+using OneSignalSDK.DotNet.Core;
 
 public partial class App : Application
 {

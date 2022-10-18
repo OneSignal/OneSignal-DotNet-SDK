@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using OneSignalSDK.dotnet.Core;
+using OneSignalSDK.DotNet.Core;
 
-namespace OneSignalSDK.dotnet
+namespace OneSignalSDK.DotNet
 {
    public class OneSignal
    {

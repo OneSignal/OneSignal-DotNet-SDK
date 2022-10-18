@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace OneSignalSDK.dotnet.Core {
+namespace OneSignalSDK.DotNet.Core {
    public class Notification {
       public string title;
       public string body;

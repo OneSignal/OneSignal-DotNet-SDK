@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>	
+
+		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>exampledotnet</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -22,6 +23,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		
+
+		<ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -41,10 +44,7 @@
 	
 	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
-	  <None Remove="OneSignalSDK.dotnet" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="OneSignalSDK.dotnet" Version="1.0.0" />
+	  <None Remove="OneSignalSDK.DotNet" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
 	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
@@ -55,5 +55,8 @@
 		<IsAppExtension>true</IsAppExtension>
 		<IsWatchApp>false</IsWatchApp>
 	  </ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="OneSignalSDK.DotNet" Version="1.0.1" />
 	</ItemGroup>
 </Project>

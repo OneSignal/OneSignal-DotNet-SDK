@@ -13,10 +13,11 @@
         <IsWatchExtension>false</IsWatchExtension>
     </PropertyGroup>
     <ItemGroup>
-      <None Remove="OneSignalSDK.Xamarin" />
-      <None Remove="OneSignalSDK.dotnet" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="OneSignalSDK.dotnet" Version="1.0.0" />
+      <None Remove="OneSignalSDK.DotNet" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="OneSignalSDK.DotNet" Version="1.0.1" />
     </ItemGroup>
 </Project>

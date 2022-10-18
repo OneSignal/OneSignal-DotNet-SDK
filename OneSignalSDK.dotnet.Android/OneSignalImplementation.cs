@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Org.Json;
 
-using OneSignalSDK.dotnet.Core;
+using OneSignalSDK.DotNet.Core;
 
 using Android.App;
 using Android.Content;
 
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
-namespace OneSignalSDK.dotnet {
+namespace OneSignalSDK.DotNet {
    public partial class OneSignalImplementation : OneSignalSDKInternal {
 
       public LogLevel currentLogLevel;
