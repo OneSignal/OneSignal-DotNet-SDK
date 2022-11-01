@@ -13,7 +13,7 @@
 <p align="center"><img src="https://app.onesignal.com/images/android_and_ios_notification_image.gif" width="400" alt=".NET Notification"></p>
 
 #### Installation and Setup
-See the [Setup Documentation](https://documentation.onesignal.com/docs/.net-sdk-setup) for installation and setup instructions.
+See the [Setup Documentation](https://documentation.onesignal.com/docs/net-maui-sdk-setup) for installation and setup instructions.
 
 #### API
 See OneSignal's [.NET SDK API](https://documentation.onesignal.com/docs/.net-sdk) page for a list of all available methods.
