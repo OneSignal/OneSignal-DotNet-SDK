@@ -43,8 +43,13 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <None Remove="Platforms\Android\google-services.json" />
 	  <None Remove="OneSignalSDK.DotNet" />
 	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
+	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
 	  <ProjectReference Include="..\..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj">
 		<IsAppExtension>true</IsAppExtension>
