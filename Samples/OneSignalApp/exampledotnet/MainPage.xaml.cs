@@ -26,8 +26,12 @@ public partial class MainPage : ContentPage
     private void OnSendOutcomeWithValue(object sender, EventArgs e)
     {
         string uniqueOutcomeKeyField = OutcomeWithValueKeyField.Text;
-        float uniqueOutcomeValueField = float.Parse(OutcomeWithValueValueField.Text, CultureInfo.InvariantCulture.NumberFormat);
-        SharedPush.SendOutcomeWithValue(uniqueOutcomeKeyField, uniqueOutcomeValueField);
+        float uniqueOutcomeValueField;
+        bool success = float.TryParse(OutcomeWithValueValueField.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture.NumberFormat, out uniqueOutcomeValueField);
+        if (success)
+        {
+            SharedPush.SendOutcomeWithValue(uniqueOutcomeKeyField, uniqueOutcomeValueField);
+        }
     }
     private void OnSendOutcome(object sender, EventArgs e)
     {
@@ -36,8 +40,8 @@ public partial class MainPage : ContentPage
     }
     private void OnSendUniqueOutcome(object sender, EventArgs e)
     {
-        string sendOutcome = SendUniqueOutcomeKey.Text;
-        SharedPush.SendUniqueOutcome(sendOutcome);
+        string sendUniqueOutcome = SendUniqueOutcomeKey.Text;
+        SharedPush.SendUniqueOutcome(sendUniqueOutcome);
     }
 }
 

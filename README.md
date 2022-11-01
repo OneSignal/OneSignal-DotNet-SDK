@@ -4,8 +4,7 @@
 </p>
 
 ### OneSignal .NET SDK
-//TODO link dotnet package
-[![NuGet](https://img.shields.io/nuget/v/OneSignalSDK.Xamarin.svg?label=NuGet)](https://www.nuget.org/packages/OneSignal.Xamarin)
+[NuGet](https://www.nuget.org/packages/OneSignalSDK.DotNet)
 
 ---
 
@@ -20,10 +19,10 @@ See the [Setup Documentation](https://documentation.onesignal.com/docs/.net-sdk-
 See OneSignal's [.NET SDK API](https://documentation.onesignal.com/docs/.net-sdk) page for a list of all available methods.
 
 #### Change Log
-See this repository's [release tags](https://github.com/OneSignal/OneSignal-.NET-SDK/releases) for a complete change log of every released version.
+See this repository's [release tags](https://github.com/OneSignal/OneSignal-DotNet-SDK/releases) for a complete change log of every released version.
 
 #### Support
-Please visit this repository's [Github issue tracker](https://github.com/OneSignal/OneSignal-.NET-SDK/issues) for feature requests and bug reports related specificly to the SDK.
+Please visit this repository's [Github issue tracker](https://github.com/OneSignal/OneSignal-DotNet-SDK/issues) for feature requests and bug reports related specificly to the SDK.
 
 For account issues and support please contact OneSignal support from the [OneSignal.com](https://onesignal.com) dashboard.
 
