@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
-        <version>1.0.1</version>
+        <version>4.2.0</version>
         <id>OneSignalSDK.DotNet</id>
         <title>OneSignal SDK for .Net6+ </title>
         <authors>OneSignal</authors>
@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OneSignal for DotNet</description>
         <summary>OneSignal is a free push notification service for mobile apps. This plugin makes it easy to integrate your .Net6+ app with OneSignal</summary>
-        <tags>xamarin, monodroid, MAUI, C#, OneSignal, push</tags>
+        <tags>MAUI, .Net, C#, OneSignal, push</tags>
         <dependencies>
             <group targetFramework="net6.0">
             </group>
