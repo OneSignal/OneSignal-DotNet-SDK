@@ -11,8 +11,10 @@ using OneSignalNative = Com.OneSignal.Android.OneSignal;
 using Org.Json;
 using Laters;
 using Notification = OneSignalSDK.DotNet.Core.Notification;
+using OneSignalSDK.DotNet.Android.Utilities;
 
-namespace OneSignalSDK.DotNet {
+namespace OneSignalSDK.DotNet.Android
+{
    public partial class OneSignalImplementation {
       private class JavaLaterProxy<TResult> : Java.Lang.Object, ILater<TResult> {
          public event Action<TResult> OnComplete {

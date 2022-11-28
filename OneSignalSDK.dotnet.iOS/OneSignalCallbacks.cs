@@ -6,8 +6,10 @@ using Laters;
 using OneSignaliOS = Com.OneSignal.iOS;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 using OneSignalSDK.DotNet.Core;
+using OneSignalSDK.DotNet.iOS.Utilities;
 
-namespace OneSignalSDK.DotNet {
+namespace OneSignalSDK.DotNet.iOS
+{
    public partial class OneSignalImplementation {
       private delegate void BooleanResponseDelegate(bool response);
       private delegate void StringResponseDelegate(string response);

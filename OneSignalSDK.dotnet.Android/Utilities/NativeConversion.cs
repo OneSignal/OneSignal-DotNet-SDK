@@ -6,7 +6,7 @@ using Notification = OneSignalSDK.DotNet.Core.Notification;
 using OneSignalAndroid = Com.OneSignal.Android;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
-namespace OneSignalSDK.DotNet {
+namespace OneSignalSDK.DotNet.Android.Utilities {
    public static class NativeConversion {
 
       public static Notification NotificationToXam(OneSignalAndroid.OSNotification notification) {

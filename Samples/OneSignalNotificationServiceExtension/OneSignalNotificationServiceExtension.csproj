@@ -5,19 +5,22 @@
         <ApplicationId>com.onesignal.exampledotnet.OneSignalNotificationServiceExtension</ApplicationId>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
+        <SupportedOSPlatformVersion>15.4</SupportedOSPlatformVersion>
         <ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
     </PropertyGroup>
-
     <PropertyGroup>
         <IsAppExtension>true</IsAppExtension>
         <IsWatchExtension>false</IsWatchExtension>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
     <ItemGroup>
-    </ItemGroup>
-    <ItemGroup>
-      <None Remove="OneSignalSDK.DotNet" />
-    </ItemGroup>
-    <ItemGroup>
-      <PackageReference Include="OneSignalSDK.DotNet" Version="1.0.1" />
+      <ProjectReference Include="..\..\OneSignalSDK.dotnet\OneSignalSDK.DotNet.csproj" />
+      <ProjectReference Include="..\..\OneSignalSDK.dotnet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
+      <ProjectReference Include="..\..\OneSignalSDK.dotnet.Core\OneSignalSDK.DotNet.Core.csproj" />
     </ItemGroup>
 </Project>

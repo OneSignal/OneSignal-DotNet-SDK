@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5FF66A21-BA7B-48FD-8A7D-6A1092066306}</ProjectGuid>
     <TargetFramework>net6.0-ios</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>true</ImplicitUsings>
-		<IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-		<SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
-    <RootNamespace>OneSignalSDK.DotNet</RootNamespace>
-    <AssemblyName>OneSignalSDK.DotNet</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <RootNamespace>OneSignalSDK.DotNet.iOS</RootNamespace>
+    <AssemblyName>OneSignalSDK.DotNet.iOS</AssemblyName>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,12 +40,7 @@
     <Reference Include="Microsoft.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.cs">
-      <Link>OneSignalSDK.Dotnet.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OneSignalSDK.Dotnet.Core\OneSignalSDK.DotNet.Core.csproj">
+    <ProjectReference Include="..\OneSignalSDK.dotnet.Core\OneSignalSDK.DotNet.Core.csproj">
     </ProjectReference>
     <ProjectReference Include="..\OneSignal.iOS.Binding\OneSignal.iOS.Binding.csproj">
     </ProjectReference>

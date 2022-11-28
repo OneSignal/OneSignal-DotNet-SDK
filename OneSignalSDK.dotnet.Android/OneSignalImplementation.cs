@@ -9,8 +9,10 @@ using Android.App;
 using Android.Content;
 
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
+using OneSignalSDK.DotNet.Android.Utilities;
 
-namespace OneSignalSDK.DotNet {
+namespace OneSignalSDK.DotNet.Android
+{
    public partial class OneSignalImplementation : OneSignalSDKInternal {
 
       public LogLevel currentLogLevel;
