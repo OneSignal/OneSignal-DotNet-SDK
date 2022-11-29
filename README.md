@@ -16,7 +16,7 @@
 See the [Setup Documentation](https://documentation.onesignal.com/docs/net-sdk-setup) for installation and setup instructions.
 
 #### API
-See OneSignal's [.NET SDK API](https://documentation.onesignal.com/docs/.net-sdk) page for a list of all available methods.
+See OneSignal's [.NET SDK API](https://documentation.onesignal.com/docs/net-client-sdk) page for a list of all available methods.
 
 #### Change Log
 See this repository's [release tags](https://github.com/OneSignal/OneSignal-DotNet-SDK/releases) for a complete change log of every released version.
