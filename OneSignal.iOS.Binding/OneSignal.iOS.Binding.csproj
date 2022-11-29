@@ -3,18 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{9A19103F-16F7-4668-BE54-9A1E7A4F7556}</ProjectTypeGuids>
     <TargetFramework>net6.0-ios</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>true</ImplicitUsings>
-		<IsBindingProject>true</IsBindingProject>
-		<IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-		<SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <IsBindingProject>true</IsBindingProject>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
     <RootNamespace>OneSignal.iOS.Binding</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>OneSignal.iOS.Binding</AssemblyName>
     <NoBindingEmbedding>true</NoBindingEmbedding>
-    <ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

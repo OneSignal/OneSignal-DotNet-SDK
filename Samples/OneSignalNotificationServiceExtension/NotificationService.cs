@@ -1,6 +1,7 @@
 ﻿using System;
 using Foundation;
 using OneSignalSDK.DotNet;
+using OneSignalSDK.DotNet.iOS;
 using UIKit;
 using UserNotifications;
 

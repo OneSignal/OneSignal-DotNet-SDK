@@ -21,12 +21,15 @@ namespace OneSignalSDK.DotNet
 
       static OneSignalSDKInternal CreateOneSignal()
       {
-         #if PORTABLE
+#if __IOS__
+            return new OneSignalSDK.DotNet.iOS.OneSignalImplementation();
+#elif __ANDROID__
+            return new OneSignalSDK.DotNet.Android.OneSignalImplementation();
+#else
             Debug.WriteLine("PORTABLE Reached");
             return null;
-         #else
-            return new OneSignalImplementation();
-         #endif
+#endif
+
       }
 
       internal static Exception NotImplementedInReferenceAssembly()

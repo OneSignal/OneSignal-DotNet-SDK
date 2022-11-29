@@ -6,9 +6,10 @@ using OneSignalSDK.DotNet.Core;
 using Com.OneSignal.iOS;
 using Foundation;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
+using OneSignalSDK.DotNet.iOS.Utilities;
 
-
-namespace OneSignalSDK.DotNet {
+namespace OneSignalSDK.DotNet.iOS
+{
    public partial class OneSignalImplementation : OneSignalSDKInternal {
       public LogLevel currentLogLevel;
       public LogLevel currentAlertLevel;

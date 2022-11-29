@@ -3,7 +3,7 @@ using Foundation;
 using OneSignalSDK.DotNet.Core;
 using OneSignaliOS = Com.OneSignal.iOS;
 
-namespace OneSignalSDK.DotNet {
+namespace OneSignalSDK.DotNet.iOS.Utilities {
     public static class NativeConversion {
 
         public static Dictionary<string, object> NSDictToPureDict(NSDictionary nsDict) {

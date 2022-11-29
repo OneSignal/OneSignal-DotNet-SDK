@@ -6,7 +6,7 @@
         <title>OneSignal SDK for .Net6+ </title>
         <authors>OneSignal</authors>
         <owners>OneSignal</owners>
-        <licenseUrl>https://github.com/OneSignal/OneSignal-DotNet-SDK/blob/master/LICENSE</licenseUrl>
+        <license type="file">LICENSE.md</license>
         <projectUrl>https://github.com/OneSignal/OneSignal-DotNet-SDK</projectUrl>
         <icon>nuget_icon.png</icon>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -33,26 +33,42 @@
                 <dependency id="Xamarin.Google.Dagger" version="2.41.0.2" />
                 <dependency id="Xamarin.GooglePlayServices.Base" version="118.1.0" />
             </group>
-            <!-- OneSignal-iOS-SDK requires iOS 9.0, however Xamarin.iOS90 or Xamarin.iOS9.0 does not work. -->
-            <group targetFramework="Xamarin.iOS">
-                <!-- No 3rd party iOS specific dependencies -->
-                <!-- There are Apple framework dependencies, these are defined in OneSignalSDK.Xamarin.targets -->
-            </group>
         </dependencies>
     </metadata>
     <files>
+        <file src="nuget_icon.png" />
+        <file src="LICENSE.md" />
+
         <!--Core-->
-        <file src="OneSignalSDK.DotNet\bin\Release\net6.0\OneSignalSDK.DotNet.pdb" target="lib\net6.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net6.0\OneSignalSDK.DotNet.dll" target="lib\net6.0" />
-        <file src="OneSignalSDK.DotNet.Core\bin\Release\net6.0\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0" />
-        <file src="OneSignalSDK.DotNet.Core\bin\Release\net6.0\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.dll" target="lib\net6.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0" />
+
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.pdb" target="lib\net6.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0" />
 
         <!--net6.0-android-->
-        <!-- Omit OneSignalSDK.Xamarin.aar as it includes an extra copy of Kotlin which results in duplicate class build errors -->
-        <file src="OneSignalSDK.DotNet.Android\bin\Release\net6.0-android\*OneSignal*" exclude="**\OneSignalSDK.DotNet.aar" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignal.Android.Binding.dll" target="lib\net6.0-android21.0" />
+
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignal.Android.Binding.pdb" target="lib\net6.0-android21.0" />
+
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\onesignal-release.aar" target="lib\net6.0-android21.0" />
 
         <!--net6.0-ios-->
-        <file src="OneSignalSDK.DotNet.iOS\bin\Release\net6.0-ios\*OneSignal*" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignal.iOS.Binding.dll" target="lib\net6.0-ios10.0" />
+
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignal.iOS.Binding.pdb" target="lib\net6.0-ios10.0" />
 
         <!-- Workaround to support .XCFramework for iOS  -->
         <!-- Resources includes the full OneSignal.XCFramework.
@@ -61,6 +77,5 @@
         <!-- This is a .target files that gets used by project that consumes the NuGet package.
              This copies out the OneSignal.xcframework from the resources folder and adds a NativeReference to it in the app project. -->
         <file src="OneSignal.iOS.Binding\OneSignalSDK.DotNet.targets" target="build\net6.0-ios10.0\" />
-        <file src="nuget_icon.png" />
     </files>    
 </package>
