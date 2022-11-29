@@ -6,7 +6,6 @@
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         <SupportedOSPlatformVersion>15.4</SupportedOSPlatformVersion>
-        <ReleaseVersion>4.2.0-beta1-maui-only</ReleaseVersion>
     </PropertyGroup>
     <PropertyGroup>
         <IsAppExtension>true</IsAppExtension>
