@@ -647,8 +647,28 @@ namespace Com.OneSignal.iOS {
 		[Export("setProvidesNotificationSettingsView:")]
 		void SetProvidesNotificationSettingsView(bool providesView);
 
-		// +(void)setLogLevel:(ONE_S_LOG_LEVEL)logLevel visualLevel:(ONE_S_LOG_LEVEL)visualLogLevel;
-		[Static]
+        // +(void)enterLiveActivity:(id)activityId withToken:(id)token;
+        [Static]
+        [Export("enterLiveActivity:withToken:")]
+        void EnterLiveActivity(string activityId, string token);
+
+        // +(void)enterLiveActivity:(id)activityId withToken:(id)token withSuccess:(OSResultSuccessBlock _Nullable)successBlock withFailure:(OSFailureBlock _Nullable)failureBlock;
+        [Static]
+        [Export("enterLiveActivity:withToken:withSuccess:withFailure:")]
+        void EnterLiveActivity(string activityId, string token, [NullAllowed] OSResultSuccessBlock successBlock, [NullAllowed] OSFailureBlock failureBlock);
+
+        // +(void)exitLiveActivity:(id)activityId;
+        [Static]
+        [Export("exitLiveActivity:")]
+        void ExitLiveActivity(string activityId);
+
+        // +(void)exitLiveActivity:(id)activityId withSuccess:(OSResultSuccessBlock _Nullable)successBlock withFailure:(OSFailureBlock _Nullable)failureBlock;
+        [Static]
+        [Export("exitLiveActivity:withSuccess:withFailure:")]
+        void ExitLiveActivity(string activityId, [NullAllowed] OSResultSuccessBlock successBlock, [NullAllowed] OSFailureBlock failureBlock);
+
+        // +(void)setLogLevel:(ONE_S_LOG_LEVEL)logLevel visualLevel:(ONE_S_LOG_LEVEL)visualLogLevel;
+        [Static]
 		[Export("setLogLevel:visualLevel:")]
 		void SetLogLevel(OneSLogLevel logLevel, OneSLogLevel visualLogLevel);
 
