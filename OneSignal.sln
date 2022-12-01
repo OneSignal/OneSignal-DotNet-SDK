@@ -143,7 +143,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC536039-9077-48EA-BEAB-432B3B21D933}
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 4.2.0-beta1-maui-only
-	EndGlobalSection
 EndGlobal
