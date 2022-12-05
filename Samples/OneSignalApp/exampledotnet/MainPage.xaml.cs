@@ -43,6 +43,42 @@ public partial class MainPage : ContentPage
         string sendUniqueOutcome = SendUniqueOutcomeKey.Text;
         SharedPush.SendUniqueOutcome(sendUniqueOutcome);
     }
+
+    private void OnEnterLiveActivity(object sender, EventArgs e)
+    {
+        string activityId = ActivityID.Text;
+
+        if(String.IsNullOrWhiteSpace(activityId))
+        {
+            return;
+        }
+
+#if (LIVE_ACTIVITIES && IOS)
+        var onesignalLiveActivity = new OneSignalLiveActivity.Binding.OneSignalLiveActivity();
+        onesignalLiveActivity.StartLiveActivityWithRecievedToken((str) =>
+        {
+            OneSignalSDK.DotNet.OneSignal.Default.EnterLiveActivity(activityId, str);
+        });
+#else
+        DisplayAlert("NOT SUPPORTED", "Live Activities disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
+#endif
+    }
+
+    private void OnExitLiveActivity(object sender, EventArgs e)
+    {
+        string activityId = ActivityID.Text;
+
+        if (String.IsNullOrWhiteSpace(activityId))
+        {
+            return;
+        }
+
+#if (LIVE_ACTIVITIES && IOS)
+        OneSignalSDK.DotNet.OneSignal.Default.ExitLiveActivity(activityId);
+#else
+        DisplayAlert("NOT SUPPORTED", "Live Activities disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
+#endif
+    }
 }
 
 

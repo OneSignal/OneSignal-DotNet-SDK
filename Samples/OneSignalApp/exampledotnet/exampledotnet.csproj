@@ -55,10 +55,18 @@
 		<IsWatchApp>false</IsWatchApp>
 	  </ProjectReference>
 	</ItemGroup>
+   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' And $(DefineConstants.Contains(LIVE_ACTIVITIES))">
+      <AdditionalAppExtensions Include="$(MSBuildProjectDirectory)/../../native/example/">
+        <Name>OneSignalWidgetExtension</Name>
+        <BuildOutput Condition="'$(ComputedPlatform)' == 'iPhone'">DerivedData/example/Build/Products/Debug-iphoneos</BuildOutput>
+        <BuildOutput Condition="'$(ComputedPlatform)' == 'iPhoneSimulator'">DerivedData/example/Build/Products/Debug-iphonesimulator</BuildOutput>
+      </AdditionalAppExtensions>
+    </ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet\OneSignalSDK.DotNet.csproj" />
 	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.Core\OneSignalSDK.DotNet.Core.csproj" />
       <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.Android\OneSignalSDK.DotNet.Android.csproj" Condition=" $(TargetFramework.StartsWith('net6.0-android')) " />
       <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.iOS\OneSignalSDK.DotNet.iOS.csproj" Condition=" $(TargetFramework.StartsWith('net6.0-ios')) " />
+      <ProjectReference Include="..\..\OneSignalLiveActivity.Binding\OneSignalLiveActivity.Binding.csproj" Condition=" $(TargetFramework.StartsWith('net6.0-ios')) And $(DefineConstants.Contains(LIVE_ACTIVITIES))" />
 	</ItemGroup>
 </Project>
