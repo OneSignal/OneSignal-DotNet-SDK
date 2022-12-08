@@ -59,8 +59,10 @@ public partial class MainPage : ContentPage
         {
             OneSignalSDK.DotNet.OneSignal.Default.EnterLiveActivity(activityId, str);
         });
+#elif !IOS
+        DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
 #else
-        DisplayAlert("NOT SUPPORTED", "Live Activities disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
+        DisplayAlert("NOT SUPPORTED", "Live Activities is disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
 #endif
     }
 
@@ -75,8 +77,10 @@ public partial class MainPage : ContentPage
 
 #if (LIVE_ACTIVITIES && IOS)
         OneSignalSDK.DotNet.OneSignal.Default.ExitLiveActivity(activityId);
+#elif !IOS
+        DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
 #else
-        DisplayAlert("NOT SUPPORTED", "Live Activities disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
+        DisplayAlert("NOT SUPPORTED", "Live Activities is disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
 #endif
     }
 }
