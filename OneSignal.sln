@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exampledotnet", "Samples\On
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalNotificationServiceExtension", "Samples\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj", "{146C73A9-E60D-4527-BF79-D93C9E4CAF1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalLiveActivity.Binding", "Samples\OneSignalLiveActivity.Binding\OneSignalLiveActivity.Binding.csproj", "{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,18 @@ Global
 		{146C73A9-E60D-4527-BF79-D93C9E4CAF1C}.Release|iPhone.Build.0 = Release|Any CPU
 		{146C73A9-E60D-4527-BF79-D93C9E4CAF1C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{146C73A9-E60D-4527-BF79-D93C9E4CAF1C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Debug|iPhone.Build.0 = Debug|iPhone
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Release|iPhone.ActiveCfg = Release|iPhone
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Release|iPhone.Build.0 = Release|iPhone
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +153,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{09E95817-B1DF-4D4A-BEC3-3A640650637B} = {9DE071C3-1289-41AE-A45F-B4F244552BAE}
 		{146C73A9-E60D-4527-BF79-D93C9E4CAF1C} = {9DE071C3-1289-41AE-A45F-B4F244552BAE}
+		{EDBB9AC8-010F-4D1E-814A-C7D1D1E64DE9} = {9DE071C3-1289-41AE-A45F-B4F244552BAE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC536039-9077-48EA-BEAB-432B3B21D933}

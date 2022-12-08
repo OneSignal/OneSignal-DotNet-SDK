@@ -78,6 +78,23 @@
                 Clicked="OnSendOutcome"
                 />
             </HorizontalStackLayout>
+
+            <Grid RowSpacing="10" ColumnSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="150" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Live Activities:" SemanticProperties.HeadingLevel="Level2" FontSize="18" />
+                <Entry Grid.Row="1" Grid.Column="0" x:Name="ActivityID" Placeholder="Activity ID" />
+                <Button Grid.Row="1" Grid.Column="1" Text="Enter Live Activity" Clicked="OnEnterLiveActivity" />
+                <Button Grid.Row="2" Grid.Column="1" Text="Exit Live Activity" Clicked="OnExitLiveActivity" />
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 
