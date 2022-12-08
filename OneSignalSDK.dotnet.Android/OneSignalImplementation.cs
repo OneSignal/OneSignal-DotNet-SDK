@@ -182,7 +182,7 @@ namespace OneSignalSDK.DotNet.Android
 
       public override async Task<bool> SendTags(Dictionary<string, object> tags) {
          OSChangeTagsUpdateHandler handler = new OSChangeTagsUpdateHandler();
-         OneSignalNative.SendTags((JSONObject)Json.Serialize(tags), handler);
+         OneSignalNative.SendTags(new JSONObject(Json.Serialize(tags)), handler);
          return await handler;
       }
 
