@@ -1,9 +1,0 @@
-com.onesignal.influence.domain.OSInfluenceChannel:Com.Onesignal.Influence.Domain:OSInfluenceChannel
-com.onesignal.influence.domain.OSInfluenceType:Com.Onesignal.Influence.Domain:OSInfluenceType
-com.onesignal.OneSignal$AppEntryAction:Com.OneSignal.Android:OneSignal.AppEntryAction
-com.onesignal.OneSignal$EmailErrorType:Com.OneSignal.Android:OneSignal.EmailErrorType
-com.onesignal.OneSignal$ExternalIdErrorType:Com.OneSignal.Android:OneSignal.ExternalIdErrorType
-com.onesignal.OneSignal$LOG_LEVEL:Com.OneSignal.Android:OneSignal.LOG_LEVEL
-com.onesignal.OneSignal$SMSErrorType:Com.OneSignal.Android:OneSignal.SMSErrorType
-com.onesignal.OSInAppMessageAction$OSInAppMessageActionUrlType:Com.OneSignal.Android:OSInAppMessageAction.OSInAppMessageActionUrlType
-com.onesignal.OSNotificationAction$ActionType:Com.OneSignal.Android:OSNotificationAction.ActionType
