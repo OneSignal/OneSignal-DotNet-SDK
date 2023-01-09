@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSignalSDK.dotnet.Core\OneSignalSDK.DotNet.Core.csproj" />
-    <ProjectReference Include="..\OneSignal.Android.Binding\OneSignal.Android.Binding.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.6.21.1" />

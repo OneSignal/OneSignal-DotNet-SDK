@@ -1,0 +1,113 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0-ios16.1": {
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+      "sha512": "vq+81ZqZz9oHV6iWgGXFnxHAyO5xA73nfvDNu5LwymIK294is5bRo3P063VToAbDRyyc0qq/YFRYjHmiD6Cv8Q==",
+      "type": "package",
+      "path": "system.runtime.interopservices.nfloat.internal/6.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "ref/net6.0/System.Runtime.InteropServices.dll",
+        "ref/net6.0/System.Runtime.InteropServices.xml",
+        "system.runtime.interopservices.nfloat.internal.6.0.1.nupkg.sha512",
+        "system.runtime.interopservices.nfloat.internal.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0-ios16.1": [
+      "System.Runtime.InteropServices.NFloat.Internal >= 6.0.1"
+    ]
+  },
+  "packageFolders": {
+    "/Users/briansmith/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/briansmith/Development/OneSignal/onesignal-dotnet-sdk/OneSignalSDK.DotNet.iOS.Binding/OneSignalSDK.DotNet.iOS.Binding.csproj",
+      "projectName": "OneSignalSDK.DotNet.iOS.Binding",
+      "projectPath": "/Users/briansmith/Development/OneSignal/onesignal-dotnet-sdk/OneSignalSDK.DotNet.iOS.Binding/OneSignalSDK.DotNet.iOS.Binding.csproj",
+      "packagesPath": "/Users/briansmith/.nuget/packages/",
+      "outputPath": "/Users/briansmith/Development/OneSignal/onesignal-dotnet-sdk/OneSignalSDK.DotNet.iOS.Binding/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/briansmith/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0-ios"
+      ],
+      "sources": {
+        "/Users/briansmith/Development/repos/nuget": {},
+        "/usr/local/share/dotnet/library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0-ios16.1": {
+          "targetAlias": "net6.0-ios",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0-ios16.1": {
+        "targetAlias": "net6.0-ios",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": {
+            "target": "Package",
+            "version": "[6.0.1, )",
+            "autoReferenced": true
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.iOS.Ref",
+            "version": "[16.1.229, 16.1.229]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.iOS": {
+            "privateAssets": "all"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

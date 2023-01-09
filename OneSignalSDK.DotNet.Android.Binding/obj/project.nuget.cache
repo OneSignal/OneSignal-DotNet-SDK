@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "+5gqwo70UyRsIvwQvRGAQ3OyOKbKfbrHj13Uf0s1pyyZH2WGrWCYRoTymN6vsk41cR/ABScSv1t2KgmluMvqmw==",
+  "success": true,
+  "projectFilePath": "/Users/briansmith/Development/OneSignal/onesignal-dotnet-sdk/OneSignalSDK.DotNet.Android.Binding/OneSignalSDK.DotNet.Android.Binding.csproj",
+  "expectedPackageFiles": [
+    "/Users/briansmith/.nuget/packages/microsoft.android.ref.31/32.0.476/microsoft.android.ref.31.32.0.476.nupkg.sha512"
+  ],
+  "logs": []
+}

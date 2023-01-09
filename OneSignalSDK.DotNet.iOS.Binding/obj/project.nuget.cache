@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "shzjXTGD/xImA5or8wUlUSsDNwXpXy7qalrbqVPTYwtZI3Bx8jF2IJ/RwxYc8pzhOoInQA2J2AyFBsOn1kQhdg==",
+  "success": true,
+  "projectFilePath": "/Users/briansmith/Development/OneSignal/onesignal-dotnet-sdk/OneSignalSDK.DotNet.iOS.Binding/OneSignalSDK.DotNet.iOS.Binding.csproj",
+  "expectedPackageFiles": [
+    "/Users/briansmith/.nuget/packages/system.runtime.interopservices.nfloat.internal/6.0.1/system.runtime.interopservices.nfloat.internal.6.0.1.nupkg.sha512",
+    "/Users/briansmith/.nuget/packages/microsoft.ios.ref/16.1.229/microsoft.ios.ref.16.1.229.nupkg.sha512"
+  ],
+  "logs": []
+}

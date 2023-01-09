@@ -1,0 +1,48 @@
+==== Cycle 1 ====
+
+The class '[Class] com.onesignal.ADMMessageHandler' was removed because the Java base type 'com.amazon.device.messaging.ADMMessageHandlerBase' could not be found.
+The class '[Class] com.onesignal.ADMMessageHandlerJob' was removed because the Java base type 'com.amazon.device.messaging.ADMMessageHandlerJobBase' could not be found.
+The class '[Class] com.onesignal.DraggableRelativeLayout.1' was removed because the Java base type 'androidx.customview.widget.ViewDragHelper.Callback' could not be found.
+The class '[Class] com.onesignal.FCMBroadcastReceiver' was removed because the Java base type 'androidx.legacy.content.WakefulBroadcastReceiver' could not be found.
+The class '[Class] com.onesignal.GMSLocationController.GoogleApiClientListener' was removed because the Java implemented interface type 'com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks' could not be found.
+The class '[Class] com.onesignal.HMSLocationController.1' was removed because the Java implemented interface type 'com.huawei.hmf.tasks.OnFailureListener' could not be found.
+The class '[Class] com.onesignal.HmsMessageServiceOneSignal' was removed because the Java base type 'com.huawei.hms.push.HmsMessageService' could not be found.
+The method '[Method] void access$fireCallBacks(com.onesignal.NotificationPermissionController $this, boolean accepted)' was removed because its name contains a dollar sign.
+The method '[Method] boolean access$getAwaitingForReturnFromSystemSettings$p(com.onesignal.NotificationPermissionController $this)' was removed because its name contains a dollar sign.
+The method '[Method] void access$setAwaitingForReturnFromSystemSettings$p(com.onesignal.NotificationPermissionController $this, boolean <set-?>)' was removed because its name contains a dollar sign.
+The class '[Class] com.onesignal.OneSignalChromeTab.OneSignalCustomTabsServiceConnection' was removed because the Java base type 'androidx.browser.customtabs.CustomTabsServiceConnection' could not be found.
+The method '[Method] void onMessageReceived(android.content.Context context, com.huawei.hms.push.RemoteMessage message)' was removed because the Java parameter type 'com.huawei.hms.push.RemoteMessage' could not be found.
+The method '[Method] boolean access$getBackgrounded$cp()' was removed because its name contains a dollar sign.
+The method '[Method] boolean access$getCompleted$cp()' was removed because its name contains a dollar sign.
+The method '[Method] boolean access$getStopped$cp()' was removed because its name contains a dollar sign.
+The method '[Method] void access$setBackgrounded$cp(boolean <set-?>)' was removed because its name contains a dollar sign.
+The method '[Method] void access$setCompleted$cp(boolean <set-?>)' was removed because its name contains a dollar sign.
+The method '[Method] void access$setStopped$cp(boolean <set-?>)' was removed because its name contains a dollar sign.
+The constructor 'Constructor: com.onesignal.OSFocusHandler.Companion.OSFocusHandler.Companion' was removed because the Java parameter type 'kotlin.jvm.internal.DefaultConstructorMarker' could not be found.
+The class '[Class] com.onesignal.OSFocusHandler.OnLostFocusWorker' was removed because the Java base type 'androidx.work.Worker' could not be found.
+The method '[Method] void setExtender(androidx.core.app.NotificationCompat.Extender extender)' was removed because the Java parameter type 'androidx.core.app.NotificationCompat.Extender' could not be found.
+The method '[Method] androidx.core.app.NotificationCompat.Extender getNotificationExtender()' was removed because the Java return type 'androidx.core.app.NotificationCompat.Extender' could not be found.
+The method '[Method] void setNotificationExtender(androidx.core.app.NotificationCompat.Extender notificationExtender)' was removed because the Java parameter type 'androidx.core.app.NotificationCompat.Extender' could not be found.
+The method '[Method] com.onesignal.OSNotification.OSNotificationBuilder setNotificationExtender(androidx.core.app.NotificationCompat.Extender notificationExtender)' was removed because the Java parameter type 'androidx.core.app.NotificationCompat.Extender' could not be found.
+The method '[Method] com.onesignal.OSNotificationIntentExtras copy$default(com.onesignal.OSNotificationIntentExtras p0, org.json.JSONArray p1, org.json.JSONObject p2, int p3, java.lang.Object p4)' was removed because its name contains a dollar sign.
+The class '[Class] com.onesignal.OSNotificationRestoreWorkManager.NotificationRestoreWorker' was removed because the Java base type 'androidx.work.Worker' could not be found.
+The class '[Class] com.onesignal.OSNotificationWorkManager.NotificationWorker' was removed because the Java base type 'androidx.work.Worker' could not be found.
+The class '[Class] com.onesignal.OSReceiveReceiptController.ReceiveReceiptWorker' was removed because the Java base type 'androidx.work.Worker' could not be found.
+The class '[Class] com.onesignal.OSSystemConditionController.1' was removed because the Java base type 'androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks' could not be found.
+The class '[Class] com.onesignal.TrackAmazonPurchase.OSPurchasingListener' was removed because the Java implemented interface type 'com.amazon.device.iap.PurchasingListener' could not be found.
+The field 'Java.Interop.Tools.JavaTypeSystem.Models.JavaFieldModel' was removed because its name contains a dollar sign.
+The constructor 'Constructor: com.onesignal.influence.domain.OSInfluenceChannel.Companion.OSInfluenceChannel.Companion' was removed because the Java parameter type 'kotlin.jvm.internal.DefaultConstructorMarker' could not be found.
+The constructor 'Constructor: com.onesignal.influence.domain.OSInfluenceType.Companion.OSInfluenceType.Companion' was removed because the Java parameter type 'kotlin.jvm.internal.DefaultConstructorMarker' could not be found.
+The field 'Java.Interop.Tools.JavaTypeSystem.Models.JavaFieldModel' was removed because its name contains a dollar sign.
+The field 'Java.Interop.Tools.JavaTypeSystem.Models.JavaFieldModel' was removed because its name contains a dollar sign.
+The field 'Java.Interop.Tools.JavaTypeSystem.Models.JavaFieldModel' was removed because its name contains a dollar sign.
+
+==== Cycle 2 ====
+
+The class '[Class] com.onesignal.GMSLocationController.LocationUpdateListener' was removed because the Java implemented interface type 'com.google.android.gms.location.LocationListener' could not be found.
+The class '[Class] com.onesignal.HMSLocationController.2' was removed because the Java implemented interface type 'com.huawei.hmf.tasks.OnSuccessListener<android.location.Location>' could not be found.
+
+==== Cycle 3 ====
+
+The class '[Class] com.onesignal.HMSLocationController.LocationUpdateListener' was removed because the Java base type 'com.huawei.hms.location.LocationCallback' could not be found.
+
