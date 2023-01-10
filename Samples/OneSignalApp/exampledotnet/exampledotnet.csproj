@@ -50,6 +50,7 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
 	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.Android\OneSignalSDK.DotNet.Android.csproj" />
+	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
@@ -58,6 +59,7 @@
 		<IsWatchApp>false</IsWatchApp>
 	  </ProjectReference>
 	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
+	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
 	</ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' And $(DefineConstants.Contains(LIVE_ACTIVITIES))">
 	  <ProjectReference Include="..\..\OneSignalLiveActivity.Binding\OneSignalLiveActivity.Binding.csproj" />

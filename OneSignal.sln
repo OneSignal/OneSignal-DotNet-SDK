@@ -8,9 +8,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNet.Android
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.DotNet", "OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj", "{D0FE8BC3-4B5F-45CC-B9F2-1795CB136BB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignal.Android.Binding", "OneSignal.Android.Binding\OneSignal.Android.Binding.csproj", "{9144F592-91B9-4ACA-BC3C-D771F8319996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.DotNet.Android.Binding", "OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj", "{9144F592-91B9-4ACA-BC3C-D771F8319996}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignal.iOS.Binding", "OneSignal.iOS.Binding\OneSignal.iOS.Binding.csproj", "{967EAABD-4A79-4762-9848-0D5530AA1FA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalSDK.DotNet.iOS.Binding", "OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj", "{967EAABD-4A79-4762-9848-0D5530AA1FA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9DE071C3-1289-41AE-A45F-B4F244552BAE}"
 EndProject
