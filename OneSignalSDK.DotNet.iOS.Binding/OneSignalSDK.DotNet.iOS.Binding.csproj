@@ -9,9 +9,9 @@
     <IsBindingProject>true</IsBindingProject>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
-    <RootNamespace>OneSignal.iOS.Binding</RootNamespace>
+    <RootNamespace>OneSignalSDK.DotNet.iOS.Binding</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>OneSignal.iOS.Binding</AssemblyName>
+    <AssemblyName>OneSignalSDK.DotNet.iOS.Binding</AssemblyName>
     <NoBindingEmbedding>true</NoBindingEmbedding>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
