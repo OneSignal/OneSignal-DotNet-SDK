@@ -32,5 +32,21 @@
   <ItemGroup>
     <None Remove="NETStandard.Library" />
     <None Remove="Microsoft.NETCore.Portable.Compatibility" />
+    <None Remove="User\" />
+    <None Remove="Session\" />
+    <None Remove="Notifications\" />
+    <None Remove="Location\" />
+    <None Remove="InAppMessages\" />
+    <None Remove="Debug\" />
+    <None Remove="User\Subscriptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="User\" />
+    <Folder Include="Session\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Location\" />
+    <Folder Include="InAppMessages\" />
+    <Folder Include="Debug\" />
+    <Folder Include="User\Subscriptions\" />
   </ItemGroup>
 </Project>

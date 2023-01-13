@@ -37,19 +37,24 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OneSignalSDK.dotnet.Core\OneSignalSDK.DotNet.Core.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
     <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.6.21.1" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0" />
     <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.14" />
     <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.4.0.2" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.4.2.1" />
-    <PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.7.1.4" />
+    <PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.7.1.5" />
     <PackageReference Include="Xamarin.Firebase.Messaging" Version="123.0.8" />
     <!-- Dagger is required for FCM, should be a "transitive dependency" but is not due to this bug: https://github.com/xamarin/XamarinComponents/issues/1069 -->
     <PackageReference Include="Xamarin.Google.Dagger" Version="2.41.0.2" />
     <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.1.0" />
+    <PackageReference Include="Xamarin.AndroidX.Work.Work.Runtime.Ktx" Version="2.7.1.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Xamarin.Kotlin.StdLib.Jdk7" />
+    <None Remove="Xamarin.AndroidX.Work.Work.Runtime.Ktx" />
   </ItemGroup>
 </Project>

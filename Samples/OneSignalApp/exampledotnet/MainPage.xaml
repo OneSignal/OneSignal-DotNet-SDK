@@ -1,102 +1,120 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:exampledotnet.Converters"
              x:Class="exampledotnet.MainPage">
+    <ContentPage.Resources>
+        <local:BoolNotConverter x:Key="BoolNot" />
+    </ContentPage.Resources>
 
-    <ScrollView>
-        
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,30"
-            >
-            <Button
-                x:Name="RegisterForPush"
-                Text="Register For Push"
-                Clicked="OnRegisterForPush"
-                />
-            <Entry x:Name="ExternalUserID"
-               Placeholder="External User ID"
-               />
-            <Button
-                x:Name="SetExternalUserID"
-                Text="Set External User ID"
-                Clicked="OnSetExternalUserID"
-                />
-            <Button
-                x:Name="RemoveExternalUserID"
-                Text="Remove External User ID"
-                Clicked="OnRemoveExternalUserID"
-                />
-            <Label
-                    Text="Outcomes:"
-                    SemanticProperties.HeadingLevel="Level2"
-                    FontSize="18"
-                    HorizontalTextAlignment="Center"/>
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Padding="30,0"
-                Spacing="25">
-                <Entry x:Name="OutcomeWithValueKeyField"
-                   Placeholder="Key"
-                   WidthRequest="100"
-                   />
-                <Entry x:Name="OutcomeWithValueValueField"
-                   Placeholder="Value"
-                   WidthRequest="100"
-                   />
-            </HorizontalStackLayout>
-            <Button
-                x:Name="SendOutcomeWithValue"
-                Text="Send Outcome With Value"
-                Clicked="OnSendOutcomeWithValue"
-                />
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Padding="30,0"
-                Spacing="25">
-                <Entry x:Name="SendOutcomeKey"
-                   Placeholder="Key"
-                   WidthRequest="100"
-                   />
-                <Button
-                x:Name="SendOutcome"
-                Text="Send Outcome"
-                Clicked="OnSendOutcome"
-                />
-            </HorizontalStackLayout>
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Padding="30,0"
-                Spacing="25">
-                <Entry x:Name="SendUniqueOutcomeKey"
-                   Placeholder="Key"
-                   WidthRequest="100"
-                   />
-                <Button
-                x:Name="SendUniqueOutcome"
-                Text="Send Unique Outcome"
-                Clicked="OnSendOutcome"
-                />
-            </HorizontalStackLayout>
+    <Grid>
+        <Grid IsVisible="{Binding HasGivenPrivacyConsent, Converter={StaticResource BoolNot}}" >
+            <Label Text="You must provide consent in order to access" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,00,100"/>
+            <Button Text="Provide Consent" Command="{Binding GivePrivacyConsentCommand}" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
 
-            <Grid RowSpacing="10" ColumnSpacing="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="150" />
-                </Grid.ColumnDefinitions>
+        <ScrollView IsVisible="{Binding HasGivenPrivacyConsent}">
+            <VerticalStackLayout Spacing="10" Padding="20,20">
+                <Label Text="App" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Live Activities:" SemanticProperties.HeadingLevel="Level2" FontSize="18" />
-                <Entry Grid.Row="1" Grid.Column="0" x:Name="ActivityID" Placeholder="Activity ID" />
-                <Button Grid.Row="1" Grid.Column="1" Text="Enter Live Activity" Clicked="OnEnterLiveActivity" />
-                <Button Grid.Row="2" Grid.Column="1" Text="Exit Live Activity" Clicked="OnExitLiveActivity" />
-            </Grid>
-        </VerticalStackLayout>
-    </ScrollView>
+                    <Label Grid.Column="0" Text="ID:" />
+                    <Label Grid.Column="1" Text="{Binding AppId}" HorizontalTextAlignment="End" />
+                </Grid>
+                <Button Text="Revoke Consent" Command="{Binding RevokePrivacyConsentCommand}" />
+                <Button Text="Login User" Command="{Binding LoginUserCommand}" />
+                <Button Text="Logout User" Command="{Binding LogoutUserCommand}" />
+
+
+                <Label Text="Aliases" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Button Text="Add Alias" Command="{Binding AddAliasCommand}" />
+
+
+                <Label Text="Push" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="ID:" />
+                    <Label Grid.Column="1" Text="{Binding PushSubscriptionId}" HorizontalTextAlignment="End" />
+                </Grid>
+                <Grid IsEnabled="{Binding HasPushPermission}">
+                    <Label Text="Enabled:" />
+                    <Switch IsToggled="{Binding IsPushEnabled}" />
+                </Grid>
+                <Button Text="Prompt For Push" Command="{Binding PromptForPushCommand}" IsVisible="{Binding HasPushPermission, Converter={StaticResource BoolNot}}" />
+
+
+                <Label Text="Emails" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Button Text="Add Email" Command="{Binding AddEmailCommand}" />
+
+
+                <Label Text="SMSs" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Button Text="Add SMS" Command="{Binding AddSMSCommand}" />
+
+
+                <Label Text="Tags" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Button Text="Add Tag" Command="{Binding AddTagCommand}"/>
+
+
+                <Label Text="Outcome Events" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Button Text="Add Outcome" Command="{Binding AddOutcomeCommand}"/>
+
+
+                <Label Text="In-App Messaging" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Grid>
+                    <Label Text="Pause In-App Messages:" />
+                    <Switch IsToggled="{Binding IsIAMPaused}" />
+                </Grid>
+
+
+                <Label Text="Triggers" Style="{StaticResource HeadingLabel}" /> 
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Button Text="Add Trigger" Command="{Binding AddTriggerCommand}" />
+
+
+                <Label Text="Location" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Grid>
+                    <Label Text="Location Shared:" />
+                    <Switch IsToggled="{Binding IsLocationShared}"/>
+                </Grid>
+                <Button Text="Prompt Location" Command="{Binding PromptForLocationCommand}" />
+
+
+                <Label Text="Live Activities" Style="{StaticResource HeadingLabel}" />
+                <BoxView HeightRequest="1" BackgroundColor="LightGray" />
+                <Grid RowSpacing="10" ColumnSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry Grid.Row="0" Grid.Column="0" Placeholder="Activity ID" Text="{Binding LiveActivityId}" />
+                    <Button Grid.Row="0" Grid.Column="1" Text="Enter Live Activity" Command="{Binding EnterLiveActivityCommand}" />
+                    <Button Grid.Row="1" Grid.Column="1" Text="Exit Live Activity" Command="{Binding ExitLiveActivityCommand}" />
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>
 

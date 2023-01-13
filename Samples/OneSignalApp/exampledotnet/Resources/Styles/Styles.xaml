@@ -163,6 +163,12 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Label" x:Key="HeadingLabel">
+        <Setter Property="Margin" Value="0,10,0,0" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level2" />
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
     <Style TargetType="ListView">
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="RefreshControlColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />

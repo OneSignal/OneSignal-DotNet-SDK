@@ -1,6 +1,7 @@
-﻿namespace exampledotnet;
-using OneSignalSDK.DotNet;
+﻿using OneSignalSDK.DotNet;
 using OneSignalSDK.DotNet.Core;
+
+namespace exampledotnet;
 
 public partial class App : Application
 {
@@ -9,11 +10,6 @@ public partial class App : Application
 		InitializeComponent();
 
 		MainPage = new AppShell();
-       
-
-        SharedPush.Initialize();
-       
-
     }
 }
 

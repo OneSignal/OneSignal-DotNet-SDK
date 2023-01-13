@@ -19,13 +19,14 @@
             <group targetFramework="net6.0-ios10.0">
             </group>
             <group targetFramework="net6.0-android21.0">
-                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.6.21.1" />
+                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0" />
 
                 <dependency id="Xamarin.AndroidX.CardView" version="1.0.0.16" />
                 <dependency id="Xamarin.AndroidX.Legacy.Support.V4" version="1.0.0.14" />
                 <dependency id="Xamarin.AndroidX.Browser" version="1.4.0.2" />
                 <dependency id="Xamarin.AndroidX.AppCompat" version="1.4.2.1" />
-                <dependency id="Xamarin.AndroidX.Work.Runtime" version="2.7.1.4" />
+                <dependency id="Xamarin.AndroidX.Work.Runtime" version="2.7.1.5" />
+                <dependency id="Xamarin.AndroidX.Work.Work.Runtime.Ktx" version="2.7.1.5" />
 
                 <dependency id="Xamarin.Firebase.Messaging" version="123.0.8" />
                 <!-- Dagger is required for FCM, should be a "transitive dependency" but is not due to this bug:
@@ -40,35 +41,35 @@
         <file src="LICENSE.md" />
 
         <!--Core-->
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.dll" target="lib\net6.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0\OneSignalSDK.DotNet.dll" target="lib\net6.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0" />
 
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.pdb" target="lib\net6.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0\OneSignalSDK.DotNet.pdb" target="lib\net6.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0" />
 
         <!--net6.0-android-->
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.dll" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.dll" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.dll" target="lib\net6.0-android21.0" />
 
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.pdb" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.pdb" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.pdb" target="lib\net6.0-android21.0" />
 
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-android\onesignal-release.aar" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\onesignal-release.aar" target="lib\net6.0-android21.0" />
 
         <!--net6.0-ios-->
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.dll" target="lib\net6.0-ios10.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-ios10.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net6.0-ios10.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.Binding.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.Binding.dll" target="lib\net6.0-ios10.0" />
 
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.pdb" target="lib\net6.0-ios10.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-ios10.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.pdb" target="lib\net6.0-ios10.0" />
-        <file src="OneSignalSDK.dotnet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.pdb" target="lib\net6.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net6.0-ios10.0" />
 
         <!-- Workaround to support .XCFramework for iOS  -->
         <!-- Resources includes the full OneSignal.XCFramework.

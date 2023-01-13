@@ -43,13 +43,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet\OneSignalSDK.DotNet.csproj" />
-	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.Core\OneSignalSDK.DotNet.Core.csproj" />
+	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
+	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
 	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
-	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.Android\OneSignalSDK.DotNet.Android.csproj" />
+	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" />
 	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj" />
 	</ItemGroup>
 
@@ -58,7 +58,7 @@
 		<IsAppExtension>true</IsAppExtension>
 		<IsWatchApp>false</IsWatchApp>
 	  </ProjectReference>
-	  <ProjectReference Include="..\..\..\OneSignalSDK.dotnet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
+	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
 	  <ProjectReference Include="..\..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
 	</ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' And $(DefineConstants.Contains(LIVE_ACTIVITIES))">
@@ -68,5 +68,13 @@
         <BuildOutput Condition="'$(ComputedPlatform)' == 'iPhone'">DerivedData/example/Build/Products/Debug-iphoneos</BuildOutput>
         <BuildOutput Condition="'$(ComputedPlatform)' == 'iPhoneSimulator'">DerivedData/example/Build/Products/Debug-iphonesimulator</BuildOutput>
       </AdditionalAppExtensions>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Models\" />
+      <None Remove="Converters\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Models\" />
+      <Folder Include="Converters\" />
     </ItemGroup>
 </Project>
