@@ -25,6 +25,7 @@
     <MtouchDebug>true</MtouchDebug>
     <IOSDebuggerPort>59137</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchLink>SdkOnly</MtouchLink>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.iOS" />

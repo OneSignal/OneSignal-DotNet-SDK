@@ -48,8 +48,12 @@
                     <Label Grid.Column="1" Text="{Binding PushSubscriptionId}" HorizontalTextAlignment="End" />
                 </Grid>
                 <Grid IsEnabled="{Binding HasPushPermission}">
-                    <Label Text="Enabled:" />
-                    <Switch IsToggled="{Binding IsPushEnabled}" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Enabled:" />
+                    <Switch Grid.Column="1" IsToggled="{Binding IsPushEnabled}" HorizontalOptions="End" />
                 </Grid>
                 <Button Text="Prompt For Push" Command="{Binding PromptForPushCommand}" IsVisible="{Binding HasPushPermission, Converter={StaticResource BoolNot}}" />
 
@@ -77,8 +81,12 @@
                 <Label Text="In-App Messaging" Style="{StaticResource HeadingLabel}" />
                 <BoxView HeightRequest="1" BackgroundColor="LightGray" />
                 <Grid>
-                    <Label Text="Pause In-App Messages:" />
-                    <Switch IsToggled="{Binding IsIAMPaused}" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Pause In-App Messages:" />
+                    <Switch Grid.Column="1" IsToggled="{Binding IsIAMPaused}" HorizontalOptions="End" />
                 </Grid>
 
 
@@ -90,8 +98,12 @@
                 <Label Text="Location" Style="{StaticResource HeadingLabel}" />
                 <BoxView HeightRequest="1" BackgroundColor="LightGray" />
                 <Grid>
-                    <Label Text="Location Shared:" />
-                    <Switch IsToggled="{Binding IsLocationShared}"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Location Shared:" />
+                    <Switch Grid.Column="1" IsToggled="{Binding IsLocationShared}" HorizontalOptions="End" />
                 </Grid>
                 <Button Text="Prompt Location" Command="{Binding PromptForLocationCommand}" />
 
