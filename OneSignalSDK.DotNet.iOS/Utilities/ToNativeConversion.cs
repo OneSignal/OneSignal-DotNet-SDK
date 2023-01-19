@@ -1,0 +1,50 @@
+﻿using System.Collections.Generic;
+using Foundation;
+using HomeKit;
+using OneSignalSDK.DotNet.Core;
+using OneSignalSDK.DotNet.Core.Utilities;
+
+namespace OneSignalSDK.DotNet.iOS.Utilities;
+
+public static class NativeConversion
+{
+    public static NSDictionary<NSString, NSObject> DictToNSDict(IDictionary<string, object> dict)
+    {
+        if (dict == null)
+            return null;
+
+        var keys = new NSString[dict.Count];
+        var values = new NSObject[dict.Count];
+        var index = 0;
+        foreach(var entry in dict)
+        {
+            keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
+            values[index] = NSObject.FromObject(entry.Value);
+            index++;
+        }
+
+        var result = new NSDictionary<NSString, NSObject>(keys, values);
+
+        return result;
+    }
+
+    public static NSDictionary<NSString, NSString> DictToNSDict(IDictionary<string, string> dict)
+    {
+        if (dict == null)
+            return null;
+
+        var keys = new NSString[dict.Count];
+        var values = new NSString[dict.Count];
+        var index = 0;
+        foreach (var entry in dict)
+        {
+            keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
+            values[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
+            index++;
+        }
+
+        var result = new NSDictionary<NSString, NSString>(keys, values);
+
+        return result;
+    }
+}

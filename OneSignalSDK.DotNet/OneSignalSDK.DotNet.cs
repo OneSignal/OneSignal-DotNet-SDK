@@ -33,8 +33,7 @@ public class OneSignal
     private static IOneSignal CreateOneSignal()
     {
 #if __IOS__
-        //return new OneSignalSDK.DotNet.iOS.OneSignalImplementation();
-        return null;
+        return new OneSignalSDK.DotNet.iOS.iOSOneSignal();
 #elif __ANDROID__
         return new OneSignalSDK.DotNet.Android.AndroidOneSignal();
 #else
