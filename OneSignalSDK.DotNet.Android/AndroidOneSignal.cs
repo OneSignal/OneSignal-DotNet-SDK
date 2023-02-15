@@ -42,6 +42,15 @@ public class AndroidOneSignal : IOneSignal
     public void Initialize(string appId)
     {
         Context context = Application.Context;
+
+        Com.OneSignal.Android.Common.OneSignalWrapper.SdkType = WrapperSDK.Type;
+
+        var version = WrapperSDK.Version;
+        if (version != null) {
+            // TODO: Next beta will make this write-able
+            // Com.OneSignal.Android.Common.OneSignalWrapper.SdkVersion = version;
+        }
+
         OneSignalNative.InitWithContext(context, appId);
 
         ((AndroidUserManager)User).Initialize();
@@ -49,17 +58,13 @@ public class AndroidOneSignal : IOneSignal
         ((AndroidInAppMessagesManager)InAppMessages).Initialize();
     }
 
-    public async Task LoginAsync(string externalId, string? jwtBearerToken = null)
+    public void Login(string externalId, string? jwtBearerToken = null)
     {
-        var consumer = new AndroidVoidConsumer();
-        OneSignalNative.Login(externalId, jwtBearerToken, Com.OneSignal.Android.Continue.With(consumer));
-        await consumer;
+        OneSignalNative.Login(externalId, jwtBearerToken);
     }
 
-    public async Task LogoutAsync()
+    public void Logout()
     {
-        var consumer = new AndroidVoidConsumer();
-        OneSignalNative.Logout(Com.OneSignal.Android.Continue.With(consumer));
-        await consumer;
+        OneSignalNative.Logout();
     }
 }

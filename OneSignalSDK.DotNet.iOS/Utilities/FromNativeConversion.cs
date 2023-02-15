@@ -9,6 +9,9 @@ using OneSignaliOS = Com.OneSignal.iOS;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
 
+/// <summary>
+/// Translation functions when translating from native SDK class types to their respective .NET SDK class types.
+/// </summary>
 public static class FromNativeConversion
 {
     public static Dictionary<string, string> NSObjectToPureDict(NSObject nSObject)

@@ -27,7 +27,7 @@ public class iOSDebugManager : IDebugManager
         set
         {
             _alertLevel = value;
-            OneSignalNative.Debug.SetVisualLevel((OneSLogLevel)_alertLevel);
+            OneSignalNative.Debug.SetAlertLevel((OneSLogLevel)_alertLevel);
         }
     }
 }

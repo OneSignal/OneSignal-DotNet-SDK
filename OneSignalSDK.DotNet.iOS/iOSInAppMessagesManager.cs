@@ -16,7 +16,7 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
     public bool Paused
     {
         get => OneSignalNative.InAppMessages.IsPaused;
-        set => OneSignalNative.InAppMessages.Paused(value);
+        set => OneSignalNative.InAppMessages.SetPaused(value);
     }
 
     public void Initialize()
@@ -25,8 +25,7 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
         OneSignalNative.InAppMessages.SetLifecycleHandler(handler);
         OneSignalNative.InAppMessages.SetClickHandler(action =>
         {
-            //TODO: iOS does not provide IAMMessage in OneSignal.InAppMessages.SetClickHandler
-            var args = new InAppMessageClickedEventArgs(null, FromNativeConversion.ToInAppMessageAction(action));
+            var args = new InAppMessageClickedEventArgs(FromNativeConversion.ToInAppMessageAction(action));
             Clicked?.Invoke(this, args);
         });
     }

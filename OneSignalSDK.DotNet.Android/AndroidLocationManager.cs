@@ -13,10 +13,10 @@ public class AndroidLocationManager : ILocationManager
         set => OneSignalNative.Location.Shared = value;
     }
 
-    public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
+    public async Task<bool> RequestPermissionAsync()
     {
         var consumer = new AndroidBoolConsumer();
-        OneSignalNative.Location.RequestPermission(fallbackToSettings, Com.OneSignal.Android.Continue.With(consumer));
+        OneSignalNative.Location.RequestPermission(Com.OneSignal.Android.Continue.With(consumer));
         return await consumer;
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using OneSignalSDK.DotNet.Core.Debug;
-using static Android.Icu.Text.CaseMap;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
 
+/// <summary>
+/// Translation functions when translating from .NET SDK class types to their respective native SDK class types.
+/// </summary>
 public static class ToNativeConversion
 {
     public static Com.OneSignal.Android.Debug.LogLevel ToLogLevel(LogLevel logLevel)

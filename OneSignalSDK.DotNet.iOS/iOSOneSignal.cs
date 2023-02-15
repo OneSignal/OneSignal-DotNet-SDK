@@ -39,12 +39,12 @@ public class iOSOneSignal : IOneSignal
 
     public void Initialize(string appId)
     {
+        OneSignalNative.SetMSDKType(WrapperSDK.Type);
         OneSignalNative.Initialize(appId, null);
     }
 
-    public Task LoginAsync(string externalId, string? jwtBearerToken = null)
+    public void Login(string externalId, string? jwtBearerToken = null)
     {
-        // TODO: iOS does not provide a callback for OneSignal.LoginAsync
         if (String.IsNullOrWhiteSpace(jwtBearerToken))
         {
             OneSignalNative.Login(externalId);
@@ -53,15 +53,10 @@ public class iOSOneSignal : IOneSignal
         {
             OneSignalNative.Login(externalId, jwtBearerToken);
         }
-
-        return Task.CompletedTask;
     }
 
-    public Task LogoutAsync()
+    public void Logout()
     {
-        // TODO: iOS does not provide a callback for OneSignal.LogoutAsync
         OneSignalNative.Logout();
-
-        return Task.CompletedTask;
     }
 }

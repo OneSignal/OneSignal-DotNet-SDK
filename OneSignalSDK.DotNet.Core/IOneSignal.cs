@@ -94,10 +94,7 @@ public interface IOneSignal
     /// login operation.Required when identity verification has been enabled.  See
     /// <a href="https://documentation.onesignal.com/docs/identity-verification">Identity Verification | OneSignal</a>
     /// </param>
-    /// <returns>
-    /// A task which will complete once the user has been logged in.
-    /// </returns>
-    Task LoginAsync(String externalId, String? jwtBearerToken = null);
+    void Login(String externalId, String? jwtBearerToken = null);
 
     /// <summary>
     /// Logout the user previously logged in via <see cref="Login(string, string?)"/>. The
@@ -105,6 +102,5 @@ public interface IOneSignal
     /// user has no user identity that can later be retrieved, except through this device as
     /// long as the app remains installed and the app data is not cleared.
     /// </summary>
-    /// <returns>A task which will complete once the user has been logged out.</returns>
-    Task LogoutAsync();
+    void Logout();
 }

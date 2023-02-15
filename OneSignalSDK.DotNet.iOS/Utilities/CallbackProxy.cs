@@ -1,19 +1,33 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using OneSignalSDK.DotNet.Core.Utilities;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
 
-public interface ICallbackProxy<in TReturn>
+/// <summary>
+/// The abstract class that is to be used to bridge objective-c / swift callbacks
+/// to .NET's async pattern.  The appropriate implementing class should be used,
+/// depending on what the objective-c / swift function calls back with.
+/// </summary>
+/// <typeparam name="TResult">The expected .NET return type of the method being called.</typeparam>
+public abstract class CallbackProxy<TReturn>
 {
-    void OnResponse(TReturn response);
+    protected TaskCompletionSource<TReturn> _completionSource = new TaskCompletionSource<TReturn>();
+
+    public TaskAwaiter<TReturn> GetAwaiter()
+    {
+        return _completionSource.Task.GetAwaiter();
+    }
+
+    public void OnResponse(TReturn response)
+    {
+        _completionSource.TrySetResult(response);
+    }
 }
 
-public abstract class CallbackProxy<TReturn> : BaseLater<TReturn>, ICallbackProxy<TReturn>
-{
-    public abstract void OnResponse(TReturn response);
-}
-
+/// <summary>
+/// A boolean callback proxy.
+/// </summary>
 public sealed class BooleanCallbackProxy : CallbackProxy<bool>
 {
-    public override void OnResponse(bool response) => _complete(response);
 }

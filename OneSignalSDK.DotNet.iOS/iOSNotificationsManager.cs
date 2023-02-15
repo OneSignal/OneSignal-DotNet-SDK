@@ -52,9 +52,9 @@ public class iOSNotificationsManager : INotificationsManager
             _manager = manager;
         }
 
-        public void OnOSPermissionChanged(Com.OneSignal.iOS.OSPermissionStateChanges stateChanges)
+        public void OnOSPermissionChanged(Com.OneSignal.iOS.OSPermissionState stateChanges)
         {
-            _manager.PermissionChanged?.Invoke(_manager, new NotificationPermissionChangedEventArgs(stateChanges.To.Status == Com.OneSignal.iOS.OSNotificationPermission.Authorized));
+            _manager.PermissionChanged?.Invoke(_manager, new NotificationPermissionChangedEventArgs(stateChanges.Permission));
         }
     }
 }

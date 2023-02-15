@@ -12,7 +12,6 @@ namespace OneSignalSDK.DotNet.iOS
     {
         public string Language
         {
-            get => ""; //TODO: iOS does not provide a getter for the language
             set => OneSignalNative.User.SetLanguage(value);
         }
 
@@ -27,11 +26,11 @@ namespace OneSignalSDK.DotNet.iOS
         public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
 
-        public void AddEmailSubscription(string email) => OneSignalNative.User.AddEmail(email);
-        public void RemoveEmailSubscription(string email) => OneSignalNative.User.RemoveEmail(email);
+        public void AddEmail(string email) => OneSignalNative.User.AddEmail(email);
+        public void RemoveEmail(string email) => OneSignalNative.User.RemoveEmail(email);
 
-        public void AddSmsSubscription(string sms) => OneSignalNative.User.AddSmsNumber(sms);
-        public void RemoveSmsSubscription(string sms) => OneSignalNative.User.RemoveSmsNumber(sms);
+        public void AddSms(string sms) => OneSignalNative.User.AddSms(sms);
+        public void RemoveSms(string sms) => OneSignalNative.User.RemoveSms(sms);
 
         public void AddTag(string key, string value) => OneSignalNative.User.AddTagWithKey(key, value);
         public void AddTags(IDictionary<string, string> tags) => OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags));

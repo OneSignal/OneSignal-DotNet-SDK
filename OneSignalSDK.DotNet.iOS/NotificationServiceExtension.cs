@@ -6,10 +6,17 @@ using OneSignalNative = Com.OneSignal.iOS;
 namespace OneSignalSDK.DotNet.iOS
 {
     /// <summary>
-    /// Public SDK API to be consumed by the App's iOS NotificationServiceExtension target
+    /// Public SDK API to be consumed by the App's iOS NotificationServiceExtension target.
     /// </summary>
-    public class NotificationServiceExtension
+    public static class NotificationServiceExtension
     {
+        /// <summary>
+        /// Should be called in your <see cref="UNNotificationServiceExtension.DidReceiveNotificationRequest(UNNotificationRequest, Action{UNNotificationContent})"/>.
+        /// </summary>
+        /// <param name="request">The notification request.</param>
+        /// <param name="replacementContent">The notification content.</param>
+        /// <param name="contentHandler">A content handler.</param>
+        /// <returns>The notification content.</returns>
         public static UNMutableNotificationContent DidReceiveNotificationExtensionRequest(
            UNNotificationRequest request,
            UNMutableNotificationContent replacementContent,
@@ -25,6 +32,11 @@ namespace OneSignalSDK.DotNet.iOS
             );
         }
 
+        /// <summary>
+        /// Should be called in your <see cref="UNNotificationServiceExtension.TimeWillExpire"/>.
+        /// </summary>
+        /// <param name="request">The notification request.</param>
+        /// <param name="replacementContent">The notification content.</param>
         public static void ServiceExtensionTimeWillExpireRequest(
            UNNotificationRequest request,
            UNMutableNotificationContent replacementContent)

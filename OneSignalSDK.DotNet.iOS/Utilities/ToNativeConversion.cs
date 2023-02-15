@@ -6,6 +6,9 @@ using OneSignalSDK.DotNet.Core.Utilities;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
 
+/// <summary>
+/// Translation functions when translating from .NET SDK class types to their respective native SDK class types.
+/// </summary>
 public static class NativeConversion
 {
     public static NSDictionary<NSString, NSObject> DictToNSDict(IDictionary<string, object> dict)
