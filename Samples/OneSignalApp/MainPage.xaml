@@ -26,6 +26,9 @@
                     <Label Grid.Column="0" Text="ID:" />
                     <Label Grid.Column="1" Text="{Binding AppId}" HorizontalTextAlignment="End" />
                 </Grid>
+
+                <Button Text="SDK Validation" Command="{Binding ValidationCommand}" />
+
                 <Button Text="Revoke Consent" Command="{Binding RevokePrivacyConsentCommand}" />
                 <Button Text="Login User" Command="{Binding LoginUserCommand}" />
                 <Button Text="Logout User" Command="{Binding LogoutUserCommand}" />

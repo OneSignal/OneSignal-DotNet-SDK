@@ -7,6 +7,9 @@ using OneSignalSDK.DotNet.Core.Utilities;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
 
+/// <summary>
+/// Translation functions when translating from native SDK class types to their respective .NET SDK class types.
+/// </summary>
 public static class FromNativeConversion
 {
     public static Core.Notifications.Notification ToNotification(Com.OneSignal.Android.Notifications.INotification notification)
@@ -16,12 +19,12 @@ public static class FromNativeConversion
             additionalData = Json.Deserialize(notification.AdditionalData.ToString()) as IDictionary<string, object> ?? new Dictionary<string, object>();
 
         IList<Core.Notifications.Notification>? groupedNotifications = null;
-        //TODO: Android needs to add GroupedNotifications
-        //if (notification.GroupedNotifications != null)
-        //{
-        //    foreach (var individualNotification in notification.GroupedNotifications)
-        //        groupedNotifications.Add(ConvertNotification(individualNotification));
-        //}
+        if (notification.GroupedNotifications != null)
+        {
+            groupedNotifications = new List<Core.Notifications.Notification>();
+            foreach (var individualNotification in notification.GroupedNotifications)
+                groupedNotifications.Add(ToNotification(individualNotification));
+        }
 
         var actionButtons = new List<Core.Notifications.ActionButton>();
         if (notification.ActionButtons != null)

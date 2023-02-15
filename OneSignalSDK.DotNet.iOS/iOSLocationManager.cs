@@ -13,9 +13,8 @@ public class iOSLocationManager : ILocationManager
         set => OneSignalNative.Location.SetShared(value);
     }
 
-    public Task<bool> RequestPermissionAsync(bool fallbackToSettings)
+    public Task<bool> RequestPermissionAsync()
     {
-        //TODO: iOS does not provide a callback for OneSignal.Location.RequestPermission. There is also no fallbackToSettings parameter.
         OneSignalNative.Location.RequestPermission();
         return Task.FromResult(true);
     }

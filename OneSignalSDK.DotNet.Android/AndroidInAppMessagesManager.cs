@@ -71,7 +71,7 @@ public class AndroidInAppMessagesManager : Core.InAppMessages.IInAppMessagesMana
 
         public void InAppMessageClicked(IInAppMessageClickResult result)
         {
-            var args = new InAppMessageClickedEventArgs(FromNativeConversion.ToInAppMessage(result.Message), FromNativeConversion.ToInAppMessageAction(result.Action));
+            var args = new InAppMessageClickedEventArgs(FromNativeConversion.ToInAppMessageAction(result.Action));
             _manager.Clicked?.Invoke(_manager, args);
         }
 

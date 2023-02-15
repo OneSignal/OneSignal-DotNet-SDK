@@ -27,7 +27,7 @@ public interface IUserManager
     /// The 2-character language either as a detected language or explicitly set for this user. See
     /// <a href="https://documentation.onesignal.com/docs/language-localization#what-languages-are-supported">Supported Languages | OneSignal</a>
     /// </summary>
-    string Language { get; set; }
+    string Language { set; }
 
     /// <summary>
     /// The push subscription associated to the current user.
@@ -64,13 +64,13 @@ public interface IUserManager
     /// Add a new email subscription to the current user.
     /// </summary>
     /// <param name="email">The email address that the current user has subscribed for.</param>
-    void AddEmailSubscription(string email);
+    void AddEmail(string email);
 
     /// <summary>
     /// Remove an email subscription from the current user.
     /// </summary>
     /// <param name="email">The email address that the current user was subscribed for, and should no longer be.</param>
-    void RemoveEmailSubscription(string email);
+    void RemoveEmail(string email);
 
     /// <summary>
     /// Add a new SMS subscription to the current user.
@@ -79,13 +79,13 @@ public interface IUserManager
     /// The phone number that the current user has subscribed for, in
     /// <a href="https://documentation.onesignal.com/docs/sms-faq#what-is-the-e164-format">E.164</a>format.
     /// </param>
-    void AddSmsSubscription(string sms);
+    void AddSms(string sms);
 
     /// <summary>
     /// Remove an SMS subscription from the current user.
     /// </summary>
     /// <param name="sms">The sms address that the current user was subscribed for, and should no longer be.</param>
-    void RemoveSmsSubscription(string sms);
+    void RemoveSms(string sms);
 
     /// <summary>
     /// Add a tag for the current user.  Tags are key:value pairs used as building blocks

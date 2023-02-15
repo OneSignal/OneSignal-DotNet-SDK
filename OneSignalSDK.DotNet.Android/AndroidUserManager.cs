@@ -10,8 +10,7 @@ namespace OneSignalSDK.DotNet.Android
     {
         public string Language
         {
-            get => OneSignalNative.User.Language;
-            set => OneSignalNative.User.Language = value;
+            set => OneSignalNative.User.SetLanguage(value);
         }
 
         public IPushSubscription PushSubscription { get; } = new AndroidPushSubscription();
@@ -25,11 +24,11 @@ namespace OneSignalSDK.DotNet.Android
         public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(aliases);
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
 
-        public void AddEmailSubscription(string email) => OneSignalNative.User.AddEmailSubscription(email);
-        public void RemoveEmailSubscription(string email) => OneSignalNative.User.RemoveEmailSubscription(email);
+        public void AddEmail(string email) => OneSignalNative.User.AddEmail(email);
+        public void RemoveEmail(string email) => OneSignalNative.User.RemoveEmail(email);
 
-        public void AddSmsSubscription(string sms) => OneSignalNative.User.AddSmsSubscription(sms);
-        public void RemoveSmsSubscription(string sms) => OneSignalNative.User.RemoveSmsSubscription(sms);
+        public void AddSms(string sms) => OneSignalNative.User.AddSms(sms);
+        public void RemoveSms(string sms) => OneSignalNative.User.RemoveSms(sms);
 
         public void AddTag(string key, string value) => OneSignalNative.User.AddTag(key, value);
         public void AddTags(IDictionary<string, string> tags) => OneSignalNative.User.AddTags(tags);

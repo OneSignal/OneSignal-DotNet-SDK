@@ -30,5 +30,11 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSSupportsLiveActivities</key>
 	<string>Yes</string>
+	<key>MinimumOSVersion</key>
+	<string>14.2</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location always used for testing</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location when in use for testing</string>
 </dict>
 </plist>

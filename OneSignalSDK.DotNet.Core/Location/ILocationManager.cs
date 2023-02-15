@@ -30,14 +30,10 @@ public interface ILocationManager
     ///
     /// See <a href="https://documentation.onesignal.com/docs/permission-requests">Permission Requests | OneSignal Docs</a>
     /// </summary>
-    /// <param name="fallbackToSettings">
-    /// Whether to direct the user to this app's settings to drive enabling of notifications,
-    /// when the in-app prompting is not possible.
-    /// </param>
     /// <returns>
     /// A task which will complete once the permission request has completed. The result
     /// is true if the user is opted in to location permission (user affirmed or already enabled),
     /// the result is false if the user is opted out of location permission(user rejected).
     /// </returns>
-    Task<bool> RequestPermissionAsync(bool fallbackToSettings);
+    Task<bool> RequestPermissionAsync();
 }
