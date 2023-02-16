@@ -25,6 +25,7 @@ namespace OneSignalSDK.DotNet.iOS
         public void AddAlias(string label, string id) => OneSignalNative.User.AddAliasWithLabel(label, id);
         public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
+        public void RemoveAliases(params string[] labels) => OneSignalNative.User.RemoveAliases(labels);
 
         public void AddEmail(string email) => OneSignalNative.User.AddEmail(email);
         public void RemoveEmail(string email) => OneSignalNative.User.RemoveEmail(email);
