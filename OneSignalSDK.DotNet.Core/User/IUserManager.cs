@@ -61,6 +61,12 @@ public interface IUserManager
     void RemoveAlias(string label);
 
     /// <summary>
+    /// Remove multiple aliases from the current user.
+    /// </summary>
+    /// <param name="labels">The collection of alias labels, all of which will be removed from the current user.</param>
+    void RemoveAliases(params string[] labels);
+
+    /// <summary>
     /// Add a new email subscription to the current user.
     /// </summary>
     /// <param name="email">The email address that the current user has subscribed for.</param>
