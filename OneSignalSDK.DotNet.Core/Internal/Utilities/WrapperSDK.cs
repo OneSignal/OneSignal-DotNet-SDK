@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace OneSignalSDK.DotNet.Core.Utilities;
+namespace OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 public static class WrapperSDK {
 

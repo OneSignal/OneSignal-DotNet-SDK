@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using OneSignalSDK.DotNet.Core.Utilities;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
 

@@ -242,7 +242,6 @@ namespace Com.OneSignal.iOS {
 	interface OSPermissionObserver
 	{
         // @required -(void)onOSPermissionChanged:(OSPermissionState * _Nonnull)state;
-        [Abstract]
         [Export ("onOSPermissionChanged:")]
         void OnOSPermissionChanged (OSPermissionState state);
     }
@@ -251,7 +250,7 @@ namespace Com.OneSignal.iOS {
 	delegate void OSUserResponseBlock (bool arg0);
 
 	// typedef void (^OSNotificationWillShowInForegroundBlock)(OSNotification * _Nonnull, OSNotificationDisplayResponse _Nonnull);
-	delegate void OSNotificationWillShowInForegroundBlock (OSNotification arg0, OSNotificationDisplayResponse arg1);
+	delegate void OSNotificationWillShowInForegroundBlock (OSNotification arg0, [BlockCallback] OSNotificationDisplayResponse arg1);
 
 	// typedef void (^OSNotificationOpenedBlock)(OSNotificationOpenedResult * _Nonnull);
 	delegate void OSNotificationOpenedBlock (OSNotificationOpenedResult arg0);
@@ -356,13 +355,12 @@ namespace Com.OneSignal.iOS {
     }
 
     // @protocol OSPushSubscriptionObserver <NSObject>
-    [Protocol]
+    [Protocol (Name = "_TtP13OneSignalUser26OSPushSubscriptionObserver_")]
 	[Model]
     [BaseType (typeof(NSObject))]
     interface OSPushSubscriptionObserver
 	{
         // @required -(void)onOSPushSubscriptionChangedWithStateChanges:(OSPushSubscriptionStateChanges * _Nonnull)stateChanges;
-		//[Abstract]
         [Export ("onOSPushSubscriptionChangedWithStateChanges:")]
         void OnOSPushSubscriptionChangedWithStateChanges (OSPushSubscriptionStateChanges stateChanges);
     }

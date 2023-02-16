@@ -46,9 +46,12 @@ namespace OneSignalSDK.DotNet.Android
 
         public event EventHandler<SubscriptionChangedEventArgs>? Changed;
 
+        private InternalSubscriptionChangedHandler? _subscriptionChangedHandler;
+
         public void Initialize()
         {
-            OneSignalNative.User.PushSubscription.AddChangeHandler(new AndroidSubscriptionChangedHandler(this));
+            _subscriptionChangedHandler = new InternalSubscriptionChangedHandler(this);
+            OneSignalNative.User.PushSubscription.AddChangeHandler(_subscriptionChangedHandler);
         }
 
         public void OptIn()
@@ -61,10 +64,10 @@ namespace OneSignalSDK.DotNet.Android
             OneSignalNative.User.PushSubscription.OptOut();
         }
 
-        private class AndroidSubscriptionChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.Subscriptions.ISubscriptionChangedHandler
+        private class InternalSubscriptionChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.Subscriptions.ISubscriptionChangedHandler
         {
             private AndroidPushSubscription _manager;
-            public AndroidSubscriptionChangedHandler(AndroidPushSubscription manager)
+            public InternalSubscriptionChangedHandler(AndroidPushSubscription manager)
             {
                 _manager = manager;
             }

@@ -5,7 +5,7 @@ using OneSignalSDK.DotNet.Core.Location;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Session;
 using OneSignalSDK.DotNet.Core.User;
-using OneSignalSDK.DotNet.Core.Utilities;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 
@@ -40,7 +40,11 @@ public class iOSOneSignal : IOneSignal
     public void Initialize(string appId)
     {
         OneSignalNative.SetMSDKType(WrapperSDK.Type);
-        OneSignalNative.Initialize(appId, null);
+        OneSignalNative.Initialize(appId, new NSDictionary());
+
+        ((iOSUserManager)User).Initialize();
+        ((iOSNotificationsManager)Notifications).Initialize();
+        ((iOSInAppMessagesManager)InAppMessages).Initialize();
     }
 
     public void Login(string externalId, string? jwtBearerToken = null)

@@ -4,7 +4,7 @@ using HomeKit;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.Core.Notifications;
-using OneSignalSDK.DotNet.Core.Utilities;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
 using OneSignaliOS = Com.OneSignal.iOS;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
@@ -73,8 +73,8 @@ public static class FromNativeConversion
             LaunchUrl = notification.LaunchURL,
             Sound = notification.Sound,
             RelevanceScore = notification.RelevanceScore != null ? (float)notification.RelevanceScore : 0,
-            Badge = notification.Badge.ToString(),
-            BadgeIncrement = notification.BadgeIncrement.ToString(),
+            Badge = (int)notification.Badge,
+            BadgeIncrement = (int)notification.BadgeIncrement,
             ActionButtons = actionButtonsXam,
             Category = notification.Category,
             ThreadId = notification.ThreadId,

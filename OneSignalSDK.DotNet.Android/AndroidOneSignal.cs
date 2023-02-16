@@ -6,7 +6,7 @@ using OneSignalSDK.DotNet.Core.Location;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Session;
 using OneSignalSDK.DotNet.Core.User;
-using OneSignalSDK.DotNet.Core.Utilities;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 using Android.App;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;

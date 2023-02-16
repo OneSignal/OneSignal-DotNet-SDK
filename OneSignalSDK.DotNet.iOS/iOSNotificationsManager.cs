@@ -1,4 +1,5 @@
-﻿using OneSignalSDK.DotNet.Core;
+﻿using System.Security.Permissions;
+using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.iOS.Utilities;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
@@ -13,28 +14,33 @@ public class iOSNotificationsManager : INotificationsManager
 
     public bool Permission => OneSignalNative.Notifications.Permission;
 
+    private InternalNotificationsEventsHandler? _notificationsEventsHandler;
+
     public void Initialize()
     {
-        var handler = new iOSNotificationsEventsHandler(this);
+        var _notificationsEventsHandler = new InternalNotificationsEventsHandler(this);
 
-        OneSignalNative.Notifications.AddPermissionObserver(handler);
-        OneSignalNative.Notifications.SetNotificationWillShowInForegroundHandler((nativeNotification, displayResponse) =>
-        {
-            var notification = FromNativeConversion.ToNotification(nativeNotification);
-            var args = new NotificationWillDisplayEventArgs(notification);
+        OneSignalNative.Notifications.AddPermissionObserver(_notificationsEventsHandler);
+        OneSignalNative.Notifications.SetNotificationWillShowInForegroundHandler(OnNotificationWillShowInForegroundHandler);
+        OneSignalNative.Notifications.SetNotificationOpenedHandler(OnNotificationOpenedHandler);
+    }
 
-            WillDisplay?.Invoke(this, args);
+    private void OnNotificationWillShowInForegroundHandler(Com.OneSignal.iOS.OSNotification nativeNotification, Com.OneSignal.iOS.OSNotificationDisplayResponse displayResponse)
+    {
+        var notification = FromNativeConversion.ToNotification(nativeNotification);
+        var args = new NotificationWillDisplayEventArgs(notification);
 
-            displayResponse(args.ToDisplayNotification != null ? nativeNotification : null);
-        });
+        WillDisplay?.Invoke(this, args);
 
-        OneSignalNative.Notifications.SetNotificationOpenedHandler(r =>
-        {
-            var notification = FromNativeConversion.ToNotification(r.Notification);
-            var action = FromNativeConversion.ToNotificationAction(r.Action);
-            var args = new Core.Notifications.NotificationClickedEventArgs(notification, action);
-            Clicked?.Invoke(this, args);
-        });
+        displayResponse.Invoke(args.ToDisplayNotification != null ? nativeNotification : null);
+    }
+
+    private void OnNotificationOpenedHandler(Com.OneSignal.iOS.OSNotificationOpenedResult result)
+    {
+        var notification = FromNativeConversion.ToNotification(result.Notification);
+        var action = FromNativeConversion.ToNotificationAction(result.Action);
+        var args = new Core.Notifications.NotificationClickedEventArgs(notification, action);
+        Clicked?.Invoke(this, args);
     }
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
@@ -44,15 +50,15 @@ public class iOSNotificationsManager : INotificationsManager
         return await proxy;
     }
 
-    private class iOSNotificationsEventsHandler : Com.OneSignal.iOS.OSPermissionObserver
+    private sealed class InternalNotificationsEventsHandler : Com.OneSignal.iOS.OSPermissionObserver
     {
         private iOSNotificationsManager _manager;
-        public iOSNotificationsEventsHandler(iOSNotificationsManager manager)
+        public InternalNotificationsEventsHandler(iOSNotificationsManager manager)
         {
             _manager = manager;
         }
 
-        public void OnOSPermissionChanged(Com.OneSignal.iOS.OSPermissionState stateChanges)
+        public override void OnOSPermissionChanged(Com.OneSignal.iOS.OSPermissionState stateChanges)
         {
             _manager.PermissionChanged?.Invoke(_manager, new NotificationPermissionChangedEventArgs(stateChanges.Permission));
         }

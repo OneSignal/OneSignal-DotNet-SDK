@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace OneSignalSDK.DotNet.Core.Utilities;
+namespace OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 public static class Json
 {

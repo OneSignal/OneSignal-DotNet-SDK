@@ -14,13 +14,14 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public bool Permission => OneSignalNative.Notifications.Permission;
 
+    private InternalNotificationsEventsHandler? _notificationsEventsHandler;
     public void Initialize()
     {
-        var handler = new AndroidNotificationsEventsHandler(this);
+        _notificationsEventsHandler = new InternalNotificationsEventsHandler(this);
 
-        OneSignalNative.Notifications.AddPermissionChangedHandler(handler);
-        OneSignalNative.Notifications.SetNotificationWillShowInForegroundHandler(handler);
-        OneSignalNative.Notifications.SetNotificationClickHandler(handler);
+        OneSignalNative.Notifications.AddPermissionChangedHandler(_notificationsEventsHandler);
+        OneSignalNative.Notifications.SetNotificationWillShowInForegroundHandler(_notificationsEventsHandler);
+        OneSignalNative.Notifications.SetNotificationClickHandler(_notificationsEventsHandler);
     }
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
@@ -30,13 +31,13 @@ public class AndroidNotificationsManager : INotificationsManager
         return await consumer;
     }
 
-    private class AndroidNotificationsEventsHandler : Java.Lang.Object,
+    private class InternalNotificationsEventsHandler : Java.Lang.Object,
         Com.OneSignal.Android.Notifications.IPermissionChangedHandler,
         Com.OneSignal.Android.Notifications.INotificationWillShowInForegroundHandler,
         Com.OneSignal.Android.Notifications.INotificationClickHandler
     {
         private AndroidNotificationsManager _manager;
-        public AndroidNotificationsEventsHandler(AndroidNotificationsManager manager)
+        public InternalNotificationsEventsHandler(AndroidNotificationsManager manager)
         {
             _manager = manager;
         }

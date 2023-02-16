@@ -48,9 +48,12 @@ namespace OneSignalSDK.DotNet.iOS
 
         public event EventHandler<SubscriptionChangedEventArgs>? Changed;
 
+        private InternalSubscriptionChangedHandler? _subscriptionChangedHandler;
+
         public void Initialize()
         {
-            OneSignalNative.User.PushSubscription.AddObserver(new iOSSubscriptionChangedHandler(this));
+            _subscriptionChangedHandler = new InternalSubscriptionChangedHandler(this);
+            OneSignalNative.User.PushSubscription.AddObserver(_subscriptionChangedHandler);
         }
 
         public void OptIn()
@@ -63,15 +66,15 @@ namespace OneSignalSDK.DotNet.iOS
             OneSignalNative.User.PushSubscription.OptOut();
         }
 
-        public class iOSSubscriptionChangedHandler : Com.OneSignal.iOS.OSPushSubscriptionObserver
+        private sealed class InternalSubscriptionChangedHandler : Com.OneSignal.iOS.OSPushSubscriptionObserver
         {
             private iOSPushSubscription _manager;
-            public iOSSubscriptionChangedHandler(iOSPushSubscription manager)
+            public InternalSubscriptionChangedHandler(iOSPushSubscription manager)
             {
                 _manager = manager;
             }
 
-            public void OnOSPushSubscriptionChangedWithStateChanges(Com.OneSignal.iOS.OSPushSubscriptionStateChanges subscriptionChanges)
+            public override void OnOSPushSubscriptionChangedWithStateChanges(Com.OneSignal.iOS.OSPushSubscriptionStateChanges subscriptionChanges)
             {
                 _manager.Changed?.Invoke(_manager, new SubscriptionChangedEventArgs(_manager));
             }
