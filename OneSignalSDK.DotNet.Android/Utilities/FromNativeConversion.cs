@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.Core.Notifications;
-using OneSignalSDK.DotNet.Core.Utilities;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
 

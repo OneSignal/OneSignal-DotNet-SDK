@@ -2,7 +2,7 @@
 using Foundation;
 using HomeKit;
 using OneSignalSDK.DotNet.Core;
-using OneSignalSDK.DotNet.Core.Utilities;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
 

@@ -21,11 +21,13 @@ public class AndroidInAppMessagesManager : Core.InAppMessages.IInAppMessagesMana
         set => OneSignalNative.InAppMessages.Paused = value;
     }
 
+    private InternalInAppMessageEventsHandler? _inAppMessageEventsHandler;
+
     public void Initialize()
     {
-        var handler = new AndroidInAppMessageEventsHandler(this);
-        OneSignalNative.InAppMessages.SetInAppMessageClickHandler(handler);
-        OneSignalNative.InAppMessages.SetInAppMessageLifecycleHandler(handler);
+        _inAppMessageEventsHandler = new InternalInAppMessageEventsHandler(this);
+        OneSignalNative.InAppMessages.SetInAppMessageClickHandler(_inAppMessageEventsHandler);
+        OneSignalNative.InAppMessages.SetInAppMessageLifecycleHandler(_inAppMessageEventsHandler);
     }
 
     public void AddTrigger(string key, object value)
@@ -59,12 +61,12 @@ public class AndroidInAppMessagesManager : Core.InAppMessages.IInAppMessagesMana
         OneSignalNative.InAppMessages.RemoveTriggers(keys);
     }
 
-    private class AndroidInAppMessageEventsHandler : Java.Lang.Object,
+    private class InternalInAppMessageEventsHandler : Java.Lang.Object,
         Com.OneSignal.Android.InAppMessages.IInAppMessageClickHandler,
         Com.OneSignal.Android.InAppMessages.IInAppMessageLifecycleHandler
     {
         private AndroidInAppMessagesManager _manager;
-        public AndroidInAppMessageEventsHandler(AndroidInAppMessagesManager manager)
+        public InternalInAppMessageEventsHandler(AndroidInAppMessagesManager manager)
         {
             _manager = manager;
         }

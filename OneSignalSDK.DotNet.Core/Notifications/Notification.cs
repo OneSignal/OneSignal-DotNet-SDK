@@ -128,15 +128,24 @@ public record Notification
     #endregion Android
 
     #region iOS
-    public string? Badge { get; init; }
+    /// <summary>
+    /// What to set the badge number to when this notification is received.
+    /// </summary>
+    public int? Badge { get; init; }
 
-    public string? BadgeIncrement { get; init; }
+    /// <summary>
+    /// How much to increment this badge number when this notification is received.
+    /// </summary>
+    public int? BadgeIncrement { get; init; }
 
     /// <summary>
     /// (iOS Only) Show associated actions and buttons for the category.
     /// </summary>
     public string? Category { get; init; }
 
+    /// <summary>
+    /// The ID of the thread (group) this notification is within.
+    /// </summary>
     public string? ThreadId { get; init; }
 
     /// <summary>

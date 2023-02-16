@@ -39,6 +39,8 @@
     <None Remove="InAppMessages\" />
     <None Remove="Debug\" />
     <None Remove="User\Subscriptions\" />
+    <None Remove="Internal\" />
+    <None Remove="Internal\Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="User\" />
@@ -48,5 +50,7 @@
     <Folder Include="InAppMessages\" />
     <Folder Include="Debug\" />
     <Folder Include="User\Subscriptions\" />
+    <Folder Include="Internal\" />
+    <Folder Include="Internal\Utilities\" />
   </ItemGroup>
 </Project>

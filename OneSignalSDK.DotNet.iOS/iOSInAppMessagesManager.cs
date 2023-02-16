@@ -1,4 +1,5 @@
-﻿using OneSignalSDK.DotNet.Core;
+﻿using Foundation;
+using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.iOS.Utilities;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
@@ -19,15 +20,13 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
         set => OneSignalNative.InAppMessages.SetPaused(value);
     }
 
+    private InternalInAppMessageLifeCycleHandler? _lifecycleHandler;
+
     public void Initialize()
     {
-        var handler = new iOSInAppMessageEventsHandler(this);
-        OneSignalNative.InAppMessages.SetLifecycleHandler(handler);
-        OneSignalNative.InAppMessages.SetClickHandler(action =>
-        {
-            var args = new InAppMessageClickedEventArgs(FromNativeConversion.ToInAppMessageAction(action));
-            Clicked?.Invoke(this, args);
-        });
+        _lifecycleHandler = new InternalInAppMessageLifeCycleHandler(this);
+        OneSignalNative.InAppMessages.SetLifecycleHandler(_lifecycleHandler);
+        OneSignalNative.InAppMessages.SetClickHandler(OnClick);
     }
 
     public void AddTrigger(string key, object value) => OneSignalNative.InAppMessages.AddTrigger(key, NSObject.FromObject(value));
@@ -36,10 +35,16 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
     public void RemoveTrigger(string key) => OneSignalNative.InAppMessages.RemoveTrigger(key);
     public void RemoveTriggers(params string[] keys) => OneSignalNative.InAppMessages.RemoveTriggers(keys);
 
-    private class iOSInAppMessageEventsHandler : Com.OneSignal.iOS.OSInAppMessageLifecycleHandler
+    private void OnClick(Com.OneSignal.iOS.OSInAppMessageAction action)
+    {
+        var args = new InAppMessageClickedEventArgs(FromNativeConversion.ToInAppMessageAction(action));
+        Clicked?.Invoke(this, args);
+    }
+
+    private sealed class InternalInAppMessageLifeCycleHandler : Com.OneSignal.iOS.OSInAppMessageLifecycleHandler
     {
         private iOSInAppMessagesManager _manager;
-        public iOSInAppMessageEventsHandler(iOSInAppMessagesManager manager)
+        public InternalInAppMessageLifeCycleHandler(iOSInAppMessagesManager manager) : base()
         {
             _manager = manager;
         }
