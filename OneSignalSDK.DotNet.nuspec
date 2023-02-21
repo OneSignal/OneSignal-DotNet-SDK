@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
-        <version>4.3.1</version>
+        <version>5.0.0-beta01</version>
         <id>OneSignalSDK.DotNet</id>
         <title>OneSignal SDK for .Net6+ </title>
         <authors>OneSignal</authors>
@@ -58,7 +58,10 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.pdb" target="lib\net6.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.pdb" target="lib\net6.0-android21.0" />
 
-        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\onesignal-release.aar" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\core-release.aar" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\in-app-messages-release.aar" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\location-release.aar" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\notifications-release.aar" target="lib\net6.0-android21.0" />
 
         <!--net6.0-ios-->
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios\OneSignalSDK.DotNet.dll" target="lib\net6.0-ios10.0" />
