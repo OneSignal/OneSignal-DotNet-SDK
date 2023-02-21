@@ -175,8 +175,23 @@ namespace Com.OneSignal.iOS {
 		void SetAlertLevel(OneSLogLevel visualLogLevel);
 	}
 
-	// @interface OSInAppMessageOutcome : NSObject
-	[BaseType (typeof(NSObject))]
+    // @interface OneSignalWrapper : NSObject
+    [BaseType(typeof(NSObject))]
+    interface OneSignalWrapper
+    {
+        // @property (class) NSString * _Nullable sdkType;
+        [Static]
+        [NullAllowed, Export("sdkType")]
+        string SdkType { get; set; }
+
+        // @property (class) NSString * _Nullable sdkVersion;
+        [Static]
+        [NullAllowed, Export("sdkVersion")]
+        string SdkVersion { get; set; }
+    }
+
+    // @interface OSInAppMessageOutcome : NSObject
+    [BaseType (typeof(NSObject))]
 	interface OSInAppMessageOutcome
 	{
 		// @property (nonatomic, strong) NSString * _Nonnull name;
@@ -687,11 +702,6 @@ namespace Com.OneSignal.iOS {
         [Export ("sdkSemanticVersion")]
 		//[Verify (MethodToProperty)]
         string SdkSemanticVersion { get; }
-
-        // +(void)setMSDKType:(NSString * _Nonnull)type;
-        [Static]
-        [Export ("setMSDKType:")]
-        void SetMSDKType (string type);
 
         // +(id<OSUser>)User __attribute__((swift_private));
         [Static]

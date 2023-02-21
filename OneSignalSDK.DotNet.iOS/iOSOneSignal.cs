@@ -39,7 +39,14 @@ public class iOSOneSignal : IOneSignal
 
     public void Initialize(string appId)
     {
-        OneSignalNative.SetMSDKType(WrapperSDK.Type);
+        Com.OneSignal.iOS.OneSignalWrapper.SdkType = WrapperSDK.Type;
+
+        var version = WrapperSDK.Version;
+        if (version != null)
+        {
+            Com.OneSignal.iOS.OneSignalWrapper.SdkVersion = version;
+        }
+
         OneSignalNative.Initialize(appId, new NSDictionary());
 
         ((iOSUserManager)User).Initialize();
