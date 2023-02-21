@@ -47,8 +47,7 @@ public class AndroidOneSignal : IOneSignal
 
         var version = WrapperSDK.Version;
         if (version != null) {
-            // TODO: Next beta will make this write-able
-            // Com.OneSignal.Android.Common.OneSignalWrapper.SdkVersion = version;
+            Com.OneSignal.Android.Common.OneSignalWrapper.SdkVersion = version;
         }
 
         OneSignalNative.InitWithContext(context, appId);

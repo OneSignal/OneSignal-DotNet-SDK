@@ -16,7 +16,7 @@ public static class WrapperSDK {
             if (version == null)
                 return null;
 
-            return $"{version.Major:D2}{version.Minor:D2}{version.Revision:D2}";
+            return $"{version.Major:D2}{version.Minor:D2}{version.Build:D2}";
         }
     }
 }
