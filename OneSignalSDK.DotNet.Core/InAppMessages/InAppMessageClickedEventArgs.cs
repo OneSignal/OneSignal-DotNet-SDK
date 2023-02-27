@@ -1,19 +1,20 @@
 ﻿using System;
 
-namespace OneSignalSDK.DotNet.Core.InAppMessages;
-
-/// <summary>
-/// The <see cref="EventArgs"/> for the <see cref="IInAppMessagesManager.Clicked"/> event.
-/// </summary>
-public sealed class InAppMessageClickedEventArgs : EventArgs
+namespace OneSignalSDK.DotNet.Core.InAppMessages
 {
     /// <summary>
-    /// The action that was taken due to the click.
+    /// The <see cref="EventArgs"/> for the <see cref="IInAppMessagesManager.Clicked"/> event.
     /// </summary>
-    public InAppMessageAction Action { get; }
-
-    public InAppMessageClickedEventArgs(InAppMessageAction action)
+    public sealed class InAppMessageClickedEventArgs : EventArgs
     {
-        Action = action;
+        /// <summary>
+        /// The action that was taken due to the click.
+        /// </summary>
+        public InAppMessageAction Action { get; }
+
+        public InAppMessageClickedEventArgs(InAppMessageAction action)
+        {
+            Action = action;
+        }
     }
 }
