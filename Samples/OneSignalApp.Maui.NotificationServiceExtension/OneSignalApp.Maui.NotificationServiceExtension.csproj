@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net6.0-ios</TargetFrameworks>
+        <OutputType>Library</OutputType>
+        <ApplicationId>com.onesignal.exampledotnet.OneSignalNotificationServiceExtension</ApplicationId>
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+        <SupportedOSPlatformVersion>15.4</SupportedOSPlatformVersion>
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+    </PropertyGroup>
+    <PropertyGroup>
+        <IsAppExtension>true</IsAppExtension>
+        <IsWatchExtension>false</IsWatchExtension>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj">
+        <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+      </ProjectReference>
+      <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj">
+        <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+      </ProjectReference>
+      <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj">
+        <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+      </ProjectReference>
+      <ProjectReference Include="..\..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj">
+        <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+      </ProjectReference>
+    </ItemGroup>
+</Project>

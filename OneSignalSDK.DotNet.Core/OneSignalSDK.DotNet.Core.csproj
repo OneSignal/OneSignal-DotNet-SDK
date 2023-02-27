@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <AssemblyName>OneSignalSDK.DotNet.Core</AssemblyName>
     <PackageId>OneSignalSDK.DotNet.Core</PackageId>
   </PropertyGroup>
@@ -24,14 +22,8 @@
     <AllowUnsafeBlocks></AllowUnsafeBlocks>
     <CheckForOverflowUnderflow></CheckForOverflowUnderflow>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
-  </ItemGroup>
 
   <ItemGroup>
-    <None Remove="NETStandard.Library" />
-    <None Remove="Microsoft.NETCore.Portable.Compatibility" />
     <None Remove="User\" />
     <None Remove="Session\" />
     <None Remove="Notifications\" />

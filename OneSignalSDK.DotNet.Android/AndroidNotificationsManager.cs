@@ -60,13 +60,12 @@ public class AndroidNotificationsManager : INotificationsManager
         public void NotificationClicked(Com.OneSignal.Android.Notifications.INotificationClickResult jResult)
         {
             var notification = FromNativeConversion.ToNotification(jResult.Notification);
-            var action = new Core.Notifications.NotificationAction
-            {
-                ActionId = jResult.Action.ActionId,
-                Type = FromNativeConversion.ToNotificationActionType(jResult.Action.Type)
-            };
+            var action = new OneSignalSDK.DotNet.Core.Notifications.NotificationAction(
+                actionId: jResult.Action.ActionId,
+                type: FromNativeConversion.ToNotificationActionType(jResult.Action.Type)
+            );
 
-            var args = new Core.Notifications.NotificationClickedEventArgs(notification, action);
+            var args = new OneSignalSDK.DotNet.Core.Notifications.NotificationClickedEventArgs(notification, action);
             _manager.Clicked?.Invoke(_manager, args);
         }
     }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Xamarin.Legacy.Sdk/0.2.0-alpha3">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TargetFrameworks>net6.0-ios10.0;xamarin.ios10</TargetFrameworks>
+    <ImplicitUsings>true</ImplicitUsings>
     <ProjectGuid>{5FF66A21-BA7B-48FD-8A7D-6A1092066306}</ProjectGuid>
-    <TargetFramework>net6.0-ios</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
     <RootNamespace>OneSignalSDK.DotNet.iOS</RootNamespace>
     <AssemblyName>OneSignalSDK.DotNet.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
@@ -38,13 +38,21 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-ios')) ">
     <Reference Include="Microsoft.iOS" />
+  </ItemGroup>
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios10')) ">
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj">
+      <ReferenceSourceTarget></ReferenceSourceTarget>
     </ProjectReference>
     <ProjectReference Include="..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj">
+      <ReferenceSourceTarget></ReferenceSourceTarget>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
