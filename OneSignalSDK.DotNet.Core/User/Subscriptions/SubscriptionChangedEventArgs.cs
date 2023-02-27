@@ -1,19 +1,20 @@
-﻿using System;
+using System;
 
-namespace OneSignalSDK.DotNet.Core.User.Subscriptions; 
-
-/// <summary>
-/// The <see cref="EventArgs"/> for the <see cref="ISubscription.Changed"/> event.
-/// </summary>
-public sealed class SubscriptionChangedEventArgs : EventArgs
+namespace OneSignalSDK.DotNet.Core.User.Subscriptions
 {
     /// <summary>
-    /// The subscription that has changed, in its new state.
+    /// The <see cref="EventArgs"/> for the <see cref="ISubscription.Changed"/> event.
     /// </summary>
-    public ISubscription Subscription { get; }
-
-    public SubscriptionChangedEventArgs(ISubscription subscription)
+    public sealed class SubscriptionChangedEventArgs : EventArgs
     {
-        Subscription = subscription;
+        /// <summary>
+        /// The subscription that has changed, in its new state.
+        /// </summary>
+        public ISubscription Subscription { get; }
+
+        public SubscriptionChangedEventArgs(ISubscription subscription)
+        {
+            Subscription = subscription;
+        }
     }
 }
