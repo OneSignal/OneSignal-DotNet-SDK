@@ -7,7 +7,7 @@ using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android;
 
-public class AndroidInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
+public class AndroidInAppMessagesManager : OneSignalSDK.DotNet.Core.InAppMessages.IInAppMessagesManager
 {
     public event EventHandler<InAppMessageLifecycleEventArgs>? WillDisplay;
     public event EventHandler<InAppMessageLifecycleEventArgs>? DidDisplay;

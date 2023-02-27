@@ -8,16 +8,16 @@ namespace OneSignalSDK.DotNet.Android;
 
 public class AndroidDebugManager : IDebugManager
 {
-    private Core.Debug.LogLevel _logLevel = Core.Debug.LogLevel.WARN;
-    private Core.Debug.LogLevel _alertLevel = Core.Debug.LogLevel.NONE;
+    private OneSignalSDK.DotNet.Core.Debug.LogLevel _logLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel.WARN;
+    private OneSignalSDK.DotNet.Core.Debug.LogLevel _alertLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel.NONE;
 
-    public Core.Debug.LogLevel LogLevel
+    public OneSignalSDK.DotNet.Core.Debug.LogLevel LogLevel
     {
         get => _logLevel;
         set => OneSignalNative.Debug.LogLevel = ToNativeConversion.ToLogLevel(value);
     }
 
-    public Core.Debug.LogLevel AlertLevel
+    public OneSignalSDK.DotNet.Core.Debug.LogLevel AlertLevel
     {
         get => _alertLevel;
         set => OneSignalNative.Debug.AlertLevel = ToNativeConversion.ToLogLevel(value);

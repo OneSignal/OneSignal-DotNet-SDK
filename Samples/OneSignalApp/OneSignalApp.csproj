@@ -53,7 +53,10 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
 	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" />
-	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Core.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.InAppMessages.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Location.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Notifications.Binding.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
