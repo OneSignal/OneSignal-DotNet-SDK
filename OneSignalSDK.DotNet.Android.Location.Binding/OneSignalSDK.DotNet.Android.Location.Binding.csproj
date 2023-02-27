@@ -6,12 +6,11 @@
     <TargetFramework>net6.0-android</TargetFramework>
     <IsBindingProject>true</IsBindingProject>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>OneSignalSDK.DotNet.Android.Binding</RootNamespace>
+    <RootNamespace>OneSignalSDK.DotNet.Android.Location.Binding</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AssemblyName>OneSignalSDK.DotNet.Android.Binding</AssemblyName>
+    <AssemblyName>OneSignalSDK.DotNet.Android.Location.Binding</AssemblyName>
     <AndroidSdkBuildToolsVersion Condition="'$(AndroidSdkBuildToolsVersion)' == ''">28.0.3</AndroidSdkBuildToolsVersion>
     <AndroidTlsProvider></AndroidTlsProvider>
     <AndroidClassParser>class-parse</AndroidClassParser>
@@ -53,12 +52,9 @@
     <TransformFile Include="Transforms\Metadata.xml" />
   </ItemGroup>
   <ItemGroup>
-    <LibraryProjectZip Include="Jars\core-release.aar" />
-    <ReferenceJar Include="Jars\in-app-messages-release.aar" />
-    <ReferenceJar Include="Jars\location-release.aar" />
-    <ReferenceJar Include="Jars\notifications-release.aar" />
+    <LibraryProjectZip Include="Jars\location-release.aar" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0.1" />
   </ItemGroup>
 </Project>

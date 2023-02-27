@@ -12,42 +12,42 @@ namespace OneSignalSDK.DotNet.Android.Utilities;
 /// </summary>
 public static class FromNativeConversion
 {
-    public static Core.Notifications.Notification ToNotification(Com.OneSignal.Android.Notifications.INotification notification)
+    public static OneSignalSDK.DotNet.Core.Notifications.Notification ToNotification(Com.OneSignal.Android.Notifications.INotification notification)
     {
         IDictionary<string, object> additionalData = new Dictionary<string, object>();
         if (notification.AdditionalData != null)
             additionalData = Json.Deserialize(notification.AdditionalData.ToString()) as IDictionary<string, object> ?? new Dictionary<string, object>();
 
-        IList<Core.Notifications.Notification>? groupedNotifications = null;
+        IList<OneSignalSDK.DotNet.Core.Notifications.Notification>? groupedNotifications = null;
         if (notification.GroupedNotifications != null)
         {
-            groupedNotifications = new List<Core.Notifications.Notification>();
+            groupedNotifications = new List<OneSignalSDK.DotNet.Core.Notifications.Notification>();
             foreach (var individualNotification in notification.GroupedNotifications)
                 groupedNotifications.Add(ToNotification(individualNotification));
         }
 
-        var actionButtons = new List<Core.Notifications.ActionButton>();
+        var actionButtons = new List<OneSignalSDK.DotNet.Core.Notifications.ActionButton>();
         if (notification.ActionButtons != null)
         {
             foreach (var actionButton in notification.ActionButtons)
-                actionButtons.Add(new Core.Notifications.ActionButton {
+                actionButtons.Add(new OneSignalSDK.DotNet.Core.Notifications.ActionButton {
                     Id = actionButton.Id,
                     Text = actionButton.Text,
                     Icon = actionButton.Icon
                 });
         }
 
-        Core.Notifications.BackgroundImageLayout? backgroundImageLayout = null;
+        OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout? backgroundImageLayout = null;
         if (notification.BackgroundImageLayout != null)
         {
-            backgroundImageLayout = new Core.Notifications.BackgroundImageLayout {
+            backgroundImageLayout = new OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout {
                 Image = notification.BackgroundImageLayout.Image,
                 TitleTextColor = notification.BackgroundImageLayout.TitleTextColor,
                 BodyTextColor = notification.BackgroundImageLayout.BodyTextColor
             };
         }
 
-        return new Core.Notifications.Notification
+        return new OneSignalSDK.DotNet.Core.Notifications.Notification
         {
             Title = notification.Title,
             Body = notification.Body,
@@ -73,9 +73,9 @@ public static class FromNativeConversion
         };
     }
 
-    public static Core.Notifications.NotificationActionType ToNotificationActionType(Com.OneSignal.Android.Notifications.INotificationAction.ActionType actionType)
+    public static OneSignalSDK.DotNet.Core.Notifications.NotificationActionType ToNotificationActionType(Com.OneSignal.Android.Notifications.INotificationAction.ActionType actionType)
     {
-        return (Core.Notifications.NotificationActionType)actionType.Ordinal();
+        return (OneSignalSDK.DotNet.Core.Notifications.NotificationActionType)actionType.Ordinal();
     }
 
     public static InAppMessage ToInAppMessage(Com.OneSignal.Android.InAppMessages.IInAppMessage inAppMessage)

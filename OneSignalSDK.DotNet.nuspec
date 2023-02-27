@@ -19,7 +19,7 @@
             <group targetFramework="net6.0-ios10.0">
             </group>
             <group targetFramework="net6.0-android21.0">
-                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0" />
+                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0.1" />
 
                 <dependency id="Xamarin.AndroidX.CardView" version="1.0.0.16" />
                 <dependency id="Xamarin.AndroidX.Legacy.Support.V4" version="1.0.0.14" />
@@ -51,12 +51,18 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.dll" target="lib\net6.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.dll" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Core.Binding.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.InAppMessages.Binding.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Location.Binding.dll" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Notifications.Binding.dll" target="lib\net6.0-android21.0" />
 
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.pdb" target="lib\net6.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Core.pdb" target="lib\net6.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.pdb" target="lib\net6.0-android21.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Binding.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Core.Binding.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.InAppMessages.Binding.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Location.Binding.pdb" target="lib\net6.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\OneSignalSDK.DotNet.Android.Notifications.Binding.pdb" target="lib\net6.0-android21.0" />
 
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\core-release.aar" target="lib\net6.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android\in-app-messages-release.aar" target="lib\net6.0-android21.0" />

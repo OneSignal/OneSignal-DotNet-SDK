@@ -38,10 +38,13 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
-    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Binding\OneSignalSDK.DotNet.Android.Binding.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Core.Binding\OneSignalSDK.DotNet.Android.Core.Binding.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.InAppMessages.Binding\OneSignalSDK.DotNet.Android.InAppMessages.Binding.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Location.Binding\OneSignalSDK.DotNet.Android.Location.Binding.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Notifications.Binding\OneSignalSDK.DotNet.Android.Notifications.Binding.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0.1" />
     <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.14" />
     <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.4.0.2" />

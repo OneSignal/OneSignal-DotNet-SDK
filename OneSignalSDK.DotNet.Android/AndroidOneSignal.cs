@@ -15,6 +15,14 @@ namespace OneSignalSDK.DotNet.Android;
 
 public class AndroidOneSignal : IOneSignal
 {
+   /** These static references are not used, but we need to reference at least one class
+    *  in the binding projects that are otherwised not referenced. If we did *not*, then
+    *  the binding DLLs will not be included in the output bin directory.
+    */
+    private static Com.OneSignal.Android.InAppMessages.BuildConfig InAppMessagesBuildConfig;
+    private static Com.OneSignal.Android.Notifications.BuildConfig NotificationsBuildConfig;
+    private static Com.OneSignal.Android.Location.BuildConfig LocationBuildConfig;
+
     public IUserManager User { get; } = new AndroidUserManager();
 
     public ISessionManager Session { get; } = new AndroidSessionManager();
