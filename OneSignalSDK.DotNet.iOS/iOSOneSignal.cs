@@ -1,4 +1,5 @@
-﻿using OneSignalSDK.DotNet.Core;
+﻿using Foundation;
+using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.Core.Location;
