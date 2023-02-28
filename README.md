@@ -13,7 +13,8 @@
 <p align="center"><img src="https://app.onesignal.com/images/android_and_ios_notification_image.gif" width="400" alt=".NET Notification"></p>
 
 #### Installation and Setup
-See the [Setup Documentation](https://documentation.onesignal.com/docs/net-sdk-setup) for installation and setup instructions.
+.NET6+ projects:  See the [Setup Documentation](https://documentation.onesignal.com/docs/net-sdk-setup) for installation and setup instructions.
+Xamarin projects: See the [Setup Documentation](https://documentation.onesignal.com/docs/xamarin-sdk-setup) for installation and setup instructions.
 
 #### API
 See OneSignal's [.NET SDK API](https://documentation.onesignal.com/docs/net-client-sdk) page for a list of all available methods.
@@ -29,9 +30,16 @@ For account issues and support please contact OneSignal support from the [OneSig
 #### Sample Project
 To do
 
-#### Supports:
-* iOS 9 - 16
-* Android 4.0.3 (API Level 16) through 13 (API Level 33)
-* Multi-platform App UI and other .NET applications
-* For Xamarin support please use the [OneSignal-Xamarin-SDK](https://github.com/OneSignal/OneSignal-Xamarin-SDK)
+#### Targets:
+* .NET 6.0 for Android (`net6.0-android31`)
+* .NET 6.0 for iOS (`net6.0-ios10.0`)
+* Xamarin.Android (`monoandroid12.0`)
+* Xamarin.iOS (`xamarin.ios10`)
 
+#### Supports:
+* iOS 9.0 and higher.
+* Android 5.0 (API Level 21) and higher.
+* Multi-platform App UI (MAUI) applications.
+* .NET 6 iOS/Android native applications.
+* Xamarin.Forms applications.
+* Xamarin native applications.
