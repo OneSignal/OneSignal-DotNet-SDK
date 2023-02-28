@@ -244,10 +244,6 @@ namespace Com.OneSignal.iOS {
         // -(NSDictionary * _Nonnull)jsonRepresentation;
         [Export ("jsonRepresentation")]
         NSDictionary JsonRepresentation { get; }
-
-        // -(instancetype _Nonnull)initWithPermission:(BOOL)permission;
-        [Export ("initWithPermission:")]
-        NativeHandle Constructor(bool permission);
     }
 
 	// @protocol OSPermissionObserver <NSObject>

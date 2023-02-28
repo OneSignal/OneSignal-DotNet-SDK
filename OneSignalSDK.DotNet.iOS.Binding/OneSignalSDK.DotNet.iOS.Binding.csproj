@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Xamarin.Legacy.Sdk/0.2.0-alpha3">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFramework>net6.0-ios</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFrameworks>net6.0-ios10.0;xamarin.ios10</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>9.0</SupportedOSPlatformVersion>
     <RootNamespace>OneSignalSDK.DotNet.iOS.Binding</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>OneSignalSDK.DotNet.iOS.Binding</AssemblyName>
