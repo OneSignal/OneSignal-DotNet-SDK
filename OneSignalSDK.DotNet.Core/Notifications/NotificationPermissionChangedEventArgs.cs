@@ -1,19 +1,20 @@
 ﻿using System;
 
-namespace OneSignalSDK.DotNet.Core.Notifications;
-
-/// <summary>
-/// The <see cref="EventArgs"/> for the <see cref="INotificationsManager.PermissionChanged"/> event.
-/// </summary>
-public sealed class NotificationPermissionChangedEventArgs : EventArgs
+namespace OneSignalSDK.DotNet.Core.Notifications
 {
     /// <summary>
-    /// The current permission state.
+    /// The <see cref="EventArgs"/> for the <see cref="INotificationsManager.PermissionChanged"/> event.
     /// </summary>
-    public bool Permission { get; }
-
-    public NotificationPermissionChangedEventArgs(bool permission)
+    public sealed class NotificationPermissionChangedEventArgs : EventArgs
     {
-        Permission = permission;
+        /// <summary>
+        /// The current permission state.
+        /// </summary>
+        public bool Permission { get; }
+
+        public NotificationPermissionChangedEventArgs(bool permission)
+        {
+            Permission = permission;
+        }
     }
 }
