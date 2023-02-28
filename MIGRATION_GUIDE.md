@@ -1,4 +1,4 @@
-# .NET v5.0.0-beta1 Migration Guide
+# .NET v5.0.0-beta02 Migration Guide
 In this release, we are making a significant shift from a device-centered model to a user-centered model.  A user-centered model allows for more powerful omni-channel integrations within the OneSignal platform.
 
 This migration guide will walk you through the .NET SDK v5.0.0 changes as a result of this shift.
@@ -91,6 +91,48 @@ Email and/or SMS subscriptions can be added or removed via:
     OneSignal.Default.User.AddSms("+15558675309")
     // Remove previously added SMS subscription
     OneSignal.Default.User.RemoveSms("+15558675309")
+
+
+**iOS Notification Service Extension**
+Though similar, the iOS Notification Service Extension should now use `OneSignalSDK.DotNet.iOS.NotificationServiceExtension` as the bridge to OneSignal functionality.  At a minimum, your extension class should have a pattern similar to:
+
+    [Register ("NotificationService")]
+    public class NotificationService : UNNotificationServiceExtension
+    {
+        Action<UNNotificationContent> ContentHandler { get; set; }
+        UNMutableNotificationContent BestAttemptContent { get; set; }
+        UNNotificationRequest ReceivedRequest { get; set; }
+
+        protected NotificationService(IntPtr handle) : base(handle)
+        {
+            // Note: this .ctor should not contain any initialization logic.
+        }
+
+        public override void DidReceiveNotificationRequest(UNNotificationRequest request, Action<UNNotificationContent> contentHandler)
+        {
+            ReceivedRequest = request;
+            ContentHandler = contentHandler;
+            BestAttemptContent = (UNMutableNotificationContent)request.Content.MutableCopy();
+
+            CoreFoundation.OSLog.Default.Log(OSLogLevel.Debug, "Running NotificationServiceExtension DidReceiveNotificationRequest");
+
+            NotificationServiceExtension.DidReceiveNotificationExtensionRequest(request, BestAttemptContent, contentHandler);
+        }
+
+        public override void TimeWillExpire()
+        {
+            // Called just before the extension will be terminated by the system.
+            // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
+
+            NotificationServiceExtension.ServiceExtensionTimeWillExpireRequest(ReceivedRequest, BestAttemptContent);
+
+            ContentHandler(BestAttemptContent);
+        }
+    }
+
+
+**Xamarin Support**
+In v5.0.0 the `OneSignalSDK.Xamarin` nuget package is deprecated in favor of using the `OneSignalSDK.DotNet` nuget package.  The `OneSignalSDK.DotNet` package will support both the new .NET 6.0+ Android/iOS target platforms, plus the legacy Xamarin Android iOS platforms.
 
 
 ## API Reference
