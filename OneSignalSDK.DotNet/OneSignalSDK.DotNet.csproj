@@ -7,7 +7,7 @@
     <AssemblyName>OneSignalSDK.DotNet</AssemblyName>
     <PackageId>OneSignalSDK.DotNet</PackageId>
     <SupportedOSPlatformVersion Condition=" $(TargetFramework.StartsWith('net6.0-android')) Or $(TargetFramework.StartsWith('monoandroid')) ">21.0</SupportedOSPlatformVersion>
-	<SupportedOSPlatformVersion Condition=" $(TargetFramework.StartsWith('net6.0-ios')) Or $(TargetFramework.StartsWith('xamarin.ios')) ">10.0</SupportedOSPlatformVersion>
+	<SupportedOSPlatformVersion Condition=" $(TargetFramework.StartsWith('net6.0-ios')) Or $(TargetFramework.StartsWith('xamarin.ios')) ">9.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

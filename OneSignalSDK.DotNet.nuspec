@@ -68,7 +68,7 @@
         <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.pdb" target="lib\netstandard2.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.Core.pdb" target="lib\netstandard2.0" />
 
-        <!--net6.0-android31-->
+        <!--net6.0-android31 (minimum runtime 5.0/API 21)-->
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android31\OneSignalSDK.DotNet.dll" target="lib\net6.0-android31.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android31\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-android31.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android31\OneSignalSDK.DotNet.Android.dll" target="lib\net6.0-android31.0" />
@@ -90,7 +90,7 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android31\location-release.aar" target="lib\net6.0-android31.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-android31\notifications-release.aar" target="lib\net6.0-android31.0" />
 
-        <!--monoandroid12.0-->
+        <!--monoandroid12.0 (minimum runtime 5.0/API 21)-->
         <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.dll" target="lib\monoandroid12.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Core.dll" target="lib\monoandroid12.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.dll" target="lib\monoandroid12.0" />
@@ -107,7 +107,7 @@
         <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Location.Binding.pdb" target="lib\monoandroid12.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Notifications.Binding.pdb" target="lib\monoandroid12.0" />
 
-        <!--net6.0-ios10.0-->
+        <!--net6.0-ios10.0 (minimum runtime 9.0)-->
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios10.0\OneSignalSDK.DotNet.dll" target="lib\net6.0-ios10.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios10.0\OneSignalSDK.DotNet.Core.dll" target="lib\net6.0-ios10.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios10.0\OneSignalSDK.DotNet.iOS.dll" target="lib\net6.0-ios10.0" />
@@ -118,7 +118,7 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios10.0\OneSignalSDK.DotNet.iOS.pdb" target="lib\net6.0-ios10.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net6.0-ios10.0\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net6.0-ios10.0" />
 
-        <!--xamarin.ios10-->
+        <!--xamarin.ios10 (minimum runtime 9.0)-->
         <file src="OneSignalSDK.DotNet\bin\Release\xamarin.ios10\OneSignalSDK.DotNet.dll" target="lib\xamarin.ios10" />
         <file src="OneSignalSDK.DotNet\bin\Release\xamarin.ios10\OneSignalSDK.DotNet.Core.dll" target="lib\xamarin.ios10" />
         <file src="OneSignalSDK.DotNet\bin\Release\xamarin.ios10\OneSignalSDK.DotNet.iOS.dll" target="lib\xamarin.ios10" />

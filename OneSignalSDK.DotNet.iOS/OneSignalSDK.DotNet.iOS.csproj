@@ -7,7 +7,7 @@
     <TargetFrameworks>net6.0-ios10.0;xamarin.ios10</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>9.0</SupportedOSPlatformVersion>
     <RootNamespace>OneSignalSDK.DotNet.iOS</RootNamespace>
     <AssemblyName>OneSignalSDK.DotNet.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
