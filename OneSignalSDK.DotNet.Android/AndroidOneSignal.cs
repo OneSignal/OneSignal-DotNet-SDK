@@ -74,4 +74,16 @@ public class AndroidOneSignal : IOneSignal
     {
         OneSignalNative.Logout();
     }
+
+    public Task<bool> EnterLiveActivityAsync(string activityId, string token)
+    {
+        Console.WriteLine("OneSignal: EnterLiveActivity is available on iOS only");
+        return Task.FromResult(false);
+    }
+
+    public Task<bool> ExitLiveActivityAsync(string activityId)
+    {
+        Console.WriteLine("OneSignal: ExitLiveActivity is available on iOS only");
+        return Task.FromResult(false);
+    }
 }
