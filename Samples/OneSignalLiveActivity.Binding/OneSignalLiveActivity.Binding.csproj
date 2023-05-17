@@ -4,6 +4,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
+    <Platforms>iPhone;iPhoneSimulator;AnyCPU</Platforms>
   </PropertyGroup>
     <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
