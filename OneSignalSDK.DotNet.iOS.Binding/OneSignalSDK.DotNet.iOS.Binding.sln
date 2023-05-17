@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1705.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNet.iOS.Binding", "OneSignalSDK.DotNet.iOS.Binding.csproj", "{B229EA34-246D-485F-8DE1-8B245D0D06EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B229EA34-246D-485F-8DE1-8B245D0D06EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B229EA34-246D-485F-8DE1-8B245D0D06EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B229EA34-246D-485F-8DE1-8B245D0D06EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B229EA34-246D-485F-8DE1-8B245D0D06EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAAA2496-A906-457A-927A-54FBF58DDE10}
+	EndGlobalSection
+EndGlobal

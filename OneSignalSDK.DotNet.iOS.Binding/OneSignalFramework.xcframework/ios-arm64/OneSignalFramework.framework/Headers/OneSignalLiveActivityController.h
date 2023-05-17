@@ -1,7 +1,7 @@
 /**
  * Modified MIT License
  *
- * Copyright 2017 OneSignal
+ * Copyright 2023 OneSignal
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,28 +25,23 @@
  * THE SOFTWARE.
  */
 
-#ifndef OSObservable_h
-#define OSObservable_h
+#ifndef OneSignalLiveActivityController_h
+#define OneSignalLiveActivityController_h
 
+#import <OneSignalUser/OneSignalUser-Swift.h>
 
-@protocol OSObserver
-- (void)onChanged:(id)state;
+/**
+ Public API for the LiveActivities namespace.
+ */
+@protocol OSLiveActivities <NSObject>
++ (void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)token;
++ (void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)token withSuccess:(OSResultSuccessBlock _Nullable)successBlock withFailure:(OSFailureBlock _Nullable)failureBlock;
++ (void)exit:(NSString * _Nonnull)activityId;
++ (void)exit:(NSString * _Nonnull)activityId withSuccess:(OSResultSuccessBlock _Nullable)successBlock withFailure:(OSFailureBlock _Nullable)failureBlock;
 @end
 
-@interface OSObservable<__covariant ObserverType, __covariant ObjectType> : NSObject
-- (instancetype _Nonnull)initWithChangeSelector:(SEL)selector;
-- (void)addObserver:(ObserverType)observer;
-- (void)removeObserver:(ObserverType)observer;
-- (BOOL)notifyChange:(ObjectType)state;
+@interface OneSignalLiveActivityController: NSObject <OSLiveActivities, OSPushSubscriptionObserver>
++ (Class<OSLiveActivities>_Nonnull)LiveActivities;
 @end
 
-// OSBoolObservable is for BOOL states which OSObservable above does not work with
-
-@interface OSBoolObservable<__covariant ObserverType> : NSObject
-- (instancetype _Nonnull)initWithChangeSelector:(SEL)selector;
-- (void)addObserver:(ObserverType)observer;
-- (void)removeObserver:(ObserverType)observer;
-- (BOOL)notifyChange:(BOOL)state;
-@end
-
-#endif /* OSObservable_h */
+#endif /* OneSignalLiveActivityController_h */

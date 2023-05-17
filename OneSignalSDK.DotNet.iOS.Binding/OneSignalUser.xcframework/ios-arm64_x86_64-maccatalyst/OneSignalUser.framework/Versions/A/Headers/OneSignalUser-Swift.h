@@ -268,20 +268,13 @@ SWIFT_PROTOCOL("_TtP13OneSignalUser18OSPushSubscription_")
 - (void)removeObserver:(id <OSPushSubscriptionObserver> _Nonnull)observer;
 @end
 
-@class OSPushSubscriptionStateChanges;
-
-SWIFT_PROTOCOL("_TtP13OneSignalUser26OSPushSubscriptionObserver_")
-@protocol OSPushSubscriptionObserver
-- (void)onOSPushSubscriptionChangedWithStateChanges:(OSPushSubscriptionStateChanges * _Nonnull)stateChanges;
-@end
-
+@class OSPushSubscriptionState;
 @class NSDictionary;
 
-SWIFT_CLASS("_TtC13OneSignalUser23OSPushSubscriptionState")
-@interface OSPushSubscriptionState : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nullable id;
-@property (nonatomic, readonly, copy) NSString * _Nullable token;
-@property (nonatomic, readonly) BOOL optedIn;
+SWIFT_CLASS("_TtC13OneSignalUser30OSPushSubscriptionChangedState")
+@interface OSPushSubscriptionChangedState : NSObject
+@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull current;
+@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull previous;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (NSDictionary * _Nonnull)jsonRepresentation SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -289,10 +282,17 @@ SWIFT_CLASS("_TtC13OneSignalUser23OSPushSubscriptionState")
 @end
 
 
-SWIFT_CLASS("_TtC13OneSignalUser30OSPushSubscriptionStateChanges")
-@interface OSPushSubscriptionStateChanges : NSObject
-@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull to;
-@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull from;
+SWIFT_PROTOCOL("_TtP13OneSignalUser26OSPushSubscriptionObserver_")
+@protocol OSPushSubscriptionObserver
+- (void)onPushSubscriptionDidChangeWithState:(OSPushSubscriptionChangedState * _Nonnull)state;
+@end
+
+
+SWIFT_CLASS("_TtC13OneSignalUser23OSPushSubscriptionState")
+@interface OSPushSubscriptionState : NSObject
+@property (nonatomic, readonly, copy) NSString * _Nullable id;
+@property (nonatomic, readonly, copy) NSString * _Nullable token;
+@property (nonatomic, readonly) BOOL optedIn;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (NSDictionary * _Nonnull)jsonRepresentation SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -674,20 +674,13 @@ SWIFT_PROTOCOL("_TtP13OneSignalUser18OSPushSubscription_")
 - (void)removeObserver:(id <OSPushSubscriptionObserver> _Nonnull)observer;
 @end
 
-@class OSPushSubscriptionStateChanges;
-
-SWIFT_PROTOCOL("_TtP13OneSignalUser26OSPushSubscriptionObserver_")
-@protocol OSPushSubscriptionObserver
-- (void)onOSPushSubscriptionChangedWithStateChanges:(OSPushSubscriptionStateChanges * _Nonnull)stateChanges;
-@end
-
+@class OSPushSubscriptionState;
 @class NSDictionary;
 
-SWIFT_CLASS("_TtC13OneSignalUser23OSPushSubscriptionState")
-@interface OSPushSubscriptionState : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nullable id;
-@property (nonatomic, readonly, copy) NSString * _Nullable token;
-@property (nonatomic, readonly) BOOL optedIn;
+SWIFT_CLASS("_TtC13OneSignalUser30OSPushSubscriptionChangedState")
+@interface OSPushSubscriptionChangedState : NSObject
+@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull current;
+@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull previous;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (NSDictionary * _Nonnull)jsonRepresentation SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -695,10 +688,17 @@ SWIFT_CLASS("_TtC13OneSignalUser23OSPushSubscriptionState")
 @end
 
 
-SWIFT_CLASS("_TtC13OneSignalUser30OSPushSubscriptionStateChanges")
-@interface OSPushSubscriptionStateChanges : NSObject
-@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull to;
-@property (nonatomic, readonly, strong) OSPushSubscriptionState * _Nonnull from;
+SWIFT_PROTOCOL("_TtP13OneSignalUser26OSPushSubscriptionObserver_")
+@protocol OSPushSubscriptionObserver
+- (void)onPushSubscriptionDidChangeWithState:(OSPushSubscriptionChangedState * _Nonnull)state;
+@end
+
+
+SWIFT_CLASS("_TtC13OneSignalUser23OSPushSubscriptionState")
+@interface OSPushSubscriptionState : NSObject
+@property (nonatomic, readonly, copy) NSString * _Nullable id;
+@property (nonatomic, readonly, copy) NSString * _Nullable token;
+@property (nonatomic, readonly) BOOL optedIn;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (NSDictionary * _Nonnull)jsonRepresentation SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;

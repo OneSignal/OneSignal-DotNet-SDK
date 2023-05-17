@@ -1,7 +1,7 @@
 /**
  * Modified MIT License
  *
- * Copyright 2017 OneSignal
+ * Copyright 2021OneSignal
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,28 +25,13 @@
  * THE SOFTWARE.
  */
 
-#ifndef OSObservable_h
-#define OSObservable_h
 
+#import <Foundation/Foundation.h>
+#import <OneSignalCore/OSNotification.h>
 
-@protocol OSObserver
-- (void)onChanged:(id)state;
+/**
+ Public interface used in the OSNotificationLifecycleListener's onWillDisplay event.
+ */
+@interface OSDisplayableNotification : OSNotification
+- (void)display;
 @end
-
-@interface OSObservable<__covariant ObserverType, __covariant ObjectType> : NSObject
-- (instancetype _Nonnull)initWithChangeSelector:(SEL)selector;
-- (void)addObserver:(ObserverType)observer;
-- (void)removeObserver:(ObserverType)observer;
-- (BOOL)notifyChange:(ObjectType)state;
-@end
-
-// OSBoolObservable is for BOOL states which OSObservable above does not work with
-
-@interface OSBoolObservable<__covariant ObserverType> : NSObject
-- (instancetype _Nonnull)initWithChangeSelector:(SEL)selector;
-- (void)addObserver:(ObserverType)observer;
-- (void)removeObserver:(ObserverType)observer;
-- (BOOL)notifyChange:(BOOL)state;
-@end
-
-#endif /* OSObservable_h */
