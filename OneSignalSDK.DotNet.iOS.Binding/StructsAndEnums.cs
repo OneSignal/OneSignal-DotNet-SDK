@@ -1,7 +1,6 @@
 using System.Runtime.InteropServices;
 using ObjCRuntime;
-namespace Com.OneSignal.iOS
-{
+namespace Com.OneSignal.iOS {
     [Native]
     public enum OSNotificationActionType : ulong
     {
