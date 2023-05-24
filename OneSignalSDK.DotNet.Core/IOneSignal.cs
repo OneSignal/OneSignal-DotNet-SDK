@@ -53,13 +53,13 @@ namespace OneSignalSDK.DotNet.Core
         /// up to OneSignal.This should be set to <code>true</code> prior to the invocation of
         /// <see cref="Initialize(string)"/>to ensure compliance.
         /// </summary>
-        bool RequiresPrivacyConsent { get; set; }
+        bool ConsentRequired { set; }
 
         /// <summary>
         /// Indicates whether privacy consent has been granted. This field is only relevant when
-        /// the application has opted into data privacy protections. <see cref="RequiresPrivacyConsent"/>.
+        /// the application has opted into data privacy protections. <see cref="ConsentRequired"/>.
         /// </summary>
-        bool PrivacyConsent { get; set; }
+        bool ConsentGiven { set; }
 
         /// <summary>
         /// Initialze the OneSignal SDK.  This should be called during startup of the application.
