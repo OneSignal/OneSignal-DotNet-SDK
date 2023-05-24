@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using Com.OneSignal.iOS;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.User;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
@@ -47,14 +48,14 @@ namespace OneSignalSDK.DotNet.iOS
 
         public string Id => OneSignalNative.User.PushSubscription.Id;
 
-        public event EventHandler<SubscriptionChangedEventArgs>? Changed;
+        public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
-        private InternalSubscriptionChangedHandler? _subscriptionChangedHandler;
+        private InternalPushSubscriptionChangedHandler? _pushSubscriptionChangedHandler;
 
         public void Initialize()
         {
-            _subscriptionChangedHandler = new InternalSubscriptionChangedHandler(this);
-            OneSignalNative.User.PushSubscription.AddObserver(_subscriptionChangedHandler);
+            _pushSubscriptionChangedHandler = new InternalPushSubscriptionChangedHandler(this);
+            OneSignalNative.User.PushSubscription.AddObserver(_pushSubscriptionChangedHandler);
         }
 
         public void OptIn()
@@ -67,17 +68,37 @@ namespace OneSignalSDK.DotNet.iOS
             OneSignalNative.User.PushSubscription.OptOut();
         }
 
-        private sealed class InternalSubscriptionChangedHandler : Com.OneSignal.iOS.OSPushSubscriptionObserver
+        private sealed class InternalPushSubscriptionState : IPushSubscriptionState
+        {
+            public string Id { get; }
+
+            public string Token { get; }
+
+            public bool OptedIn { get; }
+
+
+            public InternalPushSubscriptionState(string token, bool optedIn, string id)
+            {
+                Token = token;
+                OptedIn = optedIn;
+                Id = id;
+            }
+        }
+
+        private sealed class InternalPushSubscriptionChangedHandler : Com.OneSignal.iOS.OSPushSubscriptionObserver
         {
             private iOSPushSubscription _manager;
-            public InternalSubscriptionChangedHandler(iOSPushSubscription manager)
+            public InternalPushSubscriptionChangedHandler(iOSPushSubscription manager)
             {
                 _manager = manager;
             }
 
-            public override void OnOSPushSubscriptionChangedWithStateChanges(Com.OneSignal.iOS.OSPushSubscriptionStateChanges subscriptionChanges)
+            public override void OnPushSubscriptionDidChangeWithState(OSPushSubscriptionChangedState state)
             {
-                _manager.Changed?.Invoke(_manager, new SubscriptionChangedEventArgs(_manager));
+                var previous = new InternalPushSubscriptionState(state.Previous.Token, state.Previous.OptedIn, state.Previous.Id);
+                var current = new InternalPushSubscriptionState(state.Current.Token, state.Current.OptedIn, state.Current.Id);
+                var changedState = new PushSubscriptionChangedState(previous, current);
+                _manager.Changed?.Invoke(_manager, new PushSubscriptionChangedEventArgs(changedState));
             }
         }
     }

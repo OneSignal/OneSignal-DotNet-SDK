@@ -3,6 +3,7 @@ using Com.OneSignal.iOS;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.iOS.Utilities;
+using Foundation;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 
 namespace OneSignalSDK.DotNet.iOS;

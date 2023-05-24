@@ -18,7 +18,7 @@ namespace OneSignalSDK.DotNet.Core.User.Subscriptions
         /// The token which identifies the device/app that notifications are to be sent. May
         /// be an empty string, indicating the push token has not yet been retrieved.
         /// </summary>
-        string token { get; }
+        string Token { get; }
 
         /// <summary>
         /// Whether the user of this subscription is opted-in to received notifications. When true,
@@ -26,6 +26,6 @@ namespace OneSignalSDK.DotNet.Core.User.Subscriptions
         /// user will not receive notifications through this subscription (even when the user has
         /// granted app permission).
         /// </summary>
-        bool optedIn { get; }
+        bool OptedIn { get; }
     }
 }
