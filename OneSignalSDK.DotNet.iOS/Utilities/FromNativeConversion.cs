@@ -83,11 +83,11 @@ public static class FromNativeConversion
         );
     }
 
-    public static NotificationAction ToNotificationAction(OneSignaliOS.OSNotificationAction notificationAction)
+    public static NotificationClickResult ToNotificationClickResult(OneSignaliOS.OSNotificationClickResult result)
     {
-        return new NotificationAction(
-            actionId: notificationAction.ActionId,
-            type: (NotificationActionType)notificationAction.Type
+        return new NotificationClickResult(
+            actionId: result.ActionId,
+            url: result.Url
         );
     }
 
