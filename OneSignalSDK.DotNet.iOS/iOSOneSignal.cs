@@ -27,16 +27,14 @@ public class iOSOneSignal : IOneSignal
 
     public IDebugManager Debug { get; } = new iOSDebugManager();
 
-    public bool RequiresPrivacyConsent
+    public bool ConsentRequired
     {
-        get => OneSignalNative.RequiresPrivacyConsent;
-        set => OneSignalNative.RequiresPrivacyConsent = value;
+        set => OneSignalNative.SetConsentRequired(value);
     }
 
-    public bool PrivacyConsent
+    public bool ConsentGiven
     {
-        get => OneSignalNative.PrivacyConsent;
-        set => OneSignalNative.SetPrivacyConsent(value);
+        set => OneSignalNative.SetConsentGiven(value);
     }
 
     public void Initialize(string appId)
