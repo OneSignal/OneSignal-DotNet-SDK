@@ -53,6 +53,6 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// is true if the user is opted in to notifications permission (user affirmed or already enabled),
         /// the result is false if the user is opted out of notifications permission(user rejected).
         /// </returns>
-        Task<bool> RequestPermissionAsync(bool fallbackToSettings);
+        Task<bool> RequestPermission(bool fallbackToSettings);
     }
 }
