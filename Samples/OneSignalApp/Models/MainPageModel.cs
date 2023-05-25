@@ -185,8 +185,8 @@ namespace OneSignalApp.Models
             OneSignal.Default.Debug.LogLevel = LogLevel.VERBOSE;
             OneSignal.Default.Debug.AlertLevel = LogLevel.NONE;
 
-            OneSignal.Default.RequiresPrivacyConsent = true;
-            OneSignal.Default.PrivacyConsent = false;
+            OneSignal.Default.ConsentRequired = true;
+            OneSignal.Default.ConsentGiven = false;
 
             OneSignal.Default.Initialize(_appId);
 
@@ -210,32 +210,34 @@ namespace OneSignalApp.Models
 
         private void InAppMessages_Clicked(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageClickedEventArgs e)
         {
-            Debug.WriteLine($"IAM clicked: ${e.Action.ClickName}.");
+            Debug.WriteLine($"IAM clicked: ${e.Result.ActionId}.");
         }
 
-        private void InAppMessages_WillDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_WillDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageWillDisplayEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} will display.");
         }
 
-        private void InAppMessages_DidDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_DidDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageDidDisplayEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} did display.");
         }
 
-        private void InAppMessages_WillDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_WillDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageWillDismissEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} will dismiss.");
         }
 
-        private void InAppMessages_DidDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_DidDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageDidDismissEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} did dismiss.");
         }
 
         private void Notifications_WillDisplay(object sender, OneSignalSDK.DotNet.Core.Notifications.NotificationWillDisplayEventArgs e)
         {
-            Debug.WriteLine($"Notification ${e.OriginalNotification.NotificationId} will display.");
+            Debug.WriteLine($"Notification ${e.Notification.NotificationId} will display.");
+            e.PreventDefault();
+            e.Notification.display();
         }
 
         private void Notifications_Clicked(object sender, OneSignalSDK.DotNet.Core.Notifications.NotificationClickedEventArgs e)
@@ -249,23 +251,23 @@ namespace OneSignalApp.Models
             HasPushPermission = e.Permission;
         }
 
-        private void PushSubscription_Changed(object sender, OneSignalSDK.DotNet.Core.User.Subscriptions.SubscriptionChangedEventArgs e)
+        private void PushSubscription_Changed(object sender, OneSignalSDK.DotNet.Core.User.Subscriptions.PushSubscriptionChangedEventArgs e)
         {
-            var pushSubscription = e.Subscription as IPushSubscription;
+            var pushSubscription = e.State.Current as IPushSubscriptionState;
             Debug.WriteLine($"Push Subscription has changed: Id=${pushSubscription.Id}, Token={pushSubscription.Token}, OptedIn=${pushSubscription.OptedIn}");
             IsPushEnabled = OneSignal.Default.User.PushSubscription.OptedIn;
-            PushSubscriptionId = e.Subscription.Id;
+            PushSubscriptionId = e.State.Current.Id;
         }
 
         private void GivePrivacyConsent()
         {
-            OneSignalSDK.DotNet.OneSignal.Default.PrivacyConsent = true;
+            OneSignalSDK.DotNet.OneSignal.Default.ConsentGiven = true;
             HasGivenPrivacyConsent = true;
         }
 
         private void RevokePrivacyConsent()
         {
-            OneSignalSDK.DotNet.OneSignal.Default.PrivacyConsent = false;
+            OneSignalSDK.DotNet.OneSignal.Default.ConsentGiven = false;
             HasGivenPrivacyConsent = false;
         }
 
@@ -303,7 +305,7 @@ namespace OneSignalApp.Models
 
         private async void PromptForPush()
         {
-            await OneSignal.Default.Notifications.RequestPermissionAsync(true);
+            await OneSignal.Default.Notifications.RequestPermission(true);
         }
 
         private async void AddEmail()
@@ -505,7 +507,7 @@ namespace OneSignalApp.Models
             Debug.WriteLine($"Notifications.Permission={OneSignal.Default.Notifications.Permission}");
 
             Debug.WriteLine($"Notifications.RequestPermissionAsync(true)");
-            await OneSignal.Default.Notifications.RequestPermissionAsync(true);
+            await OneSignal.Default.Notifications.RequestPermission(true);
             await Task.Delay(2000);
 
             Debug.WriteLine($"Location.IsShared={OneSignal.Default.Location.IsShared}");
@@ -530,8 +532,8 @@ namespace OneSignalApp.Models
             OneSignal.Default.InAppMessages.AddTrigger("triggerKey1", "triggerValue1");
             await Task.Delay(2000);
 
-            Debug.WriteLine($"InAppMessages.AddTriggers(new Dictionary<string, object> {{ {{ \"triggerKey2\", \"triggerValue2\" }}, {{ \"triggerKey3\", \"triggerValue3\" }} }}");
-            OneSignal.Default.InAppMessages.AddTriggers(new Dictionary<string, object> { { "triggerKey2", "triggerValue2" }, { "triggerKey3", "triggerValue3" } });
+            Debug.WriteLine($"InAppMessages.AddTriggers(new Dictionary<string, string> {{ {{ \"triggerKey2\", \"triggerValue2\" }}, {{ \"triggerKey3\", \"triggerValue3\" }} }}");
+            OneSignal.Default.InAppMessages.AddTriggers(new Dictionary<string, string> { { "triggerKey2", "triggerValue2" }, { "triggerKey3", "triggerValue3" } });
             await Task.Delay(2000);
 
             Debug.WriteLine($"InAppMessages.RemoveTrigger(\"triggerKey1\")");
