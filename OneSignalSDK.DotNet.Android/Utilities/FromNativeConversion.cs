@@ -84,13 +84,13 @@ public static class FromNativeConversion
         );
     }
 
-    public static InAppMessageAction ToInAppMessageAction(Com.OneSignal.Android.InAppMessages.IInAppMessageAction inAppMessageAction)
+    public static InAppMessageClickResult ToInAppMessageClickResult(Com.OneSignal.Android.InAppMessages.IInAppMessageClickResult clickResult)
     {
-        return new InAppMessageAction(
-            clickName: inAppMessageAction.ClickName,
-            clickUrl: inAppMessageAction.ClickUrl,
-            isFirstClick: inAppMessageAction.IsFirstClick,
-            closesMessage: inAppMessageAction.ClosesMessage
+        return new InAppMessageClickResult(
+            actionId: clickResult.ActionId,
+            url: clickResult.Url,
+            urlTarget: (InAppMessageActionUrlType)clickResult.UrlTarget.Ordinal(),
+            closingMessage: clickResult.ClosingMessage
         );
     }
 }
