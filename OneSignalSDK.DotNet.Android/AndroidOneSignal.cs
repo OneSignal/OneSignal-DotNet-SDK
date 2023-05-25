@@ -35,16 +35,14 @@ public class AndroidOneSignal : IOneSignal
 
     public IDebugManager Debug { get; } = new AndroidDebugManager();
 
-    public bool RequiresPrivacyConsent
+    public bool ConsentRequired
     {
-        get => OneSignalNative.RequiresPrivacyConsent;
-        set => OneSignalNative.RequiresPrivacyConsent = value;
+        set => OneSignalNative.ConsentRequired = value;
     }
 
-    public bool PrivacyConsent
+    public bool ConsentGiven
     {
-        get => OneSignalNative.PrivacyConsent;
-        set => OneSignalNative.PrivacyConsent = value;
+        set => OneSignalNative.ConsentGiven = value;
     }
 
     public void Initialize(string appId)
