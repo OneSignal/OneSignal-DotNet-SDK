@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.Core.Location;
@@ -104,5 +105,23 @@ namespace OneSignalSDK.DotNet.Core
         /// long as the app remains installed and the app data is not cleared.
         /// </summary>
         void Logout();
+
+        #region Live Activities (iOS only)
+        /// <summary>
+        /// Register this device with OneSignal indicating that the device has entered a live activity.
+        /// </summary>
+        /// <param name="activityId">The (app-provided) ID of the activity that is being entered.</param>
+        /// <param name="token">The (OS-provided) token that will be used to update the content-state of the live activity on this device.</param>
+        /// <returns>Awaitable boolean of whether the operation succeeded or failed</returns>
+        Task<bool> EnterLiveActivityAsync(string activityId, string token);
+
+        /// <summary>
+        /// Unregister this device with OneSignal indicating that the device has exited a live activity.
+        /// </summary>
+        /// <param name="activityId">The (app-provided) ID of the activity that is being exited.</param>
+        /// <returns>Awaitable boolean of whether the operation succeeded or failed</returns>
+        Task<bool> ExitLiveActivityAsync(string activityId);
+
+        #endregion;
     }
 }
