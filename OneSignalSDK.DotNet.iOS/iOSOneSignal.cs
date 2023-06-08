@@ -10,6 +10,7 @@ using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 using OneSignalSDK.DotNet.iOS.Utilities;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 
 namespace OneSignalSDK.DotNet.iOS;
 
@@ -26,6 +27,8 @@ public class iOSOneSignal : IOneSignal
     public IInAppMessagesManager InAppMessages { get; } = new iOSInAppMessagesManager();
 
     public IDebugManager Debug { get; } = new iOSDebugManager();
+
+    public ILiveActivitiesManager LiveActivities { get; } = new iOSLiveActivitiesManager();
 
     public bool ConsentRequired
     {
@@ -69,19 +72,5 @@ public class iOSOneSignal : IOneSignal
     public void Logout()
     {
         OneSignalNative.Logout();
-    }
-
-    public async Task<bool> EnterLiveActivityAsync(string activityId, string token)
-    {
-        BooleanCallbackProxy proxy = new BooleanCallbackProxy();
-        OneSignalNative.EnterLiveActivity(activityId, token, response => proxy.OnResponse(true), response => proxy.OnResponse(false));
-        return await proxy;
-    }
-
-    public async Task<bool> ExitLiveActivityAsync(string activityId)
-    {
-        BooleanCallbackProxy proxy = new BooleanCallbackProxy();
-        OneSignalNative.ExitLiveActivity(activityId, response => proxy.OnResponse(true), response => proxy.OnResponse(false));
-        return await proxy;
     }
 }
