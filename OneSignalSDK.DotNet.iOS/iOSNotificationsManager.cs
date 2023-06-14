@@ -32,6 +32,8 @@ public class iOSNotificationsManager : INotificationsManager
         OneSignalNative.Notifications.AddClickListener(_notificationsClickListener);
     }
 
+    public NotificationPermission PermissionNative() => (NotificationPermission)OneSignalNative.Notifications.PermissionNative;
+
     public async Task<bool> RequestPermission(bool fallbackToSettings)
     {
         var proxy = new BooleanCallbackProxy();

@@ -25,6 +25,11 @@ public class AndroidNotificationsManager : INotificationsManager
         OneSignalNative.Notifications.AddClickListener(_notificationsEventsHandler);
     }
 
+    public NotificationPermission PermissionNative()
+    {
+       return this.Permission ? NotificationPermission.Authorized : NotificationPermission.Denied;
+    }
+
     public async Task<bool> RequestPermission(bool fallbackToSettings)
     {
         var consumer = new AndroidBoolConsumer();

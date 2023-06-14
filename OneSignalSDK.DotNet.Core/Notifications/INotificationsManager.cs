@@ -35,6 +35,17 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         bool Permission { get; }
 
         /// <summary>
+        /// on iOS returns the specific permission type for the device
+        /// enum OSNotificationPermission {
+        /// notDetermined,
+        /// denied,
+        /// authorized,
+        /// provisional, // only available in iOS 12
+        /// ephemera } // only available in iOS 14
+        /// </summary>
+        NotificationPermission PermissionNative();
+
+        /// <summary>
         /// Prompt the user for permission to push notifications.  This will display the native
         /// OS prompt to request push notification permission.If the user enables, a push
         /// subscription to this device will be automatically added to the user.
