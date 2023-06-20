@@ -18,9 +18,9 @@ namespace OneSignalSDK.DotNet.Core.Notifications
 
         /// <summary>
         /// Event for when a push notification will display.  The arguments contains
-        /// <see cref="NotificationWillDisplayEventArgs.ToDisplayNotification"/> which
-        /// will be used to determine whether to display a notification after all
-        /// event handlers have been called.
+        /// <see cref="NotificationWillDisplayEventArgs.Notification"/> and the function <see cref="NotificationWillDisplayEventArgs.PreventDefault"/.
+        /// Use PreventDefault() to delay/prevent the display of the notificaiton. Call Notification.display() to display the notification after
+        /// having previously prevented default.
         /// </summary>
         event EventHandler<NotificationWillDisplayEventArgs> WillDisplay;
 
