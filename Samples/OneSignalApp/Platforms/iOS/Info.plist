@@ -36,5 +36,10 @@
 	<string>Location always used for testing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location when in use for testing</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

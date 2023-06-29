@@ -6,6 +6,7 @@ using OneSignalSDK.DotNet.Core.Location;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Session;
 using OneSignalSDK.DotNet.Core.User;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 
 namespace OneSignalSDK.DotNet.Core
 {
@@ -49,17 +50,22 @@ namespace OneSignalSDK.DotNet.Core
         IDebugManager Debug { get; }
 
         /// <summary>
+        /// The LiveActivities manager for accessing iOS Live Activity management.
+        /// </summary>
+        ILiveActivitiesManager LiveActivities { get; }
+
+        /// <summary>
         /// Determines whether a user must consent to privacy prior to their user data being sent
         /// up to OneSignal.This should be set to <code>true</code> prior to the invocation of
         /// <see cref="Initialize(string)"/>to ensure compliance.
         /// </summary>
-        bool RequiresPrivacyConsent { get; set; }
+        bool ConsentRequired { set; }
 
         /// <summary>
         /// Indicates whether privacy consent has been granted. This field is only relevant when
-        /// the application has opted into data privacy protections. <see cref="RequiresPrivacyConsent"/>.
+        /// the application has opted into data privacy protections. <see cref="ConsentRequired"/>.
         /// </summary>
-        bool PrivacyConsent { get; set; }
+        bool ConsentGiven { set; }
 
         /// <summary>
         /// Initialze the OneSignal SDK.  This should be called during startup of the application.
@@ -105,23 +111,5 @@ namespace OneSignalSDK.DotNet.Core
         /// long as the app remains installed and the app data is not cleared.
         /// </summary>
         void Logout();
-
-        #region Live Activities (iOS only)
-        /// <summary>
-        /// Register this device with OneSignal indicating that the device has entered a live activity.
-        /// </summary>
-        /// <param name="activityId">The (app-provided) ID of the activity that is being entered.</param>
-        /// <param name="token">The (OS-provided) token that will be used to update the content-state of the live activity on this device.</param>
-        /// <returns>Awaitable boolean of whether the operation succeeded or failed</returns>
-        Task<bool> EnterLiveActivityAsync(string activityId, string token);
-
-        /// <summary>
-        /// Unregister this device with OneSignal indicating that the device has exited a live activity.
-        /// </summary>
-        /// <param name="activityId">The (app-provided) ID of the activity that is being exited.</param>
-        /// <returns>Awaitable boolean of whether the operation succeeded or failed</returns>
-        Task<bool> ExitLiveActivityAsync(string activityId);
-
-        #endregion;
     }
 }

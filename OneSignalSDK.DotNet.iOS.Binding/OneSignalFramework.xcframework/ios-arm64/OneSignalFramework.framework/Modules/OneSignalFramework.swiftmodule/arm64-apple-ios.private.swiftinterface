@@ -29,23 +29,22 @@ extension OneSignalFramework.OneSignal {
   public static var Location: OneSignalFramework.OSLocation.Type {
     get
   }
-  public static var requiresPrivacyConsent: Swift.Bool {
+  public static var LiveActivities: OneSignalFramework.OSLiveActivities.Type {
     get
-    set
-  }
-  public static var privacyConsent: Swift.Bool {
-    get
-    set
   }
 }
 extension OneSignalCore.OSDebug {
   public static func setAlertLevel(_ logLevel: OneSignalCore.ONE_S_LOG_LEVEL)
 }
 extension OneSignalFramework.OSInAppMessages {
-  public static var Paused: Swift.Bool {
+  public static var paused: Swift.Bool {
     get
     set
   }
+  public static func addLifecycleListener(_ listener: OneSignalFramework.OSInAppMessageLifecycleListener)
+  public static func removeLifecycleListener(_ listener: OneSignalFramework.OSInAppMessageLifecycleListener)
+  public static func addClickListener(_ listener: OneSignalFramework.OSInAppMessageClickListener)
+  public static func removeClickListener(_ listener: OneSignalFramework.OSInAppMessageClickListener)
 }
 extension OneSignalOutcomes.OSSession {
   public static func addOutcome(_ name: Swift.String, _ value: Foundation.NSNumber)
@@ -57,9 +56,14 @@ extension OneSignalNotifications.OSNotifications {
   public static var canRequestPermission: Swift.Bool {
     get
   }
+  public static var permissionNative: OneSignalNotifications.OSNotificationPermission {
+    get
+  }
   public static func registerForProvisionalAuthorization(_ block: OneSignalNotifications.OSUserResponseBlock?)
-  public static func addPermissionObserver(_ observer: OneSignalNotifications.OSPermissionObserver)
-  public static func removePermissionObserver(_ observer: OneSignalNotifications.OSPermissionObserver)
+  public static func addPermissionObserver(_ observer: OneSignalNotifications.OSNotificationPermissionObserver)
+  public static func removePermissionObserver(_ observer: OneSignalNotifications.OSNotificationPermissionObserver)
+  public static func addClickListener(_ listener: OneSignalNotifications.OSNotificationClickListener)
+  public static func removeClickListener(_ listener: OneSignalNotifications.OSNotificationClickListener)
 }
 extension OneSignalFramework.OSLocation {
   public static var isShared: Swift.Bool {

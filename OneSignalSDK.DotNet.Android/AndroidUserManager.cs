@@ -45,14 +45,14 @@ namespace OneSignalSDK.DotNet.Android
 
         public string Id => OneSignalNative.User.PushSubscription.Id;
 
-        public event EventHandler<SubscriptionChangedEventArgs>? Changed;
+        public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
         private InternalSubscriptionChangedHandler? _subscriptionChangedHandler;
 
         public void Initialize()
         {
             _subscriptionChangedHandler = new InternalSubscriptionChangedHandler(this);
-            OneSignalNative.User.PushSubscription.AddChangeHandler(_subscriptionChangedHandler);
+            OneSignalNative.User.PushSubscription.AddObserver(_subscriptionChangedHandler);
         }
 
         public void OptIn()
@@ -65,7 +65,24 @@ namespace OneSignalSDK.DotNet.Android
             OneSignalNative.User.PushSubscription.OptOut();
         }
 
-        private class InternalSubscriptionChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.Subscriptions.ISubscriptionChangedHandler
+        private sealed class InternalPushSubscriptionState : IPushSubscriptionState
+        {
+            public string Id { get; }
+
+            public string Token { get; }
+
+            public bool OptedIn { get; }
+
+
+            public InternalPushSubscriptionState(string token, bool optedIn, string id)
+            {
+                Token = token;
+                OptedIn = optedIn;
+                Id = id;
+            }
+        }
+
+        private class InternalSubscriptionChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.Subscriptions.IPushSubscriptionObserver
         {
             private AndroidPushSubscription _manager;
             public InternalSubscriptionChangedHandler(AndroidPushSubscription manager)
@@ -73,9 +90,12 @@ namespace OneSignalSDK.DotNet.Android
                 _manager = manager;
             }
 
-            public void OnSubscriptionChanged(Com.OneSignal.Android.User.Subscriptions.ISubscription subscription)
+            public void OnPushSubscriptionChange(Com.OneSignal.Android.User.Subscriptions.PushSubscriptionChangedState state)
             {
-                _manager.Changed?.Invoke(_manager, new SubscriptionChangedEventArgs(_manager));
+                var previous = new InternalPushSubscriptionState(state.Previous.Token, state.Previous.OptedIn, state.Previous.Id);
+                var current = new InternalPushSubscriptionState(state.Current.Token, state.Current.OptedIn, state.Current.Id);
+                var changedState = new PushSubscriptionChangedState(previous, current);
+                _manager.Changed?.Invoke(_manager, new PushSubscriptionChangedEventArgs(changedState));
             }
         }
     }

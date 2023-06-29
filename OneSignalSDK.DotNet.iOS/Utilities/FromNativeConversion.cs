@@ -83,21 +83,22 @@ public static class FromNativeConversion
         );
     }
 
-    public static NotificationAction ToNotificationAction(OneSignaliOS.OSNotificationAction notificationAction)
+    public static NotificationClickResult ToNotificationClickResult(OneSignaliOS.OSNotificationClickResult result)
     {
-        return new NotificationAction(
-            actionId: notificationAction.ActionId,
-            type: (NotificationActionType)notificationAction.Type
+        return new NotificationClickResult(
+            actionId: result.ActionId,
+            url: result.Url
         );
     }
 
-    public static InAppMessageAction ToInAppMessageAction(OneSignaliOS.OSInAppMessageAction inAppMessageAction)
+    public static InAppMessageClickResult ToInAppMessageClickResult(OneSignaliOS.OSInAppMessageClickResult inAppMessageClickResult)
     {
-        return new InAppMessageAction(
-            clickName: inAppMessageAction.ClickName,
-            clickUrl: inAppMessageAction.ClickUrl?.AbsoluteString,
-            closesMessage: inAppMessageAction.ClosesMessage,
-            isFirstClick: inAppMessageAction.FirstClick
+        long urlTarget = (long)inAppMessageClickResult.UrlTarget;
+        return new InAppMessageClickResult(
+            actionId: inAppMessageClickResult.ActionId,
+            url: inAppMessageClickResult.Url,
+            urlTarget: (InAppMessageActionUrlType)urlTarget,
+            closingMessage: inAppMessageClickResult.ClosingMessage
         );
     }
 

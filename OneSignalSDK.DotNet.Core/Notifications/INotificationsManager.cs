@@ -18,9 +18,9 @@ namespace OneSignalSDK.DotNet.Core.Notifications
 
         /// <summary>
         /// Event for when a push notification will display.  The arguments contains
-        /// <see cref="NotificationWillDisplayEventArgs.ToDisplayNotification"/> which
-        /// will be used to determine whether to display a notification after all
-        /// event handlers have been called.
+        /// <see cref="NotificationWillDisplayEventArgs.Notification"/> and the function <see cref="NotificationWillDisplayEventArgs.PreventDefault"/.
+        /// Use PreventDefault() to delay/prevent the display of the notificaiton. Call Notification.display() to display the notification after
+        /// having previously prevented default.
         /// </summary>
         event EventHandler<NotificationWillDisplayEventArgs> WillDisplay;
 
@@ -33,6 +33,17 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// Whether this app has push notification permission.
         /// </summary>
         bool Permission { get; }
+
+        /// <summary>
+        /// on iOS returns the specific permission type for the device
+        /// enum OSNotificationPermission {
+        /// notDetermined,
+        /// denied,
+        /// authorized,
+        /// provisional, // only available in iOS 12
+        /// ephemera } // only available in iOS 14
+        /// </summary>
+        NotificationPermission PermissionNative();
 
         /// <summary>
         /// Prompt the user for permission to push notifications.  This will display the native
@@ -53,6 +64,6 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// is true if the user is opted in to notifications permission (user affirmed or already enabled),
         /// the result is false if the user is opted out of notifications permission(user rejected).
         /// </returns>
-        Task<bool> RequestPermissionAsync(bool fallbackToSettings);
+        Task<bool> RequestPermission(bool fallbackToSettings);
     }
 }

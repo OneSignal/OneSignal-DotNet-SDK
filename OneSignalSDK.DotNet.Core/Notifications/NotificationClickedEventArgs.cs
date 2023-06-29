@@ -15,12 +15,12 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// <summary>
         /// The action that was taken on the notification.
         /// </summary>
-        public NotificationAction Action { get; }
+        public NotificationClickResult Result { get; }
 
-        public NotificationClickedEventArgs(Notification notification, NotificationAction action)
+        public NotificationClickedEventArgs(Notification notification, NotificationClickResult result)
         {
             Notification = notification;
-            Action = action;
+            Result = result;
         }
     }
 }

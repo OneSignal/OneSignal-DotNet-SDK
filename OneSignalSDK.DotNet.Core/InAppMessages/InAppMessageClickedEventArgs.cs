@@ -8,13 +8,19 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
     public sealed class InAppMessageClickedEventArgs : EventArgs
     {
         /// <summary>
+        /// The message that has raised the lifecycle event.
+        /// </summary>
+        public InAppMessage Message { get; }
+
+        /// <summary>
         /// The action that was taken due to the click.
         /// </summary>
-        public InAppMessageAction Action { get; }
+        public InAppMessageClickResult Result { get; }
 
-        public InAppMessageClickedEventArgs(InAppMessageAction action)
+        public InAppMessageClickedEventArgs(InAppMessage message, InAppMessageClickResult result)
         {
-            Action = action;
+            Message = message;
+            Result = result;
         }
     }
 }

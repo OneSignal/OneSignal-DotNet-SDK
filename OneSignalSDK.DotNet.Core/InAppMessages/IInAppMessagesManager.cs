@@ -14,22 +14,22 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
         /// <summary>
         /// Event for when an In App Message is about to be displayed to the screen.
         /// </summary>
-        event EventHandler<InAppMessageLifecycleEventArgs> WillDisplay;
+        event EventHandler<InAppMessageWillDisplayEventArgs> WillDisplay;
 
         /// <summary>
         /// Event for when an In App Message is has been displayed to the screen.
         /// </summary>
-        event EventHandler<InAppMessageLifecycleEventArgs> DidDisplay;
+        event EventHandler<InAppMessageDidDisplayEventArgs> DidDisplay;
 
         /// <summary>
         /// Event for when a user has chosen to dismiss an In App Message.
         /// </summary>
-        event EventHandler<InAppMessageLifecycleEventArgs> WillDismiss;
+        event EventHandler<InAppMessageWillDismissEventArgs> WillDismiss;
 
         /// <summary>
         /// Event for when an In App Message has finished being dismissed.
         /// </summary>
-        event EventHandler<InAppMessageLifecycleEventArgs> DidDismiss;
+        event EventHandler<InAppMessageDidDismissEventArgs> DidDismiss;
 
         /// <summary>
         /// Event for when a user has clicked on an In App Message.
@@ -56,7 +56,7 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
         /// </summary>
         /// <param name="key">The key of the trigger that is to be set.</param>
         /// <param name="value">The value of the trigger.</param>
-        void AddTrigger(string key, object value);
+        void AddTrigger(string key, string value);
 
         /// <summary>
         /// Add multiple triggers for the current user.  Triggers are currently explicitly used to determine
@@ -69,7 +69,7 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
         /// to the current user.
         /// </summary>
         /// <param name="triggers">The map of triggers that are to be added to the current user.</param>
-        void AddTriggers(IDictionary<string, object> triggers);
+        void AddTriggers(IDictionary<string, string> triggers);
 
         /// <summary>
         /// Remove the trigger with the provided key from the current user.

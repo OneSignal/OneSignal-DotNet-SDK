@@ -72,9 +72,12 @@ public static class FromNativeConversion
         );
     }
 
-    public static OneSignalSDK.DotNet.Core.Notifications.NotificationActionType ToNotificationActionType(Com.OneSignal.Android.Notifications.INotificationAction.ActionType actionType)
+    public static OneSignalSDK.DotNet.Core.Notifications.NotificationClickResult ToNotificationClickResult(Com.OneSignal.Android.Notifications.INotificationClickResult result)
     {
-        return (OneSignalSDK.DotNet.Core.Notifications.NotificationActionType)actionType.Ordinal();
+        return new NotificationClickResult(
+            actionId: result.ActionId,
+            url: result.Url
+        );
     }
 
     public static InAppMessage ToInAppMessage(Com.OneSignal.Android.InAppMessages.IInAppMessage inAppMessage)
@@ -84,13 +87,13 @@ public static class FromNativeConversion
         );
     }
 
-    public static InAppMessageAction ToInAppMessageAction(Com.OneSignal.Android.InAppMessages.IInAppMessageAction inAppMessageAction)
+    public static InAppMessageClickResult ToInAppMessageClickResult(Com.OneSignal.Android.InAppMessages.IInAppMessageClickResult clickResult)
     {
-        return new InAppMessageAction(
-            clickName: inAppMessageAction.ClickName,
-            clickUrl: inAppMessageAction.ClickUrl,
-            isFirstClick: inAppMessageAction.IsFirstClick,
-            closesMessage: inAppMessageAction.ClosesMessage
+        return new InAppMessageClickResult(
+            actionId: clickResult.ActionId,
+            url: clickResult.Url,
+            urlTarget: (InAppMessageActionUrlType)clickResult.UrlTarget.Ordinal(),
+            closingMessage: clickResult.ClosingMessage
         );
     }
 }

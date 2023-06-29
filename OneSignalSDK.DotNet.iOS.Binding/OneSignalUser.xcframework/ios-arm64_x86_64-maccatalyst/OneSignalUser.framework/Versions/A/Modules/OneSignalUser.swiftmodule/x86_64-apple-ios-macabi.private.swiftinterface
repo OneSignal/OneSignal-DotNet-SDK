@@ -106,7 +106,7 @@ extension OneSignalUser.OneSignalUserManagerImpl : OneSignalNotifications.OneSig
   @objc dynamic public func setPushToken(_ pushToken: Swift.String)
 }
 @objc public protocol OSPushSubscriptionObserver {
-  @objc func onOSPushSubscriptionChanged(stateChanges: OneSignalUser.OSPushSubscriptionStateChanges)
+  @objc func onPushSubscriptionDidChange(state: OneSignalUser.OSPushSubscriptionChangedState)
 }
 @_hasMissingDesignatedInitializers @objc public class OSPushSubscriptionState : ObjectiveC.NSObject {
   @objc final public let id: Swift.String?
@@ -118,9 +118,9 @@ extension OneSignalUser.OneSignalUserManagerImpl : OneSignalNotifications.OneSig
   @objc public func jsonRepresentation() -> Foundation.NSDictionary
   @objc deinit
 }
-@_hasMissingDesignatedInitializers @objc public class OSPushSubscriptionStateChanges : ObjectiveC.NSObject {
-  @objc final public let to: OneSignalUser.OSPushSubscriptionState
-  @objc final public let from: OneSignalUser.OSPushSubscriptionState
+@_hasMissingDesignatedInitializers @objc public class OSPushSubscriptionChangedState : ObjectiveC.NSObject {
+  @objc final public let current: OneSignalUser.OSPushSubscriptionState
+  @objc final public let previous: OneSignalUser.OSPushSubscriptionState
   @objc override dynamic public var description: Swift.String {
     @objc get
   }

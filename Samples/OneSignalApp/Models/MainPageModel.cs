@@ -62,13 +62,13 @@ namespace OneSignalApp.Models
             {
                 if (_isPushEnabled != value)
                 {
-                    if(value && !OneSignal.Default.User.PushSubscription.OptedIn)
+                    if(value && !OneSignal.User.PushSubscription.OptedIn)
                     {
-                        OneSignal.Default.User.PushSubscription.OptIn();
+                        OneSignal.User.PushSubscription.OptIn();
                     }
-                    else if(!value && OneSignal.Default.User.PushSubscription.OptedIn)
+                    else if(!value && OneSignal.User.PushSubscription.OptedIn)
                     {
-                        OneSignal.Default.User.PushSubscription.OptOut();
+                        OneSignal.User.PushSubscription.OptOut();
                     }
 
                     _isPushEnabled = value;
@@ -99,9 +99,9 @@ namespace OneSignalApp.Models
             {
                 if (_isIAMPaused != value)
                 {
-                    if (value != OneSignal.Default.InAppMessages.Paused)
+                    if (value != OneSignal.InAppMessages.Paused)
                     {
-                        OneSignal.Default.InAppMessages.Paused = value;
+                        OneSignal.InAppMessages.Paused = value;
                     }
 
                     _isIAMPaused = value;
@@ -118,9 +118,9 @@ namespace OneSignalApp.Models
             {
                 if (_isLocationShared != value)
                 {
-                    if (value != OneSignal.Default.Location.IsShared)
+                    if (value != OneSignal.Location.IsShared)
                     {
-                        OneSignal.Default.Location.IsShared = value;
+                        OneSignal.Location.IsShared = value;
                     }
 
                     _isLocationShared = value;
@@ -182,60 +182,62 @@ namespace OneSignalApp.Models
             ValidationCommand = new Command(Validation);
 
             // Initialize OneSignal SDK.
-            OneSignal.Default.Debug.LogLevel = LogLevel.VERBOSE;
-            OneSignal.Default.Debug.AlertLevel = LogLevel.NONE;
+            OneSignal.Debug.LogLevel = LogLevel.VERBOSE;
+            OneSignal.Debug.AlertLevel = LogLevel.NONE;
 
-            OneSignal.Default.RequiresPrivacyConsent = true;
-            OneSignal.Default.PrivacyConsent = false;
+            OneSignal.ConsentRequired = true;
+            OneSignal.ConsentGiven = false;
 
-            OneSignal.Default.Initialize(_appId);
+            OneSignal.Initialize(_appId);
 
-            OneSignal.Default.User.PushSubscription.Changed += PushSubscription_Changed;
-            OneSignal.Default.Notifications.PermissionChanged += Notifications_PermissionChanged;
-            OneSignal.Default.Notifications.Clicked += Notifications_Clicked;
-            OneSignal.Default.Notifications.WillDisplay += Notifications_WillDisplay;
+            OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
+            OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
+            OneSignal.Notifications.Clicked += Notifications_Clicked;
+            OneSignal.Notifications.WillDisplay += Notifications_WillDisplay;
             
-            OneSignal.Default.InAppMessages.WillDisplay += InAppMessages_WillDisplay;
-            OneSignal.Default.InAppMessages.DidDisplay += InAppMessages_DidDisplay;
-            OneSignal.Default.InAppMessages.WillDismiss += InAppMessages_WillDismiss;
-            OneSignal.Default.InAppMessages.DidDismiss += InAppMessages_DidDismiss;
-            OneSignal.Default.InAppMessages.Clicked += InAppMessages_Clicked;
+            OneSignal.InAppMessages.WillDisplay += InAppMessages_WillDisplay;
+            OneSignal.InAppMessages.DidDisplay += InAppMessages_DidDisplay;
+            OneSignal.InAppMessages.WillDismiss += InAppMessages_WillDismiss;
+            OneSignal.InAppMessages.DidDismiss += InAppMessages_DidDismiss;
+            OneSignal.InAppMessages.Clicked += InAppMessages_Clicked;
 
-            IsPushEnabled = OneSignal.Default.User.PushSubscription.OptedIn;
-            HasPushPermission = OneSignal.Default.Notifications.Permission;
-            IsIAMPaused = OneSignal.Default.InAppMessages.Paused;
-            IsLocationShared = OneSignal.Default.Location.IsShared;
-            PushSubscriptionId = OneSignal.Default.User.PushSubscription.Id;
+            IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+            HasPushPermission = OneSignal.Notifications.Permission;
+            IsIAMPaused = OneSignal.InAppMessages.Paused;
+            IsLocationShared = OneSignal.Location.IsShared;
+            PushSubscriptionId = OneSignal.User.PushSubscription.Id;
         }
 
         private void InAppMessages_Clicked(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageClickedEventArgs e)
         {
-            Debug.WriteLine($"IAM clicked: ${e.Action.ClickName}.");
+            Debug.WriteLine($"IAM clicked: ${e.Result.ActionId}.");
         }
 
-        private void InAppMessages_WillDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_WillDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageWillDisplayEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} will display.");
         }
 
-        private void InAppMessages_DidDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_DidDisplay(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageDidDisplayEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} did display.");
         }
 
-        private void InAppMessages_WillDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_WillDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageWillDismissEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} will dismiss.");
         }
 
-        private void InAppMessages_DidDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageLifecycleEventArgs e)
+        private void InAppMessages_DidDismiss(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageDidDismissEventArgs e)
         {
             Debug.WriteLine($"IAM ${e.Message.MessageId} did dismiss.");
         }
 
         private void Notifications_WillDisplay(object sender, OneSignalSDK.DotNet.Core.Notifications.NotificationWillDisplayEventArgs e)
         {
-            Debug.WriteLine($"Notification ${e.OriginalNotification.NotificationId} will display.");
+            Debug.WriteLine($"Notification ${e.Notification.NotificationId} will display.");
+            e.PreventDefault();
+            e.Notification.display();
         }
 
         private void Notifications_Clicked(object sender, OneSignalSDK.DotNet.Core.Notifications.NotificationClickedEventArgs e)
@@ -249,23 +251,23 @@ namespace OneSignalApp.Models
             HasPushPermission = e.Permission;
         }
 
-        private void PushSubscription_Changed(object sender, OneSignalSDK.DotNet.Core.User.Subscriptions.SubscriptionChangedEventArgs e)
+        private void PushSubscription_Changed(object sender, OneSignalSDK.DotNet.Core.User.Subscriptions.PushSubscriptionChangedEventArgs e)
         {
-            var pushSubscription = e.Subscription as IPushSubscription;
+            var pushSubscription = e.State.Current as IPushSubscriptionState;
             Debug.WriteLine($"Push Subscription has changed: Id=${pushSubscription.Id}, Token={pushSubscription.Token}, OptedIn=${pushSubscription.OptedIn}");
-            IsPushEnabled = OneSignal.Default.User.PushSubscription.OptedIn;
-            PushSubscriptionId = e.Subscription.Id;
+            IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+            PushSubscriptionId = e.State.Current.Id;
         }
 
         private void GivePrivacyConsent()
         {
-            OneSignalSDK.DotNet.OneSignal.Default.PrivacyConsent = true;
+            OneSignalSDK.DotNet.OneSignal.ConsentGiven = true;
             HasGivenPrivacyConsent = true;
         }
 
         private void RevokePrivacyConsent()
         {
-            OneSignalSDK.DotNet.OneSignal.Default.PrivacyConsent = false;
+            OneSignalSDK.DotNet.OneSignal.ConsentGiven = false;
             HasGivenPrivacyConsent = false;
         }
 
@@ -278,12 +280,12 @@ namespace OneSignalApp.Models
                 return;
             }
 
-            OneSignal.Default.Login(externalId);
+            OneSignal.Login(externalId);
         }
 
         private void LogoutUser()
         {
-            OneSignal.Default.Logout();
+            OneSignal.Logout();
         }
 
         private async void AddAlias()
@@ -292,7 +294,7 @@ namespace OneSignalApp.Models
 
             addPairModel.PageCompleted += (s, e) =>
             {
-                OneSignal.Default.User.AddAlias(addPairModel.Key, addPairModel.Value);
+                OneSignal.User.AddAlias(addPairModel.Key, addPairModel.Value);
             };
 
             await _page.Navigation.PushModalAsync(new AddPairPage()
@@ -303,19 +305,19 @@ namespace OneSignalApp.Models
 
         private async void PromptForPush()
         {
-            await OneSignal.Default.Notifications.RequestPermissionAsync(true);
+            await OneSignal.Notifications.RequestPermission(true);
         }
 
         private async void AddEmail()
         {
             var email = await _page.DisplayPromptAsync("Add Email", "Email Address");
-            OneSignal.Default.User.AddEmail(email);
+            OneSignal.User.AddEmail(email);
         }
 
         private async void AddSMS()
         {
             var sms = await _page.DisplayPromptAsync("Add SMS", "Phone Number");
-            OneSignal.Default.User.AddSms(sms);
+            OneSignal.User.AddSms(sms);
         }
 
         private async void AddTag()
@@ -323,7 +325,7 @@ namespace OneSignalApp.Models
             var addPairModel = new AddPairPageModel("Add Tag", "Key", "Value");
             addPairModel.PageCompleted += (s, e) =>
             {
-                OneSignal.Default.User.AddTag(addPairModel.Key, addPairModel.Value);
+                OneSignal.User.AddTag(addPairModel.Key, addPairModel.Value);
             };
 
             await _page.Navigation.PushModalAsync(new AddPairPage()
@@ -340,13 +342,13 @@ namespace OneSignalApp.Models
                 switch (addOutcomeModel.Type)
                 {
                     case AddOutcomePageModel.OutcomeType.Normal:
-                        OneSignal.Default.Session.AddOutcome(addOutcomeModel.Name);
+                        OneSignal.Session.AddOutcome(addOutcomeModel.Name);
                         break;
                     case AddOutcomePageModel.OutcomeType.Unique:
-                        OneSignal.Default.Session.AddUniqueOutcome(addOutcomeModel.Name);
+                        OneSignal.Session.AddUniqueOutcome(addOutcomeModel.Name);
                         break;
                     case AddOutcomePageModel.OutcomeType.WithValue:
-                        OneSignal.Default.Session.AddOutcomeWithValue(addOutcomeModel.Name, (float)addOutcomeModel.ValueAsFloat);
+                        OneSignal.Session.AddOutcomeWithValue(addOutcomeModel.Name, (float)addOutcomeModel.ValueAsFloat);
                         break;
                 }
             };
@@ -363,7 +365,7 @@ namespace OneSignalApp.Models
 
             addPairModel.PageCompleted += (s, e) =>
             {
-                OneSignal.Default.InAppMessages.AddTrigger(addPairModel.Key, addPairModel.Value);
+                OneSignal.InAppMessages.AddTrigger(addPairModel.Key, addPairModel.Value);
             };
 
             await _page.Navigation.PushModalAsync(new AddPairPage()
@@ -374,7 +376,7 @@ namespace OneSignalApp.Models
 
         private async void PromptForLocation()
         {
-            await OneSignal.Default.Location.RequestPermissionAsync();
+            await OneSignal.Location.RequestPermissionAsync();
         }
 
         private void EnterLiveActivity()
@@ -390,7 +392,7 @@ namespace OneSignalApp.Models
         var onesignalLiveActivity = new OneSignalLiveActivity.Binding.OneSignalLiveActivity();
         onesignalLiveActivity.StartLiveActivityWithRecievedToken((str) =>
         {
-            OneSignal.Default.EnterLiveActivity(activityId, str);
+            OneSignal.EnterLiveActivity(activityId, str);
         });
 #elif !IOS
             _page.DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
@@ -409,7 +411,7 @@ namespace OneSignalApp.Models
             }
 
 #if (LIVE_ACTIVITIES && IOS)
-        OneSignal.Default.ExitLiveActivity(activityId);
+        OneSignal.ExitLiveActivity(activityId);
 #elif !IOS
             _page.DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
 #else
@@ -425,121 +427,121 @@ namespace OneSignalApp.Models
             var firstLoginNumber = $"+{RandomStringNumber(11)}";
 
             Debug.WriteLine($"Login");
-            OneSignal.Default.Login(firstLoginEUID);
+            OneSignal.Login(firstLoginEUID);
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.Language = \"en\"");
-            OneSignal.Default.User.Language = "en";
+            OneSignal.User.Language = "en";
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.AddAlias(\"aliasLabel1\", \"{firstLoginAlias}\")");
-            OneSignal.Default.User.AddAlias("aliasLabel1", firstLoginAlias);
+            OneSignal.User.AddAlias("aliasLabel1", firstLoginAlias);
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.AddEmail(\"{firstLoginEmail}\")");
-            OneSignal.Default.User.AddEmail(firstLoginEmail);
+            OneSignal.User.AddEmail(firstLoginEmail);
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.AddSms(\"{firstLoginNumber}\")");
-            OneSignal.Default.User.AddSms(firstLoginNumber);
+            OneSignal.User.AddSms(firstLoginNumber);
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.AddTag(\"tagKey1\", \"tagValue1\")");
-            OneSignal.Default.User.AddTag("tagKey1", "tagValue1");
+            OneSignal.User.AddTag("tagKey1", "tagValue1");
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.AddTag(new Dictionary<string, string> {{ {{ \"tagKey2\", \"tagValue2\" }}, {{ \"tagKey3\", \"tagValue3\" }} }})");
-            OneSignal.Default.User.AddTags(new Dictionary<string, string> { { "tagKey2", "tagValue2" }, { "tagKey3", "tagValue3" } });
+            OneSignal.User.AddTags(new Dictionary<string, string> { { "tagKey2", "tagValue2" }, { "tagKey3", "tagValue3" } });
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.RemoveAlias(\"aliasLabel1\")");
-            OneSignal.Default.User.RemoveAlias("aliasLabel1");
+            OneSignal.User.RemoveAlias("aliasLabel1");
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.RemoveEmail(\"{firstLoginEmail}\")");
-            OneSignal.Default.User.RemoveEmail(firstLoginEmail);
+            OneSignal.User.RemoveEmail(firstLoginEmail);
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.RemoveSms(\"{firstLoginNumber}\")");
-            OneSignal.Default.User.RemoveSms(firstLoginNumber);
+            OneSignal.User.RemoveSms(firstLoginNumber);
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.RemoveTag(\"tagKey1\")");
-            OneSignal.Default.User.RemoveTag("tagKey1");
+            OneSignal.User.RemoveTag("tagKey1");
             await Task.Delay(2000);
 
             Debug.WriteLine($"User.RemoveTags(\"tagKey2\", \"tagKey3\")");
-            OneSignal.Default.User.RemoveTags("tagKey2", "tagKey3");
+            OneSignal.User.RemoveTags("tagKey2", "tagKey3");
             await Task.Delay(2000);
 
             Debug.WriteLine($"Logout");
-            OneSignal.Default.Logout();
+            OneSignal.Logout();
             await Task.Delay(2000);
 
-            Debug.WriteLine($"OptIn, OptedIn={OneSignal.Default.User.PushSubscription.OptedIn}");
-            OneSignal.Default.User.PushSubscription.OptIn();
+            Debug.WriteLine($"OptIn, OptedIn={OneSignal.User.PushSubscription.OptedIn}");
+            OneSignal.User.PushSubscription.OptIn();
             await Task.Delay(2000);
 
-            Debug.WriteLine($"OptOut, OptedIn={OneSignal.Default.User.PushSubscription.OptedIn}");
-            OneSignal.Default.User.PushSubscription.OptOut();
+            Debug.WriteLine($"OptOut, OptedIn={OneSignal.User.PushSubscription.OptedIn}");
+            OneSignal.User.PushSubscription.OptOut();
             await Task.Delay(2000);
 
-            Debug.WriteLine($"OptIn, OptedIn={OneSignal.Default.User.PushSubscription.OptedIn}");
-            OneSignal.Default.User.PushSubscription.OptIn();
+            Debug.WriteLine($"OptIn, OptedIn={OneSignal.User.PushSubscription.OptedIn}");
+            OneSignal.User.PushSubscription.OptIn();
             await Task.Delay(2000);
 
-            Debug.WriteLine($"Push Subscription: Id={OneSignal.Default.User.PushSubscription.Id}, Token={OneSignal.Default.User.PushSubscription.Token}, OptedIn={OneSignal.Default.User.PushSubscription.OptedIn}");
+            Debug.WriteLine($"Push Subscription: Id={OneSignal.User.PushSubscription.Id}, Token={OneSignal.User.PushSubscription.Token}, OptedIn={OneSignal.User.PushSubscription.OptedIn}");
 
             Debug.WriteLine($"Session.AddOutcome(\"outcomename\")");
-            OneSignal.Default.Session.AddOutcome("outcomename");
+            OneSignal.Session.AddOutcome("outcomename");
             await Task.Delay(2000);
 
             Debug.WriteLine($"Session.AddUniqueOutcome(\"uniqueoutcomename\")");
-            OneSignal.Default.Session.AddUniqueOutcome("uniqueoutcomename");
+            OneSignal.Session.AddUniqueOutcome("uniqueoutcomename");
             await Task.Delay(2000);
 
             Debug.WriteLine($"Session.AddOutcomeWithValue(\"outcomenamewithvalue\", 1.1f)");
-            OneSignal.Default.Session.AddOutcomeWithValue("outcomenamewithvalue", 1.1f);
+            OneSignal.Session.AddOutcomeWithValue("outcomenamewithvalue", 1.1f);
             await Task.Delay(2000);
 
-            Debug.WriteLine($"Notifications.Permission={OneSignal.Default.Notifications.Permission}");
+            Debug.WriteLine($"Notifications.Permission={OneSignal.Notifications.Permission}");
 
             Debug.WriteLine($"Notifications.RequestPermissionAsync(true)");
-            await OneSignal.Default.Notifications.RequestPermissionAsync(true);
+            await OneSignal.Notifications.RequestPermission(true);
             await Task.Delay(2000);
 
-            Debug.WriteLine($"Location.IsShared={OneSignal.Default.Location.IsShared}");
-            OneSignal.Default.Location.IsShared = false;
+            Debug.WriteLine($"Location.IsShared={OneSignal.Location.IsShared}");
+            OneSignal.Location.IsShared = false;
             await Task.Delay(2000);
 
-            OneSignal.Default.Location.IsShared = true;
+            OneSignal.Location.IsShared = true;
             await Task.Delay(2000);
 
             Debug.WriteLine($"Location.RequestPermissionAsync()");
-            await OneSignal.Default.Location.RequestPermissionAsync();
+            await OneSignal.Location.RequestPermissionAsync();
             await Task.Delay(2000);
 
-            Debug.WriteLine($"InAppMessages.Paused={OneSignal.Default.InAppMessages.Paused}");
-            OneSignal.Default.InAppMessages.Paused = false;
+            Debug.WriteLine($"InAppMessages.Paused={OneSignal.InAppMessages.Paused}");
+            OneSignal.InAppMessages.Paused = false;
             await Task.Delay(2000);
 
-            OneSignal.Default.InAppMessages.Paused = true;
+            OneSignal.InAppMessages.Paused = true;
             await Task.Delay(2000);
 
             Debug.WriteLine($"InAppMessages.AddTrigger(\"triggerKey1\", \"triggerValue1\")");
-            OneSignal.Default.InAppMessages.AddTrigger("triggerKey1", "triggerValue1");
+            OneSignal.InAppMessages.AddTrigger("triggerKey1", "triggerValue1");
             await Task.Delay(2000);
 
-            Debug.WriteLine($"InAppMessages.AddTriggers(new Dictionary<string, object> {{ {{ \"triggerKey2\", \"triggerValue2\" }}, {{ \"triggerKey3\", \"triggerValue3\" }} }}");
-            OneSignal.Default.InAppMessages.AddTriggers(new Dictionary<string, object> { { "triggerKey2", "triggerValue2" }, { "triggerKey3", "triggerValue3" } });
+            Debug.WriteLine($"InAppMessages.AddTriggers(new Dictionary<string, string> {{ {{ \"triggerKey2\", \"triggerValue2\" }}, {{ \"triggerKey3\", \"triggerValue3\" }} }}");
+            OneSignal.InAppMessages.AddTriggers(new Dictionary<string, string> { { "triggerKey2", "triggerValue2" }, { "triggerKey3", "triggerValue3" } });
             await Task.Delay(2000);
 
             Debug.WriteLine($"InAppMessages.RemoveTrigger(\"triggerKey1\")");
-            OneSignal.Default.InAppMessages.RemoveTrigger("triggerKey1");
+            OneSignal.InAppMessages.RemoveTrigger("triggerKey1");
             await Task.Delay(2000);
 
             Debug.WriteLine($"InAppMessages.RemoveTriggers(\"triggerKey2\", \"triggerKey3\")");
-            OneSignal.Default.InAppMessages.RemoveTriggers("triggerKey2", "triggerKey3");
+            OneSignal.InAppMessages.RemoveTriggers("triggerKey2", "triggerKey3");
             await Task.Delay(2000);
         }
 

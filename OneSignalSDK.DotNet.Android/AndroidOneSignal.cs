@@ -10,6 +10,7 @@ using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
 using Android.App;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 
 namespace OneSignalSDK.DotNet.Android;
 
@@ -35,16 +36,16 @@ public class AndroidOneSignal : IOneSignal
 
     public IDebugManager Debug { get; } = new AndroidDebugManager();
 
-    public bool RequiresPrivacyConsent
+    public ILiveActivitiesManager LiveActivities { get; } = new AndroidLiveActivitiesManager();
+
+    public bool ConsentRequired
     {
-        get => OneSignalNative.RequiresPrivacyConsent;
-        set => OneSignalNative.RequiresPrivacyConsent = value;
+        set => OneSignalNative.ConsentRequired = value;
     }
 
-    public bool PrivacyConsent
+    public bool ConsentGiven
     {
-        get => OneSignalNative.PrivacyConsent;
-        set => OneSignalNative.PrivacyConsent = value;
+        set => OneSignalNative.ConsentGiven = value;
     }
 
     public void Initialize(string appId)
@@ -73,17 +74,5 @@ public class AndroidOneSignal : IOneSignal
     public void Logout()
     {
         OneSignalNative.Logout();
-    }
-
-    public Task<bool> EnterLiveActivityAsync(string activityId, string token)
-    {
-        Console.WriteLine("OneSignal: EnterLiveActivity is available on iOS only");
-        return Task.FromResult(false);
-    }
-
-    public Task<bool> ExitLiveActivityAsync(string activityId)
-    {
-        Console.WriteLine("OneSignal: ExitLiveActivity is available on iOS only");
-        return Task.FromResult(false);
     }
 }

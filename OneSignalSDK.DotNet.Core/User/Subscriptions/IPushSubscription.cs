@@ -5,8 +5,20 @@ namespace OneSignalSDK.DotNet.Core.User.Subscriptions
     /// <summary>
     /// A push subscription allows a user to receive notifications through the push channel.
     /// </summary>
-    public interface IPushSubscription : ISubscription
+    public interface IPushSubscription
     {
+        /// <summary>
+        /// Event for when the subscription has changed.
+        /// </summary>
+        event EventHandler<PushSubscriptionChangedEventArgs> Changed;
+
+        /// <summary>
+        /// The unique identifier for this subscription. This will be an empty string
+        /// until the subscription has been successfully created on the backend and
+        /// assigned an ID.
+        /// </summary>
+        string Id { get; }
+
         /// <summary>
         /// The token which identifies the device/app that notifications are to be sent. May
         /// be an empty string, indicating the push token has not yet been retrieved.

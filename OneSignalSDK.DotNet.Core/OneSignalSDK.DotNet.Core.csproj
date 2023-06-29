@@ -33,6 +33,7 @@
     <None Remove="User\Subscriptions\" />
     <None Remove="Internal\" />
     <None Remove="Internal\Utilities\" />
+    <None Remove="LiveActivities\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="User\" />
@@ -44,5 +45,6 @@
     <Folder Include="User\Subscriptions\" />
     <Folder Include="Internal\" />
     <Folder Include="Internal\Utilities\" />
+    <Folder Include="LiveActivities\" />
   </ItemGroup>
 </Project>
