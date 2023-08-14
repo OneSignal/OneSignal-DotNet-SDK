@@ -1,4 +1,4 @@
-# .NET v5.0.0-beta03 Migration Guide
+# .NET v5.0.0 Migration Guide
 In this release, we are making a significant shift from a device-centered model to a user-centered model.  A user-centered model allows for more powerful omni-channel integrations within the OneSignal platform.
 
 This migration guide will walk you through the .NET SDK v5.0.0 changes as a result of this shift.
@@ -236,9 +236,9 @@ The debug namespace is accessible via `OneSignal.Debug` and provide access to de
 
 
 # Limitations 
-- Recommend using only in development and staging environments for Beta releases.
-- Outcomes will be available in a future release
-
+- Changing app IDs is not supported.
+- Any User namespace calls must be invoked after initialization. Example: OneSignal.User.addTag("tag", "2")
+- In the SDK, the user state is only refreshed from the server when a new session is started (cold start or backgrounded for over 30 seconds) or when the user is logged in. This is by design.
 # Known issues
 - Identity Verification
-    - We will be introducing JWT in follow up Alpha or Beta release 
+    - We will be introducing JWT in follow up release
