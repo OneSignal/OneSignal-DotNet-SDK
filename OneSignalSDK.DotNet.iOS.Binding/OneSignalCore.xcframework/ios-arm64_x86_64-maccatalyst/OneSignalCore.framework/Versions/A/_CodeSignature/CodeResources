@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		RrJplGRYKEP/WRZgiaubv0gdZD0=
+		nWmlazzXzMNV2iuESh6kPWyaoJg=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -43,7 +43,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			VHQRipAjzHtXPkUXXH4YvMFBZS9BgNyDe0llpuFstT8=
+			TZyL4I0k2RDNt3IPxABcOPcjrjywMJ0x1SZXMXeiqxA=
+			</data>
+		</dict>
+		<key>Headers/OSInAppMessages.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bqHvuK40s5I7ykwwB/ucIDu8LyZcKLMOGagHfuOpUKY=
 			</data>
 		</dict>
 		<key>Headers/OSJSONHandling.h</key>
@@ -51,6 +58,13 @@
 			<key>hash2</key>
 			<data>
 			s3NgkOLqd6fRlHYOq0qucoCdi9UhfSqxLGpl26BnNck=
+			</data>
+		</dict>
+		<key>Headers/OSLocation.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Ci2MC5dabTrUMJjPeBp9MLhuPzvSeMfGFLHdooZzTbc=
 			</data>
 		</dict>
 		<key>Headers/OSMacros.h</key>
@@ -64,7 +78,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ItFeaL2odYTkJOQJKL87zSdrc69fJx36bv6/fi0gBDQ=
+			ZGA1WvJrfJUvBvSHYQC2gW9v2qpNNy33Dm9rbTNxWPM=
 			</data>
 		</dict>
 		<key>Headers/OSNotification+Internal.h</key>
@@ -127,7 +141,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ENsLsP7gO776lLDSfWvmQHzU0aItDxEwA1eqaGh2aXM=
+			uKea+bE5o/QJ5H7bQVZBM4KaCo6vtSBj28a02B++tpY=
 			</data>
 		</dict>
 		<key>Headers/OneSignalConfigManager.h</key>
@@ -141,21 +155,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			L/9ryhNcAUeUcmGAiQTxvnvLv28WcSUGLAoyu381nmI=
+			CZNtCCWsZDtT4qPjBwdved+ePMTZHxOiPePJe2wbheY=
 			</data>
 		</dict>
 		<key>Headers/OneSignalCoreHelper.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UGIkfh6atqLP1mZmCLrT4t6Sw99OCMnd/8aGq8vaUYU=
+			OMNqcRy39+beti7vT2rQki8JFnft65SbakA3QVQxHQQ=
 			</data>
 		</dict>
 		<key>Headers/OneSignalLog.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UvCikpTfTv6mlFdTHq0QCVttUYTRzE/tlMf89cGRNcw=
+			mBG60JTXM7cBDv7D7ZdAWOJbwxvoG7s2bg5IPmg/ZZM=
 			</data>
 		</dict>
 		<key>Headers/OneSignalMobileProvision.h</key>
@@ -218,7 +232,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5kDZvqMywr3IJcAE3eSYETW5SZ1eRriO9ZK0u0pfoIk=
+			RZRQ2O+hu/Hf7EgiEaTA+P1JA82grTXH9ZuI5CxWvJU=
 			</data>
 		</dict>
 	</dict>

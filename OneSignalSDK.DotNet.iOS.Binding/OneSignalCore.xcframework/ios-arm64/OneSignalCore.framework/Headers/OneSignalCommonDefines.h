@@ -46,7 +46,7 @@
 // "*" in comment line ending comment means the string value has not been changed
 // App
 
-#define ONESIGNAL_VERSION                                                   @"050000-beta-04"
+#define ONESIGNAL_VERSION                                                   @"050001"
 
 #define OSUD_APP_ID                                                         @"GT_APP_ID"                                                        // * OSUD_APP_ID
 #define OSUD_REGISTERED_WITH_APPLE                                          @"GT_REGISTERED_WITH_APPLE"                                         // * OSUD_REGISTERED_WITH_APPLE
@@ -73,7 +73,6 @@
 
 // Notification
 #define OSUD_LAST_MESSAGE_OPENED                                            @"GT_LAST_MESSAGE_OPENED_"                                          // * OSUD_MOST_RECENT_NOTIFICATION_OPENED
-#define OSUD_NOTIFICATION_OPEN_LAUNCH_URL                                   @"ONESIGNAL_INAPP_LAUNCH_URL"                                       // * OSUD_NOTIFICATION_OPEN_LAUNCH_URL
 #define OSUD_TEMP_CACHED_NOTIFICATION_MEDIA                                 @"OSUD_TEMP_CACHED_NOTIFICATION_MEDIA"                              // OSUD_TEMP_CACHED_NOTIFICATION_MEDIA
 // Remote Params
 #define OSUD_LOCATION_ENABLED                                               @"OSUD_LOCATION_ENABLED"
@@ -185,9 +184,13 @@ typedef enum {ATTRIBUTED, NOT_ATTRIBUTED} FocusAttributionState;
 #define focusAttributionStateString(enum) [@[@"ATTRIBUTED", @"NOT_ATTRIBUTED"] objectAtIndex:enum]
 
 // OneSignal Background Task Identifiers
-#define ATTRIBUTED_FOCUS_TASK           @"ATTRIBUTED_FOCUS_TASK"
-#define UNATTRIBUTED_FOCUS_TASK         @"UNATTRIBUTED_FOCUS_TASK"
-#define USER_MANAGER_BACKGROUND_TASK    @"USER_MANAGER_BACKGROUND_TASK"
+#define ATTRIBUTED_FOCUS_TASK                   @"ATTRIBUTED_FOCUS_TASK"
+#define UNATTRIBUTED_FOCUS_TASK                 @"UNATTRIBUTED_FOCUS_TASK"
+#define SEND_SESSION_TIME_TO_USER_TASK          @"SEND_SESSION_TIME_TO_USER_TASK"
+#define OPERATION_REPO_BACKGROUND_TASK          @"OPERATION_REPO_BACKGROUND_TASK"
+#define IDENTITY_EXECUTOR_BACKGROUND_TASK       @"IDENTITY_EXECUTOR_BACKGROUND_TASK_"
+#define PROPERTIES_EXECUTOR_BACKGROUND_TASK     @"PROPERTIES_EXECUTOR_BACKGROUND_TASK_"
+#define SUBSCRIPTION_EXECUTOR_BACKGROUND_TASK   @"SUBSCRIPTION_EXECUTOR_BACKGROUND_TASK_"
 
 // OneSignal constants
 #define OS_PUSH @"push"

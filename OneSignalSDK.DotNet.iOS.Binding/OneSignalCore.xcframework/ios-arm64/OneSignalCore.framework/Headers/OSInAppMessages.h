@@ -1,7 +1,7 @@
 /*
  Modified MIT License
 
- Copyright 2022 OneSignal
+ Copyright 2023 OneSignal
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,15 +25,15 @@
  THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-
-#import <OneSignalOutcomes/OneSignalOutcomes.h>
+/**
+ Public API for the InAppMessages namespace.
+ */
 
 @interface OSInAppMessage : NSObject
 
 @property (strong, nonatomic, nonnull) NSString *messageId;
 
-// Convert the object into a NSDictionary
+// Dictionary of properties available on OSInAppMessage only
 - (NSDictionary *_Nonnull)jsonRepresentation;
 
 @end
@@ -78,30 +78,22 @@ typedef NS_ENUM(NSUInteger, OSInAppMessageActionUrlType) {
 
 @interface OSInAppMessageWillDisplayEvent : NSObject
 @property (nonatomic, readonly, nonnull) OSInAppMessage *message;
+- (NSDictionary *_Nonnull)jsonRepresentation;
 @end
 
 @interface OSInAppMessageDidDisplayEvent : NSObject
 @property (nonatomic, readonly, nonnull) OSInAppMessage *message;
+- (NSDictionary *_Nonnull)jsonRepresentation;
 @end
 
 @interface OSInAppMessageWillDismissEvent : NSObject
 @property (nonatomic, readonly, nonnull) OSInAppMessage *message;
+- (NSDictionary *_Nonnull)jsonRepresentation;
 @end
 
 @interface OSInAppMessageDidDismissEvent : NSObject
 @property (nonatomic, readonly, nonnull) OSInAppMessage *message;
-@end
-
-@protocol OSInAppMessageLifecycleListener <NSObject>
-@optional
-- (void)onWillDisplayInAppMessage:(OSInAppMessageWillDisplayEvent *_Nonnull)event
-NS_SWIFT_NAME(onWillDisplay(event:));
-- (void)onDidDisplayInAppMessage:(OSInAppMessageDidDisplayEvent *_Nonnull)event
-NS_SWIFT_NAME(onDidDisplay(event:));
-- (void)onWillDismissInAppMessage:(OSInAppMessageWillDismissEvent *_Nonnull)event
-NS_SWIFT_NAME(onWillDismiss(event:));
-- (void)onDidDismissInAppMessage:(OSInAppMessageDidDismissEvent *_Nonnull)event
-NS_SWIFT_NAME(onDidDismiss(event:));
+- (NSDictionary *_Nonnull)jsonRepresentation;
 @end
 
 @interface OSInAppMessageClickEvent : NSObject
@@ -116,9 +108,18 @@ NS_SWIFT_NAME(onDidDismiss(event:));
 NS_SWIFT_NAME(onClick(event:));
 @end
 
-/**
- Public API for the InAppMessages namespace.
- */
+@protocol OSInAppMessageLifecycleListener <NSObject>
+@optional
+- (void)onWillDisplayInAppMessage:(OSInAppMessageWillDisplayEvent *_Nonnull)event
+NS_SWIFT_NAME(onWillDisplay(event:));
+- (void)onDidDisplayInAppMessage:(OSInAppMessageDidDisplayEvent *_Nonnull)event
+NS_SWIFT_NAME(onDidDisplay(event:));
+- (void)onWillDismissInAppMessage:(OSInAppMessageWillDismissEvent *_Nonnull)event
+NS_SWIFT_NAME(onWillDismiss(event:));
+- (void)onDidDismissInAppMessage:(OSInAppMessageDidDismissEvent *_Nonnull)event
+NS_SWIFT_NAME(onDidDismiss(event:));
+@end
+
 @protocol OSInAppMessages <NSObject>
 
 + (void)addTrigger:(NSString * _Nonnull)key withValue:(NSString * _Nonnull)value;
@@ -136,9 +137,6 @@ NS_SWIFT_NAME(onClick(event:));
 + (void)removeLifecycleListener:(NSObject<OSInAppMessageLifecycleListener> *_Nullable)listener NS_REFINED_FOR_SWIFT;
 @end
 
-@interface OneSignalInAppMessaging : NSObject <OSInAppMessages>
-
-+ (Class<OSInAppMessages>_Nonnull)InAppMessages;
-+ (void)start;
-
+@interface OSStubInAppMessages : NSObject<OSInAppMessages>
++ (Class<OSInAppMessages>)InAppMessages;
 @end

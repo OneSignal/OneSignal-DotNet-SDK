@@ -3,6 +3,7 @@
 // swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name OneSignalFramework
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import Foundation
+import OneSignalCore
 @_exported import OneSignalFramework
 import OneSignalNotifications
 import OneSignalOutcomes
@@ -20,13 +21,13 @@ extension OneSignalFramework.OneSignal {
   public static var Session: OneSignalOutcomes.OSSession.Type {
     get
   }
-  public static var InAppMessages: OneSignalFramework.OSInAppMessages.Type {
+  public static var InAppMessages: OneSignalCore.OSInAppMessages.Type {
     get
   }
   public static var Debug: OneSignalCore.OSDebug.Type {
     get
   }
-  public static var Location: OneSignalFramework.OSLocation.Type {
+  public static var Location: OneSignalCore.OSLocation.Type {
     get
   }
   public static var LiveActivities: OneSignalFramework.OSLiveActivities.Type {
@@ -36,15 +37,15 @@ extension OneSignalFramework.OneSignal {
 extension OneSignalCore.OSDebug {
   public static func setAlertLevel(_ logLevel: OneSignalCore.ONE_S_LOG_LEVEL)
 }
-extension OneSignalFramework.OSInAppMessages {
+extension OneSignalCore.OSInAppMessages {
   public static var paused: Swift.Bool {
     get
     set
   }
-  public static func addLifecycleListener(_ listener: OneSignalFramework.OSInAppMessageLifecycleListener)
-  public static func removeLifecycleListener(_ listener: OneSignalFramework.OSInAppMessageLifecycleListener)
-  public static func addClickListener(_ listener: OneSignalFramework.OSInAppMessageClickListener)
-  public static func removeClickListener(_ listener: OneSignalFramework.OSInAppMessageClickListener)
+  public static func addLifecycleListener(_ listener: OneSignalCore.OSInAppMessageLifecycleListener)
+  public static func removeLifecycleListener(_ listener: OneSignalCore.OSInAppMessageLifecycleListener)
+  public static func addClickListener(_ listener: OneSignalCore.OSInAppMessageClickListener)
+  public static func removeClickListener(_ listener: OneSignalCore.OSInAppMessageClickListener)
 }
 extension OneSignalOutcomes.OSSession {
   public static func addOutcome(_ name: Swift.String, _ value: Foundation.NSNumber)
@@ -65,7 +66,7 @@ extension OneSignalNotifications.OSNotifications {
   public static func addClickListener(_ listener: OneSignalNotifications.OSNotificationClickListener)
   public static func removeClickListener(_ listener: OneSignalNotifications.OSNotificationClickListener)
 }
-extension OneSignalFramework.OSLocation {
+extension OneSignalCore.OSLocation {
   public static var isShared: Swift.Bool {
     get
     set
