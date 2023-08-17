@@ -13,9 +13,8 @@ public class iOSLocationManager : ILocationManager
         set => OneSignalNative.Location.SetShared(value);
     }
 
-    public Task<bool> RequestPermissionAsync()
+    public void RequestPermission()
     {
         OneSignalNative.Location.RequestPermission();
-        return Task.FromResult(true);
     }
 }

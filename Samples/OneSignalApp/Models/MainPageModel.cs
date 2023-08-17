@@ -374,9 +374,9 @@ namespace OneSignalApp.Models
             });
         }
 
-        private async void PromptForLocation()
+        private void PromptForLocation()
         {
-            await OneSignal.Location.RequestPermissionAsync();
+            OneSignal.Location.RequestPermission();
         }
 
         private void EnterLiveActivity()
@@ -506,7 +506,7 @@ namespace OneSignalApp.Models
 
             Debug.WriteLine($"Notifications.Permission={OneSignal.Notifications.Permission}");
 
-            Debug.WriteLine($"Notifications.RequestPermissionAsync(true)");
+            Debug.WriteLine($"Notifications.RequestPermission(true)");
             await OneSignal.Notifications.RequestPermission(true);
             await Task.Delay(2000);
 
@@ -517,8 +517,8 @@ namespace OneSignalApp.Models
             OneSignal.Location.IsShared = true;
             await Task.Delay(2000);
 
-            Debug.WriteLine($"Location.RequestPermissionAsync()");
-            await OneSignal.Location.RequestPermissionAsync();
+            Debug.WriteLine($"Location.RequestPermission()");
+            OneSignal.Location.RequestPermission();
             await Task.Delay(2000);
 
             Debug.WriteLine($"InAppMessages.Paused={OneSignal.InAppMessages.Paused}");
