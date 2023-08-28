@@ -305,7 +305,7 @@ namespace OneSignalApp.Models
 
         private async void PromptForPush()
         {
-            await OneSignal.Notifications.RequestPermission(true);
+            await OneSignal.Notifications.RequestPermissionAsync(true);
         }
 
         private async void AddEmail()
@@ -507,7 +507,7 @@ namespace OneSignalApp.Models
             Debug.WriteLine($"Notifications.Permission={OneSignal.Notifications.Permission}");
 
             Debug.WriteLine($"Notifications.RequestPermission(true)");
-            await OneSignal.Notifications.RequestPermission(true);
+            await OneSignal.Notifications.RequestPermissionAsync(true);
             await Task.Delay(2000);
 
             Debug.WriteLine($"Location.IsShared={OneSignal.Location.IsShared}");
