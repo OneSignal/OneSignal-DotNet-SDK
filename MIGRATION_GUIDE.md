@@ -47,9 +47,9 @@ The OneSignal SDK has been updated to be more modular in nature.  The SDK has be
 Initialization of the OneSignal SDK, though similar, has changed slightly to account for the modularization of functionality.  A typical initialization now looks similar to below
 
     OneSignal.Initialize("YOUR_ONESIGNAL_APP_ID");
-    // requestPermission will show the native notification permission prompt.
+    // RequestPermissionAsync will show the native notification permission prompt.
     // We recommend removing the following code and instead using an In-App Message to prompt for notification permission.
-    await OneSignal.Notifications.RequestPermission(true);
+    await OneSignal.Notifications.RequestPermissionAsync(true);
 
 If your integration is not user-centric, there is no additional startup code required.  A user is automatically created as part of the push subscription creation, both of which are only accessible from the current device and the OneSignal dashboard.
 
@@ -190,7 +190,7 @@ The notification namespace is accessible via `OneSignal.Notifications` and provi
 | -------------------------------------------------------------------------------| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bool Permission { get; }`                                                     | *Whether this app has push notification permission.*                                                                                                                                                                                               |
 | `NotificationPermission PermissionNative { get; }`                             | *on iOS returns the specific permission type for the device. The NotificationPermission enum has values NotDetermined, Denied, Authorized, Provisional, Ephemeral.*                                                                           |
-| `Task<bool> RequestPermission(bool fallbackToSettings)`                        | *Prompt the user for permission to push notifications.  This will display the native OS prompt to request push notification permission.  If the user enables, a push subscription to this device will be automatically added to the user.*         |
+| `Task<bool> RequestPermissionAsync(bool fallbackToSettings)`                        | *Prompt the user for permission to push notifications.  This will display the native OS prompt to request push notification permission.  If the user enables, a push subscription to this device will be automatically added to the user.*         |
 | `event EventHandler<NotificationPermissionChangedEventArgs> PermissionChanged` | *Event for when the push permission has changed.*                                                                                                                                                                                                  |
 | `event EventHandler<NotificationWillDislpayEventArgs> WillDisplay`             | *Event for when a push notification will display.  The arguments contains `NotificationWillDisplayEventArgs.Notification` and the function `NotificationWillDisplayEventArgs.PreventDefault()`. Use `PreventDefault()` to delay/prevent the display of the notification. Call `Notification.display()` to display the notificaiton after having previously prevented default.*                                                                                  |
 | `event EventHandler<NotificationClickedEventArgs> Clicked`                     | *Event for when a push notification has been clicked by the user.*                                                                                                                                                                                 |
@@ -202,7 +202,7 @@ The location namespace is accessible via `OneSignal.Location` and provide access
 | **C#**                                     | **Description**                                                                                                                                          |
 | -------------------------------------------| -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bool IsShared { get; set; }`              | *Whether location is currently shared with OneSignal.*                                                                                                   |
-| `Task<bool> RequestPermission()`      | *Use this method to manually prompt the user for location permissions. This allows for geotagging so you send notifications to users based on location.* |
+| `void RequestPermission()`      | *Use this method to manually prompt the user for location permissions. This allows for geotagging so you send notifications to users based on location.* |
 
 
 **InAppMessages Namespace**
