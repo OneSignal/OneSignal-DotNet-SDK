@@ -34,7 +34,7 @@ public class iOSNotificationsManager : INotificationsManager
 
     public NotificationPermission PermissionNative() => (NotificationPermission)OneSignalNative.Notifications.PermissionNative;
 
-    public async Task<bool> RequestPermission(bool fallbackToSettings)
+    public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
         var proxy = new BooleanCallbackProxy();
         OneSignalNative.Notifications.RequestPermission(r => proxy.OnResponse(r), fallbackToSettings);

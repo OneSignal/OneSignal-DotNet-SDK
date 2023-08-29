@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/OneSignalUser-Swift.h</key>
 		<data>
-		xKMh3nF80FwiG00egZ5ebB/gqIo=
+		7bpxB1WP0H7OucGZ8Y+lOl5d+nU=
 		</data>
 		<key>Headers/OneSignalUser.h</key>
 		<data>
@@ -14,15 +14,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ZlD/CeF21Uw0zuR+GDI8Xd02Tfo=
+		GLtMVAXXxdEYHrGo6YXCFETi2So=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		mZyy2qyrIwBP/Xlegv8MoE9wcaY=
+		sGD7aSE6Tbat1ypIrSiOpp8S1Ok=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		uvC1fDesK6o2HPLlv5uxwCc1wwg=
+		vSAjASbTeYg8SakA0VSm+Kiotng=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -30,19 +30,19 @@
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		uvC1fDesK6o2HPLlv5uxwCc1wwg=
+		vSAjASbTeYg8SakA0VSm+Kiotng=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		rQQeWgDqGbAQ7mitg3ta6lkaUOY=
+		8BCuluVmeHIj6NV/P5Z5vjiPqpM=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		mZyy2qyrIwBP/Xlegv8MoE9wcaY=
+		sGD7aSE6Tbat1ypIrSiOpp8S1Ok=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		B1agZyLsKatp5WX+n8UTTlVVIWI=
+		DsvcnEX7qoNVs2+/NRSPHOWFv9s=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -50,11 +50,11 @@
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		B1agZyLsKatp5WX+n8UTTlVVIWI=
+		DsvcnEX7qoNVs2+/NRSPHOWFv9s=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		j/hEZ6a2Nhjpx7ZNvm5pfUa/8kU=
+		f3C0zYIfoIyGxsTlpbNMWZUL7MI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -67,7 +67,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			TWyqaIrJD2EzointDq43f6B+Ssn7noiCd+vl6nr817E=
+			2SSy/EB01SX2PXCFbMwGeTkOr126gf+OvjAtPt+3HUU=
 			</data>
 		</dict>
 		<key>Headers/OneSignalUser.h</key>
@@ -81,14 +81,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Xj+lEqZsIde4gnM8XNYxMDMDD3RO6rZEwqMs7jnrOLw=
+			J9Rg0v8SMPMLBy0msKmkPLMsK1oBOHjSKB5r0MWAwPw=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wwJozutdW9OARnkYzs4YwyzteE28HXpVgARJXPLhAh0=
+			z9KhuUIpXEbycWLLc4UGNjQ5Ejcchr4fgNHGPM/F70g=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -102,28 +102,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wwJozutdW9OARnkYzs4YwyzteE28HXpVgARJXPLhAh0=
+			z9KhuUIpXEbycWLLc4UGNjQ5Ejcchr4fgNHGPM/F70g=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			O6MaeBOgrVrt/OoJMnhxOCmmueyhW8Sdd/7MVg3ZW2E=
+			JCdpQkukTCzouMg2g1o1tnbc06P6yGYc5pxgJBXleg8=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Xj+lEqZsIde4gnM8XNYxMDMDD3RO6rZEwqMs7jnrOLw=
+			J9Rg0v8SMPMLBy0msKmkPLMsK1oBOHjSKB5r0MWAwPw=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uqprgGHnUqdLVYG1U+e7IcsZ6lAL/BrwarXZ9AfmbnU=
+			SKlnbCPoCnPlhh9MjomBIWuM8xnKQggDAD2zakHEQT8=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -137,14 +137,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uqprgGHnUqdLVYG1U+e7IcsZ6lAL/BrwarXZ9AfmbnU=
+			SKlnbCPoCnPlhh9MjomBIWuM8xnKQggDAD2zakHEQT8=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AtOrwk2QM9uwzqQzcQYlkE6ztvDMA37/qliPpvXxrY0=
+			7H+1bGa1r5DQFomUrrXJhhBVxBT6Zn00ZpeGKT2FBjs=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

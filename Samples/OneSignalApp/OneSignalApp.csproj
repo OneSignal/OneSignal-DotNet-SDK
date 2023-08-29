@@ -24,10 +24,6 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">  
-        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>  
-    </PropertyGroup>  
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	  <CodesignProvision>Automatic</CodesignProvision>
@@ -70,21 +66,9 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
-	  <ProjectReference Include="..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj">
-		<IsAppExtension>true</IsAppExtension>
-		<IsWatchApp>false</IsWatchApp>
-	  </ProjectReference>
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
 	</ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' And $(DefineConstants.Contains(LIVE_ACTIVITIES))">
-	  <ProjectReference Include="..\OneSignalLiveActivity.Binding\OneSignalLiveActivity.Binding.csproj" />
-      <AdditionalAppExtensions Include="$(MSBuildProjectDirectory)/../native/example/">
-        <Name>OneSignalWidgetExtension</Name>
-        <BuildOutput Condition="'$(ComputedPlatform)' == 'iPhone'">DerivedData/example/Build/Products/Debug-iphoneos</BuildOutput>
-        <BuildOutput Condition="'$(ComputedPlatform)' == 'iPhoneSimulator'">DerivedData/example/Build/Products/Debug-iphonesimulator</BuildOutput>
-      </AdditionalAppExtensions>
-    </ItemGroup>
     <ItemGroup>
       <None Remove="Models\" />
       <None Remove="Converters\" />

@@ -32,10 +32,8 @@ namespace OneSignalSDK.DotNet.Core.Location
         /// See <a href="https://documentation.onesignal.com/docs/permission-requests">Permission Requests | OneSignal Docs</a>
         /// </summary>
         /// <returns>
-        /// A task which will complete once the permission request has completed. The result
-        /// is true if the user is opted in to location permission (user affirmed or already enabled),
-        /// the result is false if the user is opted out of location permission(user rejected).
+        /// void
         /// </returns>
-        Task<bool> RequestPermissionAsync();
+        void RequestPermission();
     }
 }

@@ -1,4 +1,4 @@
-# .NET v5.0.0-beta03 Migration Guide
+# .NET v5.0.0 Migration Guide
 In this release, we are making a significant shift from a device-centered model to a user-centered model.  A user-centered model allows for more powerful omni-channel integrations within the OneSignal platform.
 
 This migration guide will walk you through the .NET SDK v5.0.0 changes as a result of this shift.
@@ -47,9 +47,9 @@ The OneSignal SDK has been updated to be more modular in nature.  The SDK has be
 Initialization of the OneSignal SDK, though similar, has changed slightly to account for the modularization of functionality.  A typical initialization now looks similar to below
 
     OneSignal.Initialize("YOUR_ONESIGNAL_APP_ID");
-    // requestPermission will show the native notification permission prompt.
+    // RequestPermissionAsync will show the native notification permission prompt.
     // We recommend removing the following code and instead using an In-App Message to prompt for notification permission.
-    await OneSignal.Notifications.RequestPermission(true);
+    await OneSignal.Notifications.RequestPermissionAsync(true);
 
 If your integration is not user-centric, there is no additional startup code required.  A user is automatically created as part of the push subscription creation, both of which are only accessible from the current device and the OneSignal dashboard.
 
@@ -190,7 +190,7 @@ The notification namespace is accessible via `OneSignal.Notifications` and provi
 | -------------------------------------------------------------------------------| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bool Permission { get; }`                                                     | *Whether this app has push notification permission.*                                                                                                                                                                                               |
 | `NotificationPermission PermissionNative { get; }`                             | *on iOS returns the specific permission type for the device. The NotificationPermission enum has values NotDetermined, Denied, Authorized, Provisional, Ephemeral.*                                                                           |
-| `Task<bool> RequestPermission(bool fallbackToSettings)`                        | *Prompt the user for permission to push notifications.  This will display the native OS prompt to request push notification permission.  If the user enables, a push subscription to this device will be automatically added to the user.*         |
+| `Task<bool> RequestPermissionAsync(bool fallbackToSettings)`                        | *Prompt the user for permission to push notifications.  This will display the native OS prompt to request push notification permission.  If the user enables, a push subscription to this device will be automatically added to the user.*         |
 | `event EventHandler<NotificationPermissionChangedEventArgs> PermissionChanged` | *Event for when the push permission has changed.*                                                                                                                                                                                                  |
 | `event EventHandler<NotificationWillDislpayEventArgs> WillDisplay`             | *Event for when a push notification will display.  The arguments contains `NotificationWillDisplayEventArgs.Notification` and the function `NotificationWillDisplayEventArgs.PreventDefault()`. Use `PreventDefault()` to delay/prevent the display of the notification. Call `Notification.display()` to display the notificaiton after having previously prevented default.*                                                                                  |
 | `event EventHandler<NotificationClickedEventArgs> Clicked`                     | *Event for when a push notification has been clicked by the user.*                                                                                                                                                                                 |
@@ -202,7 +202,7 @@ The location namespace is accessible via `OneSignal.Location` and provide access
 | **C#**                                     | **Description**                                                                                                                                          |
 | -------------------------------------------| -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bool IsShared { get; set; }`              | *Whether location is currently shared with OneSignal.*                                                                                                   |
-| `Task<bool> RequestPermissionAsync()`      | *Use this method to manually prompt the user for location permissions. This allows for geotagging so you send notifications to users based on location.* |
+| `void RequestPermission()`      | *Use this method to manually prompt the user for location permissions. This allows for geotagging so you send notifications to users based on location.* |
 
 
 **InAppMessages Namespace**
@@ -236,9 +236,9 @@ The debug namespace is accessible via `OneSignal.Debug` and provide access to de
 
 
 # Limitations 
-- Recommend using only in development and staging environments for Beta releases.
-- Outcomes will be available in a future release
-
+- Changing app IDs is not supported.
+- Any User namespace calls must be invoked after initialization. Example: OneSignal.User.addTag("tag", "2")
+- In the SDK, the user state is only refreshed from the server when a new session is started (cold start or backgrounded for over 30 seconds) or when the user is logged in. This is by design.
 # Known issues
 - Identity Verification
-    - We will be introducing JWT in follow up Alpha or Beta release 
+    - We will be introducing JWT in a follow up release

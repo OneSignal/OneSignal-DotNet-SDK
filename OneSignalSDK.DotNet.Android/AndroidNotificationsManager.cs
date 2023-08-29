@@ -30,7 +30,7 @@ public class AndroidNotificationsManager : INotificationsManager
        return this.Permission ? NotificationPermission.Authorized : NotificationPermission.Denied;
     }
 
-    public async Task<bool> RequestPermission(bool fallbackToSettings)
+    public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
         var consumer = new AndroidBoolConsumer();
         OneSignalNative.Notifications.RequestPermission(fallbackToSettings, Com.OneSignal.Android.Continue.With(consumer));

@@ -849,11 +849,6 @@ namespace Com.OneSignal.iOS {
         [Export ("initialize:withLaunchOptions:")]
         void Initialize(string newAppId, [NullAllowed] NSDictionary launchOptions);
 
-        // +(void)setLaunchURLsInApp:(BOOL)launchInApp;
-        [Static]
-        [Export ("setLaunchURLsInApp:")]
-        void SetLaunchURLsInApp(bool launchInApp);
-
         // +(void)setProvidesNotificationSettingsView:(BOOL)providesView;
         [Static]
         [Export ("setProvidesNotificationSettingsView:")]

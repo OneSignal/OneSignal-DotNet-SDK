@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>22E261</string>
+	<string>22F82</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -42,8 +42,6 @@
 	<string>14B47b</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.15</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2022 Hiptic. All rights reserved.</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>2</integer>
