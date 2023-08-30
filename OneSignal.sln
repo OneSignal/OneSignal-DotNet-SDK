@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNetSDK.iOS.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNetSDK.iOS", "OneSignalSDK.DotNetSDK.iOS\OneSignalSDK.DotNetSDK.iOS.csproj", "{B54BB2A2-90EC-4482-A0F7-EBD631444B38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNetSDK.Android.Core.Binding", "OneSignalSDK.DotNetSDK.Android.Core.Binding\OneSignalSDK.DotNetSDK.Android.Core.Binding.csproj", "{1E6860E4-E517-4B6D-A807-6AE55FA16C43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -187,6 +189,18 @@ Global
 		{B54BB2A2-90EC-4482-A0F7-EBD631444B38}.Release|iPhone.Build.0 = Release|Any CPU
 		{B54BB2A2-90EC-4482-A0F7-EBD631444B38}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{B54BB2A2-90EC-4482-A0F7-EBD631444B38}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Release|iPhone.Build.0 = Release|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{1E6860E4-E517-4B6D-A807-6AE55FA16C43}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
