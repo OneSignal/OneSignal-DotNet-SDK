@@ -14,7 +14,7 @@
     <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj">
       <ReferenceSourceTarget></ReferenceSourceTarget>
     </ProjectReference>
-    <ProjectReference Include="..\OneSignalSDK.DotNetSDK.iOS.Binding\OneSignalSDK.DotNetSDK.iOS.Binding.csproj">
+    <ProjectReference Include="..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj">
       <ReferenceSourceTarget></ReferenceSourceTarget>
     </ProjectReference>
   </ItemGroup>
