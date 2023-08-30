@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNetSDK.Andr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNetSDK.Android.Location.Binding", "OneSignalSDK.DotNetSDK.Android.Location.Binding\OneSignalSDK.DotNetSDK.Android.Location.Binding.csproj", "{B74198C6-EAC5-4837-829F-377B3161A4C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneSignalSDK.DotNetSDK.Android.InAppMessages.Binding", "OneSignalSDK.DotNetSDK.Android.InAppMessages.Binding\OneSignalSDK.DotNetSDK.Android.InAppMessages.Binding.csproj", "{9764E6C3-9498-4ECF-BB39-768199C907EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -229,6 +231,18 @@ Global
 		{B74198C6-EAC5-4837-829F-377B3161A4C3}.Release|iPhone.Build.0 = Release|Any CPU
 		{B74198C6-EAC5-4837-829F-377B3161A4C3}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{B74198C6-EAC5-4837-829F-377B3161A4C3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Release|iPhone.Build.0 = Release|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{9764E6C3-9498-4ECF-BB39-768199C907EC}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
