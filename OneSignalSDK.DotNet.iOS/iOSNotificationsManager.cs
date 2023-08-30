@@ -22,9 +22,9 @@ public class iOSNotificationsManager : INotificationsManager
 
     public void Initialize()
     {
-        var _notificationsPermissionObserver = new InternalNotificationsPermissionObserver(this);
-        var _notificationsClickListener = new InternalNotificationsClickListener(this);
-        var _notificationsLifecycleListener = new InternalNotificationsLifecycleListener(this);
+        _notificationsPermissionObserver = new InternalNotificationsPermissionObserver(this);
+        _notificationsClickListener = new InternalNotificationsClickListener(this);
+        _notificationsLifecycleListener = new InternalNotificationsLifecycleListener(this);
 
 
         OneSignalNative.Notifications.AddPermissionObserver(_notificationsPermissionObserver);
