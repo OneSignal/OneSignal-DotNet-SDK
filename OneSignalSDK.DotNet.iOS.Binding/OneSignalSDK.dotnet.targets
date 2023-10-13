@@ -43,6 +43,18 @@
               <ForceLoad>True</ForceLoad>
               <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore</Frameworks>
             </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalLocation.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore OneSignalUser UIKit</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalInAppMessages.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore OneSignalUser OneSignalOutcomes UIKit WebKit CoreGraphics</Frameworks>
+            </NativeReference>
         </ItemGroup>
     </Target>
 </Project>
