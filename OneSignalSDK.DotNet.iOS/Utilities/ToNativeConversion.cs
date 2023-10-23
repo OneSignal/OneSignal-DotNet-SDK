@@ -42,7 +42,7 @@ public static class NativeConversion
         foreach (var entry in dict)
         {
             keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
-            values[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
+            values[index] = NSString.FromData(entry.Value, NSStringEncoding.UTF8);
             index++;
         }
 
