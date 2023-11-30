@@ -31,7 +31,7 @@
 	<key>NSSupportsLiveActivities</key>
 	<string>Yes</string>
 	<key>MinimumOSVersion</key>
-	<string>14.2</string>
+	<string>15.0</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location always used for testing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
