@@ -37,7 +37,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net7.0-ios')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net8.0-ios')) ">
     <Reference Include="Microsoft.iOS" />
   </ItemGroup>
   <ItemGroup>
