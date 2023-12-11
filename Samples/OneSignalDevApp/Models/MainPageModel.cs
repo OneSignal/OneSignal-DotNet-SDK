@@ -181,31 +181,31 @@ namespace OneSignalDevApp.Models
             ExitLiveActivityCommand = new Command(ExitLiveActivity);
             ValidationCommand = new Command(Validation);
 
-            // Initialize OneSignal SDK.
+            // // Initialize OneSignal SDK.
             OneSignal.Debug.LogLevel = LogLevel.VERBOSE;
-            OneSignal.Debug.AlertLevel = LogLevel.NONE;
+            // OneSignal.Debug.AlertLevel = LogLevel.NONE;
 
-            OneSignal.ConsentRequired = true;
-            OneSignal.ConsentGiven = false;
+            // OneSignal.ConsentRequired = true;
+            // OneSignal.ConsentGiven = false;
 
-            OneSignal.Initialize(_appId);
+            // OneSignal.Initialize(_appId);
 
-            OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
-            OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
-            OneSignal.Notifications.Clicked += Notifications_Clicked;
-            OneSignal.Notifications.WillDisplay += Notifications_WillDisplay;
+            // OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
+            // OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
+            // OneSignal.Notifications.Clicked += Notifications_Clicked;
+            // OneSignal.Notifications.WillDisplay += Notifications_WillDisplay;
             
-            OneSignal.InAppMessages.WillDisplay += InAppMessages_WillDisplay;
-            OneSignal.InAppMessages.DidDisplay += InAppMessages_DidDisplay;
-            OneSignal.InAppMessages.WillDismiss += InAppMessages_WillDismiss;
-            OneSignal.InAppMessages.DidDismiss += InAppMessages_DidDismiss;
-            OneSignal.InAppMessages.Clicked += InAppMessages_Clicked;
+            // OneSignal.InAppMessages.WillDisplay += InAppMessages_WillDisplay;
+            // OneSignal.InAppMessages.DidDisplay += InAppMessages_DidDisplay;
+            // OneSignal.InAppMessages.WillDismiss += InAppMessages_WillDismiss;
+            // OneSignal.InAppMessages.DidDismiss += InAppMessages_DidDismiss;
+            // OneSignal.InAppMessages.Clicked += InAppMessages_Clicked;
 
-            IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
-            HasPushPermission = OneSignal.Notifications.Permission;
-            IsIAMPaused = OneSignal.InAppMessages.Paused;
-            IsLocationShared = OneSignal.Location.IsShared;
-            PushSubscriptionId = OneSignal.User.PushSubscription.Id;
+            // IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+            // HasPushPermission = OneSignal.Notifications.Permission;
+            // IsIAMPaused = OneSignal.InAppMessages.Paused;
+            // IsLocationShared = OneSignal.Location.IsShared;
+            // PushSubscriptionId = OneSignal.User.PushSubscription.Id;
         }
 
         private void InAppMessages_Clicked(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageClickedEventArgs e)
