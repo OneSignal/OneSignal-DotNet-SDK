@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5FF66A21-BA7B-48FD-8A7D-6A1092066306}</ProjectGuid>
-    <TargetFrameworks>net7.0-ios;net8.0-ios</TargetFrameworks>
+    <TargetFrameworks>net7.0-ios</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
