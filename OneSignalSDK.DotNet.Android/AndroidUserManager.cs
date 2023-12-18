@@ -35,6 +35,7 @@ namespace OneSignalSDK.DotNet.Android
         public void AddTags(IDictionary<string, string> tags) => OneSignalNative.User.AddTags(tags);
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
+        public IDictionary<string, string> GetTags() => OneSignalNative.User.Tags;
     }
 
     public class AndroidPushSubscription : IPushSubscription
