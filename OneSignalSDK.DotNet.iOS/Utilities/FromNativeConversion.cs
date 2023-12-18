@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Foundation;
 using HomeKit;
+using System.Text.Json;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.Core.Notifications;
@@ -34,6 +35,17 @@ public static class FromNativeConversion
         NSString jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
         string jsonString = jsonNSString.ToString();
         return Json.Deserialize(jsonString) as Dictionary<string, object>;
+    }
+
+    public static Dictionary<string, string> NSDictToPureStringDict(NSDictionary nsDict)
+    {
+        if (nsDict == null)
+            return null;
+        NSError error;
+        NSData jsonData = NSJsonSerialization.Serialize(nsDict, 0, out error);
+        NSString jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
+        string jsonString = jsonNSString.ToString();
+        return JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
     }
 
     public static Notification ToNotification(OneSignaliOS.OSNotification notification)

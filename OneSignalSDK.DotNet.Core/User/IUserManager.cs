@@ -126,5 +126,10 @@ namespace OneSignalSDK.DotNet.Core.User
         /// </summary>
         /// <param name="keys">The collection of keys, all of which will be removed from the current user.</param>
         void RemoveTags(params string[] keys);
+
+        /// <summary>
+        /// Get the dictionary of data tags for the current user.
+        /// </summary>
+        IDictionary<string, string> GetTags();
     }
 }
