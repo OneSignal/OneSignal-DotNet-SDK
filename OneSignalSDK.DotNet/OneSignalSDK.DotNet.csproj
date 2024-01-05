@@ -1,30 +1,14 @@
-<Project Sdk="Xamarin.Legacy.Sdk/0.2.0-alpha3">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0-ios10.0;xamarin.ios10;net6.0-android31;monoandroid12.0</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <AssemblyName>OneSignalSDK.DotNet</AssemblyName>
-    <PackageId>OneSignalSDK.DotNet</PackageId>
-    <SupportedOSPlatformVersion Condition=" $(TargetFramework.StartsWith('net6.0-android')) Or $(TargetFramework.StartsWith('monoandroid')) ">21.0</SupportedOSPlatformVersion>
-	<SupportedOSPlatformVersion Condition=" $(TargetFramework.StartsWith('net6.0-ios')) Or $(TargetFramework.StartsWith('xamarin.ios')) ">9.0</SupportedOSPlatformVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <DefineConstants>TRACE;PORTABLE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NET;NET6_0;NETCOREAPP</DefineConstants>
-    <WarningLevel>4</WarningLevel>
-    <CreatePackage>false</CreatePackage>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineConstants>TRACE;PORTABLE;RELEASE;NETSTANDARD2_0</DefineConstants>
-    <CreatePackage>false</CreatePackage>
+    <TargetFrameworks>net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
-    <ProjectReference Include="..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" Condition=" $(TargetFramework.StartsWith('net6.0-android')) Or $(TargetFramework.StartsWith('monoandroid')) " />
-    <ProjectReference Include="..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" Condition=" $(TargetFramework.StartsWith('net6.0-ios')) Or $(TargetFramework.StartsWith('xamarin.ios')) " />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" Condition=" $(TargetFramework.StartsWith('net7.0-android')) " />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" Condition=" $(TargetFramework.StartsWith('net7.0-ios')) " />
   </ItemGroup>
+
 </Project>
