@@ -38,6 +38,7 @@ namespace OneSignalSDK.DotNet.iOS
         public void AddTags(IDictionary<string, string> tags) => OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags));
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
+        public IDictionary<string, string> GetTags() => FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
     }
 
     public class iOSPushSubscription : IPushSubscription

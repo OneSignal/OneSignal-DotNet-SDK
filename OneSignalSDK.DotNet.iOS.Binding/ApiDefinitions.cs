@@ -494,6 +494,12 @@ namespace Com.OneSignal.iOS {
         [Export ("removeTags:")]
         void RemoveTags(string[] tags);
 
+        // @required -(NSDictionary<NSString *,NSString *>)getTags;
+        //[Abstract]
+        [Export ("getTags")]
+        [return: NullAllowed]
+        NSDictionary<NSString, NSString> GetTags();
+
         // @required -(void)addEmail:(NSString * _Nonnull)email;
         //[Abstract]
         [Export ("addEmail:")]
