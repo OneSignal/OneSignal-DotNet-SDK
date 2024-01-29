@@ -18,7 +18,7 @@
         <dependencies>
             <group targetFramework="netstandard2.0">
             </group>
-            <group targetFramework="net7.0-ios10.0">
+            <group targetFramework="net7.0-ios11.0">
             </group>
             <group targetFramework="net7.0-android21.0">
                 <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0.1" />
@@ -38,23 +38,6 @@
                 <dependency id="Xamarin.Google.Dagger" version="2.41.0.2" />
                 <dependency id="Xamarin.GooglePlayServices.Base" version="118.1.0" />
             </group>
-            <group targetFramework="monoandroid12.0">
-                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0.1" />
-                <dependency id="Xamarin.KotlinX.Coroutines.Core" version="1.6.4.2" />
-                <dependency id="Xamarin.KotlinX.Coroutines.Android" version="1.6.4.2" />
-
-                <dependency id="Xamarin.AndroidX.CardView" version="1.0.0.11" />
-                <dependency id="Xamarin.AndroidX.Legacy.Support.V4" version="1.0.0.10" />
-                <dependency id="Xamarin.AndroidX.Browser" version="1.3.0.8" />
-                <dependency id="Xamarin.AndroidX.AppCompat" version="1.3.1.3" />
-                <dependency id="Xamarin.AndroidX.Work.Runtime" version="2.7.0" />
-                <dependency id="Xamarin.AndroidX.Work.Work.Runtime.Ktx" version="2.7.0" />
-
-                <dependency id="Xamarin.Firebase.Messaging" version="122.0.0.2" />
-                <!-- Dagger is required for FCM, should be a "transitive dependency" but is not due to this bug:
-                     https://github.com/xamarin/XamarinComponents/issues/1069 -->
-                <dependency id="Xamarin.Google.Dagger" version="2.39.1" />
-            </group>
         </dependencies>
     </metadata>
     <files>
@@ -69,63 +52,46 @@
         <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.pdb" target="lib\netstandard2.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.Core.pdb" target="lib\netstandard2.0" />
 
-        <!--net6.0-android31 (minimum runtime 5.0/API 21)-->
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.dll" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Core.dll" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.dll" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.Core.Binding.dll" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.InAppMessages.Binding.dll" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.Location.Binding.dll" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.Notifications.Binding.dll" target="lib\net7.0-android31.0" />
+        <!--net7.0-android (minimum runtime 5.0/API 21)-->
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.dll" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Core.dll" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.dll" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.Core.Binding.dll" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.InAppMessages.Binding.dll" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.Location.Binding.dll" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.Notifications.Binding.dll" target="lib\net7.0-android21.0" />
 
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.pdb" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Core.pdb" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.pdb" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.Core.Binding.pdb" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.InAppMessages.Binding.pdb" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.Location.Binding.pdb" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\OneSignalSDK.DotNet.Android.Notifications.Binding.pdb" target="lib\net7.0-android31.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.pdb" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Core.pdb" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.pdb" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.Core.Binding.pdb" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.InAppMessages.Binding.pdb" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.Location.Binding.pdb" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.Android.Notifications.Binding.pdb" target="lib\net7.0-android21.0" />
 
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\core-release.aar" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\in-app-messages-release.aar" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\location-release.aar" target="lib\net7.0-android31.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android31\notifications-release.aar" target="lib\net7.0-android31.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\core-release.aar" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\in-app-messages-release.aar" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\location-release.aar" target="lib\net7.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\notifications-release.aar" target="lib\net7.0-android21.0" />
 
-        <!--monoandroid12.0 (minimum runtime 5.0/API 21)-->
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.dll" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Core.dll" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.dll" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Core.Binding.dll" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.InAppMessages.Binding.dll" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Location.Binding.dll" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Notifications.Binding.dll" target="lib\monoandroid12.0" />
+        <!--net7.0(minimum runtime 9.0)-->
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.dll" target="lib\net7.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net7.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net7.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.iOS.Binding.dll" target="lib\net7.0-ios11.0" />
 
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.pdb" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Core.pdb" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.pdb" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Core.Binding.pdb" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.InAppMessages.Binding.pdb" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Location.Binding.pdb" target="lib\monoandroid12.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\monoandroid12.0\OneSignalSDK.DotNet.Android.Notifications.Binding.pdb" target="lib\monoandroid12.0" />
-
-        <!--net6.0-ios10.0 (minimum runtime 9.0)-->
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.dll" target="lib\net7.0-ios10.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.Core.dll" target="lib\net7.0-ios10.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.iOS.dll" target="lib\net7.0-ios10.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.iOS.Binding.dll" target="lib\net7.0-ios10.0" />
-
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.pdb" target="lib\net7.0-ios10.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.Core.pdb" target="lib\net7.0-ios10.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.iOS.pdb" target="lib\net7.0-ios10.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios10.0\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net7.0-ios10.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.pdb" target="lib\net7.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.Core.pdb" target="lib\net7.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.iOS.pdb" target="lib\net7.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0-ios\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net7.0-ios11.0" />
 
         <!-- Workaround to support .XCFramework for iOS  -->
         <!-- Resources includes the full OneSignal.XCFramework.
              iOS.Binding project has NoBindingEmbedding = true so it isn't also bundled in the .dll -->
-        <file src="OneSignalSDK.DotNet.iOS.Binding\bin\Release\net7-iOS10.0\OneSignalSDK.DotNet.iOS.Binding.resources\**" target="res\ios" />
+        <file src="OneSignalSDK.DotNet.iOS.Binding\bin\Release\net7.0-ios\OneSignalSDK.DotNet.iOS.Binding.resources\**" target="res\ios" />
         
         <!-- This is a .target files that gets used by project that consumes the NuGet package.
              This copies out the OneSignal.xcframework from the resources folder and adds a NativeReference to it in the app project. -->
-        <file src="OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.targets" target="build\net7.0-ios10.0\" />
+        <file src="OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.targets" target="build\net7.0-ios11.0\" />
     </files>    
 </package>
