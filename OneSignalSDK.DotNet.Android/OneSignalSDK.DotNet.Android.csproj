@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB0C2961-BAFE-4346-B279-3B3941614DCD}</ProjectGuid>
+    <TargetFrameworks>net7.0-android</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>OneSignalSDK.DotNet.Android</RootNamespace>
+    <AssemblyName>OneSignalSDK.DotNet.Android</AssemblyName>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidTlsProvider>
+    </AndroidTlsProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj">
+      <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+    </ProjectReference>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Core.Binding\OneSignalSDK.DotNet.Android.Core.Binding.csproj">
+      <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+    </ProjectReference>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.InAppMessages.Binding\OneSignalSDK.DotNet.Android.InAppMessages.Binding.csproj">
+      <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+    </ProjectReference>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Location.Binding\OneSignalSDK.DotNet.Android.Location.Binding.csproj">
+      <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+    </ProjectReference>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Notifications.Binding\OneSignalSDK.DotNet.Android.Notifications.Binding.csproj">
+      <ReferenceSourceTarget>ProjectReference</ReferenceSourceTarget>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0.1" />
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Core" Version="1.6.4.2" />
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Android" Version="1.6.4.2" />
+    <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.14" />
+    <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.4.0.2" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.4.2.1" />
+    <PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.7.1.5" />
+    <PackageReference Include="Xamarin.Firebase.Messaging" Version="123.0.8" />
+    <!-- Dagger is required for FCM, should be a "transitive dependency" but is not due to this bug: https://github.com/xamarin/XamarinComponents/issues/1069 -->
+    <PackageReference Include="Xamarin.Google.Dagger" Version="2.41.0.2" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.1.0" />
+    <PackageReference Include="Xamarin.AndroidX.Work.Work.Runtime.Ktx" Version="2.7.1.5" />
+  </ItemGroup>
+</Project>

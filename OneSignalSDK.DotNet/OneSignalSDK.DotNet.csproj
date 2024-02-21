@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" Condition=" $(TargetFramework.StartsWith('net7.0-android')) " />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" Condition=" $(TargetFramework.StartsWith('net7.0-ios')) " />
+  </ItemGroup>
+
+</Project>

@@ -1,31 +1,59 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Target Name="OneSignalAddOneSignalXCFramework" BeforeTargets="BeforeCompile">
-         <PropertyGroup>
-            <BindingResources>$(MSBuildThisFileDirectory)../../res/iOS</BindingResources>
-        </PropertyGroup>
         <ItemGroup>
-            <NativeReference Include="$(BindingResources)/OneSignal.xcframework">
-                <Kind>Framework</Kind>
-                <SmartLink>False</SmartLink>
-                <ForceLoad>True</ForceLoad>
-                <Frameworks>SystemConfiguration UserNotifications WebKit CoreGraphics UIKit OneSignalOutcomes OneSignalCore OneSignalExtension</Frameworks>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalFramework.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>SystemConfiguration UserNotifications WebKit CoreGraphics UIKit OneSignalOutcomes OneSignalCore OneSignalExtension OneSignalNotifications OneSignalOSCore OneSignalUser</Frameworks>
             </NativeReference>
-            <NativeReference Include="$(BindingResources)/OneSignalExtension.xcframework">
-                <Kind>Framework</Kind>
-                <SmartLink>False</SmartLink>
-                <ForceLoad>True</ForceLoad>
-                <Frameworks>UserNotifications OneSignalCore OneSignalOutcomes</Frameworks>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalCore.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>UIKit SystemConfiguration</Frameworks>
             </NativeReference>
-            <NativeReference Include="$(BindingResources)/OneSignalOutcomes.xcframework">
-                <Kind>Framework</Kind>
-                <SmartLink>False</SmartLink>
-                <ForceLoad>True</ForceLoad>
-                <Frameworks>OneSignalCore</Frameworks>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalExtension.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>UserNotifications OneSignalCore OneSignalOutcomes</Frameworks>
             </NativeReference>
-            <NativeReference Include="$(BindingResources)/OneSignalCore.xcframework">
-                <Kind>Framework</Kind>
-                <SmartLink>False</SmartLink>
-                <ForceLoad>True</ForceLoad>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalNotifications.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore OneSignalExtension OneSignalOutcomes UIKit UserNotifications WebKit</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalOSCore.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalOutcomes.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalUser.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalLocation.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore OneSignalUser UIKit</Frameworks>
+            </NativeReference>
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalInAppMessages.xcframework">
+              <Kind>Framework</Kind>
+              <SmartLink>False</SmartLink>
+              <ForceLoad>True</ForceLoad>
+              <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore OneSignalUser OneSignalOutcomes UIKit WebKit CoreGraphics</Frameworks>
             </NativeReference>
         </ItemGroup>
     </Target>

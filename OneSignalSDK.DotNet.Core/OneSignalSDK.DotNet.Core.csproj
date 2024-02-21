@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>OneSignalSDK.DotNet.Core</AssemblyName>
+    <PackageId>OneSignalSDK.DotNet.Core</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize></Optimize>
+    <DefineConstants></DefineConstants>
+    <ConsolePause>true</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <NoWarn></NoWarn>
+    <AllowUnsafeBlocks></AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow></CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="User\" />
+    <None Remove="Session\" />
+    <None Remove="Notifications\" />
+    <None Remove="Location\" />
+    <None Remove="InAppMessages\" />
+    <None Remove="Debug\" />
+    <None Remove="User\Subscriptions\" />
+    <None Remove="Internal\" />
+    <None Remove="Internal\Utilities\" />
+    <None Remove="LiveActivities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="User\" />
+    <Folder Include="Session\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Location\" />
+    <Folder Include="InAppMessages\" />
+    <Folder Include="Debug\" />
+    <Folder Include="User\Subscriptions\" />
+    <Folder Include="Internal\" />
+    <Folder Include="Internal\Utilities\" />
+    <Folder Include="LiveActivities\" />
+  </ItemGroup>
+</Project>

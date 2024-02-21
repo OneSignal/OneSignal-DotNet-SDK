@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+
+		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>OneSignalApp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>OneSignalApp</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.onesignal.exampledotnet</ApplicationId>
+		<ApplicationIdGuid>66EE5B67-E62F-44C5-B377-7528383DC7C6</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	  <CodesignProvision>Automatic</CodesignProvision>
+	  <CodesignKey>iPhone Developer</CodesignKey>
+	  <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	  <WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Core.Binding\OneSignalSDK.DotNet.Android.Core.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.InAppMessages.Binding\OneSignalSDK.DotNet.Android.InAppMessages.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Location.Binding\OneSignalSDK.DotNet.Android.Location.Binding.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Notifications.Binding\OneSignalSDK.DotNet.Android.Notifications.Binding.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
+	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
+	</ItemGroup>
+    <ItemGroup>
+      <None Remove="Models\" />
+      <None Remove="Converters\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Models\" />
+      <Folder Include="Converters\" />
+    </ItemGroup>
+</Project>

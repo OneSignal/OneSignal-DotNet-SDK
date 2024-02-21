@@ -6,7 +6,11 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		6g/B6AznbVbOZXwkxv0jt+/jzyU=
+		jrMdjvD9OeByHc5AsEGvtuc1PD8=
+		</data>
+		<key>Resources/PrivacyInfo.xcprivacy</key>
+		<data>
+		z0nfsDi7mdXLVAhLoBccLVx0TaQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -22,7 +26,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			n4H86fUHxM2+HPT5GfHt7NhJQpn0HM/r4TA/xwRONF4=
+			d70Tj0PSUiGB4l6QdbVsmZRuKHKFYscrQlOWTgXAC7Q=
 			</data>
 		</dict>
 		<key>Headers/OneSignalExtensionBadgeHandler.h</key>
@@ -57,7 +61,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2dkaNryFSN8nWbBDB7GYg7f4zDXFSVUq1TIG4jo5pCw=
+			AJ/T0R5qTn3iHg4ktpt+47P7sud3CYMQ5I6GQO56LQk=
+			</data>
+		</dict>
+		<key>Resources/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			MxaDwVmcnkDSqiLbNG4U0OYlc6UDhnUXTO0K0aB8V+s=
 			</data>
 		</dict>
 	</dict>

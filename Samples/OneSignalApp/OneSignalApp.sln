@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 17.0.31611.283
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "exampledotnet", "exampledotnet\exampledotnet.csproj", "{11E9B382-773B-4EDA-9F6D-44604777ED98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneSignalApp", "OneSignalApp.csproj", "{EAD03B2E-693F-4C00-ACD6-F4539E1961AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,17 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{11E9B382-773B-4EDA-9F6D-44604777ED98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11E9B382-773B-4EDA-9F6D-44604777ED98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11E9B382-773B-4EDA-9F6D-44604777ED98}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{11E9B382-773B-4EDA-9F6D-44604777ED98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11E9B382-773B-4EDA-9F6D-44604777ED98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11E9B382-773B-4EDA-9F6D-44604777ED98}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EAD03B2E-693F-4C00-ACD6-F4539E1961AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD03B2E-693F-4C00-ACD6-F4539E1961AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD03B2E-693F-4C00-ACD6-F4539E1961AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD03B2E-693F-4C00-ACD6-F4539E1961AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+		SolutionGuid = {C355F870-14CE-47A4-A539-06461BCBB961}
 	EndGlobalSection
 EndGlobal

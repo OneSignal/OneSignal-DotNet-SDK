@@ -3,12 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFramework>net6.0-ios</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFrameworks>net7.0-ios</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
     <RootNamespace>OneSignalSDK.DotNet.iOS.Binding</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>OneSignalSDK.DotNet.iOS.Binding</AssemblyName>
@@ -39,19 +38,22 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="Structs.cs" />
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+    <Compile Remove="ApiDefinitions.cs" />
+    <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="OneSignal.xcframework">
+    <NativeReference Include="OneSignalFramework.xcframework">
       <Kind>Framework</Kind>
       <SmartLink>False</SmartLink>
       <ForceLoad>True</ForceLoad>
-      <Frameworks>SystemConfiguration UserNotifications WebKit CoreGraphics UIKit OneSignalOutcomes OneSignalCore OneSignalExtension</Frameworks>
+      <Frameworks>SystemConfiguration UserNotifications WebKit CoreGraphics UIKit OneSignalOutcomes OneSignalCore OneSignalExtension OneSignalNotifications OneSignalOSCore OneSignalUser</Frameworks>
     </NativeReference>
     <NativeReference Include="OneSignalCore.xcframework">
       <Kind>Framework</Kind>
       <SmartLink>False</SmartLink>
       <ForceLoad>True</ForceLoad>
+      <Frameworks>UIKit SystemConfiguration</Frameworks>
     </NativeReference>
     <NativeReference Include="OneSignalExtension.xcframework">
       <Kind>Framework</Kind>
@@ -59,17 +61,41 @@
       <ForceLoad>True</ForceLoad>
       <Frameworks>UserNotifications OneSignalCore OneSignalOutcomes</Frameworks>
     </NativeReference>
+    <NativeReference Include="OneSignalNotifications.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>OneSignalCore OneSignalExtension OneSignalOutcomes UIKit UserNotifications WebKit</Frameworks>
+    </NativeReference>
+    <NativeReference Include="OneSignalOSCore.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>OneSignalCore</Frameworks>
+    </NativeReference>
     <NativeReference Include="OneSignalOutcomes.xcframework">
       <Kind>Framework</Kind>
       <SmartLink>False</SmartLink>
       <ForceLoad>True</ForceLoad>
       <Frameworks>OneSignalCore</Frameworks>
     </NativeReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="ApiDefinition.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <NativeReference Include="OneSignalUser.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore</Frameworks>
+    </NativeReference>
+    <NativeReference Include="OneSignalLocation.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore OneSignalUser UIKit</Frameworks>
+    </NativeReference>
+    <NativeReference Include="OneSignalInAppMessages.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>OneSignalCore OneSignalNotifications OneSignalOSCore OneSignalUser OneSignalOutcomes UIKit WebKit CoreGraphics</Frameworks>
+    </NativeReference>
   </ItemGroup>
 </Project>
