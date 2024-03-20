@@ -17,8 +17,21 @@ namespace OneSignalSDK.DotNet.Android
 
         public void Initialize()
         {
+            OneSignalNative.User.AddObserver(new InternalUserChangedHandler(this));
             ((AndroidPushSubscription)PushSubscription).Initialize();
         }
+
+        public string OneSignalId 
+        {
+            get => OneSignalNative.User.OnesignalId;
+        }
+
+        public string ExternalId 
+        {
+            get => OneSignalNative.User.ExternalId;
+        }
+
+        public event EventHandler<UserStateChangedEventArgs> Changed;
 
         public void AddAlias(string label, string id) => OneSignalNative.User.AddAlias(label, id);
         public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(aliases);
@@ -36,6 +49,35 @@ namespace OneSignalSDK.DotNet.Android
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
         public IDictionary<string, string> GetTags() => OneSignalNative.User.Tags;
+
+        private sealed class InternalUserState : IUserState
+        {
+            public string OneSignalId { get; }
+
+            public string ExternalId { get; }
+
+            public InternalUserState(string onesignalId, string externalId)
+            {
+                OneSignalId = onesignalId;
+                ExternalId = externalId;
+            }
+        }
+
+        private class InternalUserChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.State.IUserStateObserver
+        {
+            private AndroidUserManager _manager;
+            public InternalUserChangedHandler(AndroidUserManager manager)
+            {
+                _manager = manager;
+            }
+
+            public void OnUserStateChange(Com.OneSignal.Android.User.State.UserChangedState state)
+            {
+                var current = new InternalUserState(state.Current.OnesignalId, state.Current.ExternalId);
+                var userChangedState = new UserChangedState(current);
+                _manager.Changed?.Invoke(_manager, new UserStateChangedEventArgs(userChangedState));
+            }
+        }
     }
 
     public class AndroidPushSubscription : IPushSubscription
@@ -99,5 +141,6 @@ namespace OneSignalSDK.DotNet.Android
                 _manager.Changed?.Invoke(_manager, new PushSubscriptionChangedEventArgs(changedState));
             }
         }
+
     }
 }
