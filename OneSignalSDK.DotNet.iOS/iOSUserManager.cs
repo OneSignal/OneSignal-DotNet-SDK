@@ -18,9 +18,12 @@ namespace OneSignalSDK.DotNet.iOS
 
         public IPushSubscription PushSubscription { get; } = new iOSPushSubscription();
 
+        private InternalUserChangedHandler _userChangedHandler;
+
         public void Initialize()
         {
-            OneSignalNative.User.AddObserver(new InternalUserChangedHandler(this));
+            _userChangedHandler = new InternalUserChangedHandler(this);
+            OneSignalNative.User.AddObserver(_userChangedHandler);
             ((iOSPushSubscription)PushSubscription).Initialize();
         }
 
@@ -33,7 +36,7 @@ namespace OneSignalSDK.DotNet.iOS
         {
             get => OneSignalNative.User.ExternalId;
         }
-        public event EventHandler<UserStateChangedEventArgs> Changed;
+        public event EventHandler<UserStateChangedEventArgs>? Changed;
 
         public void AddAlias(string label, string id) => OneSignalNative.User.AddAliasWithLabel(label, id);
         public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
@@ -73,7 +76,7 @@ namespace OneSignalSDK.DotNet.iOS
                 _manager = manager;
             }
 
-            public void OnUserStateDidChangeWithState(OSUserChangedState state)
+            public override void OnUserStateDidChangeWithState(OSUserChangedState state)
             {
                 var current = new InternalUserState(state.Current.OnesignalId, state.Current.ExternalId);
                 var userChangedState = new UserChangedState(current);

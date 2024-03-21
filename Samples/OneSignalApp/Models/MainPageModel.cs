@@ -203,9 +203,6 @@ namespace OneSignalApp.Models
             OneSignal.InAppMessages.DidDismiss += InAppMessages_DidDismiss;
             OneSignal.InAppMessages.Clicked += InAppMessages_Clicked;
 
-            string onesignalId = OneSignal.User.OneSignalId;
-            string externalId = OneSignal.User.ExternalId;
-
             IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
             HasPushPermission = OneSignal.Notifications.Permission;
             IsIAMPaused = OneSignal.InAppMessages.Paused;

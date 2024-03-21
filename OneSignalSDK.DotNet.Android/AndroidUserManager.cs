@@ -15,9 +15,12 @@ namespace OneSignalSDK.DotNet.Android
 
         public IPushSubscription PushSubscription { get; } = new AndroidPushSubscription();
 
+        private InternalUserChangedHandler? _userChangedHandler;
+
         public void Initialize()
         {
-            OneSignalNative.User.AddObserver(new InternalUserChangedHandler(this));
+            _userChangedHandler = new InternalUserChangedHandler(this);
+            OneSignalNative.User.AddObserver(_userChangedHandler);
             ((AndroidPushSubscription)PushSubscription).Initialize();
         }
 
