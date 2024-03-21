@@ -444,6 +444,60 @@ namespace Com.OneSignal.iOS {
         void RemoveObserver(OSPushSubscriptionObserver observer);
     }
 
+    // @interface OSUserState : NSObject
+    [BaseType (typeof(NSObject), Name = "_TtC13OneSignalUser11OSUserState")]
+    [DisableDefaultCtor]
+    interface OSUserState
+    {
+        // @property (readonly, copy, nonatomic) NSString * _Nullable onesignalId;
+        [NullAllowed, Export ("onesignalId")]
+        string OnesignalId { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable externalId;
+        [NullAllowed, Export ("externalId")]
+        string ExternalId { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nonnull description;
+        [Export ("description")]
+        string Description { get; }
+
+        // -(NSDictionary * _Nonnull)jsonRepresentation __attribute__((warn_unused_result("")));
+        [Export ("jsonRepresentation")]
+        //[Verify (MethodToProperty)]
+        NSDictionary JsonRepresentation { get; }
+    }
+
+    // @interface OSUserChangedState : NSObject
+    [BaseType (typeof(NSObject), Name = "_TtC13OneSignalUser18OSUserChangedState")]
+    [DisableDefaultCtor]
+    interface OSUserChangedState
+    {
+        // @property (readonly, nonatomic, strong) OSUserState * _Nonnull current;
+        [Export ("current", ArgumentSemantic.Strong)]
+        OSUserState Current { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nonnull description;
+        [Export ("description")]
+        string Description { get; }
+
+        // -(NSDictionary * _Nonnull)jsonRepresentation __attribute__((warn_unused_result("")));
+        [Export ("jsonRepresentation")]
+        //[Verify (MethodToProperty)]
+        NSDictionary JsonRepresentation { get; }
+    }
+
+    // @protocol OSUserStateObserver
+    [Protocol (Name = "_TtP13OneSignalUser19OSUserStateObserver_")]
+    [Model]
+    [BaseType(typeof(NSObject))]
+    interface OSUserStateObserver
+    {
+        // @required -(void)onUserStateDidChangeWithState:(OSUserChangedState * _Nonnull)state;
+        //[Abstract]
+        [Export ("onUserStateDidChangeWithState:")]
+        void OnUserStateDidChangeWithState (OSUserChangedState state);
+    }
+
     // @protocol OSUser
     [Protocol(Name = "_TtP13OneSignalUser6OSUser_")]
     [BaseType(typeof(NSObject))]
@@ -453,6 +507,26 @@ namespace Com.OneSignal.iOS {
         //[Abstract]
         [Export ("pushSubscription", ArgumentSemantic.Strong)]
         OSPushSubscription PushSubscription { get; }
+
+        // @required @property (readonly, copy, nonatomic) NSString * _Nullable onesignalId;
+        //[Abstract]
+        [NullAllowed, Export ("onesignalId")]
+        string OnesignalId { get; }
+
+        // @required @property (readonly, copy, nonatomic) NSString * _Nullable externalId;
+        //[Abstract]
+        [NullAllowed, Export ("externalId")]
+        string ExternalId { get; }
+
+        // @required -(void)addObserver:(id<OSUserStateObserver> _Nonnull)observer;
+        //[Abstract]
+        [Export ("addObserver:")]
+        void AddObserver (OSUserStateObserver observer);
+
+        // @required -(void)removeObserver:(id<OSUserStateObserver> _Nonnull)observer;
+        [Abstract]
+        [Export ("removeObserver:")]
+        void RemoveObserver (OSUserStateObserver observer);
 
         // @required -(void)addAliasWithLabel:(NSString * _Nonnull)label id:(NSString * _Nonnull)id;
         //[Abstract]

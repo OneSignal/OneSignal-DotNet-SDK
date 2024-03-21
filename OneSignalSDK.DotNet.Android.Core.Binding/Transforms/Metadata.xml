@@ -8,6 +8,7 @@
 	<attr path="/api/package[@name='com.onesignal.session']" name="managedName">Com.OneSignal.Android.Session</attr>
 	<attr path="/api/package[@name='com.onesignal.user']" name="managedName">Com.OneSignal.Android.User</attr>
 	<attr path="/api/package[@name='com.onesignal.user.subscriptions']" name="managedName">Com.OneSignal.Android.User.Subscriptions</attr>
+	<attr path="/api/package[@name='com.onesignal.user.state']" name="managedName">Com.OneSignal.Android.User.State</attr>
 
 	<remove-node path="/api/package[starts-with(@name, 'com.onesignal.common.events')]" />
 	<remove-node path="/api/package[starts-with(@name, 'com.onesignal.common.exceptions')]" />

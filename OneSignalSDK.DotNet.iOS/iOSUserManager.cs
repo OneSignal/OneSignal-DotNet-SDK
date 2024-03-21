@@ -18,10 +18,25 @@ namespace OneSignalSDK.DotNet.iOS
 
         public IPushSubscription PushSubscription { get; } = new iOSPushSubscription();
 
+        private InternalUserChangedHandler _userChangedHandler;
+
         public void Initialize()
         {
+            _userChangedHandler = new InternalUserChangedHandler(this);
+            OneSignalNative.User.AddObserver(_userChangedHandler);
             ((iOSPushSubscription)PushSubscription).Initialize();
         }
+
+        public string OneSignalId 
+        {
+            get => OneSignalNative.User.OnesignalId;
+        }
+
+        public string ExternalId 
+        {
+            get => OneSignalNative.User.ExternalId;
+        }
+        public event EventHandler<UserStateChangedEventArgs>? Changed;
 
         public void AddAlias(string label, string id) => OneSignalNative.User.AddAliasWithLabel(label, id);
         public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
@@ -39,6 +54,35 @@ namespace OneSignalSDK.DotNet.iOS
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
         public IDictionary<string, string> GetTags() => FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
+
+        private sealed class InternalUserState : IUserState
+        {
+            public string OneSignalId { get; }
+
+            public string ExternalId { get; }
+
+            public InternalUserState(string onesignalId, string externalId)
+            {
+                OneSignalId = onesignalId;
+                ExternalId = externalId;
+            }
+        }
+
+        private class InternalUserChangedHandler : Com.OneSignal.iOS.OSUserStateObserver
+        {
+            private iOSUserManager _manager;
+            public InternalUserChangedHandler(iOSUserManager manager)
+            {
+                _manager = manager;
+            }
+
+            public override void OnUserStateDidChangeWithState(OSUserChangedState state)
+            {
+                var current = new InternalUserState(state.Current.OnesignalId, state.Current.ExternalId);
+                var userChangedState = new UserChangedState(current);
+                _manager.Changed?.Invoke(_manager, new UserStateChangedEventArgs(userChangedState));
+            }
+        }
     }
 
     public class iOSPushSubscription : IPushSubscription

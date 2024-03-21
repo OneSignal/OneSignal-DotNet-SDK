@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using OneSignalSDK.DotNet;
 using OneSignalSDK.DotNet.Core.Debug;
+using OneSignalSDK.DotNet.Core.User;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
 
 namespace OneSignalApp.Models
@@ -190,6 +191,7 @@ namespace OneSignalApp.Models
 
             OneSignal.Initialize(_appId);
 
+            OneSignal.User.Changed += User_Changed;
             OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
             OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
             OneSignal.Notifications.Clicked += Notifications_Clicked;
@@ -206,6 +208,12 @@ namespace OneSignalApp.Models
             IsIAMPaused = OneSignal.InAppMessages.Paused;
             IsLocationShared = OneSignal.Location.IsShared;
             PushSubscriptionId = OneSignal.User.PushSubscription.Id;
+        }
+
+        private void User_Changed(object sender, OneSignalSDK.DotNet.Core.User.UserStateChangedEventArgs e)
+        {
+            var user = e.State.Current;
+            Debug.WriteLine($"User has changed: OneSignalId=${user.OneSignalId}, ExternalId={user.ExternalId}");
         }
 
         private void InAppMessages_Clicked(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageClickedEventArgs e)
