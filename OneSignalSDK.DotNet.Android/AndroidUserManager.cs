@@ -26,12 +26,18 @@ namespace OneSignalSDK.DotNet.Android
 
         public string OneSignalId 
         {
-            get => OneSignalNative.User.OnesignalId;
+            get {
+                string id = OneSignalNative.User.OnesignalId;
+                return string.IsNullOrEmpty(id)? null : id;
+            }
         }
 
         public string ExternalId 
         {
-            get => OneSignalNative.User.ExternalId;
+            get {
+                string id = OneSignalNative.User.ExternalId;
+                return string.IsNullOrEmpty(id)? null : id;
+            }
         }
 
         public event EventHandler<UserStateChangedEventArgs> Changed;
