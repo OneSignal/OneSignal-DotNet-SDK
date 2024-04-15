@@ -1,5 +1,5 @@
 
-⚠️ Migration Advisory for current OneSignal customers
+#### ⚠️ Migration Advisory for current OneSignal customers
 
 Our new [user-centric APIs and v5.x.x SDKs](https://onesignal.com/blog/unify-your-users-across-channels-and-devices/) offer an improved user and data management experience. However, they may not be at 1:1 feature parity with our previous versions yet.
 
