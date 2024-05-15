@@ -18,4 +18,24 @@ public class AndroidLiveActivitiesManager: ILiveActivitiesManager
         Console.WriteLine("OneSignal: ExitLiveActivity is available on iOS only");
         return Task.FromResult(false);
     }
+
+    public void RemovePushToStartToken(string activityType)
+    {
+        Console.WriteLine("OneSignal: RemovePushToStartToken is available on iOS only");
+    }
+
+    public void SetPushToStartToken(string activityType, string token)
+    {
+        Console.WriteLine("OneSignal: SetPushToStartToken is available on iOS only");
+    }
+
+    public void SetupDefault(LiveActivitySetupOptions options = null)
+    {
+        Console.WriteLine("OneSignal: SetupDefault is available on iOS only");
+    }
+
+    public void StartDefault(string activityId, IDictionary<string, object> attributes, IDictionary<string, object> content)
+    {
+        Console.WriteLine("OneSignal: StartDefault is available on iOS only");
+    }
 }

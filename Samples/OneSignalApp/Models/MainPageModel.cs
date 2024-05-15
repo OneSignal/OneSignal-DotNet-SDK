@@ -144,6 +144,20 @@ namespace OneSignalApp.Models
             }
         }
 
+        private string _liveActivityType;
+        public string LiveActivityType
+        {
+            get => _liveActivityType;
+            set
+            {
+                if (_liveActivityType != value)
+                {
+                    _liveActivityType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public ICommand GivePrivacyConsentCommand { get; }
         public ICommand RevokePrivacyConsentCommand { get; }
         public ICommand LoginUserCommand { get; }
@@ -156,8 +170,11 @@ namespace OneSignalApp.Models
         public ICommand AddOutcomeCommand { get; }
         public ICommand AddTriggerCommand { get; }
         public ICommand PromptForLocationCommand { get; }
+        public ICommand StartDefaultLiveActivityCommand { get; }
         public ICommand EnterLiveActivityCommand { get; }
         public ICommand ExitLiveActivityCommand { get; }
+        public ICommand SetPushToStartLiveActivityCommand { get; }
+        public ICommand RemovePushToStartLiveActivityCommand { get; }
         public ICommand ValidationCommand { get; }
 
         private Page _page;
@@ -178,8 +195,12 @@ namespace OneSignalApp.Models
             AddOutcomeCommand = new Command(AddOutcome);
             AddTriggerCommand = new Command(AddTrigger);
             PromptForLocationCommand = new Command(PromptForLocation);
+            StartDefaultLiveActivityCommand = new Command(StartDefaultLiveActivity);
             EnterLiveActivityCommand = new Command(EnterLiveActivity);
             ExitLiveActivityCommand = new Command(ExitLiveActivity);
+            SetPushToStartLiveActivityCommand = new Command(SetPushToStartLiveActivity);
+            RemovePushToStartLiveActivityCommand = new Command(RemovePushToStartLiveActivity);
+
             ValidationCommand = new Command(Validation);
 
             // Initialize OneSignal SDK.
@@ -190,6 +211,8 @@ namespace OneSignalApp.Models
             OneSignal.ConsentGiven = false;
 
             OneSignal.Initialize(_appId);
+
+            OneSignal.LiveActivities.SetupDefault();
 
             OneSignal.User.Changed += User_Changed;
             OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
@@ -387,6 +410,30 @@ namespace OneSignalApp.Models
             OneSignal.Location.RequestPermission();
         }
 
+        private void StartDefaultLiveActivity()
+        {
+            string activityId = LiveActivityId;
+
+            if (String.IsNullOrWhiteSpace(activityId))
+            {
+                return;
+            }
+
+            OneSignal.LiveActivities.StartDefault(
+                activityId,
+                new Dictionary<string, object>() {
+                    { "title", "Welcome!" }
+                },
+                new Dictionary<string, object>() {
+                    { "message", new Dictionary<string, object>() {
+                        { "en", "Hello World!"}
+                    }},
+                    { "intValue", 3 },
+                    { "doubleValue", 3.14 },
+                    { "boolValue", true }
+                });
+        }
+
         private void EnterLiveActivity()
         {
             string activityId = LiveActivityId;
@@ -396,17 +443,7 @@ namespace OneSignalApp.Models
                 return;
             }
 
-#if (LIVE_ACTIVITIES && IOS)
-        var onesignalLiveActivity = new OneSignalLiveActivity.Binding.OneSignalLiveActivity();
-        onesignalLiveActivity.StartLiveActivityWithRecievedToken((str) =>
-        {
-            OneSignal.EnterLiveActivity(activityId, str);
-        });
-#elif !IOS
-            _page.DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
-#else
-        _page.DisplayAlert("NOT SUPPORTED", "Live Activities is disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
-#endif
+            OneSignal.LiveActivities.Enter(activityId, "FAKE_TOKEN");
         }
 
         private void ExitLiveActivity()
@@ -418,13 +455,31 @@ namespace OneSignalApp.Models
                 return;
             }
 
-#if (LIVE_ACTIVITIES && IOS)
-        OneSignal.ExitLiveActivity(activityId);
-#elif !IOS
-            _page.DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
-#else
-        _page.DisplayAlert("NOT SUPPORTED", "Live Activities is disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
-#endif
+            OneSignal.LiveActivities.Exit(activityId);
+        }
+
+        private void SetPushToStartLiveActivity()
+        {
+            string activityType = LiveActivityType;
+
+            if (String.IsNullOrWhiteSpace(activityType))
+            {
+                return;
+            }
+
+            OneSignal.LiveActivities.SetPushToStartToken(activityType, "FAKE_TOKEN");
+        }
+
+        private void RemovePushToStartLiveActivity()
+        {
+            string activityType = LiveActivityType;
+
+            if (String.IsNullOrWhiteSpace(activityType))
+            {
+                return;
+            }
+
+            OneSignal.LiveActivities.RemovePushToStartToken(activityType);
         }
 
         private async void Validation()

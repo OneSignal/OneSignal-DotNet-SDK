@@ -1015,4 +1015,47 @@ namespace Com.OneSignal.iOS {
         [Export ("exit:withSuccess:withFailure:")]
         void Exit(string activityId, [NullAllowed] OSResultSuccessBlock successBlock, [NullAllowed] OSFailureBlock failureBlock);
     }
+
+    [BaseType (typeof(NSObject))]
+    interface OneSignalLiveActivitiesManagerImpl
+    {
+        // +(BOOL)setPushToStartToken:(NSString * _Nonnull)activityType withToken:(NSString * _Nonnull)withToken error:(NSError * _Nullable * _Nullable)error __attribute__((availability(ios, introduced=17.2)));
+        [Static]
+        [Export ("setPushToStartToken:withToken:error:")]
+        bool SetPushToStartToken (string activityType, string withToken, [NullAllowed] out NSError error);
+
+        // +(BOOL)removePushToStartToken:(NSString * _Nonnull)activityType error:(NSError * _Nullable * _Nullable)error __attribute__((availability(ios, introduced=17.2)));
+        [Static]
+        [Export ("removePushToStartToken:error:")]
+        bool RemovePushToStartToken (string activityType, [NullAllowed] out NSError error);
+
+        // +(void)setupDefaultWithOptions:(LiveActivitySetupOptions * _Nullable)options __attribute__((availability(ios, introduced=16.1)));
+        [Static]
+        [Export ("setupDefaultWithOptions:")]
+        void SetupDefaultWithOptions ([NullAllowed] LiveActivitySetupOptions options);
+
+        // +(void)startDefault:(NSString * _Nonnull)activityId attributes:(NSDictionary<NSString *,id> * _Nonnull)attributes content:(NSDictionary<NSString *,id> * _Nonnull)content __attribute__((availability(ios, introduced=16.1)));
+        [Static]
+        [Export ("startDefault:attributes:content:")]
+        void StartDefault (string activityId, NSDictionary<NSString, NSObject> attributes, NSDictionary<NSString, NSObject> content);
+    }
+
+    // @interface LiveActivitySetupOptions : NSObject
+    [BaseType (typeof(NSObject))]
+    [DisableDefaultCtor]
+    interface LiveActivitySetupOptions
+    {
+        // @property (nonatomic) BOOL enablePushToStart;
+        [Export ("enablePushToStart")]
+        bool EnablePushToStart { get; set; }
+
+        // @property (nonatomic) BOOL enablePushToUpdate;
+        [Export ("enablePushToUpdate")]
+        bool EnablePushToUpdate { get; set; }
+
+        // -(instancetype _Nonnull)initWithEnablePushToStart:(BOOL)enablePushToStart enablePushToUpdate:(BOOL)enablePushToUpdate __attribute__((objc_designated_initializer));
+        [Export ("initWithEnablePushToStart:enablePushToUpdate:")]
+        [DesignatedInitializer]
+        NativeHandle Constructor (bool enablePushToStart, bool enablePushToUpdate);
+    }
 }
