@@ -28,6 +28,7 @@ namespace OneSignalSDK.DotNet.iOS
         {
             if (!UIDevice.CurrentDevice.CheckSystemVersion(17,2))
             {
+                Console.WriteLine("RemovePushToStartToken is only available on iOS 17.2 and later.");
                 return;
             }
 
@@ -44,6 +45,7 @@ namespace OneSignalSDK.DotNet.iOS
         {
             if (!UIDevice.CurrentDevice.CheckSystemVersion(17,2))
             {
+                Console.WriteLine("SetPushToStartToken is only available on iOS 17.2 and later.");
                 return;
             }
 
@@ -60,6 +62,7 @@ namespace OneSignalSDK.DotNet.iOS
         {
             if (!UIDevice.CurrentDevice.CheckSystemVersion(16,1))
             {
+                Console.WriteLine("SetupDefault is only available on iOS 16.1 and later.");
                 return;
             }
 
@@ -77,6 +80,7 @@ namespace OneSignalSDK.DotNet.iOS
         {
             if (!UIDevice.CurrentDevice.CheckSystemVersion(16,1))
             {
+                Console.WriteLine("StartDefault is only available on iOS 16.1 and later.");
                 return;
             }
 

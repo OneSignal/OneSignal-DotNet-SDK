@@ -57,6 +57,7 @@ namespace OneSignalSDK.DotNet.Core.LiveActivities
         /// Only applies to iOS.
         /// </summary>
         /// <param name="activityType">The name of the specific `ActivityAttributes` structure tied to the live activity.</param>
+        /// <param name="token">The (OS-provided) token that will be used to start a live activity of this `activityType` on this device.</param>
         void SetPushToStartToken(string activityType, string token);
 
         /// <summary>
