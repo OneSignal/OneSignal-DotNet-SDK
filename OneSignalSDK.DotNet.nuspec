@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
-        <version>5.1.3</version>
+        <version>5.2.0</version>
         <id>OneSignalSDK.DotNet</id>
         <title>OneSignal SDK for .Net6+ and Xamarin</title>
         <authors>OneSignal</authors>
@@ -16,7 +16,7 @@
         <repository type="git" url="https://github.com/OneSignal/OneSignal-DotNet-SDK.git" branch="main" />
         <tags>MAUI, .Net, xamarin, monodroid, C#, OneSignal, push</tags>
         <dependencies>
-            <group targetFramework="netstandard2.0">
+            <group targetFramework="net7.0">
             </group>
             <group targetFramework="net7.0-ios11.0">
             </group>
@@ -45,12 +45,12 @@
         <file src="LICENSE.md" />
         <file src="README.md" />
 
-        <!--netstandard2.0-->
-        <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.dll" target="lib\netstandard2.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.Core.dll" target="lib\netstandard2.0" />
+        <!--net7.0-->
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0\OneSignalSDK.DotNet.dll" target="lib\net7.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0\OneSignalSDK.DotNet.Core.dll" target="lib\net7.0" />
 
-        <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.pdb" target="lib\netstandard2.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\netstandard2.0\OneSignalSDK.DotNet.Core.pdb" target="lib\netstandard2.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0\OneSignalSDK.DotNet.pdb" target="lib\net7.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net7.0\OneSignalSDK.DotNet.Core.pdb" target="lib\net7.0" />
 
         <!--net7.0-android (minimum runtime 5.0/API 21)-->
         <file src="OneSignalSDK.DotNet\bin\Release\net7.0-android\OneSignalSDK.DotNet.dll" target="lib\net7.0-android21.0" />
