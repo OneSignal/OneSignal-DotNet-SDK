@@ -117,6 +117,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -124,8 +127,13 @@
                     </Grid.ColumnDefinitions>
 
                     <Entry Grid.Row="0" Grid.Column="0" Placeholder="Activity ID" Text="{Binding LiveActivityId}" />
-                    <Button Grid.Row="0" Grid.Column="1" Text="Enter Live Activity" Command="{Binding EnterLiveActivityCommand}" />
-                    <Button Grid.Row="1" Grid.Column="1" Text="Exit Live Activity" Command="{Binding ExitLiveActivityCommand}" />
+                    <Button Grid.Row="0" Grid.Column="1" Text="Start Default Activity" Command="{Binding StartDefaultLiveActivityCommand}" />
+                    <Button Grid.Row="1" Grid.Column="1" Text="Enter Live Activity" Command="{Binding EnterLiveActivityCommand}" />
+                    <Button Grid.Row="2" Grid.Column="1" Text="Exit Live Activity" Command="{Binding ExitLiveActivityCommand}" />
+
+                    <Entry Grid.Row="3" Grid.Column="0" Placeholder="Activity Type" Text="{Binding LiveActivityType}" />
+                    <Button Grid.Row="3" Grid.Column="1" Text="Add Start Activity" Command="{Binding SetPushToStartLiveActivityCommand}" />
+                    <Button Grid.Row="4" Grid.Column="1" Text="Remove Live Activity" Command="{Binding RemovePushToStartLiveActivityCommand}" />
                 </Grid>
             </VerticalStackLayout>
         </ScrollView>

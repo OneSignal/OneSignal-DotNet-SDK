@@ -18,6 +18,7 @@ update_ios_binaries() {
     rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalUser.xcframework/
     rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalInAppMessages.xcframework/
     rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalLocation.xcframework/
+    rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalLiveActivities.xcframework/
     move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_XCFramework/OneSignalFramework.xcframework"
     move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_Core/OneSignalCore.xcframework"
     move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_Extension/OneSignalExtension.xcframework"
@@ -27,6 +28,7 @@ update_ios_binaries() {
     move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_User/OneSignalUser.xcframework"
     move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_InAppMessages/OneSignalInAppMessages.xcframework"
     move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_Location/OneSignalLocation.xcframework"
+    move_ios_binary "../OneSignal-iOS-SDK/iOS_SDK/OneSignalSDK/OneSignal_LiveActivities/OneSignalLiveActivities.xcframework"
 }
 
 update_ios_binaries

@@ -68,7 +68,14 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
+	  <!-- LIVE ACTIVITES: UNCOMMENT BELOW OUT FOR LIVE ACTIVITIES WIDGET -->
+	  <!-- <AdditionalAppExtensions Include="$(MSBuildProjectDirectory)/../native/example/">
+        <Name>ExampleWidgetExtension</Name>
+		<BuildOutput Condition="!$(RuntimeIdentifier.Contains('simulator'))">DerivedData/example/Build/Products/Debug-iphoneos</BuildOutput>
+		<BuildOutput Condition="$(RuntimeIdentifier.Contains('simulator'))">DerivedData/example/Build/Products/Debug-iphonesimulator</BuildOutput>
+      </AdditionalAppExtensions> -->
 	</ItemGroup>
+
     <ItemGroup>
       <None Remove="Models\" />
       <None Remove="Converters\" />

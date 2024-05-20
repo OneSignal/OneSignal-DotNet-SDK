@@ -388,17 +388,7 @@ namespace OneSignalDevApp.Models
                 return;
             }
 
-#if (LIVE_ACTIVITIES && IOS)
-        var onesignalLiveActivity = new OneSignalLiveActivity.Binding.OneSignalLiveActivity();
-        onesignalLiveActivity.StartLiveActivityWithRecievedToken((str) =>
-        {
-            OneSignal.EnterLiveActivity(activityId, str);
-        });
-#elif !IOS
-            _page.DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
-#else
-        _page.DisplayAlert("NOT SUPPORTED", "Live Activities is disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
-#endif
+            OneSignal.LiveActivities.Enter(activityId, "FAKE_TOKEN");
         }
 
         private void ExitLiveActivity()
@@ -410,13 +400,7 @@ namespace OneSignalDevApp.Models
                 return;
             }
 
-#if (LIVE_ACTIVITIES && IOS)
-        OneSignal.ExitLiveActivity(activityId);
-#elif !IOS
-            _page.DisplayAlert("NOT SUPPORTED", "Live Activities is iOS only!", "OK");
-#else
-        _page.DisplayAlert("NOT SUPPORTED", "Live Activities is disabled in sample app by default, follow steps in Samples/LIVE_ACTIVITES.md to try it out!", "OK");
-#endif
+            OneSignal.LiveActivities.Exit(activityId);
         }
 
         private async void Validation()
