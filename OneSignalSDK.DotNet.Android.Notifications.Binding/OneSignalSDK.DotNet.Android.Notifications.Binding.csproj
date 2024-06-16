@@ -55,6 +55,10 @@
     <LibraryProjectZip Include="Jars\notifications-release.aar" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android.Core.Binding\OneSignalSDK.DotNet.Android.Core.Binding.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.12.0.4" />
     <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0.1" />
   </ItemGroup>
 </Project>

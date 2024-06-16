@@ -1,3 +1,5 @@
 ﻿<metadata>
-	<attr path="/api/package[@name='com.onesignal.notifications']" name="managedName">Com.OneSignal.Android.Notifications</attr>
+  <attr path="/api/package[@name='com.onesignal.notifications']" name="managedName">Com.OneSignal.Android.Notifications</attr>
+
+  <attr path="/api/package[@name='com.onesignal.notifications.internal']/class[@name='Notification']/method[@name='getGroupedNotifications' and count(parameter)=0]" name="return">java.util.List&lt;com.onesignal.notifications.INotification&gt;</attr>
 </metadata>
