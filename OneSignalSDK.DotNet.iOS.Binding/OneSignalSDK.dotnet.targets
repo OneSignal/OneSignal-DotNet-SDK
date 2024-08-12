@@ -53,7 +53,7 @@
               <Kind>Framework</Kind>
               <SmartLink>False</SmartLink>
               <ForceLoad>True</ForceLoad>
-              <Frameworks>OneSignalCore OneSignalOSCore OneSignalUser</Frameworks>
+              <Frameworks>OneSignalCore OneSignalOSCore OneSignalUser ActivityKit</Frameworks>
             </NativeReference>
             <NativeReference Include="$(MSBuildThisFileDirectory)../../res/ios/OneSignalInAppMessages.xcframework">
               <Kind>Framework</Kind>
