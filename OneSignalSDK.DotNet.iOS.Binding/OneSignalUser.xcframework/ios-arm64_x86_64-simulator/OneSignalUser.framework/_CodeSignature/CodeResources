@@ -14,11 +14,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		4ZoPuOLKjd+PDpVZCuFG5Viz+0I=
+		FzxwZXllUdHmebPnkFaR069eJ/s=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		9Ms39rZOO1R+WV7Af0qtSn1fmKg=
+		RCf2RXTAfI79de2rYzqchLAArQw=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		3EaIb03/OaS0jhIsBp4VpgxNHew=
+		iwvRmFXlQlgUpoRlw46ScspOgmc=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		9Ms39rZOO1R+WV7Af0qtSn1fmKg=
+		RCf2RXTAfI79de2rYzqchLAArQw=
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		uMxzuBOcES7HNzPgr61pextc7IY=
+		sHXCnxSFGBunokDEOS8gEXHG/rY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -85,7 +85,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lehjVUzzq/DPKSZSmBKqg9X3qT39P/av37deyWoWhkE=
+			7xiIcb9/NV9/SwL0LAKafh0VkHUsmhMWJaijcWYZ2D4=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
@@ -113,14 +113,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3deZkU24fOcpsyf3pBjDTld5wk6RP4OWPhSWg9S3jqY=
+			uBKcv2u0j/nDoXPSpQg1OnZ6kGFa5G5IXv/9oSxdNpY=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lehjVUzzq/DPKSZSmBKqg9X3qT39P/av37deyWoWhkE=
+			7xiIcb9/NV9/SwL0LAKafh0VkHUsmhMWJaijcWYZ2D4=
 			</data>
 		</dict>
 		<key>Modules/OneSignalUser.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
@@ -148,7 +148,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aTiwpIUQCjeR2HtfcfB2wwMUGvtZ0HgmiExpLyDCvlQ=
+			a0zgw/Wihu3xQUSoVA73vLvG7fe76veQCxPs0s7Fyn8=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
