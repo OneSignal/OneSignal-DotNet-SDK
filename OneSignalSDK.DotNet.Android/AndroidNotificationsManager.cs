@@ -37,6 +37,11 @@ public class AndroidNotificationsManager : INotificationsManager
         return await consumer;
     }
 
+    public void ClearAllNotifications()
+    {
+        OneSignalNative.Notifications.ClearAllNotifications();
+    }
+
     private class InternalNotificationsEventsHandler : Java.Lang.Object,
         Com.OneSignal.Android.Notifications.IPermissionObserver,
         Com.OneSignal.Android.Notifications.INotificationLifecycleListener,

@@ -41,6 +41,11 @@ public class iOSNotificationsManager : INotificationsManager
         return await proxy;
     }
 
+    public void ClearAllNotifications()
+    {
+        OneSignalNative.Notifications.ClearAll();
+    }
+
     private sealed class InternalNotificationsPermissionObserver : Com.OneSignal.iOS.OSNotificationPermissionObserver
     {
         private iOSNotificationsManager _manager;

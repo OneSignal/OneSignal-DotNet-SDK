@@ -65,5 +65,11 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// the result is false if the user is opted out of notifications permission(user rejected).
         /// </returns>
         Task<bool> RequestPermissionAsync(bool fallbackToSettings);
+
+        /// <summary>
+        /// Clear all notifications from the notification center/system tray for this app.
+        /// This method will remove all notifications that are currently displayed for this application.
+        /// </summary>
+        void ClearAllNotifications();
     }
 }
