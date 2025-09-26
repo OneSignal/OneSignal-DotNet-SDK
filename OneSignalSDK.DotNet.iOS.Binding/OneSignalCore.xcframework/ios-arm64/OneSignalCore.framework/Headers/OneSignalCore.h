@@ -57,9 +57,13 @@
 #import <OneSignalCore/OSInAppMessages.h>
 #import <OneSignalCore/OSLocation.h>
 #import <OneSignalCore/OSBundleUtils.h>
+#import <OneSignalCore/OneSignalClientError.h>
+#import <OneSignalCore/OneSignalBadgeHelpers.h>
+
 // TODO: Testing: Should this class be defined in this file?
 @interface OneSignalCoreImpl : NSObject
 
++ (void)migrate;
 + (void)setSharedClient:(nonnull id<IOneSignalClient>)client;
 + (nonnull id<IOneSignalClient>)sharedClient;
 
