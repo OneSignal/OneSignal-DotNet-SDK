@@ -1,0 +1,116 @@
+name: Create Release PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      dotnet_version:
+        description: ".NET / Xamarin release version (e.g., 5.0.0 or 5.0.0-beta1)"
+        required: true
+        type: string
+      ios_sdk_version:
+        description: "OneSignal iOS SDK version to include (e.g., 5.1.0)"
+        required: true
+        type: string
+      android_sdk_version:
+        description: "OneSignal Android SDK version to include (e.g., 5.1.0)"
+        required: true
+        type: string
+        
+jobs:
+  create-release-pr:
+    name: Create Release PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release branch
+        run: |
+          BRANCH="rel/${{ inputs.dotnet_version }}"
+          git checkout -b "$BRANCH"
+
+      - name: Update native SDK versions
+        run: |
+          echo "Updating iOS SDK version reference to ${{ inputs.ios_sdk_version }}"
+          echo "Updating Android SDK version reference to ${{ inputs.android_sdk_version }}"
+
+          # Example: update constants, props, or metadata that reference SDK versions.
+          # Adjust these paths/patterns as appropriate for your repo structure.
+
+          # iOS SDK version file
+          if grep -q "ONESIGNAL_IOS_SDK_VERSION" build.props 2>/dev/null; then
+            sed -i "s/ONESIGNAL_IOS_SDK_VERSION = .*/ONESIGNAL_IOS_SDK_VERSION = \"${{ inputs.ios_sdk_version }}\";/" build.props
+          fi
+
+          # Android SDK version file
+          if grep -q "ONESIGNAL_ANDROID_SDK_VERSION" build.props 2>/dev/null; then
+            sed -i "s/ONESIGNAL_ANDROID_SDK_VERSION = .*/ONESIGNAL_ANDROID_SDK_VERSION = \"${{ inputs.android_sdk_version }}\";/" build.props
+          fi
+
+      - name: Update version numbers
+        run: |
+          echo "Updating .NET and Xamarin version numbers to ${{ inputs.dotnet_version }}"
+
+          # Xamarin version
+          sed -i "s|<version>.*</version>|<version>${{ inputs.dotnet_version }}</version>|" OneSignalSDK.Xamarin.nuspec
+
+          # .NET version
+          sed -i "s|<version>.*</version>|<version>${{ inputs.dotnet_version }}</version>|" OneSignalSDK.DotNet.nuspec
+
+      - name: Build Xamarin
+        run: |
+          nuget restore
+          msbuild OneSignal.sln /t:Rebuild /p:Configuration=Release /p:Version=${{ inputs.dotnet_version }} /p:ReleaseVersion=${{ inputs.dotnet_version }}
+
+      - name: Build .NET
+        run: |
+          dotnet restore
+          dotnet build OneSignal.sln /t:Rebuild /p:Configuration=Release /p:Version=${{ inputs.dotnet_version }}
+
+      - name: Commit and push release branch
+        run: |
+          git add .
+          git commit -m "chore(release): prepare v${{ inputs.dotnet_version }} (iOS ${{ inputs.ios_sdk_version }}, Android ${{ inputs.android_sdk_version }})"
+          git push origin HEAD
+
+      - name: Create Release PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TARGET_BRANCH="main"
+          if [[ "${{ inputs.dotnet_version }}" == *"beta"* ]]; then
+            TARGET_BRANCH="beta"
+          fi
+
+          gh pr create \
+            --title "Release v${{ inputs.dotnet_version }}" \
+            --body "## 📦 Release v${{ inputs.dotnet_version }}  
+          **iOS SDK:** ${{ inputs.ios_sdk_version }}  
+          **Android SDK:** ${{ inputs.android_sdk_version }}  
+
+          ### 📝 iOS Release Notes  
+          ${{ inputs.ios_release_notes }}
+
+          ### 📝 Android Release Notes  
+          ${{ inputs.android_release_notes }}
+
+          Once approved, merge into \`${TARGET_BRANCH}\` and follow manual steps to publish to NuGet." \
+            --base "$TARGET_BRANCH" \
+            --head "rel/${{ inputs.dotnet_version }}" \
+            --label "release"
