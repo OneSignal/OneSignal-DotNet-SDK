@@ -1,6 +1,9 @@
 name: Create Release PR
 
 on:
+  push:
+    branches:
+      - "ci-create-release-pr"
   workflow_dispatch:
     inputs:
       dotnet_version:
