@@ -79,11 +79,15 @@ jobs:
             echo "⚠️ .NET nuspec not found — skipping"
           fi
 
+      - name: Install required .NET workloads
+        run: |
+          dotnet workload install android ios wasm-tools
+
       - name: Build .NET solution
         run: |
           dotnet restore
           dotnet build OneSignal.sln /t:Rebuild /p:Configuration=Release /p:Version=${{ inputs.dotnet_version }}
-
+          
       - name: Commit and push release branch
         run: |
           git add .
