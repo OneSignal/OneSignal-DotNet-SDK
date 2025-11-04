@@ -91,7 +91,7 @@ jobs:
           VERSION=${{ inputs.dotnet_version }}
           echo "🔧 Updating .NET SDK version to $VERSION"
 
-          sed -i "s|<version>.*</version>|<version>${VERSION}</version>|" OneSignalSDK.DotNet.nuspec
+          sed -i '' "s|<version>.*</version>|<version>${VERSION}</version>|" OneSignalSDK.DotNet.nuspec
           echo "✅ Updated OneSignalSDK.DotNet.nuspec"
 
       - name: Build .NET solution
