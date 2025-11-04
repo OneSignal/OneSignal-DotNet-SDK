@@ -135,8 +135,11 @@ jobs:
           echo "✅ Installed build-tools:"
           ls -R $ANDROID_SDK_ROOT/build-tools || true
 
-
-      - name: Build .NET solution
+      - name: Build .NET solution (skip iOS signing)
         run: |
           dotnet restore
-          dotnet build OneSignal.sln /t:Rebuild /p:Configuration=Release /p:Version=${{ inputs.dotnet_version }}
+          dotnet build OneSignal.sln \
+            /t:Rebuild \
+            /p:Configuration=Release \
+            /p:Version=${{ inputs.version }} \
+            /p:EnableCodeSigning=false \
