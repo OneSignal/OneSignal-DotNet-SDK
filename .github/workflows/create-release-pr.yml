@@ -4,33 +4,49 @@ on:
   push:
     branches:
       - "ci-create-release-pr"
+
+  # For making a release pr from android / ios sdk actions
+  workflow_call:
+    inputs:
+      dotnet_version:
+        description: 'New .NET Version (e.g., 5.2.15 or 5.2.15-beta.1)'
+        required: true
+        type: string
+      android_version:
+        description: 'New Android SDK Version (e.g., 2.3.0). Leave blank to skip.'
+        required: false
+        type: string
+      ios_version:
+        description: 'New iOS SDK Version (e.g., 1.5.0). Leave blank to skip.'
+        required: false
+        type: string
+
+  # For making a release pr from .NET github actions
   workflow_dispatch:
     inputs:
       dotnet_version:
         description: ".NET release version (e.g., 5.0.0 or 5.0.0-beta1)"
         required: true
         type: string
-      ios_sdk_version:
-        description: "OneSignal iOS SDK version to include (e.g., 5.1.0)"
-        required: true
-        type: string
-      android_sdk_version:
-        description: "OneSignal Android SDK version to include (e.g., 5.1.0)"
-        required: true
-        type: string
-      ios_release_notes:
-        description: "Release notes for iOS SDK"
+      android_version:
+        description: "ONew Android SDK Version (e.g., 2.3.0). Leave blank to skip."
         required: false
         type: string
-      android_release_notes:
-        description: "Release notes for Android SDK"
+      ios_version:
+        description: "New iOS SDK Version (e.g., 1.5.0). Leave blank to skip."
         required: false
         type: string
-
+      
 jobs:
-  create-release-pr:
-    name: Create Release PR (.NET only)
-    runs-on: ubuntu-latest
+  prep:
+    uses: OneSignal/sdk-actions/.github/workflows/prep-release.yml@main
+    with:
+      version: ${{ inputs.dotnet_version }}
+
+  # DOTNET specific steps
+  update-version:
+    name: Create Release PR
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
@@ -43,78 +59,30 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Create release branch
-        run: |
-          BRANCH="rel/${{ inputs.dotnet_version }}"
-          git checkout -b "$BRANCH"
-
-      - name: Update native SDK versions
-        run: |
-          echo "Updating iOS SDK version reference to ${{ inputs.ios_sdk_version }}"
-          echo "Updating Android SDK version reference to ${{ inputs.android_sdk_version }}"
-
-          # Update iOS SDK version in build.props or constants
-          if grep -q "ONESIGNAL_IOS_SDK_VERSION" build.props 2>/dev/null; then
-            sed -i "s/ONESIGNAL_IOS_SDK_VERSION = .*/ONESIGNAL_IOS_SDK_VERSION = \"${{ inputs.ios_sdk_version }}\";/" build.props
-          fi
-
-          # Update Android SDK version in build.props or constants
-          if grep -q "ONESIGNAL_ANDROID_SDK_VERSION" build.props 2>/dev/null; then
-            sed -i "s/ONESIGNAL_ANDROID_SDK_VERSION = .*/ONESIGNAL_ANDROID_SDK_VERSION = \"${{ inputs.android_sdk_version }}\";/" build.props
-          fi
-
-      - name: Update .NET version number
-        run: |
-          echo "Updating .NET version to ${{ inputs.dotnet_version }}"
-
-          # Locate and update .NET nuspec file
-          if [ -f "OneSignalSDK.DotNet/OneSignalSDK.DotNet.nuspec" ]; then
-            sed -i "s|<version>.*</version>|<version>${{ inputs.dotnet_version }}</version>|" OneSignalSDK.DotNet/OneSignalSDK.DotNet.nuspec
-          else
-            echo "⚠️ .NET nuspec not found — skipping"
-          fi
-
       - name: Install required .NET workloads
         run: |
           dotnet workload install android ios wasm-tools
+
+      - name: Clone and update native SDKs
+        run: |
+          echo "Cloning native SDKs..."
+          git clone https://github.com/OneSignal/OneSignal-iOS-SDK.git
+          cd OneSignal-iOS-SDK && git checkout ${{ inputs.ios_version }} && cd ..
+
+          echo "Running update_native_binaries.sh..."
+          chmod +x ./update_native_binaries.sh
+          ./update_native_binaries.sh \
+            --android_native_version=${{ inputs.android_version }}
+
+      - name: Update .NET version in nuspec
+        run: |
+          VERSION=${{ inputs.dotnet_version }}
+          echo "🔧 Updating .NET SDK version to $VERSION"
+
+          sed -i "s|<version>.*</version>|<version>${VERSION}</version>|" OneSignalSDK.DotNet.nuspec
+          echo "✅ Updated OneSignalSDK.DotNet.nuspec"
 
       - name: Build .NET solution
         run: |
           dotnet restore
           dotnet build OneSignal.sln /t:Rebuild /p:Configuration=Release /p:Version=${{ inputs.dotnet_version }}
-          
-      - name: Commit and push release branch
-        run: |
-          git add .
-          git commit -m "chore(release): prepare v${{ inputs.dotnet_version }} (iOS ${{ inputs.ios_sdk_version }}, Android ${{ inputs.android_sdk_version }})"
-          git push origin HEAD || git push --force origin HEAD
-
-      - name: Create Release PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TARGET_BRANCH="main"
-          if [[ "${{ inputs.dotnet_version }}" == *"beta"* ]]; then
-            TARGET_BRANCH="beta"
-          fi
-
-          gh pr create \
-            --title "Release v${{ inputs.dotnet_version }}" \
-            --body "## 📦 Release v${{ inputs.dotnet_version }}  
-          **iOS SDK:** ${{ inputs.ios_sdk_version }}  
-          **Android SDK:** ${{ inputs.android_sdk_version }}  
-
-          ### 📝 iOS Release Notes  
-          ${{ inputs.ios_release_notes }}
-
-          ### 📝 Android Release Notes  
-          ${{ inputs.android_release_notes }}
-
-          Once approved, merge into \`${TARGET_BRANCH}\` and follow manual steps to publish to NuGet." \
-            --base "$TARGET_BRANCH" \
-            --head "
