@@ -101,6 +101,41 @@ jobs:
           sed -i '' "s|<version>.*</version>|<version>${VERSION}</version>|" OneSignalSDK.DotNet.nuspec
           echo "✅ Updated OneSignalSDK.DotNet.nuspec"
 
+      - name: Ensure Android SDK platform 33 is installed
+        run: |
+          echo "📱 Preparing Android SDK..."
+          export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+
+          # --- Ensure sdkmanager exists ---
+          if [ ! -f "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" ]; then
+            echo "📦 Downloading Android cmdline-tools..."
+            cd $ANDROID_SDK_ROOT/cmdline-tools
+            curl -sSL https://dl.google.com/android/repository/commandlinetools-mac-11076708_latest.zip -o cmdline-tools.zip
+            unzip -qo cmdline-tools.zip
+            mv cmdline-tools latest
+          fi
+
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          echo "✅ sdkmanager version:"
+          sdkmanager --version || true
+
+          echo "📦 Accepting Android SDK licenses..."
+          yes | sdkmanager --licenses || true
+
+          echo "📦 Installing Android platform 33 + build tools..."
+          sdkmanager --install \
+            "platforms;android-33" \
+            "platform-tools" \
+            "build-tools;33.0.2"
+
+          echo "✅ Installed SDK platforms:"
+          ls -R $ANDROID_SDK_ROOT/platforms || true
+
+          echo "✅ Installed build-tools:"
+          ls -R $ANDROID_SDK_ROOT/build-tools || true
+
+
       - name: Build .NET solution
         run: |
           dotnet restore
