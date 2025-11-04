@@ -59,6 +59,17 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Cache .NET workloads
+        id: dotnet-workload-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.dotnet
+            ~/.nuget/packages
+          key: dotnet-workloads-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            dotnet-workloads-${{ runner.os }}-
+
       - name: Install required .NET workloads
         run: |
           dotnet workload install android ios wasm-tools
@@ -68,7 +79,7 @@ jobs:
           echo "Cloning native SDKs..."
           cd ..
           git clone https://github.com/OneSignal/OneSignal-iOS-SDK.git
-          cd OneSignal-iOS-SDK && git checkout ${{ inputs.ios_version }} && cd OneSignal-DotNet-SDK
+          cd OneSignal-iOS-SDK && git checkout ${{ inputs.ios_version }} && cd ../OneSignal-DotNet-SDK
 
           echo "Running update_native_binaries.sh..."
           chmod +x ./update_native_binaries.sh
