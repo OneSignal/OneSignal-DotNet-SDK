@@ -59,20 +59,27 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Cache .NET workloads
-        id: dotnet-workload-cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.dotnet
-            ~/.nuget/packages
-          key: dotnet-workloads-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            dotnet-workloads-${{ runner.os }}-
+      - name: Force .NET 8 SDK pinning
+        run: |
+          # Find the newest installed 8.x SDK version
+          SDK_VERSION=$(dotnet --list-sdks | awk '/^8\./ {print $1}' | sort -Vr | head -n 1)
+
+          cat <<EOF > global.json
+          {
+            "sdk": {
+              "version": "$SDK_VERSION",
+              "rollForward": "latestFeature"
+            }
+          }
+          EOF
+
+      - name: Confirm SDK version
+        run: dotnet --info
 
       - name: Install required .NET workloads
         run: |
-          dotnet workload install android ios wasm-tools
+          dotnet workload restore || true
+          dotnet workload install android ios wasm-tools --skip-manifest-update
 
       - name: Clone and update native SDKs
         run: |
