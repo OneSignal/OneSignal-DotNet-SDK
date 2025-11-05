@@ -81,6 +81,10 @@ jobs:
           dotnet workload restore || true
           dotnet workload install android ios wasm-tools --skip-manifest-update
 
+      - name: Determine version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0
+
       - name: Clone and update native SDKs
         run: |
           echo "Cloning native SDKs..."
