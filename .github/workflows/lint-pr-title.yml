@@ -7,5 +7,8 @@ on:
 
 jobs:
   call:
+    permissions:
+      contents: read
+      pull-requests: read
     uses: OneSignal/sdk-actions/.github/workflows/lint-pr-title.yml@main
     secrets: inherit
