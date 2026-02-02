@@ -2,6 +2,7 @@ using System.Reflection.Emit;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.User;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
+using OneSignalSDK.DotNet.Android.Utilities;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android
@@ -61,10 +62,7 @@ namespace OneSignalSDK.DotNet.Android
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
-            if (properties == null)
-                OneSignalNative.User.TrackEvent(name);
-            else
-                OneSignalNative.User.TrackEvent(name, properties);
+            OneSignalNative.User.TrackEvent(name, ToNativeConversion.DictToJavaMap(properties));
         }
 
         private sealed class InternalUserState : IUserState

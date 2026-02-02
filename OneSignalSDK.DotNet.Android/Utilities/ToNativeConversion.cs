@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OneSignalSDK.DotNet.Core.Debug;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
@@ -31,14 +31,18 @@ public static class ToNativeConversion
         }
     }
 
-    public static Java.Lang.Object? ToJavaObject<TObject>(this TObject value)
+    public static Java.Lang.Object? ToJavaObject(object? value)
     {
-        if (Equals(value, default(TObject)) && !typeof(TObject).IsValueType)
+        if (value == null)
             return null;
 
         if (value is string strValue)
         {
             return new Java.Lang.String(strValue);
+        }
+        else if (value is bool boolValue)
+        {
+            return new Java.Lang.Boolean(boolValue);
         }
         else if (value is int intValue)
         {
@@ -76,7 +80,56 @@ public static class ToNativeConversion
         {
             return new Java.Lang.Long((long)ulongValue);
         }
+        else if (value is IDictionary<string, object> dictValue)
+        {
+            return DictToJavaHashMap(dictValue);
+        }
+        else if (value is System.Collections.IList listValue)
+        {
+            return ListToJavaList(listValue);
+        }
 
         return null;
+    }
+
+    public static IDictionary<string, Java.Lang.Object>? DictToJavaMap(IDictionary<string, object>? dict)
+    {
+        if (dict == null)
+            return null;
+
+        var javaMap = new Dictionary<string, Java.Lang.Object>();
+        foreach (var kvp in dict)
+        {
+            var javaValue = ToJavaObject(kvp.Value);
+            if (javaValue != null)
+                javaMap[kvp.Key] = javaValue;
+        }
+        return javaMap;
+    }
+
+    private static Java.Util.HashMap? DictToJavaHashMap(IDictionary<string, object>? dict)
+    {
+        if (dict == null)
+            return null;
+
+        var javaMap = new Java.Util.HashMap();
+        foreach (var kvp in dict)
+        {
+            javaMap.Put(kvp.Key, ToJavaObject(kvp.Value));
+        }
+        return javaMap;
+    }
+
+    public static Java.Util.ArrayList? ListToJavaList(System.Collections.IList? list)
+    {
+        if (list == null)
+            return null;
+
+        var javaList = new Java.Util.ArrayList();
+        foreach (var item in list)
+        {
+            javaList.Add(ToJavaObject(item));
+        }
+        return javaList;
     }
 }
