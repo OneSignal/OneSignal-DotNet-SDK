@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -181,14 +181,14 @@ namespace OneSignalDevApp.Models
             ExitLiveActivityCommand = new Command(ExitLiveActivity);
             ValidationCommand = new Command(Validation);
 
-            // // Initialize OneSignal SDK.
+            // Initialize OneSignal SDK.
             OneSignal.Debug.LogLevel = LogLevel.VERBOSE;
             // OneSignal.Debug.AlertLevel = LogLevel.NONE;
 
             // OneSignal.ConsentRequired = true;
             // OneSignal.ConsentGiven = false;
 
-            // OneSignal.Initialize(_appId);
+            OneSignal.Initialize(_appId);
 
             // OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
             // OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
