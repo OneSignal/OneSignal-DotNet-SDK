@@ -1,4 +1,4 @@
-﻿using System.Reflection.Emit;
+using System.Reflection.Emit;
 using Com.OneSignal.iOS;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.User;
@@ -54,6 +54,14 @@ namespace OneSignalSDK.DotNet.iOS
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
         public IDictionary<string, string> GetTags() => FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
+
+        public void TrackEvent(string name, IDictionary<string, object>? properties = null)
+        {
+            if (properties == null)
+                OneSignalNative.User.TrackEventWithName(name);
+            else
+                OneSignalNative.User.TrackEventWithName(name, NativeConversion.DictToNSDict(properties));
+        }
 
         private sealed class InternalUserState : IUserState
         {
