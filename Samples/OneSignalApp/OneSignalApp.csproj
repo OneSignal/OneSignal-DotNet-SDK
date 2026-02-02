@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 
-		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>OneSignalApp</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -24,7 +24,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	  <CodesignProvision>Automatic</CodesignProvision>
 	  <CodesignKey>iPhone Developer</CodesignKey>
@@ -33,7 +33,7 @@
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 	  <WarningLevel>4</WarningLevel>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<ItemGroup>
@@ -56,7 +56,7 @@
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
 	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" />
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Core.Binding\OneSignalSDK.DotNet.Android.Core.Binding.csproj" />
@@ -65,7 +65,7 @@
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.Android.Notifications.Binding\OneSignalSDK.DotNet.Android.Notifications.Binding.csproj" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
 	  <ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
 	  <!-- LIVE ACTIVITES: UNCOMMENT BELOW OUT FOR LIVE ACTIVITIES WIDGET -->

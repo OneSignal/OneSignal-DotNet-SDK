@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net7.0-android;net7.0-ios;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net8.0-android;net8.0-ios;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj" />
-    <ProjectReference Include="..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" Condition=" $(TargetFramework.StartsWith('net7.0-android')) " />
-    <ProjectReference Include="..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" Condition=" $(TargetFramework.StartsWith('net7.0-ios')) " />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.Android\OneSignalSDK.DotNet.Android.csproj" Condition=" $(TargetFramework.Contains('-android')) " />
+    <ProjectReference Include="..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" Condition=" $(TargetFramework.Contains('-ios')) " />
   </ItemGroup>
 
 </Project>
