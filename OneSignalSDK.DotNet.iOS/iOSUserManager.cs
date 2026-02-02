@@ -57,10 +57,7 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
-            if (properties == null)
-                OneSignalNative.User.TrackEventWithName(name);
-            else
-                OneSignalNative.User.TrackEventWithName(name, NativeConversion.DictToNSDict(properties));
+            OneSignalNative.User.TrackEventWithName(name, properties == null ? null : NativeConversion.DictToNSDict(properties));
         }
 
         private sealed class InternalUserState : IUserState
