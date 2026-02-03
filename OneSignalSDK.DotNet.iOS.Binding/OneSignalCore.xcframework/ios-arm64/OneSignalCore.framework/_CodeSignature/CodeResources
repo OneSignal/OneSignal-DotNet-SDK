@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/NSString+OneSignal.h</key>
 		<data>
-		/HTg8wbY+rfIy9/kCShHF2Oev6Y=
+		ZFnpZCU752k4HlB9sLZFypqPM50=
 		</data>
 		<key>Headers/NSURL+OneSignal.h</key>
 		<data>
@@ -90,7 +90,7 @@
 		</data>
 		<key>Headers/OneSignalCommonDefines.h</key>
 		<data>
-		hVJ191W6dJmIhR7TwDAieGC8qp4=
+		nN9Si5gG1Y3P9B6/QLMbSkfAxpo=
 		</data>
 		<key>Headers/OneSignalConfigManager.h</key>
 		<data>
@@ -98,15 +98,15 @@
 		</data>
 		<key>Headers/OneSignalCore.h</key>
 		<data>
-		PeshYU8MKCr65/vVYaIiXG1Xk5E=
+		jo71UlXFcFAUdOxIjyB0r3yXZcY=
 		</data>
 		<key>Headers/OneSignalCoreHelper.h</key>
 		<data>
-		/jKV40WVBCZu0YXLa1+IE0moY+k=
+		+yruqZxjolbrylCyDI+klCSm2xs=
 		</data>
 		<key>Headers/OneSignalLog.h</key>
 		<data>
-		o5RSmHYkpLQOk/hhVawytbfylUg=
+		DbQwmfzvtLutVDIDptYl4pNhf0g=
 		</data>
 		<key>Headers/OneSignalMobileProvision.h</key>
 		<data>
@@ -138,7 +138,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		CJliGbgIrs7plGfzdl1Fb9gCtl4=
+		3rvRrnkGlngxv585u/nUFzSOs9w=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -162,7 +162,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qBhBU+sclS17YY3HDiZmbgqnTFtSJWm7tX4ThKcr3cM=
+			deEwVIgrtUzu6Q3NR6IU0Fg1X/MF5bI+QxIDWtXvfYE=
 			</data>
 		</dict>
 		<key>Headers/NSURL+OneSignal.h</key>
@@ -302,7 +302,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			E/JqmGJV28y40bsGTuWxjmD1o6OwbSaeFxRNhlv1Wj8=
+			Dgw/YV7YR/cL9CamK1/VUJKnm9T9at9JsE/ZUzJ0bdM=
 			</data>
 		</dict>
 		<key>Headers/OneSignalConfigManager.h</key>
@@ -316,21 +316,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ER95AFBvVYKvhKW7rvHbHhjDqfeAdUQfk6AqmctiCzY=
+			5oFRc9Q9LwCeZXMrzyVQRHj+/VIcyxu2/re7ksWvp+w=
 			</data>
 		</dict>
 		<key>Headers/OneSignalCoreHelper.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OMNqcRy39+beti7vT2rQki8JFnft65SbakA3QVQxHQQ=
+			U3jHGnDSJawe3okfJx8gXRgTAVYyw+nA4P6RF3+dkUE=
 			</data>
 		</dict>
 		<key>Headers/OneSignalLog.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mBG60JTXM7cBDv7D7ZdAWOJbwxvoG7s2bg5IPmg/ZZM=
+			kMtRfO7qidbRMEXsw6rwliOh7oaZmd3pHFmDQX6+dkA=
 			</data>
 		</dict>
 		<key>Headers/OneSignalMobileProvision.h</key>
