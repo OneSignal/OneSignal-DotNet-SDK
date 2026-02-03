@@ -6,26 +6,25 @@ on:
     secrets:
       GH_PUSH_TOKEN:
         required: false
-        description: 'GitHub token for pushing changes'
+        description: "GitHub token for pushing changes"
     inputs:
       dotnet_version:
-        description: 'New .NET Version (e.g., 5.2.15 or 5.2.15-beta.1)'
+        description: "New .NET Version (e.g., 5.2.15 or 5.2.15-beta.1)"
         required: true
         type: string
       android_version:
-        description: 'New Android SDK Version (e.g., 2.3.0). Leave blank to skip.'
+        description: "New Android SDK Version (e.g., 2.3.0). Leave blank to skip."
         required: false
         type: string
       ios_version:
-        description: 'New iOS SDK Version (e.g., 1.5.0). Leave blank to skip.'
+        description: "New iOS SDK Version (e.g., 1.5.0). Leave blank to skip."
         required: false
         type: string
       target_branch:
-        description: 'Target branch to create the release PR on. Defaults to main.'
+        description: "Target branch to create the release PR on. Defaults to main."
         required: false
         type: string
         default: main
-
 
   # For making a release pr from .NET github actions
   workflow_dispatch:
@@ -43,11 +42,11 @@ on:
         required: false
         type: string
       target_branch:
-        description: 'Target branch to create the release PR on. Defaults to main.'
+        description: "Target branch to create the release PR on. Defaults to main."
         required: false
         type: string
         default: main
-      
+
 jobs:
   prep:
     uses: OneSignal/sdk-actions/.github/workflows/prep-release.yml@main
@@ -70,20 +69,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: OneSignal/OneSignal-DotNet-SDK
           ref: ${{ needs.prep.outputs.release_branch }}
           token: ${{ secrets.GH_PUSH_TOKEN || github.token }}
-          fetch-depth: 0
 
       - name: Setup Git User
         uses: OneSignal/sdk-actions/.github/actions/setup-git-user@main
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "10.0.x"
 
       - name: Get current native SDK versions from target branch
         id: current_versions
@@ -92,43 +90,33 @@ jobs:
 
           # Get versions from target branch (not the release branch)
           CURRENT_DOTNET_VERSION=$(git show origin/${{ inputs.target_branch }}:OneSignalSDK.DotNet.nuspec | grep '<version>' | sed -E 's/.*<version>([^<]+)<\/version>.*/\1/' | head -1)
-
-          # Extract current Android SDK version from git log (most recent commit that updated AAR files)
-          # Look for commits with format "bump to Android x.y.z"
-          ANDROID_COMMIT=$(git log origin/${{ inputs.target_branch }} --oneline --grep="bump to Android" -- "OneSignalSDK.DotNet.Android.*/Jars/*.aar" | head -1)
-          if [ -z "$ANDROID_COMMIT" ]; then
-            # Fallback: check any commit that modified AAR files
-            ANDROID_COMMIT=$(git log origin/${{ inputs.target_branch }} --oneline -- "OneSignalSDK.DotNet.Android.*/Jars/*.aar" | head -1)
-          fi
-          # Extract version number from commit message (format: X.Y.Z)
-          ANDROID_VERSION=$(echo "$ANDROID_COMMIT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-
-          # Extract current iOS SDK version from git log (most recent commit that updated iOS frameworks)
-          # Look for commits with format "bump to iOS x.y.z"
-          IOS_COMMIT=$(git log origin/${{ inputs.target_branch }} --oneline --grep="bump to iOS" -- "OneSignalSDK.DotNet.iOS.Binding/*.xcframework" | head -1)
-          if [ -z "$IOS_COMMIT" ]; then
-            # Fallback: check any commit that modified xcframework files
-            IOS_COMMIT=$(git log origin/${{ inputs.target_branch }} --oneline -- "OneSignalSDK.DotNet.iOS.Binding/*.xcframework" | head -1)
-          fi
-          # Extract version number from commit message (format: X.Y.Z)
-          IOS_VERSION=$(echo "$IOS_COMMIT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          ANDROID_VERSION=$(git show origin/${{ inputs.target_branch }}:versions.json | grep '"android"' | sed -E 's/.*"android": *"([^"]+)".*/\1/')
+          IOS_VERSION=$(git show origin/${{ inputs.target_branch }}:versions.json | grep '"ios"' | sed -E 's/.*"ios": *"([^"]+)".*/\1/')
 
           echo "dotnet_from=$CURRENT_DOTNET_VERSION" >> $GITHUB_OUTPUT
           echo "android_from=$ANDROID_VERSION" >> $GITHUB_OUTPUT
           echo "ios_from=$IOS_VERSION" >> $GITHUB_OUTPUT
 
-
       - name: Clone and update native SDKs
+        if: inputs.android_version != '' || inputs.ios_version != ''
         run: |
-          echo "Cloning native SDKs..."
-          cd ..
-          git clone https://github.com/OneSignal/OneSignal-iOS-SDK.git
-          cd OneSignal-iOS-SDK && git checkout ${{ inputs.ios_version }} && cd ../OneSignal-DotNet-SDK
+          # Clone iOS SDK if ios_version is provided
+          if [ -n "${{ inputs.ios_version }}" ]; then
+            echo "Cloning iOS SDK..."
+            cd ..
+            git clone https://github.com/OneSignal/OneSignal-iOS-SDK.git
+            cd OneSignal-iOS-SDK && git checkout ${{ inputs.ios_version }} && cd ../OneSignal-DotNet-SDK
+          fi
 
           echo "Running update_native_binaries.sh..."
-          chmod +x ./update_native_binaries.sh
-          ./update_native_binaries.sh \
-            --android_native_version=${{ inputs.android_version }}
+          ARGS=""
+          if [ -n "${{ inputs.android_version }}" ]; then
+            ARGS="$ARGS --android_native_version=${{ inputs.android_version }}"
+          fi
+          if [ -n "${{ inputs.ios_version }}" ]; then
+            ARGS="$ARGS --ios_native_version=${{ inputs.ios_version }}"
+          fi
+          ./update_native_binaries.sh $ARGS
 
       - name: Update .NET version in nuspec
         run: |

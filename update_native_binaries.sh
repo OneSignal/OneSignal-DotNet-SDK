@@ -4,7 +4,7 @@ set -e
 ### Usage
 # iOS     - Clone OneSignal-iOS-SDK first, see the code below
 # Android - Run with the version you want to grab. Example:
-#.        ./update_native_binaries.sh --android_native_version=5.1.37
+#         ./update_native_binaries.sh --android_native_version=5.1.37 --ios_native_version=5.2.14
 
 WORKING_DIR=$(pwd)
 
@@ -13,6 +13,10 @@ for arg in "$@"; do
     case $arg in
         --android_native_version=*)
         ANDROID_NATIVE_VERSION="${arg#*=}"
+        shift
+        ;;
+        --ios_native_version=*)
+        IOS_NATIVE_VERSION="${arg#*=}"
         shift
         ;;
         -*)
@@ -77,3 +81,15 @@ update_android_binaries() {
 
 update_ios_binaries
 update_android_binaries
+
+# Update versions.json with native SDK versions
+update_versions_json() {
+    if [ -n "$ANDROID_NATIVE_VERSION" ] && [ -n "$IOS_NATIVE_VERSION" ]; then
+        printf '{\n  "android": "%s",\n  "ios": "%s"\n}\n' "$ANDROID_NATIVE_VERSION" "$IOS_NATIVE_VERSION" > versions.json
+        echo "✓ Updated versions.json"
+    else
+        echo "⚠ Skipping versions.json update (both --android_native_version and --ios_native_version required)"
+    fi
+}
+
+update_versions_json
