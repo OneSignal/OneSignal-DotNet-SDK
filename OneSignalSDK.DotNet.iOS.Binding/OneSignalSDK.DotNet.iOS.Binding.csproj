@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworks>net7.0-ios</TargetFrameworks>
+    <TargetFrameworks>net8.0-ios;net9.0-ios;net10.0-ios</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <IsBindingProject>true</IsBindingProject>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
