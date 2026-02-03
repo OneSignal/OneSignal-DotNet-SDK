@@ -1,7 +1,8 @@
-﻿using System.Reflection.Emit;
+using System.Reflection.Emit;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.User;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
+using OneSignalSDK.DotNet.Android.Utilities;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android
@@ -58,6 +59,11 @@ namespace OneSignalSDK.DotNet.Android
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
         public IDictionary<string, string> GetTags() => OneSignalNative.User.Tags;
+
+        public void TrackEvent(string name, IDictionary<string, object>? properties = null)
+        {
+            OneSignalNative.User.TrackEvent(name, ToNativeConversion.DictToJavaMap(properties));
+        }
 
         private sealed class InternalUserState : IUserState
         {

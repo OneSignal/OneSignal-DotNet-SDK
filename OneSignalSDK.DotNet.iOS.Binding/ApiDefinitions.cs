@@ -603,6 +603,11 @@ namespace Com.OneSignal.iOS {
         //[Abstract]
         //[Export ("onJwtExpiredWithExpiredHandler:")]
         //void OnJwtExpiredWithExpiredHandler(Action<NSString, Action<NSString>> expiredHandler);
+
+        // @required -(void)trackEventWithName:(NSString * _Nonnull)name properties:(NSDictionary<NSString *, id> * _Nullable)properties;
+        //[Abstract]
+        [Export ("trackEventWithName:properties:")]
+        void TrackEventWithName(string name, [NullAllowed] NSDictionary<NSString, NSObject> properties);
     }
 
     // @interface OSInAppMessage : NSObject
