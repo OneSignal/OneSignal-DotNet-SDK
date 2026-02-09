@@ -4,7 +4,7 @@ set -e
 ### Usage
 # iOS     - Clone OneSignal-iOS-SDK first, see the code below
 # Android - Run with the version you want to grab. Example:
-#.        ./update_native_binaries.sh --android_native_version=5.1.37
+#         ./update_native_binaries.sh --android_native_version=5.1.37 --ios_native_version=5.2.14
 
 WORKING_DIR=$(pwd)
 
@@ -13,6 +13,10 @@ for arg in "$@"; do
     case $arg in
         --android_native_version=*)
         ANDROID_NATIVE_VERSION="${arg#*=}"
+        shift
+        ;;
+        --ios_native_version=*)
+        IOS_NATIVE_VERSION="${arg#*=}"
         shift
         ;;
         -*)
@@ -57,23 +61,42 @@ update_android_binaries() {
     curl https://repo1.maven.org/maven2/com/onesignal/core/${ANDROID_NATIVE_VERSION}/core-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Core.Binding/Jars/core-release.aar \
          --fail
-    echo $?
 
     curl https://repo1.maven.org/maven2/com/onesignal/notifications/${ANDROID_NATIVE_VERSION}/notifications-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Notifications.Binding/Jars/notifications-release.aar \
          --fail
-    echo $?
 
     curl https://repo1.maven.org/maven2/com/onesignal/location/${ANDROID_NATIVE_VERSION}/location-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Location.Binding/Jars/location-release.aar \
          --fail
-    echo $?
 
     curl https://repo1.maven.org/maven2/com/onesignal/in-app-messages/${ANDROID_NATIVE_VERSION}/in-app-messages-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.InAppMessages.Binding/Jars/in-app-messages-release.aar \
          --fail
-    echo $?
 }
 
-update_ios_binaries
-update_android_binaries
+# Only update iOS if the version was provided
+if [ -n "$IOS_NATIVE_VERSION" ]; then
+    update_ios_binaries
+fi
+
+# Only update Android if the version was provided
+if [ -n "$ANDROID_NATIVE_VERSION" ]; then
+    update_android_binaries
+fi
+
+# Update versions.json with native SDK versions
+update_versions_json() {
+    if [ -n "$ANDROID_NATIVE_VERSION" ] || [ -n "$IOS_NATIVE_VERSION" ]; then
+        CURRENT_ANDROID=$(grep '"android"' versions.json | sed -E 's/.*"android": *"([^"]+)".*/\1/')
+        CURRENT_IOS=$(grep '"ios"' versions.json | sed -E 's/.*"ios": *"([^"]+)".*/\1/')
+
+        FINAL_ANDROID="${ANDROID_NATIVE_VERSION:-$CURRENT_ANDROID}"
+        FINAL_IOS="${IOS_NATIVE_VERSION:-$CURRENT_IOS}"
+
+        printf '{\n  "android": "%s",\n  "ios": "%s"\n}\n' "$FINAL_ANDROID" "$FINAL_IOS" > versions.json
+        echo "✓ Updated versions.json"
+    fi
+}
+
+update_versions_json

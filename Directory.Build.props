@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <!-- Suppress EOL target framework errors - we intentionally support older TFMs for library consumers -->
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <CheckEolWorkloads>false</CheckEolWorkloads>
+    <!-- Also suppress as warning/error code -->
+    <NoWarn>$(NoWarn);NETSDK1202</NoWarn>
+  </PropertyGroup>
+
+  <!-- Define MauiVersion based on target framework -->
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0'))">
+    <MauiVersion>8.0.100</MauiVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net9.0'))">
+    <MauiVersion>9.0.50</MauiVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0'))">
+    <MauiVersion>10.0.0</MauiVersion>
+  </PropertyGroup>
+</Project>
