@@ -18,7 +18,7 @@
         <dependencies>
             <group targetFramework="netstandard2.0">
             </group>
-            <group targetFramework="net8.0-ios11.0">
+            <group targetFramework="net8.0-ios12.0">
             </group>
             <group targetFramework="net8.0-android21.0">
                 <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0.1" />
@@ -75,15 +75,15 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net8.0-android\notifications-release.aar" target="lib\net8.0-android21.0" />
 
         <!--net8.0-ios (minimum iOS 11.0)-->
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.dll" target="lib\net8.0-ios11.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net8.0-ios11.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net8.0-ios11.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.Binding.dll" target="lib\net8.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.dll" target="lib\net8.0-ios12.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net8.0-ios12.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net8.0-ios12.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.Binding.dll" target="lib\net8.0-ios12.0" />
 
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.pdb" target="lib\net8.0-ios11.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.Core.pdb" target="lib\net8.0-ios11.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.pdb" target="lib\net8.0-ios11.0" />
-        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net8.0-ios11.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.pdb" target="lib\net8.0-ios12.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.Core.pdb" target="lib\net8.0-ios12.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.pdb" target="lib\net8.0-ios12.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net8.0-ios\OneSignalSDK.DotNet.iOS.Binding.pdb" target="lib\net8.0-ios12.0" />
 
         <!-- Workaround to support .XCFramework for iOS  -->
         <!-- Resources includes the full OneSignal.XCFramework.
@@ -92,6 +92,6 @@
         
         <!-- This is a .target files that gets used by project that consumes the NuGet package.
              This copies out the OneSignal.xcframework from the resources folder and adds a NativeReference to it in the app project. -->
-        <file src="OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.targets" target="build\net8.0-ios11.0\" />
+        <file src="OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.targets" target="build\net8.0-ios12.0\" />
     </files>    
 </package>
