@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -13,7 +13,7 @@ namespace OneSignalDevApp.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _appId = "31cc0310-2322-493c-a323-194f7a8b11f4";
+        private string _appId = "77e32082-ea27-42e3-a898-c72e141824ef";
         public string AppId {
             get => _appId;
             private set
@@ -147,6 +147,7 @@ namespace OneSignalDevApp.Models
         public ICommand RevokePrivacyConsentCommand { get; }
         public ICommand LoginUserCommand { get; }
         public ICommand LogoutUserCommand { get; }
+        public ICommand TrackEventCommand { get; }
         public ICommand AddAliasCommand { get; }
         public ICommand PromptForPushCommand { get; }
         public ICommand AddEmailCommand { get; }
@@ -169,6 +170,7 @@ namespace OneSignalDevApp.Models
             RevokePrivacyConsentCommand = new Command(RevokePrivacyConsent);
             LoginUserCommand = new Command(LoginUser);
             LogoutUserCommand = new Command(LogoutUser);
+            TrackEventCommand = new Command(TrackEvent);
             AddAliasCommand = new Command(AddAlias);
             PromptForPushCommand = new Command(PromptForPush);
             AddEmailCommand = new Command(AddEmail);
@@ -181,14 +183,14 @@ namespace OneSignalDevApp.Models
             ExitLiveActivityCommand = new Command(ExitLiveActivity);
             ValidationCommand = new Command(Validation);
 
-            // // Initialize OneSignal SDK.
+            // Initialize OneSignal SDK.
             OneSignal.Debug.LogLevel = LogLevel.VERBOSE;
             // OneSignal.Debug.AlertLevel = LogLevel.NONE;
 
             // OneSignal.ConsentRequired = true;
             // OneSignal.ConsentGiven = false;
 
-            // OneSignal.Initialize(_appId);
+            OneSignal.Initialize(_appId);
 
             // OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
             // OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
@@ -286,6 +288,33 @@ namespace OneSignalDevApp.Models
         private void LogoutUser()
         {
             OneSignal.Logout();
+        }
+
+        private void TrackEvent()
+        {
+            string platform = DeviceInfo.Platform == DevicePlatform.Android ? "android" : "ios";
+
+            Debug.WriteLine($"Tracking event: DotNet-{platform}-noprops");
+            OneSignal.User.TrackEvent($"DotNet-{platform}-noprops");
+
+            Debug.WriteLine($"Tracking event: DotNet-{platform} with properties");
+            OneSignal.User.TrackEvent($"DotNet-{platform}", new Dictionary<string, object>
+            {
+                { "someNum", 123 },
+                { "someFloat", 3.14159 },
+                { "someString", "abc" },
+                { "someBool", true },
+                { "someObject", new Dictionary<string, object>
+                    {
+                        { "abc", "123" },
+                        { "nested", new Dictionary<string, object> { { "def", "456" } } },
+                        { "ghi", null }
+                    }
+                },
+                { "someArray", new List<object> { 1, 2 } },
+                { "someMixedArray", new List<object> { 1, "2", new Dictionary<string, object> { { "abc", "123" } }, null } },
+                { "someNull", null }
+            });
         }
 
         private async void AddAlias()

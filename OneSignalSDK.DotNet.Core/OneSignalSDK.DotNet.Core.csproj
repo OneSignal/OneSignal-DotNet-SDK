@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
     <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
     <AssemblyName>OneSignalSDK.DotNet.Core</AssemblyName>
     <PackageId>OneSignalSDK.DotNet.Core</PackageId>
   </PropertyGroup>

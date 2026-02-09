@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
 
@@ -149,5 +149,12 @@ namespace OneSignalSDK.DotNet.Core.User
         /// Get the dictionary of data tags for the current user.
         /// </summary>
         IDictionary<string, string> GetTags();
+
+        /// <summary>
+        /// Track a custom event with the provided name and optional properties.
+        /// </summary>
+        /// <param name="name">The name of the custom event to track.</param>
+        /// <param name="properties">Optional properties to associate with the event.</param>
+        void TrackEvent(string name, IDictionary<string, object>? properties = null);
     }
 }
