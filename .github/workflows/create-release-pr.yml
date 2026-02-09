@@ -1,5 +1,9 @@
 name: Create Release PR
 
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   # For making a release pr from android / ios sdk actions
   workflow_call:
