@@ -4,10 +4,10 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5FF66A21-BA7B-48FD-8A7D-6A1092066306}</ProjectGuid>
-    <TargetFrameworks>net8.0-ios;net9.0-ios;net10.0-ios</TargetFrameworks>
+    <TargetFrameworks>net9.0-ios;net10.0-ios</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <SupportedOSPlatformVersion>12.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>12.2</SupportedOSPlatformVersion>
     <RootNamespace>OneSignalSDK.DotNet.iOS</RootNamespace>
     <AssemblyName>OneSignalSDK.DotNet.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
@@ -37,9 +37,6 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net8.0-ios')) ">
-    <Reference Include="Microsoft.iOS" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSignalSDK.DotNet.Core\OneSignalSDK.DotNet.Core.csproj">
       <ReferenceSourceTarget></ReferenceSourceTarget>

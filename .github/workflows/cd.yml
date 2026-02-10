@@ -37,11 +37,11 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Restore workloads
-        run: dotnet workload restore
+      # - name: Restore workloads
+      #   run: dotnet workload restore
 
       - name: Build
-        run: dotnet build OneSignal.sln -c Release /p:Version=${{ steps.version.outputs.version }}
+        run: dotnet build OneSignalSDK.DotNet/OneSignalSDK.DotNet.csproj -c Release /p:Version=${{ steps.version.outputs.version }}
 
       - name: Pack
         run: nuget pack OneSignalSDK.DotNet.nuspec -OutputDirectory ./artifacts

@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FB0C2961-BAFE-4346-B279-3B3941614DCD}</ProjectGuid>
-    <TargetFrameworks>net8.0-android;net9.0-android;net10.0-android</TargetFrameworks>
+    <TargetFrameworks>net9.0-android;net10.0-android</TargetFrameworks>
     <OutputType>Library</OutputType>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <ImplicitUsings>enable</ImplicitUsings>
