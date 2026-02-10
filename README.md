@@ -51,7 +51,14 @@ Install [dotnet 10 or later](https://dotnet.microsoft.com/en-us/download)
 
 Use the OneSignalDev app to test the OneSignal functionality.
 
-For Android you will need a `google-services.json` file (from Firebase) to be in `OneSignal-DotNet-SDK/Samples/OneSignalDevApp/Platforms/Android`.
+For Android you need a `google-services.json` file from Firebase. Place it above the repo root and run the setup script:
+
+```
+google-services.json
+OneSignal-DotNet-SDK/
+```
+
+Then from the repo root: `./setup-devapp.sh`
 
 Run iOS like so: `dotnet build -t:Run -f net10.0-ios`
 For Android, run: `dotnet build -t:Run -f net10.0-android`

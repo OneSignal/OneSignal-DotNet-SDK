@@ -34,6 +34,7 @@ move_ios_binary() {
 
 # NOTE: Make sure to git clone and git checkout the version of the iOS SDK first
 update_ios_binaries() {
+	echo "Updating iOS binaries to version ${IOS_NATIVE_VERSION}"
     rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalCore.xcframework/
     rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalExtension.xcframework/
     rm -rf OneSignalSDK.DotNet.iOS.Binding/OneSignalFramework.xcframework/
@@ -58,6 +59,7 @@ update_ios_binaries() {
 
 # After running, check for 404 or other errors in the terminal
 update_android_binaries() {
+	echo "Updating Android binaries to version ${ANDROID_NATIVE_VERSION}"
     curl https://repo1.maven.org/maven2/com/onesignal/core/${ANDROID_NATIVE_VERSION}/core-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Core.Binding/Jars/core-release.aar \
          --fail
