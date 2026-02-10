@@ -40,7 +40,6 @@ jobs:
       - name: Restore workloads
         run: dotnet workload restore
 
-        # Don't need /t:Rebuild since this is a fresh checkout
       - name: Build
         run: dotnet build OneSignal.sln -c Release /p:Version=${{ steps.version.outputs.version }}
 
