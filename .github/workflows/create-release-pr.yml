@@ -133,9 +133,11 @@ jobs:
           git diff --staged --quiet && exit 0
           git commit -m "Release $VERSION" && git push
 
+      - name: Restore workloads
+        run: dotnet workload restore
+
       - name: Check Build Errors
         run: |
-          # Build only net10.0 targets to verify no compilation errors
           echo "Building Android SDK..."
           dotnet build OneSignalSDK.DotNet.Android/OneSignalSDK.DotNet.Android.csproj -c Release -f net10.0-android
           echo "Building iOS SDK..."
