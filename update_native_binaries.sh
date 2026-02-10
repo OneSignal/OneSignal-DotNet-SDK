@@ -102,3 +102,7 @@ update_versions_json() {
 }
 
 update_versions_json
+
+echo "Cleaning build artifacts..."
+# Clean build artifacts so stale cached binaries aren't used
+find Samples \( -name bin -o -name obj \) -type d -prune -exec rm -rf {} + 2>/dev/null || true
