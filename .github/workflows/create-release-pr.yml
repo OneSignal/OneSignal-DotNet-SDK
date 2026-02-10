@@ -107,9 +107,7 @@ jobs:
           # Clone iOS SDK if ios_version is provided
           if [ -n "${{ inputs.ios_version }}" ]; then
             echo "Cloning iOS SDK..."
-            cd ..
-            git clone https://github.com/OneSignal/OneSignal-iOS-SDK.git
-            cd OneSignal-iOS-SDK && git checkout ${{ inputs.ios_version }} && cd ../OneSignal-DotNet-SDK
+            git clone --branch ${{ inputs.ios_version }} --depth 1 https://github.com/OneSignal/OneSignal-iOS-SDK.git ../OneSignal-iOS-SDK
           fi
 
           echo "Running update_native_binaries.sh..."
