@@ -1,0 +1,58 @@
+name: Publish to Github & NuGet
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+      - rel/**
+
+jobs:
+  publish:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       contains(github.event.pull_request.title, 'chore: Release'))
+    runs-on: macos-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Get version from nuspec
+        id: version
+        run: |
+          VERSION=$(grep '<version>' OneSignalSDK.DotNet.nuspec | sed -E 's/.*<version>([^<]+)<\/version>.*/\1/' | head -1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore workloads
+        run: dotnet workload restore
+
+      - name: Build
+        run: dotnet build OneSignal.sln -c Release /p:Version=${{ steps.version.outputs.version }}
+
+      - name: Pack
+        run: nuget pack OneSignalSDK.DotNet.nuspec -OutputDirectory ./artifacts
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+  create-release:
+    needs: publish
+    uses: OneSignal/sdk-actions/.github/workflows/github-release.yml@main
+    secrets:
+      GH_PUSH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
+    with:
+      version: ${{ needs.publish.outputs.version }}
