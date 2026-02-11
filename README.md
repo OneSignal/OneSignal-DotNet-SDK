@@ -65,10 +65,6 @@ For Android, run: `dotnet build -t:Run -f net10.0-android`
 
 #### Targets:
 
-- .NET 8.0 for Android (`net8.0-android`)
-- .NET 8.0 for iOS (`net8.0-ios`)
-- .NET 9.0 for Android (`net9.0-android`)
-- .NET 9.0 for iOS (`net9.0-ios`)
 - .NET 10.0 for Android (`net10.0-android`)
 - .NET 10.0 for iOS (`net10.0-ios`)
 
