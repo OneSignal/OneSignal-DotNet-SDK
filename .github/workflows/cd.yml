@@ -45,8 +45,8 @@ jobs:
         uses: nuget/login@v1
         id: login
         with:
-          # TODO: Replace with OneSignal on approval
-          user: fadi-onesignal
+          # Needs to be an Owner (not an Org) of the package
+          user: OneSignal_SDK
 
       - name: Restore workloads
         run: dotnet workload restore
