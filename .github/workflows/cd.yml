@@ -1,6 +1,10 @@
+# Using TrustedPublisher for NuGet publishing
+# The workflow name is set to cd.yml and should be updated if this file is renamed.
+# We do NOT need NUGET_API_KEY in secrets.
 name: Publish to Github & NuGet
 
 permissions:
+  id-token: write # Required for OIDC
   contents: write
 
 on:
@@ -36,6 +40,13 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
+          
+      - name: NuGet login
+        uses: nuget/login@v1
+        id: login
+        with:
+          # TODO: Replace with OneSignal on approval
+          user: fadi-onesignal
 
       - name: Restore workloads
         run: dotnet workload restore
@@ -50,7 +61,7 @@ jobs:
         run: dotnet pack OneSignalSDK.DotNet/OneSignalSDK.DotNet.csproj --no-build -c Release /p:NuspecFile=../OneSignalSDK.DotNet.nuspec -o ./artifacts
 
       - name: Publish to NuGet
-        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
   create-release:
     needs: publish
