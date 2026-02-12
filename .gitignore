@@ -8,6 +8,7 @@ DerivedData/
 packages/
 TestResults/
 Pods/
+artifacts/
 
 # globs
 Makefile.in

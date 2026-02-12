@@ -37,14 +37,17 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      # - name: Restore workloads
-      #   run: dotnet workload restore
+      - name: Restore workloads
+        run: dotnet workload restore
 
       - name: Build
         run: dotnet build OneSignalSDK.DotNet/OneSignalSDK.DotNet.csproj -c Release /p:Version=${{ steps.version.outputs.version }}
 
+      - name: Extract iOS resources
+        run: unzip OneSignalSDK.DotNet.iOS.Binding/bin/Release/net10.0-ios/OneSignalSDK.DotNet.iOS.Binding.resources.zip -d OneSignalSDK.DotNet.iOS.Binding/bin/Release/net10.0-ios/OneSignalSDK.DotNet.iOS.Binding.resources/
+
       - name: Pack
-        run: nuget pack OneSignalSDK.DotNet.nuspec -OutputDirectory ./artifacts
+        run: dotnet pack OneSignalSDK.DotNet/OneSignalSDK.DotNet.csproj --no-build -c Release /p:NuspecFile=../OneSignalSDK.DotNet.nuspec -o ./artifacts
 
       - name: Publish to NuGet
         run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
