@@ -52,30 +52,24 @@ public partial class AliasesSection : ContentView
             }
             first = false;
 
-            var row = new Grid
+            var row = new VerticalStackLayout
             {
                 Padding = new Thickness(16, 12),
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = GridLength.Star },
-                    new ColumnDefinition { Width = GridLength.Star }
-                }
+                Spacing = 2
             };
             row.Children.Add(new Label
             {
                 Text = alias.Key,
-                Style = Application.Current?.Resources["KeyLabelStyle"] as Style,
-                VerticalOptions = LayoutOptions.Center
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 14,
+                TextColor = Color.FromArgb("#333333")
             });
-            var valLabel = new Label
+            row.Children.Add(new Label
             {
                 Text = alias.Value,
-                Style = Application.Current?.Resources["ValueLabelStyle"] as Style,
-                HorizontalOptions = LayoutOptions.End,
-                VerticalOptions = LayoutOptions.Center
-            };
-            Grid.SetColumn(valLabel, 1);
-            row.Children.Add(valLabel);
+                FontSize = 13,
+                TextColor = Color.FromArgb("#666666")
+            });
 
             AliasListContainer.Children.Add(row);
         }

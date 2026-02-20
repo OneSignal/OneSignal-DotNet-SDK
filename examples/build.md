@@ -896,7 +896,7 @@ to show a dialog overlay (not a full-screen page). Close via page.ClosePopupAsyn
 Behavior:
 - Popup shows as an overlay dialog with a dimmed background, not full-screen
 - Starts with one empty key-value row (Key and Value Entries side by side in a Grid)
-- "Add Row" Button below the rows adds another empty row
+- "Add Row" Button below the rows adds another empty row; the button is centered horizontally
 - BoxView dividers separate each row for visual clarity
 - Each row shows an X (close icon) delete Button on the right (hidden when only one row)
 - "Add All" Button is disabled until ALL key and value Entry fields in every row are filled

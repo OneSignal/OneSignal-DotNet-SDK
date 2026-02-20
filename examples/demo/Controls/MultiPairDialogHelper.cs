@@ -137,7 +137,7 @@ public static class MultiPairDialogHelper
             Text = "+ Add Row",
             BackgroundColor = Colors.Transparent,
             TextColor = Color.FromArgb("#E54B4D"),
-            HorizontalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.Center,
             Padding = new Thickness(0, 8),
         };
 
