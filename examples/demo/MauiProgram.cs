@@ -4,6 +4,10 @@ using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
 using OsLogLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel;
+#if ANDROID
+using AndroidX.AppCompat.Content.Res;
+using Microsoft.Maui.Handlers;
+#endif
 
 namespace OneSignalDemo;
 
@@ -21,6 +25,30 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+#if ANDROID
+                SwitchHandler.Mapper.AppendToMapping("ThumbShadow", (handler, _) =>
+                {
+                    var context = handler.PlatformView.Context;
+                    if (context is null)
+                    {
+                        return;
+                    }
+
+                    var thumb = AppCompatResources.GetDrawable(
+                        context,
+                        global::OneSignalDemo.Resource.Drawable.switch_thumb_white_shadow);
+                    if (thumb is null)
+                    {
+                        return;
+                    }
+
+                    handler.PlatformView.ThumbTintList = null;
+                    handler.PlatformView.ThumbDrawable = thumb.Mutate();
+                });
+#endif
             });
 
 
