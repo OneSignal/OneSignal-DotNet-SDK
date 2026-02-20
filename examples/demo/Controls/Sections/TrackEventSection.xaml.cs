@@ -1,6 +1,9 @@
 using System.Text.Json;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Extensions;
+using Microsoft.Maui.Controls.Shapes;
 using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
 
@@ -28,53 +31,141 @@ public partial class TrackEventSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var form = await DialogInputHelper.ShowForm(
-            _parentPage,
-            "Track Event",
-            new[]
+        var result = await ShowTrackEventPopup(_parentPage);
+        if (result == null) return;
+
+        _viewModel.TrackEvent(result.Value.name, result.Value.properties);
+        await Toast.Make($"Event tracked: {result.Value.name}", ToastDuration.Short).Show();
+    }
+
+    private static async Task<(string name, Dictionary<string, object>? properties)?> ShowTrackEventPopup(Page parentPage)
+    {
+        var nameEntry = new Entry
+        {
+            Placeholder = "Event name",
+            AutomationId = "track_event_name_input",
+        };
+
+        var propsEntry = new Entry
+        {
+            Placeholder = "{\"key\": \"value\"} (optional)",
+            AutomationId = "track_event_props_input",
+        };
+
+        var errorLabel = new Label
+        {
+            Text = "Invalid JSON format",
+            TextColor = Color.FromArgb("#E54B4D"),
+            FontSize = 12,
+            IsVisible = false,
+        };
+
+        var cancelButton = GhostButton("CANCEL", Color.FromArgb("#6E6E73"));
+        var confirmButton = GhostButton("TRACK", Color.FromArgb("#E54B4D"), "track_event_confirm_button");
+
+        (string name, Dictionary<string, object>? properties)? popupResult = null;
+
+        confirmButton.Clicked += async (s, ev) =>
+        {
+            var name = nameEntry.Text?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(name)) return;
+
+            var propsText = propsEntry.Text?.Trim() ?? string.Empty;
+            Dictionary<string, object>? properties = null;
+
+            if (!string.IsNullOrEmpty(propsText))
             {
-                new DialogInputField
+                try
                 {
-                    Key = "name",
-                    Placeholder = "Event name",
-                    AutomationId = "track_event_name_input",
+                    var doc = JsonDocument.Parse(propsText);
+                    properties = new Dictionary<string, object>();
+                    foreach (var prop in doc.RootElement.EnumerateObject())
+                        properties[prop.Name] = prop.Value.GetString() ?? string.Empty;
+                    errorLabel.IsVisible = false;
+                }
+                catch
+                {
+                    errorLabel.IsVisible = true;
+                    return;
+                }
+            }
+            else
+            {
+                errorLabel.IsVisible = false;
+            }
+
+            popupResult = (name, properties);
+            await parentPage.ClosePopupAsync(popupResult);
+        };
+
+        cancelButton.Clicked += async (s, ev) => await parentPage.ClosePopupAsync();
+
+        Grid.SetColumn(confirmButton, 1);
+
+        var width = parentPage.Width > 0 ? parentPage.Width : 320;
+
+        var card = new VerticalStackLayout
+        {
+            BackgroundColor = Colors.White,
+            WidthRequest = Math.Max(240, width - 32),
+            Padding = new Thickness(16),
+            Spacing = 12,
+            Children =
+            {
+                new Label { Text = "Track Event", FontAttributes = FontAttributes.Bold, FontSize = 16 },
+                new VerticalStackLayout
+                {
+                    Spacing = 8,
+                    Children =
+                    {
+                        nameEntry,
+                        propsEntry,
+                        errorLabel,
+                    }
                 },
-                new DialogInputField
+                new Grid
                 {
-                    Key = "props",
-                    Placeholder = "{\"key\": \"value\"} (optional)",
-                    AutomationId = "track_event_props_input",
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Star },
+                    },
+                    Children = { cancelButton, confirmButton },
                 },
             },
-            "TRACK",
-            "track_event_confirm_button"
-        );
+        };
 
-        if (form == null || !form.TryGetValue("name", out var name) || string.IsNullOrEmpty(name))
-            return;
-
-        form.TryGetValue("props", out var propsText);
-
-        Dictionary<string, object>? properties = null;
-        if (!string.IsNullOrEmpty(propsText))
+        var options = new PopupOptions
         {
-            try
+            CanBeDismissedByTappingOutsideOfPopup = true,
+            PageOverlayColor = Colors.Black.WithAlpha(0.4f),
+            Shape = new RoundRectangle { CornerRadius = 12, StrokeThickness = 0, Stroke = new SolidColorBrush(Colors.Transparent) },
+            Shadow = new Shadow
             {
-                var doc = JsonDocument.Parse(propsText);
-                properties = new Dictionary<string, object>();
-                foreach (var prop in doc.RootElement.EnumerateObject())
-                    properties[prop.Name] = prop.Value.GetString() ?? "";
-            }
-            catch
-            {
-                await _parentPage.DisplayAlertAsync("Invalid JSON", "Properties must be valid JSON.", "OK");
-                return;
-            }
-        }
+                Brush = new SolidColorBrush(Colors.Black),
+                Opacity = 0.12f,
+                Radius = 10,
+                Offset = new Microsoft.Maui.Graphics.Point(0, 2),
+            },
+        };
 
-        _viewModel.TrackEvent(name, properties);
-        await Toast.Make($"Event tracked: {name}", ToastDuration.Short).Show();
+        await parentPage.ShowPopupAsync<(string, Dictionary<string, object>?)?>(card, options);
+        return popupResult;
     }
+
+    private static Button GhostButton(string text, Color textColor, string? automationId = null) => new()
+    {
+        Text = text,
+        Style = null,
+        BackgroundColor = Colors.Transparent,
+        TextColor = textColor,
+        FontAttributes = FontAttributes.Bold,
+        BorderWidth = 0,
+        BorderColor = Colors.Transparent,
+        Shadow = null,
+        HorizontalOptions = LayoutOptions.Fill,
+        AutomationId = automationId ?? string.Empty,
+    };
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
 }
