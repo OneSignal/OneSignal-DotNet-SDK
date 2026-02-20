@@ -141,6 +141,9 @@ Target frameworks:
 Android-specific setup:
   - google-services.json included as GoogleServicesJson build action
   - Run setup-devapp.sh (at examples/) to copy google-services.json from above the repo root
+  - AndroidManifest.xml must include the following permissions:
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 iOS-specific setup:
   - Entitlements.plist with push notification entitlement (aps-environment = development)
