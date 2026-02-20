@@ -18,8 +18,8 @@
                     <Label Text="Share device location with OneSignal" Style="{StaticResource InfoLabelStyle}" />
                 </VerticalStackLayout>
                 <Switch Grid.Column="1" x:Name="LocationSharedSwitch"
-                        IsToggled="False" ThumbColor="White"
-                        OnColor="{StaticResource OneSignalRed}"
+                        IsToggled="False"
+                       
                         Toggled="OnLocationSharedToggled"
                         AutomationId="location_shared_switch" />
             </Grid>

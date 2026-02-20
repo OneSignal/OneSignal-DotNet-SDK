@@ -31,6 +31,10 @@
         <Setter Property="HorizontalOptions" Value="Fill" />
     </Style>
 
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{StaticResource OneSignalRed}" />
+    </Style>
+
     <Style TargetType="Entry">
         <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
     </Style>

@@ -45,8 +45,7 @@
                         <Label Text="Require consent before SDK processes data" Style="{StaticResource InfoLabelStyle}" />
                     </VerticalStackLayout>
                     <Switch Grid.Column="1" x:Name="ConsentRequiredSwitch"
-                            IsToggled="False" ThumbColor="White"
-                            OnColor="{StaticResource OneSignalRed}"
+                            IsToggled="False"
                             Toggled="OnConsentRequiredToggled"
                             AutomationId="consent_required_switch" />
                 </Grid>
@@ -61,8 +60,8 @@
                         <Label Text="Consent given for data collection" Style="{StaticResource InfoLabelStyle}" />
                     </VerticalStackLayout>
                     <Switch Grid.Column="1" x:Name="PrivacyConsentSwitch"
-                            IsToggled="False" ThumbColor="White"
-                            OnColor="{StaticResource OneSignalRed}"
+                            IsToggled="False"
+                           
                             Toggled="OnPrivacyConsentToggled"
                             AutomationId="privacy_consent_switch" />
                 </Grid>

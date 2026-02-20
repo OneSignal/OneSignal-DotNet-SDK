@@ -26,8 +26,8 @@
                 <Grid Padding="16,14" ColumnDefinitions="*,Auto">
                     <Label Grid.Column="0" Text="Enabled" FontSize="15" TextColor="#333333" VerticalOptions="Center" />
                     <Switch Grid.Column="1" x:Name="PushEnabledSwitch"
-                            IsToggled="False" ThumbColor="White"
-                            OnColor="{StaticResource OneSignalRed}"
+                            IsToggled="False"
+                           
                             Toggled="OnPushEnabledToggled"
                             AutomationId="push_enabled_switch" />
                 </Grid>

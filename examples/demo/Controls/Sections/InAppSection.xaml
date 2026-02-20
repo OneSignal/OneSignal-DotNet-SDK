@@ -18,8 +18,8 @@
                     <Label Text="Toggle in-app message display" Style="{StaticResource InfoLabelStyle}" />
                 </VerticalStackLayout>
                 <Switch Grid.Column="1" x:Name="IamPausedSwitch"
-                        IsToggled="False" ThumbColor="White"
-                        OnColor="{StaticResource OneSignalRed}"
+                        IsToggled="False"
+                       
                         Toggled="OnIamPausedToggled"
                         AutomationId="iam_paused_switch" />
             </Grid>
