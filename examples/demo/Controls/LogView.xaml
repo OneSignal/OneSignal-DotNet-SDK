@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:services="clr-namespace:OneSignalDemo.Services"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     x:Class="OneSignalDemo.Controls.LogView"
     x:Name="root">
 
@@ -51,22 +52,25 @@
                 <Label x:Name="LogCountLabel" TextColor="#AAAAAA" FontSize="12" VerticalOptions="Center" AutomationId="log_view_count" />
             </HorizontalStackLayout>
 
-            <Button Grid.Column="1"
-                    Text="🗑"
-                    BackgroundColor="Transparent"
-                    TextColor="#AAAAAA"
-                    FontSize="14"
-                    Padding="8,0"
-                    Clicked="OnClearClicked"
-                    AutomationId="log_view_clear_button" />
+            <mi:MauiIcon Grid.Column="1"
+                         Icon="{mi:Material Icon=Delete}"
+                         IconColor="#AAAAAA"
+                         IconSize="18"
+                         VerticalOptions="Center"
+                         Padding="8,0"
+                         AutomationId="log_view_clear_button">
+                <mi:MauiIcon.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnClearClicked" />
+                </mi:MauiIcon.GestureRecognizers>
+            </mi:MauiIcon>
 
-            <Label Grid.Column="2"
-                   x:Name="CollapseArrow"
-                   Text="∧"
-                   TextColor="#AAAAAA"
-                   FontSize="14"
-                   VerticalOptions="Center"
-                   Padding="4,0,4,0" />
+            <mi:MauiIcon Grid.Column="2"
+                         x:Name="CollapseArrow"
+                         Icon="{mi:Material Icon=ExpandLess}"
+                         IconColor="#AAAAAA"
+                         IconSize="20"
+                         VerticalOptions="Center"
+                         Padding="4,0,4,0" />
         </Grid>
 
         <!-- Log list -->

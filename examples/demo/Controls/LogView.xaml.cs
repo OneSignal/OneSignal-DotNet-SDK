@@ -1,3 +1,5 @@
+using MauiIcons.Material;
+using MauiIcons.Core;
 using OneSignalDemo.Services;
 
 namespace OneSignalDemo.Controls;
@@ -88,7 +90,7 @@ public partial class LogView : ContentView
     {
         _isExpanded = !_isExpanded;
         LogScrollView.IsVisible = _isExpanded;
-        CollapseArrow.Text = _isExpanded ? "∧" : "∨";
+        CollapseArrow.Icon = _isExpanded ? MaterialIcons.ExpandLess : MaterialIcons.ExpandMore;
     }
 
     private void OnClearClicked(object? sender, EventArgs e)

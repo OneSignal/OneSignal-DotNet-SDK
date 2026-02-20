@@ -976,7 +976,8 @@ LogView Features:
 - Use VerticalStackLayout inside ScrollView instead of CollectionView (100dp container is small)
 - Fixed 100dp height
 - Default expanded
-- Trash icon Button for clearing logs
+- Material delete icon (mi:MauiIcon Icon=Delete) with TapGestureRecognizer for clearing logs
+- Collapse/expand toggle uses Material icons (mi:MauiIcon): ExpandLess when expanded, ExpandMore when collapsed; icon is toggled in code-behind via CollapseArrow.Icon = MaterialIcons.ExpandLess/ExpandMore
 - Auto-scroll to newest using ScrollView.ScrollToAsync
 
 Appium AutomationId Labels:
