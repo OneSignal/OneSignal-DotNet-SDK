@@ -1,4 +1,5 @@
 using OneSignalDemo.ViewModels;
+using OneSignalDemo.Controls;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -97,35 +98,15 @@ public partial class SmsSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var entry = new Entry { Placeholder = "Phone number", AutomationId = "sms_input" };
-        var tcs = new TaskCompletionSource<bool>();
+        var sms = await DialogInputHelper.ShowSingleInput(
+            _parentPage,
+            "Add SMS",
+            "Phone number",
+            "ADD",
+            "sms_input",
+            keyboard: Keyboard.Telephone
+        );
 
-        var confirmBtn = new Button
-        {
-            Text = "ADD SMS",
-            Style = Application.Current?.Resources["PrimaryButtonStyle"] as Style,
-            Command = new Command(() => tcs.TrySetResult(true))
-        };
-
-        var page = new ContentPage
-        {
-            Title = "Add SMS",
-            Content = new VerticalStackLayout
-            {
-                Padding = new Thickness(16),
-                Spacing = 12,
-                Children = { entry, confirmBtn }
-            }
-        };
-
-        page.Disappearing += (s2, e2) => tcs.TrySetResult(false);
-        await _parentPage.Navigation.PushModalAsync(page);
-        var result = await tcs.Task;
-        if (_parentPage.Navigation.ModalStack.Contains(page))
-            await _parentPage.Navigation.PopModalAsync();
-
-        if (!result) return;
-        var sms = entry.Text?.Trim() ?? "";
         if (string.IsNullOrEmpty(sms)) return;
         _viewModel.AddSms(sms);
     }

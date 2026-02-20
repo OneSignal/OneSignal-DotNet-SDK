@@ -1,4 +1,5 @@
 using OneSignalDemo.ViewModels;
+using OneSignalDemo.Controls;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -82,38 +83,35 @@ public partial class TriggersSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var keyEntry = new Entry { Placeholder = "Key", AutomationId = "trigger_key_input" };
-        var valueEntry = new Entry { Placeholder = "Value", AutomationId = "trigger_value_input" };
-        var tcs = new TaskCompletionSource<bool>();
-
-        var confirmBtn = new Button
-        {
-            Text = "ADD",
-            Style = Application.Current?.Resources["PrimaryButtonStyle"] as Style,
-            Command = new Command(() => tcs.TrySetResult(true))
-        };
-
-        var page = new ContentPage
-        {
-            Title = "Add Trigger",
-            Content = new VerticalStackLayout
+        var form = await DialogInputHelper.ShowForm(
+            _parentPage,
+            "Add Trigger",
+            new[]
             {
-                Padding = new Thickness(16),
-                Spacing = 12,
-                Children = { keyEntry, valueEntry, confirmBtn }
-            }
-        };
+                new DialogInputField
+                {
+                    Key = "key",
+                    Placeholder = "Key",
+                    AutomationId = "trigger_key_input",
+                },
+                new DialogInputField
+                {
+                    Key = "value",
+                    Placeholder = "Value",
+                    AutomationId = "trigger_value_input",
+                },
+            },
+            "ADD"
+        );
 
-        page.Disappearing += (s2, e2) => tcs.TrySetResult(false);
-        await _parentPage.Navigation.PushModalAsync(page);
-        var result = await tcs.Task;
-        if (_parentPage.Navigation.ModalStack.Contains(page))
-            await _parentPage.Navigation.PopModalAsync();
-
-        if (!result) return;
-        var key = keyEntry.Text?.Trim() ?? "";
-        var value = valueEntry.Text?.Trim() ?? "";
-        if (string.IsNullOrEmpty(key)) return;
+        if (
+            form == null
+            || !form.TryGetValue("key", out var key)
+            || !form.TryGetValue("value", out var value)
+            || string.IsNullOrEmpty(key)
+            || string.IsNullOrEmpty(value)
+        )
+            return;
         _viewModel.AddTrigger(new KeyValuePair<string, string>(key, value));
     }
 

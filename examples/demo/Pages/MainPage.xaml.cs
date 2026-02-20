@@ -1,6 +1,7 @@
 using OneSignalDemo.Models;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
+using OneSignalDemo.Controls;
 
 namespace OneSignalDemo.Pages;
 
@@ -72,15 +73,12 @@ public partial class MainPage : ContentPage
 
     private async void OnLoginRequested(object? sender, EventArgs e)
     {
-        var userId = (
-            await DisplayPromptAsync(
-                _viewModel.IsLoggedIn ? "Switch User" : "Login User",
-                string.Empty,
-                accept: "LOGIN",
-                cancel: "CANCEL",
-                placeholder: "External User Id"
-            )
-        )?.Trim();
+        var userId = await DialogInputHelper.ShowSingleInput(
+            this,
+            "Login User",
+            "External User Id",
+            "LOGIN"
+        );
 
         if (string.IsNullOrEmpty(userId))
         {
@@ -97,41 +95,33 @@ public partial class MainPage : ContentPage
 
     private async void OnCustomNotificationRequested(object? sender, EventArgs e)
     {
-        var titleEntry = new Entry { Placeholder = "Title", AutomationId = "custom_notif_title_input" };
-        var bodyEntry = new Entry { Placeholder = "Body", AutomationId = "custom_notif_body_input" };
-        var tcs = new TaskCompletionSource<bool>();
-
-        var confirmBtn = new Button
-        {
-            Text = "SEND",
-            Style = Application.Current?.Resources["PrimaryButtonStyle"] as Style,
-            AutomationId = "custom_notif_send_button",
-            Command = new Command(() => tcs.TrySetResult(true))
-        };
-
-        var page = new ContentPage
-        {
-            Title = "Custom Notification",
-            Content = new VerticalStackLayout
+        var form = await DialogInputHelper.ShowForm(
+            this,
+            "Custom Notification",
+            new[]
             {
-                Padding = new Thickness(16),
-                Spacing = 12,
-                Children = { titleEntry, bodyEntry, confirmBtn }
-            }
-        };
+                new DialogInputField
+                {
+                    Key = "title",
+                    Placeholder = "Title",
+                    AutomationId = "custom_notif_title_input",
+                },
+                new DialogInputField
+                {
+                    Key = "body",
+                    Placeholder = "Body",
+                    AutomationId = "custom_notif_body_input",
+                },
+            },
+            "SEND",
+            "custom_notif_send_button"
+        );
 
-        page.Disappearing += (s2, e2) => tcs.TrySetResult(false);
-        await Navigation.PushModalAsync(page);
-        var result = await tcs.Task;
-        if (Navigation.ModalStack.Contains(page))
-            await Navigation.PopModalAsync();
+        if (form == null || !form.TryGetValue("title", out var title) || string.IsNullOrEmpty(title))
+            return;
 
-        if (!result) return;
-        var title = titleEntry.Text?.Trim() ?? "";
-        var body = bodyEntry.Text?.Trim() ?? "";
-        if (string.IsNullOrEmpty(title)) return;
-
-        await _viewModel.SendCustomNotificationAsync(title, body);
+        form.TryGetValue("body", out var body);
+        await _viewModel.SendCustomNotificationAsync(title, body ?? string.Empty);
     }
 
     private async void ShowTooltip(string key)

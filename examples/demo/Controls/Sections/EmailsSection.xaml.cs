@@ -1,4 +1,5 @@
 using OneSignalDemo.ViewModels;
+using OneSignalDemo.Controls;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -103,45 +104,16 @@ public partial class EmailsSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var entry = new Entry { Placeholder = "Email address", AutomationId = "email_input" };
-        var result = await ShowSingleInputDialog("Add Email", entry, "ADD EMAIL");
-        if (!result) return;
+        var email = await DialogInputHelper.ShowSingleInput(
+            _parentPage,
+            "Add Email",
+            "Email address",
+            "ADD",
+            "email_input"
+        );
 
-        var email = entry.Text?.Trim() ?? "";
         if (string.IsNullOrEmpty(email)) return;
-
         _viewModel.AddEmail(email);
-    }
-
-    private async Task<bool> ShowSingleInputDialog(string title, Entry entry, string confirmText)
-    {
-        if (_parentPage == null) return false;
-        var tcs = new TaskCompletionSource<bool>();
-
-        var confirmBtn = new Button
-        {
-            Text = confirmText,
-            Style = Application.Current?.Resources["PrimaryButtonStyle"] as Style,
-            Command = new Command(() => tcs.TrySetResult(true))
-        };
-
-        var page = new ContentPage
-        {
-            Title = title,
-            Content = new VerticalStackLayout
-            {
-                Padding = new Thickness(16),
-                Spacing = 12,
-                Children = { entry, confirmBtn }
-            }
-        };
-
-        page.Disappearing += (s, e) => tcs.TrySetResult(false);
-        await _parentPage.Navigation.PushModalAsync(page);
-        var result = await tcs.Task;
-        if (_parentPage.Navigation.ModalStack.Contains(page))
-            await _parentPage.Navigation.PopModalAsync();
-        return result;
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

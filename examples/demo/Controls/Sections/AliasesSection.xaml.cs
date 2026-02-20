@@ -1,6 +1,7 @@
 using System.Collections.Specialized;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -84,19 +85,38 @@ public partial class AliasesSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var keyEntry = new Entry { Placeholder = "Label", AutomationId = "alias_label_input" };
-        var valueEntry = new Entry { Placeholder = "ID", AutomationId = "alias_id_input" };
-        var layout = new VerticalStackLayout { Spacing = 8, Children = { keyEntry, valueEntry } };
+        var form = await DialogInputHelper.ShowForm(
+            _parentPage,
+            "Add Alias",
+            new[]
+            {
+                new DialogInputField
+                {
+                    Key = "label",
+                    Placeholder = "Label",
+                    AutomationId = "alias_label_input",
+                },
+                new DialogInputField
+                {
+                    Key = "id",
+                    Placeholder = "ID",
+                    AutomationId = "alias_id_input",
+                },
+            },
+            "ADD"
+        );
 
-        bool confirmed = await ShowPairDialog("Add Alias", layout, keyEntry, valueEntry, "ADD");
-        if (!confirmed) return;
+        if (
+            form == null
+            || !form.TryGetValue("label", out var label)
+            || !form.TryGetValue("id", out var id)
+            || string.IsNullOrEmpty(label)
+            || string.IsNullOrEmpty(id)
+        )
+            return;
 
-        var key = keyEntry.Text?.Trim() ?? "";
-        var value = valueEntry.Text?.Trim() ?? "";
-        if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) return;
-
-        _viewModel.AddAlias(new KeyValuePair<string, string>(key, value));
-        await Toast.Make($"Alias added: {key}", ToastDuration.Short).Show();
+        _viewModel.AddAlias(new KeyValuePair<string, string>(label, id));
+        await Toast.Make($"Alias added: {label}", ToastDuration.Short).Show();
     }
 
     private async void OnAddMultipleClicked(object? sender, EventArgs e)
@@ -107,38 +127,6 @@ public partial class AliasesSection : ContentView
 
         _viewModel.AddAliases(pairs);
         await Toast.Make($"{pairs.Count} alias(es) added", ToastDuration.Short).Show();
-    }
-
-    private async Task<bool> ShowPairDialog(string title, View content, Entry key, Entry value, string confirm)
-    {
-        if (_parentPage == null) return false;
-
-        var tcs = new TaskCompletionSource<bool>();
-        var page = new ContentPage
-        {
-            Title = title,
-            Content = new VerticalStackLayout
-            {
-                Padding = new Thickness(16),
-                Spacing = 12,
-                Children =
-                {
-                    content,
-                    new Button
-                    {
-                        Text = confirm,
-                        Style = Application.Current?.Resources["PrimaryButtonStyle"] as Style,
-                        Command = new Command(() => tcs.TrySetResult(true))
-                    }
-                }
-            }
-        };
-        page.Disappearing += (s, e2) => tcs.TrySetResult(false);
-        await _parentPage.Navigation.PushModalAsync(page);
-        var result = await tcs.Task;
-        if (_parentPage.Navigation.ModalStack.Contains(page))
-            await _parentPage.Navigation.PopModalAsync();
-        return result;
     }
 
     private async Task<Dictionary<string, string>?> ShowMultiPairDialog(string title, string keyLabel, string valueLabel)

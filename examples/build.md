@@ -344,7 +344,7 @@ App Section layout:
 5. LOGIN USER button:
    - Shows "LOGIN USER" when no user is logged in
    - Shows "SWITCH USER" when a user is logged in
-   - Opens a popup/dialog with empty "External User Id" Entry field
+   - Opens a CommunityToolkit.Maui popup dialog with one "External User Id" input
 
 6. LOGOUT USER button (only visible when a user is logged in)
 ```
@@ -374,7 +374,7 @@ Send Push Notification Section (placed right after Push Section):
   2. WITH IMAGE - title: "Image Notification", body: "This notification includes an image"
      big_picture (Android): https://media.onesignal.com/automated_push_templates/ratings_template.png
      ios_attachments (iOS): {"image": "https://media.onesignal.com/automated_push_templates/ratings_template.png"}
-  3. CUSTOM - opens a dialog/popup for custom title and body
+  3. CUSTOM - opens one CommunityToolkit.Maui popup with Title and Body fields
 
 Tooltip should explain each button type.
 ```
@@ -438,7 +438,7 @@ Emails Section:
 - Each item shows email with an X button (remove action)
   [calls OneSignal.User.RemoveEmail(email)]
 - "No Emails Added" text when empty
-- ADD EMAIL button -> dialog/popup with empty email Entry field
+- ADD EMAIL button -> CommunityToolkit.Maui popup with one "Email address" field
   [calls OneSignal.User.AddEmail(email)]
 - Collapse behavior when >5 items:
   - Show first 5 items
@@ -455,7 +455,7 @@ SMS Section:
 - Each item shows phone number with an X button (remove action)
   [calls OneSignal.User.RemoveSms(number)]
 - "No SMS Added" text when empty
-- ADD SMS button -> dialog/popup with empty Entry field
+- ADD SMS button -> CommunityToolkit.Maui popup with one "Phone number" field (Telephone keyboard)
   [calls OneSignal.User.AddSms(number)]
 - Collapse behavior when >5 items (same as Emails)
 ```
@@ -469,13 +469,13 @@ Tags Section:
 - Each item shows key above value (stacked layout) with an X button on the right (remove action)
   [calls OneSignal.User.RemoveTag(key)]
 - "No Tags Added" text when empty
-- ADD button -> PairInputDialog/Popup with empty Key and Value Entry fields (single add)
+- ADD button -> CommunityToolkit.Maui popup with Key and Value fields
   [calls OneSignal.User.AddTag(key, value)]
-- ADD MULTIPLE button -> MultiPairInputDialog/Popup (dynamic rows)
+- ADD MULTIPLE button -> CommunityToolkit.Maui Popup overlay with dynamic key-value rows
   [calls OneSignal.User.AddTags(tags)]
 - REMOVE SELECTED button:
   - Only visible when at least one tag exists
-  - Opens MultiSelectRemoveDialog/Popup with checkboxes
+  - Opens CommunityToolkit.Maui Popup overlay with checkboxes
   [calls OneSignal.User.RemoveTags(selectedKeys)]
 ```
 
@@ -484,13 +484,13 @@ Tags Section:
 ```
 Outcome Events Section:
 - Section title: "Outcome Events" with info icon for tooltip
-- SEND OUTCOME button -> opens dialog/popup with 3 radio options:
-  1. Normal Outcome -> shows name Entry field
-     [calls OneSignal.Session.AddOutcome(name)]
-  2. Unique Outcome -> shows name Entry field
-     [calls OneSignal.Session.AddUniqueOutcome(name)]
-  3. Outcome with Value -> shows name and value (float) Entry fields
-     [calls OneSignal.Session.AddOutcomeWithValue(name, value)]
+- SEND OUTCOME button -> CommunityToolkit.Maui popup with:
+  - outcome type picker
+  - outcome name field
+  - optional value field (shown for "Outcome with Value")
+  1. Normal Outcome [calls OneSignal.Session.AddOutcome(name)]
+  2. Unique Outcome [calls OneSignal.Session.AddUniqueOutcome(name)]
+  3. Outcome with Value [calls OneSignal.Session.AddOutcomeWithValue(name, value)]
 ```
 
 ### Prompt 2.11 - Triggers Section (IN MEMORY ONLY)
@@ -502,12 +502,12 @@ Triggers Section:
 - Each item shows key above value (stacked layout) with an X button on the right (remove action)
   [calls OneSignal.InAppMessages.RemoveTrigger(key)]
 - "No Triggers Added" text when empty
-- ADD button -> PairInputDialog/Popup with empty Key and Value Entry fields (single add)
+- ADD button -> CommunityToolkit.Maui popup with Key and Value fields
   [calls OneSignal.InAppMessages.AddTrigger(key, value)]
-- ADD MULTIPLE button -> MultiPairInputDialog/Popup (dynamic rows)
+- ADD MULTIPLE button -> CommunityToolkit.Maui Popup overlay with dynamic key-value rows
   [calls OneSignal.InAppMessages.AddTriggers(triggers)]
 - Two action buttons (only visible when triggers exist):
-  - REMOVE SELECTED -> MultiSelectRemoveDialog/Popup with checkboxes
+  - REMOVE SELECTED -> CommunityToolkit.Maui Popup overlay with checkboxes
     [calls OneSignal.InAppMessages.RemoveTriggers(selectedKeys)]
   - CLEAR ALL -> Removes all triggers at once
     [calls OneSignal.InAppMessages.ClearTriggers()]
@@ -867,24 +867,33 @@ LoadingOverlay.xaml:
 - Centered ActivityIndicator
 - IsVisible bound to AppViewModel.IsLoading
 
-Popups (use DisplayAlert, custom ContentPage modal, or CommunityToolkit.Maui Popup):
-- All popups use full-width layout
-- SingleInputPopup (one Entry)
-- PairInputPopup (key-value Entries on the same row, single pair)
-- MultiPairInputPopup (dynamic rows with dividers between them, X button to delete a row, batch submit)
-- MultiSelectRemovePopup (CheckBox per item for batch remove)
-- LoginPopup, OutcomePopup, TrackEventPopup
-- CustomNotificationPopup, TooltipPopup
+Dialogs — use CommunityToolkit.Maui popup overlays for all app flows (do not use DisplayPromptAsync):
+- Single-input dialogs (login, email, SMS): toolkit popup with one field
+- Two-input dialogs (tags, triggers, aliases, custom notification, track event): toolkit popup with two fields
+- Outcome dialog: toolkit popup with type picker + fields
+- Multi-pair input (add multiple tags/triggers/aliases): toolkit popup overlay via ShowPopupAsync<T>
+- Multi-select remove (remove selected tags/triggers/aliases): toolkit popup overlay via ShowPopupAsync<T>
+- Close popups from button handlers using page.ClosePopupAsync(result)
+- Use shared helpers (DialogInputHelper and MultiPairDialogHelper) for consistent layout and ghost action buttons
+
+Dialog styling rules:
+- Popup width: set WidthRequest to page width minus 32px (16px margin from each edge); popup is centered by the host
+- Action buttons are ghost style (transparent background, no border, bold text, no shadow):
+  - Primary/confirm action: red (#E54B4D)
+  - Secondary/cancel action: gray (#6E6E73)
+- Action buttons sit side by side in a two-column Grid at the bottom of the popup
+- No divider line above the action buttons
 ```
 
 ### Prompt 8.3 - Reusable Multi-Pair Popup
 
 ```
-Tags, Aliases, and Triggers all share a reusable MultiPairInputPopup control
-for adding multiple key-value pairs at once.
+Tags, Aliases, and Triggers all share a reusable MultiPairDialogHelper (static class)
+for adding multiple key-value pairs at once. It uses CommunityToolkit.Maui ShowPopupAsync<T>
+to show a dialog overlay (not a full-screen page). Close via page.ClosePopupAsync(result).
 
 Behavior:
-- Popup opens full-width
+- Popup shows as an overlay dialog with a dimmed background, not full-screen
 - Starts with one empty key-value row (Key and Value Entries side by side in a Grid)
 - "Add Row" Button below the rows adds another empty row
 - BoxView dividers separate each row for visual clarity
