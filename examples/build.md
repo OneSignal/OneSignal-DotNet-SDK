@@ -422,7 +422,7 @@ Aliases Section (placed after Send In-App Message):
 - Each item shows: Label | ID
 - Filter out "external_id" and "onesignal_id" from display (these are special)
 - "No Aliases Added" text when empty
-- ADD button -> PairInputDialog/Popup with empty Label and ID fields on the same row (single add)
+- ADD button -> DialogInputHelper.ShowPairInput with Label and ID fields side by side in one row
   [calls OneSignal.User.AddAlias(label, id)]
 - ADD MULTIPLE button -> MultiPairInputDialog/Popup (dynamic rows, add/remove)
   [calls OneSignal.User.AddAliases(aliases)]
@@ -469,7 +469,7 @@ Tags Section:
 - Each item shows key above value (stacked layout) with an X button on the right (remove action)
   [calls OneSignal.User.RemoveTag(key)]
 - "No Tags Added" text when empty
-- ADD button -> CommunityToolkit.Maui popup with Key and Value fields
+- ADD button -> DialogInputHelper.ShowPairInput with Key and Value fields side by side in one row
   [calls OneSignal.User.AddTag(key, value)]
 - ADD MULTIPLE button -> CommunityToolkit.Maui Popup overlay with dynamic key-value rows
   [calls OneSignal.User.AddTags(tags)]
@@ -502,7 +502,7 @@ Triggers Section:
 - Each item shows key above value (stacked layout) with an X button on the right (remove action)
   [calls OneSignal.InAppMessages.RemoveTrigger(key)]
 - "No Triggers Added" text when empty
-- ADD button -> CommunityToolkit.Maui popup with Key and Value fields
+- ADD button -> DialogInputHelper.ShowPairInput with Key and Value fields side by side in one row
   [calls OneSignal.InAppMessages.AddTrigger(key, value)]
 - ADD MULTIPLE button -> CommunityToolkit.Maui Popup overlay with dynamic key-value rows
   [calls OneSignal.InAppMessages.AddTriggers(triggers)]
@@ -875,6 +875,7 @@ Dialogs — use CommunityToolkit.Maui popup overlays for all app flows (do not u
 - Multi-select remove (remove selected tags/triggers/aliases): toolkit popup overlay via ShowPopupAsync<T>
 - Close popups from button handlers using page.ClosePopupAsync(result)
 - Use shared helpers (DialogInputHelper and MultiPairDialogHelper) for consistent layout and ghost action buttons
+- Two-field single-add dialogs (add alias, add tag, add trigger): use DialogInputHelper.ShowPairInput — renders both fields side by side in a two-column Grid on one row
 
 Dialog styling rules:
 - Popup width: set WidthRequest to page width minus 32px (16px margin from each edge); popup is centered by the host

@@ -85,24 +85,11 @@ public partial class AliasesSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var form = await DialogInputHelper.ShowForm(
+        var form = await DialogInputHelper.ShowPairInput(
             _parentPage,
             "Add Alias",
-            new[]
-            {
-                new DialogInputField
-                {
-                    Key = "label",
-                    Placeholder = "Label",
-                    AutomationId = "alias_label_input",
-                },
-                new DialogInputField
-                {
-                    Key = "id",
-                    Placeholder = "ID",
-                    AutomationId = "alias_id_input",
-                },
-            },
+            new DialogInputField { Key = "label", Placeholder = "Label", AutomationId = "alias_label_input" },
+            new DialogInputField { Key = "id", Placeholder = "ID", AutomationId = "alias_id_input" },
             "ADD"
         );
 

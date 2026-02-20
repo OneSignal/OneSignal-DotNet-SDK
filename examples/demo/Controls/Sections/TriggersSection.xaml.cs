@@ -83,24 +83,11 @@ public partial class TriggersSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var form = await DialogInputHelper.ShowForm(
+        var form = await DialogInputHelper.ShowPairInput(
             _parentPage,
             "Add Trigger",
-            new[]
-            {
-                new DialogInputField
-                {
-                    Key = "key",
-                    Placeholder = "Key",
-                    AutomationId = "trigger_key_input",
-                },
-                new DialogInputField
-                {
-                    Key = "value",
-                    Placeholder = "Value",
-                    AutomationId = "trigger_value_input",
-                },
-            },
+            new DialogInputField { Key = "key", Placeholder = "Key", AutomationId = "trigger_key_input" },
+            new DialogInputField { Key = "value", Placeholder = "Value", AutomationId = "trigger_value_input" },
             "ADD"
         );
 

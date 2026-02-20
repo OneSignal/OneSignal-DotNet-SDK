@@ -92,24 +92,11 @@ public partial class TagsSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var form = await DialogInputHelper.ShowForm(
+        var form = await DialogInputHelper.ShowPairInput(
             _parentPage,
             "Add Tag",
-            new[]
-            {
-                new DialogInputField
-                {
-                    Key = "key",
-                    Placeholder = "Key",
-                    AutomationId = "tag_key_input",
-                },
-                new DialogInputField
-                {
-                    Key = "value",
-                    Placeholder = "Value",
-                    AutomationId = "tag_value_input",
-                },
-            },
+            new DialogInputField { Key = "key", Placeholder = "Key", AutomationId = "tag_key_input" },
+            new DialogInputField { Key = "value", Placeholder = "Value", AutomationId = "tag_value_input" },
             "ADD"
         );
 
