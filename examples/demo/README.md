@@ -49,15 +49,18 @@ dotnet build -f net10.0-android
 
 **Simulator:**
 
+Use the helper script from the `examples/` directory to pick from booted simulators interactively:
+
 ```sh
-cd examples/demo
-dotnet build -f net10.0-ios -t:Run
+cd examples
+./run-ios.sh
 ```
 
-To target a specific simulator (find the UDID with `xcrun simctl list`):
+Or target a specific simulator (find the UDID with `xcrun simctl list`):
 
 ```sh
-dotnet build -f net10.0-ios -t:Run -p:_DeviceName=:v2:udid=<simulator-udid>
+cd examples/demo
+dotnet build -f net10.0-ios -t:Build,Run -p:_DeviceName=:v2:udid=<simulator-udid>
 ```
 
 **Physical device** — set your team ID first:
