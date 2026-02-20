@@ -396,10 +396,10 @@ In-App Messaging Section (placed right after Send Push):
 Send In-App Message Section (placed right after In-App Messaging):
 - Section title: "Send In-App Message" with info icon for tooltip
 - Four FULL-WIDTH buttons (not a grid):
-  1. TOP BANNER - icon: arrow-up glyph, trigger: "iam_type" = "top_banner"
-  2. BOTTOM BANNER - icon: arrow-down glyph, trigger: "iam_type" = "bottom_banner"
-  3. CENTER MODAL - icon: crop-square glyph, trigger: "iam_type" = "center_modal"
-  4. FULL SCREEN - icon: fullscreen glyph, trigger: "iam_type" = "full_screen"
+  1. TOP BANNER - icon: Material.VerticalAlignTop, trigger: "iam_type" = "top_banner"
+  2. BOTTOM BANNER - icon: Material.VerticalAlignBottom, trigger: "iam_type" = "bottom_banner"
+  3. CENTER MODAL - icon: Material.CropSquare, trigger: "iam_type" = "center_modal"
+  4. FULL SCREEN - icon: Material.Fullscreen, trigger: "iam_type" = "full_screen"
 - Button styling:
   - RED background color (#E9444E)
   - WHITE text
