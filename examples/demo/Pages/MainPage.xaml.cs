@@ -8,6 +8,7 @@ namespace OneSignalDemo.Pages;
 public partial class MainPage : ContentPage
 {
     private readonly AppViewModel _viewModel;
+    private bool _initialLoadDone;
 
     public MainPage(AppViewModel viewModel)
     {
@@ -67,6 +68,8 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        if (_initialLoadDone) return;
+        _initialLoadDone = true;
         await _viewModel.LoadInitialStateAsync();
         await _viewModel.PromptPushAsync();
     }
