@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OneSignalDemo.Controls.Sections.SendIamSection">
+
+    <VerticalStackLayout Spacing="8">
+        <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
+            <Label Grid.Column="0" Text="SEND IN-APP MESSAGE" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
+            <ImageButton Grid.Column="1" Source="info" WidthRequest="20" HeightRequest="20"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+        </Grid>
+
+        <!-- TOP BANNER -->
+        <Border Style="{StaticResource CardBorderStyle}" Padding="0">
+            <Grid BackgroundColor="{StaticResource OneSignalRed}"
+                  ColumnDefinitions="Auto,*"
+                  Padding="16,14">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTopBannerTapped" />
+                </Grid.GestureRecognizers>
+                <Label Grid.Column="0" Text="↑" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <Label Grid.Column="1" Text="TOP BANNER" TextColor="White" FontAttributes="Bold"
+                       FontSize="15" VerticalOptions="Center" AutomationId="iam_top_banner_button" />
+            </Grid>
+        </Border>
+
+        <!-- BOTTOM BANNER -->
+        <Border Style="{StaticResource CardBorderStyle}" Padding="0">
+            <Grid BackgroundColor="{StaticResource OneSignalRed}"
+                  ColumnDefinitions="Auto,*"
+                  Padding="16,14">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBottomBannerTapped" />
+                </Grid.GestureRecognizers>
+                <Label Grid.Column="0" Text="↓" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <Label Grid.Column="1" Text="BOTTOM BANNER" TextColor="White" FontAttributes="Bold"
+                       FontSize="15" VerticalOptions="Center" AutomationId="iam_bottom_banner_button" />
+            </Grid>
+        </Border>
+
+        <!-- CENTER MODAL -->
+        <Border Style="{StaticResource CardBorderStyle}" Padding="0">
+            <Grid BackgroundColor="{StaticResource OneSignalRed}"
+                  ColumnDefinitions="Auto,*"
+                  Padding="16,14">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCenterModalTapped" />
+                </Grid.GestureRecognizers>
+                <Label Grid.Column="0" Text="☐" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <Label Grid.Column="1" Text="CENTER MODAL" TextColor="White" FontAttributes="Bold"
+                       FontSize="15" VerticalOptions="Center" AutomationId="iam_center_modal_button" />
+            </Grid>
+        </Border>
+
+        <!-- FULL SCREEN -->
+        <Border Style="{StaticResource CardBorderStyle}" Padding="0">
+            <Grid BackgroundColor="{StaticResource OneSignalRed}"
+                  ColumnDefinitions="Auto,*"
+                  Padding="16,14">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnFullScreenTapped" />
+                </Grid.GestureRecognizers>
+                <Label Grid.Column="0" Text="⛶" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <Label Grid.Column="1" Text="FULL SCREEN" TextColor="White" FontAttributes="Bold"
+                       FontSize="15" VerticalOptions="Center" AutomationId="iam_full_screen_button" />
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

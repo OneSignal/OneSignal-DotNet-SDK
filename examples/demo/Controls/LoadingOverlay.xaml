@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OneSignalDemo.Controls.LoadingOverlay"
+    IsVisible="False">
+
+    <AbsoluteLayout>
+        <BoxView
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            Color="Black"
+            Opacity="0.4" />
+        <ActivityIndicator
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+            IsRunning="True"
+            Color="White"
+            WidthRequest="50"
+            HeightRequest="50" />
+    </AbsoluteLayout>
+</ContentView>

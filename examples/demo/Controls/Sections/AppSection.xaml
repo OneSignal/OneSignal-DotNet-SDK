@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OneSignalDemo.Controls.Sections.AppSection"
+    x:Name="root">
+
+    <VerticalStackLayout Spacing="8">
+
+        <!-- Section header -->
+        <Label Text="APP" Style="{StaticResource SectionHeaderStyle}" Padding="4,0,0,0" />
+
+        <!-- App ID card -->
+        <Border Style="{StaticResource CardBorderStyle}">
+            <Grid Padding="16,14" ColumnDefinitions="Auto,*">
+                <Label Grid.Column="0" Text="App ID" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
+                <Label Grid.Column="1" x:Name="AppIdLabel" Text="" TextColor="#555555" FontSize="12"
+                       HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="MiddleTruncation"
+                       AutomationId="app_id_label" />
+            </Grid>
+        </Border>
+
+        <!-- Guidance banner -->
+        <Border StrokeShape="RoundRectangle 8" Stroke="{StaticResource DividerColor}" StrokeThickness="1"
+                Background="{StaticResource WarningBackground}" Padding="12">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Add your own App ID, then rebuild to fully test all functionality."
+                       FontSize="13" TextColor="#555555" />
+                <Label x:Name="GetKeysLink" Text="Get your keys at onesignal.com"
+                       FontSize="13" TextColor="{StaticResource OneSignalRed}" TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGetKeysTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Consent card -->
+        <Border Style="{StaticResource CardBorderStyle}">
+            <VerticalStackLayout>
+                <!-- Consent Required toggle -->
+                <Grid Padding="16,14" ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Consent Required" FontSize="15" TextColor="#333333" />
+                        <Label Text="Require consent before SDK processes data" Style="{StaticResource InfoLabelStyle}" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" x:Name="ConsentRequiredSwitch"
+                            IsToggled="False" ThumbColor="White"
+                            OnColor="{StaticResource OneSignalRed}"
+                            Toggled="OnConsentRequiredToggled"
+                            AutomationId="consent_required_switch" />
+                </Grid>
+
+                <!-- Divider + Privacy Consent (conditional) -->
+                <BoxView x:Name="ConsentDivider" HeightRequest="1" Color="{StaticResource DividerColor}"
+                         IsVisible="False" Margin="16,0" />
+
+                <Grid x:Name="PrivacyConsentRow" Padding="16,14" ColumnDefinitions="*,Auto" IsVisible="False">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Privacy Consent" FontSize="15" TextColor="#333333" />
+                        <Label Text="Consent given for data collection" Style="{StaticResource InfoLabelStyle}" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" x:Name="PrivacyConsentSwitch"
+                            IsToggled="False" ThumbColor="White"
+                            OnColor="{StaticResource OneSignalRed}"
+                            Toggled="OnPrivacyConsentToggled"
+                            AutomationId="privacy_consent_switch" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- User status card -->
+        <Border Style="{StaticResource CardBorderStyle}">
+            <VerticalStackLayout>
+                <Grid Padding="16,14" ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" Text="Status" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
+                    <Label Grid.Column="1" x:Name="StatusLabel" Text="Anonymous"
+                           FontSize="14" TextColor="#666666" VerticalOptions="Center"
+                           AutomationId="user_status_label" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="{StaticResource DividerColor}" Margin="16,0" />
+                <Grid Padding="16,14" ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" Text="External ID" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
+                    <Label Grid.Column="1" x:Name="ExternalIdLabel" Text="–"
+                           FontSize="14" TextColor="#666666" VerticalOptions="Center"
+                           AutomationId="external_id_label" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Login/Logout buttons -->
+        <Button x:Name="LoginButton" Text="LOGIN USER" Style="{StaticResource PrimaryButtonStyle}"
+                Clicked="OnLoginClicked" AutomationId="login_button" />
+        <Button x:Name="LogoutButton" Text="LOGOUT USER" Style="{StaticResource OutlineButtonStyle}"
+                IsVisible="False" Clicked="OnLogoutClicked" AutomationId="logout_button" />
+
+    </VerticalStackLayout>
+</ContentView>

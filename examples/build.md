@@ -1078,6 +1078,7 @@ examples/demo/
 ```
 
 Note:
+
 - All UI is MAUI XAML (no platform-specific UI code beyond AppDelegate/MainActivity boilerplate)
 - Tooltip content is fetched from remote URL (not bundled locally)
 - LogView at top of screen displays SDK and app logs for debugging/Appium testing
@@ -1099,6 +1100,7 @@ Note: REST API key is NOT required for the fetchUser endpoint.
 ### Package / Bundle Identifier
 
 The identifiers MUST be `com.onesignal.example` to work with the existing:
+
 - `google-services.json` (Firebase configuration — copied by `examples/setup-devapp.sh`)
 
 If you change the identifier, you must also update these files with your own Firebase project configuration.
@@ -1106,9 +1108,11 @@ If you change the identifier, you must also update these files with your own Fir
 ### Setup Script
 
 Run from the repo root before building for Android:
+
 ```
 ./examples/setup-devapp.sh
 ```
+
 This copies `google-services.json` from one directory above the repo root into the Android platform folder.
 
 ---
@@ -1131,6 +1135,7 @@ This copies `google-services.json` from one directory above the repo root into t
 ## Summary
 
 This app demonstrates all OneSignal .NET SDK features:
+
 - User management (login/logout, aliases with batch add)
 - Push notifications (subscription, sending with images, auto-permission prompt)
 - Email and SMS subscriptions
@@ -1143,6 +1148,7 @@ This app demonstrates all OneSignal .NET SDK features:
 - Privacy consent management
 
 The app is designed to be:
+
 1. **Testable** - Empty dialogs with AutomationId labels for Appium automation
 2. **Comprehensive** - All SDK features demonstrated
 3. **Clean** - Repository pattern with CommunityToolkit.Mvvm-based MVVM

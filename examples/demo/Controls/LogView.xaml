@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:services="clr-namespace:OneSignalDemo.Services"
+    x:Class="OneSignalDemo.Controls.LogView"
+    x:Name="root">
+
+    <ContentView.Resources>
+        <Style TargetType="Label" x:Key="LogTimestampStyle">
+            <Setter Property="TextColor" Value="#888888" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontFamily" Value="Courier New" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Label" x:Key="LogLevelStyle">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontFamily" Value="Courier New" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="Margin" Value="4,0" />
+        </Style>
+        <Style TargetType="Label" x:Key="LogMessageStyle">
+            <Setter Property="TextColor" Value="#DDDDDD" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontFamily" Value="Courier New" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid AutomationId="log_view_container">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" BackgroundColor="#1A1B1E" Padding="12,6" AutomationId="log_view_header">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnHeaderTapped" />
+            </Grid.GestureRecognizers>
+
+            <HorizontalStackLayout Grid.Column="0" Spacing="6" VerticalOptions="Center">
+                <Label Text="LOGS" TextColor="White" FontAttributes="Bold" FontSize="12" VerticalOptions="Center" />
+                <Label x:Name="LogCountLabel" TextColor="#AAAAAA" FontSize="12" VerticalOptions="Center" AutomationId="log_view_count" />
+            </HorizontalStackLayout>
+
+            <Button Grid.Column="1"
+                    Text="🗑"
+                    BackgroundColor="Transparent"
+                    TextColor="#AAAAAA"
+                    FontSize="14"
+                    Padding="8,0"
+                    Clicked="OnClearClicked"
+                    AutomationId="log_view_clear_button" />
+
+            <Label Grid.Column="2"
+                   x:Name="CollapseArrow"
+                   Text="∧"
+                   TextColor="#AAAAAA"
+                   FontSize="14"
+                   VerticalOptions="Center"
+                   Padding="4,0,4,0" />
+        </Grid>
+
+        <!-- Log list -->
+        <ScrollView Grid.Row="1"
+                    x:Name="LogScrollView"
+                    HeightRequest="100"
+                    Orientation="Both"
+                    BackgroundColor="#1A1B1E"
+                    AutomationId="log_view_list">
+            <VerticalStackLayout x:Name="LogList" Spacing="0" Padding="8,4" />
+        </ScrollView>
+    </Grid>
+</ContentView>
