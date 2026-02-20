@@ -33,7 +33,8 @@ public class OneSignalApiService
                         ["ios_attachments"] = new Dictionary<string, string>
                         {
                             ["image"] = "https://media.onesignal.com/automated_push_templates/ratings_template.png"
-                        }
+                        },
+                        ["mutable_content"] = true
                     };
                     break;
                 default:

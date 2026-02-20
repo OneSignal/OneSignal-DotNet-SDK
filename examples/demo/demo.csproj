@@ -46,6 +46,17 @@
   <!-- iOS -->
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
     <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+    <CodesignTeamId>99SW8E36CT</CodesignTeamId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="NotificationServiceExtension\**" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
+    <ProjectReference Include="NotificationServiceExtension\NotificationServiceExtension.csproj">
+      <IsAppExtension>true</IsAppExtension>
+    </ProjectReference>
+  </ItemGroup>
 
 </Project>
