@@ -1,4 +1,6 @@
 using System.Text.Json;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -114,7 +116,7 @@ public partial class TrackEventSection : ContentView
         }
 
         _viewModel.TrackEvent(name, properties);
-        await _parentPage.DisplayAlert("Success", $"Event tracked: {name}", "OK");
+        await Toast.Make($"Event tracked: {name}", ToastDuration.Short).Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

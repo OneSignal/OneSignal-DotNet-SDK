@@ -19,7 +19,7 @@
 
         <!-- Main scrollable content -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="12" Spacing="12">
+            <VerticalStackLayout Padding="12" Spacing="16">
 
                 <sections:AppSection x:Name="AppSectionControl" />
                 <sections:PushSection x:Name="PushSectionControl" />

@@ -1,4 +1,6 @@
 using OneSignalDemo.ViewModels;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -79,7 +81,7 @@ public partial class OutcomesSection : ContentView
             _viewModel.SendOutcome(name);
         }
 
-        await _parentPage.DisplayAlert("Success", $"Outcome sent: {name}", "OK");
+        await Toast.Make($"Outcome sent: {name}", ToastDuration.Short).Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

@@ -46,6 +46,7 @@ public partial class AppSection : ContentView
                 case nameof(AppViewModel.UserStatus):
                 case nameof(AppViewModel.ExternalIdDisplay):
                 case nameof(AppViewModel.IsLoggedIn):
+                case nameof(AppViewModel.LoginButtonText):
                     UpdateUserDisplay(viewModel);
                     break;
             }

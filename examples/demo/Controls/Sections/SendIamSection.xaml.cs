@@ -1,5 +1,7 @@
 using OneSignalDemo.Models;
 using OneSignalDemo.ViewModels;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -30,7 +32,7 @@ public partial class SendIamSection : ContentView
     {
         _viewModel?.SendInAppMessage(type);
         if (_parentPage != null)
-            await _parentPage.DisplayAlert("In-App Message", $"Sent In-App Message: {type.GetDisplayName()}", "OK");
+            await Toast.Make($"Sent In-App Message: {type.GetDisplayName()}", ToastDuration.Short).Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

@@ -32,6 +32,7 @@ public partial class App : Application
         return new HorizontalStackLayout
         {
             Spacing = 8,
+            HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
             Children =
             {

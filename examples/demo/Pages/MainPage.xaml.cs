@@ -72,46 +72,27 @@ public partial class MainPage : ContentPage
 
     private async void OnLoginRequested(object? sender, EventArgs e)
     {
-        var entry = new Entry { Placeholder = "External User Id", AutomationId = "login_user_id_input" };
-        var tcs = new TaskCompletionSource<bool>();
+        var userId = (
+            await DisplayPromptAsync(
+                _viewModel.IsLoggedIn ? "Switch User" : "Login User",
+                string.Empty,
+                accept: "LOGIN",
+                cancel: "CANCEL",
+                placeholder: "External User Id"
+            )
+        )?.Trim();
 
-        var confirmBtn = new Button
+        if (string.IsNullOrEmpty(userId))
         {
-            Text = "LOGIN",
-            Style = Application.Current?.Resources["PrimaryButtonStyle"] as Style,
-            AutomationId = "login_confirm_button",
-            Command = new Command(() => tcs.TrySetResult(true))
-        };
-
-        var page = new ContentPage
-        {
-            Title = _viewModel.IsLoggedIn ? "Switch User" : "Login User",
-            Content = new VerticalStackLayout
-            {
-                Padding = new Thickness(16),
-                Spacing = 12,
-                Children = { entry, confirmBtn }
-            }
-        };
-
-        page.Disappearing += (s2, e2) => tcs.TrySetResult(false);
-        await Navigation.PushModalAsync(page);
-        var result = await tcs.Task;
-        if (Navigation.ModalStack.Contains(page))
-            await Navigation.PopModalAsync();
-
-        if (!result) return;
-        var userId = entry.Text?.Trim() ?? "";
-        if (string.IsNullOrEmpty(userId)) return;
+            return;
+        }
 
         await _viewModel.LoginUserAsync(userId);
-        await DisplayAlert("Success", $"Logged in as: {userId}", "OK");
     }
 
     private async void OnLogoutRequested(object? sender, EventArgs e)
     {
         await _viewModel.LogoutUserAsync();
-        await DisplayAlert("Success", "Logged out", "OK");
     }
 
     private async void OnCustomNotificationRequested(object? sender, EventArgs e)
@@ -163,7 +144,7 @@ public partial class MainPage : ContentPage
         {
             message += "\n\n" + string.Join("\n\n", tooltip.Options.Select(o => $"• {o.Name}: {o.Description}"));
         }
-        await DisplayAlert(tooltip.Title, message, "OK");
+        await DisplayAlertAsync(tooltip.Title, message, "OK");
     }
 
     private async void OnNextActivityClicked(object? sender, EventArgs e)

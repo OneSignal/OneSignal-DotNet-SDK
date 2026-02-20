@@ -64,7 +64,7 @@ public partial class AppViewModel : ObservableObject
         LocationShared = _repository.IsLocationShared();
         HasNotificationPermission = _repository.HasPermission();
 
-        var extId = _repository.GetExternalId();
+        var extId = _repository.GetExternalId() ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
 
         var pushId = _repository.GetPushSubscriptionId() ?? "";
@@ -75,7 +75,15 @@ public partial class AppViewModel : ObservableObject
         if (!string.IsNullOrEmpty(onesignalId))
         {
             IsLoading = true;
-            await FetchUserDataFromApiAsync();
+            try
+            {
+                await FetchUserDataFromApiAsync();
+            }
+            catch (Exception e)
+            {
+                IsLoading = false;
+                LogManager.Instance.E("AppVM", $"Error fetching initial user data: {e.Message}");
+            }
         }
     }
 
@@ -90,10 +98,11 @@ public partial class AppViewModel : ObservableObject
 
     private void UpdateUserStatus(string? externalId)
     {
-        IsLoggedIn = !string.IsNullOrEmpty(externalId);
-        UserStatus = IsLoggedIn ? "Logged In" : "Anonymous";
-        ExternalIdDisplay = IsLoggedIn ? externalId! : "–";
-        LoginButtonText = IsLoggedIn ? "SWITCH USER" : "LOGIN USER";
+        var loggedIn = !string.IsNullOrEmpty(externalId);
+        LoginButtonText = loggedIn ? "SWITCH USER" : "LOGIN USER";
+        UserStatus = loggedIn ? "Logged In" : "Anonymous";
+        ExternalIdDisplay = loggedIn ? externalId! : "–";
+        IsLoggedIn = loggedIn;
     }
 
     // Login
@@ -105,6 +114,8 @@ public partial class AppViewModel : ObservableObject
         ClearUserData();
         _repository.LoginUser(externalUserId);
         _prefs.ExternalUserId = externalUserId;
+        UpdateUserStatus(externalUserId);
+        IsLoading = false;
         LogManager.Instance.I("AppVM", $"Login: {externalUserId}");
     }
 
@@ -431,7 +442,7 @@ public partial class AppViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            var extId = _repository.GetExternalId();
+            var extId = _prefs.ExternalUserId;
             UpdateUserStatus(extId);
             LogManager.Instance.D("AppVM", $"User changed: externalId={extId}");
             await FetchUserDataFromApiAsync();
@@ -447,26 +458,37 @@ public partial class AppViewModel : ObservableObject
             return;
         }
 
-        var userData = await _repository.FetchUserAsync(onesignalId);
-        if (userData != null)
+        try
         {
-            AliasesList.Clear();
-            foreach (var kv in userData.Aliases)
-                AliasesList.Add(kv);
+            var userData = await _repository.FetchUserAsync(onesignalId);
+            if (userData != null)
+            {
+                AliasesList.Clear();
+                foreach (var kv in userData.Aliases)
+                    AliasesList.Add(kv);
 
-            TagsList.Clear();
-            foreach (var kv in userData.Tags)
-                TagsList.Add(kv);
+                TagsList.Clear();
+                foreach (var kv in userData.Tags)
+                    TagsList.Add(kv);
 
-            EmailsList.Clear();
-            foreach (var email in userData.Emails)
-                EmailsList.Add(email);
+                EmailsList.Clear();
+                foreach (var email in userData.Emails)
+                    EmailsList.Add(email);
 
-            SmsNumbersList.Clear();
-            foreach (var sms in userData.SmsNumbers)
-                SmsNumbersList.Add(sms);
+                SmsNumbersList.Clear();
+                foreach (var sms in userData.SmsNumbers)
+                    SmsNumbersList.Add(sms);
 
-            UpdateUserStatus(userData.ExternalId ?? _repository.GetExternalId());
+                if (userData.ExternalId != null)
+                {
+                    UpdateUserStatus(userData.ExternalId);
+                    _prefs.ExternalUserId = userData.ExternalId;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            LogManager.Instance.E("AppVM", $"Error fetching user data: {e.Message}");
         }
 
         await Task.Delay(100);

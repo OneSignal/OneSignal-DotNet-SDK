@@ -1,4 +1,6 @@
 using System.Collections.Specialized;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -94,7 +96,7 @@ public partial class AliasesSection : ContentView
         if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) return;
 
         _viewModel.AddAlias(new KeyValuePair<string, string>(key, value));
-        await _parentPage.DisplayAlert("Success", $"Alias added: {key}", "OK");
+        await Toast.Make($"Alias added: {key}", ToastDuration.Short).Show();
     }
 
     private async void OnAddMultipleClicked(object? sender, EventArgs e)
@@ -104,7 +106,7 @@ public partial class AliasesSection : ContentView
         if (pairs == null || pairs.Count == 0) return;
 
         _viewModel.AddAliases(pairs);
-        await _parentPage.DisplayAlert("Success", $"{pairs.Count} alias(es) added", "OK");
+        await Toast.Make($"{pairs.Count} alias(es) added", ToastDuration.Short).Show();
     }
 
     private async Task<bool> ShowPairDialog(string title, View content, Entry key, Entry value, string confirm)

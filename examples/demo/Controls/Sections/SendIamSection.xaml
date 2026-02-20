@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     x:Class="OneSignalDemo.Controls.Sections.SendIamSection">
 
     <VerticalStackLayout Spacing="8">
@@ -19,7 +20,7 @@
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnTopBannerTapped" />
                 </Grid.GestureRecognizers>
-                <Label Grid.Column="0" Text="↑" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <mi:MauiIcon Grid.Column="0" Icon="{mi:Material Icon=ArrowUpward}" IconColor="White" IconSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
                 <Label Grid.Column="1" Text="TOP BANNER" TextColor="White" FontAttributes="Bold"
                        FontSize="15" VerticalOptions="Center" AutomationId="iam_top_banner_button" />
             </Grid>
@@ -33,7 +34,7 @@
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnBottomBannerTapped" />
                 </Grid.GestureRecognizers>
-                <Label Grid.Column="0" Text="↓" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <mi:MauiIcon Grid.Column="0" Icon="{mi:Material Icon=ArrowDownward}" IconColor="White" IconSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
                 <Label Grid.Column="1" Text="BOTTOM BANNER" TextColor="White" FontAttributes="Bold"
                        FontSize="15" VerticalOptions="Center" AutomationId="iam_bottom_banner_button" />
             </Grid>
@@ -47,7 +48,7 @@
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnCenterModalTapped" />
                 </Grid.GestureRecognizers>
-                <Label Grid.Column="0" Text="☐" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <mi:MauiIcon Grid.Column="0" Icon="{mi:Material Icon=CropSquare}" IconColor="White" IconSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
                 <Label Grid.Column="1" Text="CENTER MODAL" TextColor="White" FontAttributes="Bold"
                        FontSize="15" VerticalOptions="Center" AutomationId="iam_center_modal_button" />
             </Grid>
@@ -61,7 +62,7 @@
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnFullScreenTapped" />
                 </Grid.GestureRecognizers>
-                <Label Grid.Column="0" Text="⛶" TextColor="White" FontSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
+                <mi:MauiIcon Grid.Column="0" Icon="{mi:Material Icon=Fullscreen}" IconColor="White" IconSize="18" VerticalOptions="Center" Margin="0,0,12,0" />
                 <Label Grid.Column="1" Text="FULL SCREEN" TextColor="White" FontAttributes="Bold"
                        FontSize="15" VerticalOptions="Center" AutomationId="iam_full_screen_button" />
             </Grid>

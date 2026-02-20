@@ -1,8 +1,10 @@
-using OneSignalSDK.DotNet;
+using CommunityToolkit.Maui;
+using MauiIcons.Material;
 using OneSignalDemo.Pages;
 using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
+using OneSignalSDK.DotNet;
 using OsLogLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel;
 #if ANDROID
 using AndroidX.AppCompat.Content.Res;
@@ -21,6 +23,8 @@ public static class MauiProgram
 
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .UseMaterialMauiIcons()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -29,28 +33,31 @@ public static class MauiProgram
             .ConfigureMauiHandlers(handlers =>
             {
 #if ANDROID
-                SwitchHandler.Mapper.AppendToMapping("ThumbShadow", (handler, _) =>
-                {
-                    var context = handler.PlatformView.Context;
-                    if (context is null)
+                SwitchHandler.Mapper.AppendToMapping(
+                    "ThumbShadow",
+                    (handler, _) =>
                     {
-                        return;
-                    }
+                        var context = handler.PlatformView.Context;
+                        if (context is null)
+                        {
+                            return;
+                        }
 
-                    var thumb = AppCompatResources.GetDrawable(
-                        context,
-                        global::OneSignalDemo.Resource.Drawable.switch_thumb_white_shadow);
-                    if (thumb is null)
-                    {
-                        return;
-                    }
+                        var thumb = AppCompatResources.GetDrawable(
+                            context,
+                            global::OneSignalDemo.Resource.Drawable.switch_thumb_white_shadow
+                        );
+                        if (thumb is null)
+                        {
+                            return;
+                        }
 
-                    handler.PlatformView.ThumbTintList = null;
-                    handler.PlatformView.ThumbDrawable = thumb.Mutate();
-                });
+                        handler.PlatformView.ThumbTintList = null;
+                        handler.PlatformView.ThumbDrawable = thumb.Mutate();
+                    }
+                );
 #endif
             });
-
 
         // Register services
         builder.Services.AddSingleton<PreferencesService>();
@@ -73,13 +80,19 @@ public static class MauiProgram
         OneSignal.Initialize(prefs.AppId);
 
         // Register observers
-        OneSignal.InAppMessages.WillDisplay += (s, e) => LogManager.Instance.D("IAM", $"WillDisplay");
-        OneSignal.InAppMessages.DidDisplay += (s, e) => LogManager.Instance.D("IAM", $"DidDisplay");
-        OneSignal.InAppMessages.WillDismiss += (s, e) => LogManager.Instance.D("IAM", $"WillDismiss");
-        OneSignal.InAppMessages.DidDismiss += (s, e) => LogManager.Instance.D("IAM", $"DidDismiss");
+        OneSignal.InAppMessages.WillDisplay +=
+            (s, e) => LogManager.Instance.D("IAM", $"WillDisplay");
+        OneSignal.InAppMessages.DidDisplay +=
+            (s, e) => LogManager.Instance.D("IAM", $"DidDisplay");
+        OneSignal.InAppMessages.WillDismiss +=
+            (s, e) => LogManager.Instance.D("IAM", $"WillDismiss");
+        OneSignal.InAppMessages.DidDismiss +=
+            (s, e) => LogManager.Instance.D("IAM", $"DidDismiss");
         OneSignal.InAppMessages.Clicked += (s, e) => LogManager.Instance.D("IAM", $"Clicked");
-        OneSignal.Notifications.Clicked += (s, e) => LogManager.Instance.D("Notifications", "Clicked");
-        OneSignal.Notifications.WillDisplay += (s, e) => LogManager.Instance.D("Notifications", "WillDisplay");
+        OneSignal.Notifications.Clicked +=
+            (s, e) => LogManager.Instance.D("Notifications", "Clicked");
+        OneSignal.Notifications.WillDisplay +=
+            (s, e) => LogManager.Instance.D("Notifications", "WillDisplay");
 
         // Restore SDK state from prefs (after Initialize)
         OneSignal.InAppMessages.Paused = prefs.IamPaused;
