@@ -419,7 +419,7 @@ Tooltip should explain each IAM type.
 Aliases Section (placed after Send In-App Message):
 - Section title: "Aliases" with info icon for tooltip
 - List showing key-value pairs (read-only, no delete icons)
-- Each item shows: Label | ID
+- Each item shows label (key) bold on top, ID (value) below in lighter style (stacked, same as Tags/Triggers)
 - Filter out "external_id" and "onesignal_id" from display (these are special)
 - "No Aliases Added" text when empty
 - ADD button -> DialogInputHelper.ShowPairInput with Label and ID fields side by side in one row
@@ -485,12 +485,12 @@ Tags Section:
 Outcome Events Section:
 - Section title: "Outcome Events" with info icon for tooltip
 - SEND OUTCOME button -> CommunityToolkit.Maui popup with:
-  - outcome type picker
-  - outcome name field
-  - optional value field (shown for "Outcome with Value")
-  1. Normal Outcome [calls OneSignal.Session.AddOutcome(name)]
-  2. Unique Outcome [calls OneSignal.Session.AddUniqueOutcome(name)]
-  3. Outcome with Value [calls OneSignal.Session.AddOutcomeWithValue(name, value)]
+  - Three inline RadioButton options (grouped, no picker):
+    1. Normal Outcome (default selected) [calls OneSignal.Session.AddOutcome(name)]
+    2. Unique Outcome [calls OneSignal.Session.AddUniqueOutcome(name)]
+    3. Outcome with Value [calls OneSignal.Session.AddOutcomeWithValue(name, value)]
+  - Outcome name Entry field (AutomationId: outcome_name_input)
+  - Value Entry field (float, numeric keyboard, AutomationId: outcome_value_input) — only visible when "Outcome with Value" is selected
 ```
 
 ### Prompt 2.11 - Triggers Section (IN MEMORY ONLY)
@@ -525,13 +525,14 @@ IMPORTANT: Triggers are stored IN MEMORY ONLY during the app session.
 ```
 Track Event Section:
 - Section title: "Track Event" with info icon for tooltip
-- TRACK EVENT button -> opens TrackEventDialog/Popup with:
-  - "Event Name" label + empty Entry field (required, shows error if empty on submit)
-  - "Properties (optional, JSON)" label + Entry field with placeholder hint {"key": "value"}
-    - If non-empty and not valid JSON, shows "Invalid JSON format" error on the field
-    - If valid JSON, parsed via System.Text.Json and converted to Dictionary<string, object>
-    - If empty, passes null
-  - TRACK button disabled until name is filled AND JSON is valid (or empty)
+- TRACK EVENT button -> opens a custom CommunityToolkit.Maui popup (not ShowForm) with:
+  - "Event Name" Entry field (AutomationId: track_event_name_input)
+  - "Properties (optional, JSON)" Entry field with placeholder hint {"key": "value"} (AutomationId: track_event_props_input)
+  - Inline red error label "Invalid JSON format" below the props field (hidden by default)
+  - TRACK confirm button (AutomationId: track_event_confirm_button):
+    - Does NOT close the modal if props is non-empty and invalid JSON — shows error label instead
+    - Only closes when name is non-empty AND JSON is valid (or empty)
+    - If valid, parsed via System.Text.Json into Dictionary<string, object>; empty props passes null
 - Calls OneSignal.User.TrackEvent(name, properties)
 ```
 
@@ -870,7 +871,7 @@ LoadingOverlay.xaml:
 Dialogs — use CommunityToolkit.Maui popup overlays for all app flows (do not use DisplayPromptAsync):
 - Single-input dialogs (login, email, SMS): toolkit popup with one field
 - Two-input dialogs (tags, triggers, aliases, custom notification, track event): toolkit popup with two fields
-- Outcome dialog: toolkit popup with type picker + fields
+- Outcome dialog: toolkit popup with inline RadioButton type selection (no picker) + fields
 - Multi-pair input (add multiple tags/triggers/aliases): toolkit popup overlay via ShowPopupAsync<T>
 - Multi-select remove (remove selected tags/triggers/aliases): toolkit popup overlay via ShowPopupAsync<T>
 - Close popups from button handlers using page.ClosePopupAsync(result)

@@ -30,19 +30,18 @@ public partial class OutcomesSection : ContentView
     {
         if (_parentPage == null || _viewModel == null) return;
 
-        var picker = new Picker { Title = "Outcome Type", SelectedIndex = 0 };
-        picker.Items.Add("Normal Outcome");
-        picker.Items.Add("Unique Outcome");
-        picker.Items.Add("Outcome with Value");
+        const string group = "outcome_type";
+        var radioNormal = new RadioButton { Content = "Normal Outcome", GroupName = group, IsChecked = true };
+        var radioUnique = new RadioButton { Content = "Unique Outcome", GroupName = group };
+        var radioWithValue = new RadioButton { Content = "Outcome with Value", GroupName = group };
 
-        var nameEntry = new Entry { Placeholder = "Outcome name" };
-        var valueEntry = new Entry { Placeholder = "Value (float)", Keyboard = Keyboard.Numeric };
+        var nameEntry = new Entry { Placeholder = "Outcome name", AutomationId = "outcome_name_input" };
+        var valueEntry = new Entry { Placeholder = "Value (float)", Keyboard = Keyboard.Numeric, AutomationId = "outcome_value_input" };
         var valueContainer = new VerticalStackLayout { IsVisible = false, Children = { valueEntry } };
 
-        picker.SelectedIndexChanged += (s, e2) =>
-        {
-            valueContainer.IsVisible = picker.SelectedIndex == 2;
-        };
+        radioWithValue.CheckedChanged += (s, e2) => valueContainer.IsVisible = e2.Value;
+        radioNormal.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
+        radioUnique.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
 
         var cancelButton = new Button
         {
@@ -77,7 +76,9 @@ public partial class OutcomesSection : ContentView
         cancelButton.Clicked += async (s, e2) => await _parentPage.ClosePopupAsync();
         sendButton.Clicked += async (s, e2) =>
         {
-            outcomeType = picker.SelectedItem?.ToString();
+            outcomeType = radioWithValue.IsChecked ? "Outcome with Value"
+                        : radioUnique.IsChecked ? "Unique Outcome"
+                        : "Normal Outcome";
             name = nameEntry.Text?.Trim();
             valueStr = valueEntry.Text?.Trim();
             await _parentPage.ClosePopupAsync();
@@ -94,7 +95,11 @@ public partial class OutcomesSection : ContentView
             Children =
             {
                 new Label { Text = "Send Outcome", FontAttributes = FontAttributes.Bold, FontSize = 16 },
-                picker,
+                new VerticalStackLayout
+                {
+                    Spacing = 4,
+                    Children = { radioNormal, radioUnique, radioWithValue }
+                },
                 nameEntry,
                 valueContainer,
                 new Grid
