@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>net10.0-ios</TargetFrameworks>
         <OutputType>Library</OutputType>
-        <ApplicationId>com.onesignal.exampledotnet.OneSignalNotificationServiceExtension</ApplicationId>
+        <ApplicationId>com.onesignal.example.OneSignalNotificationServiceExtension</ApplicationId>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         <SupportedOSPlatformVersion>15.4</SupportedOSPlatformVersion>
@@ -15,6 +15,8 @@
       <CreatePackage>false</CreatePackage>
       <CodesignProvision>Automatic</CodesignProvision>
       <CodesignKey>iPhone Developer</CodesignKey>
+      <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+      <ApplicationTeamId>99SW8E36CT</ApplicationTeamId>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
       <CreatePackage>false</CreatePackage>

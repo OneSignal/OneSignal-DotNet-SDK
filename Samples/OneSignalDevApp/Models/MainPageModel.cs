@@ -192,7 +192,7 @@ namespace OneSignalDevApp.Models
 
             OneSignal.Initialize(_appId);
 
-            // OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
+            OneSignal.User.PushSubscription.Changed += PushSubscription_Changed;
             // OneSignal.Notifications.PermissionChanged += Notifications_PermissionChanged;
             // OneSignal.Notifications.Clicked += Notifications_Clicked;
             // OneSignal.Notifications.WillDisplay += Notifications_WillDisplay;
@@ -203,11 +203,11 @@ namespace OneSignalDevApp.Models
             // OneSignal.InAppMessages.DidDismiss += InAppMessages_DidDismiss;
             // OneSignal.InAppMessages.Clicked += InAppMessages_Clicked;
 
-            // IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
-            // HasPushPermission = OneSignal.Notifications.Permission;
-            // IsIAMPaused = OneSignal.InAppMessages.Paused;
-            // IsLocationShared = OneSignal.Location.IsShared;
-            // PushSubscriptionId = OneSignal.User.PushSubscription.Id;
+            IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+            HasPushPermission = OneSignal.Notifications.Permission;
+            IsIAMPaused = OneSignal.InAppMessages.Paused;
+            IsLocationShared = OneSignal.Location.IsShared;
+            PushSubscriptionId = OneSignal.User.PushSubscription.Id;
         }
 
         private void InAppMessages_Clicked(object sender, OneSignalSDK.DotNet.Core.InAppMessages.InAppMessageClickedEventArgs e)

@@ -24,7 +24,7 @@
 		<ApplicationTitle>OneSignalDevApp</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.onesignaldevapp</ApplicationId>
+		<ApplicationId>com.onesignal.example</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -42,6 +42,7 @@
 	  <CodesignProvision>Automatic</CodesignProvision>
 	  <CodesignKey>iPhone Developer</CodesignKey>
 	  <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+	  <ApplicationTeamId>99SW8E36CT</ApplicationTeamId>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 	  <WarningLevel>4</WarningLevel>
@@ -89,8 +90,9 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
-			<ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
-	  	<ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
+		<ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS\OneSignalSDK.DotNet.iOS.csproj" />
+  		<ProjectReference Include="..\..\OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.iOS.Binding.csproj" />
+		<ProjectReference Include="..\OneSignalNotificationServiceExtension\OneSignalNotificationServiceExtension.csproj" IsAppExtension="true" />
 	</ItemGroup>
     <ItemGroup>
       <None Remove="Models\" />
