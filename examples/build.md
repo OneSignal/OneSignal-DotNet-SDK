@@ -113,7 +113,9 @@ Save it to Resources/Images/onesignal_logo.png and use it in the NavigationPage 
 
 Download the padded app icon PNG from:
   https://raw.githubusercontent.com/OneSignal/sdk-shared/refs/heads/main/assets/onesignal_logo_icon_padded.png
-Save it to Resources/AppIcon/appicon.png and configure it as the app icon in the .csproj.
+Save it to Resources/AppIcon/appicon.png and configure it as the app icon in the .csproj with
+a white background color (the source PNG is transparent; Color fills it so iOS icons render correctly):
+  <MauiIcon Include="Resources\AppIcon\appicon.png" Color="#ffffff" />
 
 Reference the OneSignal .NET SDK from the parent repo using a project reference:
   <ProjectReference Include="..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
@@ -148,6 +150,9 @@ Android-specific setup:
 iOS-specific setup:
   - Entitlements.plist with push notification entitlement (aps-environment = development)
   - Info.plist with NSLocationWhenInUseUsageDescription for location prompts
+  - Info.plist must include XSAppIconAssets so the build system passes --app-icon to actool:
+      <key>XSAppIconAssets</key>
+      <string>Assets.xcassets/appicon.appiconset</string>
 ```
 
 ### Prompt 1.3 - OneSignal Repository

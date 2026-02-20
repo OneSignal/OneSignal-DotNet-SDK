@@ -39,6 +39,20 @@ Check Platforms/iOS/Info.plist contains:
 
 Without this key, the app will crash when requesting location permission.
 
+### Prompt iOS.2b - Verify App Icon Asset Catalog
+
+Verify that the app icon asset catalog reference is in Info.plist. Without this, the MAUI build
+system will not pass --app-icon to actool, resulting in no Assets.car and a missing app icon on iOS.
+
+Check Platforms/iOS/Info.plist contains:
+
+```xml
+<key>XSAppIconAssets</key>
+<string>Assets.xcassets/appicon.appiconset</string>
+```
+
+If missing, add it.
+
 ---
 
 ## Phase iOS: Notification Service Extension

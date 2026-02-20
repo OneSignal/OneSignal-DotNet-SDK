@@ -44,5 +44,7 @@
     </array>
     <key>aps-environment</key>
     <string>development</string>
+    <key>XSAppIconAssets</key>
+    <string>Assets.xcassets/appicon.appiconset</string>
 </dict>
 </plist>
