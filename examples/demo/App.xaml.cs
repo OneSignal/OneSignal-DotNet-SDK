@@ -39,15 +39,14 @@ public partial class App : Application
                 new Image
                 {
                     Source = "onesignal_logo",
-                    HeightRequest = 28,
+                    HeightRequest = 22,
                     VerticalOptions = LayoutOptions.Center
                 },
                 new Label
                 {
                     Text = "Sample App",
                     TextColor = Colors.White,
-                    FontAttributes = FontAttributes.Bold,
-                    FontSize = 18,
+                    FontSize = 14,
                     VerticalOptions = LayoutOptions.Center
                 }
             }
