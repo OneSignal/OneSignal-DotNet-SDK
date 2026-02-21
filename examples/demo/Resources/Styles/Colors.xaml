@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="OneSignalRed">#E54B4D</Color>
+    <Color x:Key="OneSignalGreen">#34A853</Color>
+    <Color x:Key="OneSignalGreenLight">#E6F4EA</Color>
+    <Color x:Key="LightBackground">#F8F9FA</Color>
+    <Color x:Key="CardBackground">#FFFFFF</Color>
+    <Color x:Key="DividerColor">#E8EAED</Color>
+    <Color x:Key="WarningBackground">#FFF8E1</Color>
+    <Color x:Key="LogViewBackground">#1A1B1E</Color>
+    <Color x:Key="SectionHeaderColor">#555555</Color>
+    <Color x:Key="PlaceholderColor">#AAAAAA</Color>
+    <Color x:Key="DeleteButtonColor">#E54B4D</Color>
+    <Color x:Key="StatusLoggedInColor">#2E7D32</Color>
+
+</ResourceDictionary>

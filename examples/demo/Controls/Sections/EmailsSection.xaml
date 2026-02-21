@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OneSignalDemo.Controls.Sections.EmailsSection">
+
+    <VerticalStackLayout Spacing="8">
+        <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
+            <Label Grid.Column="0" Text="EMAILS" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
+            <ImageButton Grid.Column="1" Source="info" WidthRequest="20" HeightRequest="20"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+        </Grid>
+
+        <Border Style="{StaticResource CardBorderStyle}">
+            <VerticalStackLayout x:Name="EmailListContainer" MinimumHeightRequest="50">
+                <Label x:Name="EmptyLabel" Text="No emails added" Style="{StaticResource EmptyStateStyle}"
+                       Padding="16" AutomationId="emails_empty_label" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Button Text="ADD EMAIL" Style="{StaticResource PrimaryButtonStyle}"
+                Clicked="OnAddEmailClicked" AutomationId="add_email_button" />
+    </VerticalStackLayout>
+</ContentView>

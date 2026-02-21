@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Style TargetType="Border" x:Key="CardBorderStyle">
+        <Setter Property="Background" Value="{StaticResource CardBackground}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="Stroke" Value="{StaticResource DividerColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="PrimaryButtonStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource OneSignalRed}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="OutlineButtonStyle">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource OneSignalRed}" />
+        <Setter Property="BorderColor" Value="{StaticResource OneSignalRed}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+    </Style>
+
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{StaticResource OneSignalRed}" />
+    </Style>
+
+    <Style TargetType="Entry">
+        <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="SectionHeaderStyle">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource SectionHeaderColor}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CharacterSpacing" Value="1" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="EmptyStateStyle">
+        <Setter Property="TextColor" Value="{StaticResource PlaceholderColor}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="KeyLabelStyle">
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="#333333" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="ValueLabelStyle">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="#666666" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="InfoLabelStyle">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="#666666" />
+    </Style>
+
+</ResourceDictionary>

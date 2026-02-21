@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OneSignalDemo.Controls.Sections.LocationSection">
+
+    <VerticalStackLayout Spacing="8">
+        <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
+            <Label Grid.Column="0" Text="LOCATION" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
+            <ImageButton Grid.Column="1" Source="info" WidthRequest="20" HeightRequest="20"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+        </Grid>
+
+        <Border Style="{StaticResource CardBorderStyle}">
+            <Grid Padding="16,14" ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                    <Label Text="Location Shared" FontSize="15" TextColor="#333333" />
+                    <Label Text="Share device location with OneSignal" Style="{StaticResource InfoLabelStyle}" />
+                </VerticalStackLayout>
+                <Switch Grid.Column="1" x:Name="LocationSharedSwitch"
+                        IsToggled="False"
+                       
+                        Toggled="OnLocationSharedToggled"
+                        AutomationId="location_shared_switch" />
+            </Grid>
+        </Border>
+
+        <Button Text="PROMPT LOCATION" Style="{StaticResource PrimaryButtonStyle}"
+                Clicked="OnPromptLocationClicked" AutomationId="prompt_location_button" />
+    </VerticalStackLayout>
+</ContentView>
