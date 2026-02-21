@@ -11,4 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Net.Mail" />
+  </ItemGroup>
 </Project>

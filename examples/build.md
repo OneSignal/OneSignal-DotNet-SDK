@@ -153,6 +153,9 @@ iOS-specific setup:
   - Info.plist must include XSAppIconAssets so the build system passes --app-icon to actool:
       <key>XSAppIconAssets</key>
       <string>Assets.xcassets/appicon.appiconset</string>
+  - The NotificationServiceExtension .csproj must include TrimmerRootAssembly for System.Net.Mail
+    (the OneSignal native SDK depends on it; without it the NSE crashes on launch in aot-only mode):
+      <TrimmerRootAssembly Include="System.Net.Mail" />
 ```
 
 ### Prompt 1.3 - OneSignal Repository

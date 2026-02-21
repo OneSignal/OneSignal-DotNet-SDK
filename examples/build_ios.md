@@ -75,8 +75,16 @@ Add a Notification Service Extension to support rich push notifications (images,
   <ItemGroup>
     <ProjectReference Include="..\..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Net.Mail" />
+  </ItemGroup>
 </Project>
 ```
+
+The `TrimmerRootAssembly` for `System.Net.Mail` is required because the OneSignal native SDK
+depends on it transitively. Without it, the AOT compiler won't include the assembly in the
+extension bundle, causing a crash at runtime (`Failed to load AOT module` in aot-only mode).
 
 **2. Create `NotificationServiceExtension/NotificationService.cs`:**
 
