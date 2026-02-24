@@ -82,7 +82,7 @@ public partial class AliasesSection : ContentView
             "Add Alias",
             new DialogInputField { Key = "label", Placeholder = "Label", AutomationId = "alias_label_input" },
             new DialogInputField { Key = "id", Placeholder = "ID", AutomationId = "alias_id_input" },
-            "ADD"
+            "Add"
         );
 
         if (

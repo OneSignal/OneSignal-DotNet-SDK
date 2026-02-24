@@ -10,6 +10,7 @@
     <Color x:Key="OsGrey500">#9E9E9E</Color>
     <Color x:Key="OsLightBackground">#F8F9FA</Color>
     <Color x:Key="OsCardBackground">#FFFFFF</Color>
+    <Color x:Key="OsCardBorder">#1A000000</Color>
     <Color x:Key="OsDivider">#E8EAED</Color>
     <Color x:Key="OsWarningBackground">#FFF8E1</Color>
     <Color x:Key="OsLogBackground">#1A1B1E</Color>

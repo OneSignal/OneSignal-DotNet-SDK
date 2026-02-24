@@ -125,13 +125,11 @@ public static class DialogInputHelper
         Func<Dictionary<string, string>> getResult
     )
     {
-        var cancelButton = ActionButton("CANCEL");
+        var cancelButton = ActionButton("Cancel");
         var confirmButton = ActionButton(confirmText, confirmAutomationId);
 
         cancelButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
         confirmButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync(getResult());
-
-        Grid.SetColumn(confirmButton, 1);
 
         var card = new VerticalStackLayout
         {
@@ -143,14 +141,10 @@ public static class DialogInputHelper
             {
                 new Label { Text = title, FontSize = 24 },
                 content,
-                new Grid
+                new HorizontalStackLayout
                 {
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = GridLength.Star },
-                        new ColumnDefinition { Width = GridLength.Star },
-                    },
-                    ColumnSpacing = 8,
+                    HorizontalOptions = LayoutOptions.End,
+                    Spacing = 8,
                     Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, confirmButton },
                 },
@@ -180,7 +174,6 @@ public static class DialogInputHelper
             BorderColor = Colors.Transparent,
             Shadow = null,
             Padding = new Thickness(12, 8),
-            HorizontalOptions = LayoutOptions.Fill,
             AutomationId = automationId ?? string.Empty,
         };
 

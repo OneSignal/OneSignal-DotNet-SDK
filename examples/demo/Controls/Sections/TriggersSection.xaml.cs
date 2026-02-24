@@ -88,7 +88,7 @@ public partial class TriggersSection : ContentView
             "Add Trigger",
             new DialogInputField { Key = "key", Placeholder = "Key", AutomationId = "trigger_key_input" },
             new DialogInputField { Key = "value", Placeholder = "Value", AutomationId = "trigger_value_input" },
-            "ADD"
+            "Add"
         );
 
         if (

@@ -42,8 +42,8 @@ public partial class OutcomesSection : ContentView
         radioNormal.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
         radioUnique.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
 
-        var cancelButton = DialogInputHelper.ActionButton("CANCEL");
-        var sendButton = DialogInputHelper.ActionButton("SEND");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel");
+        var sendButton = DialogInputHelper.ActionButton("Send");
 
         string? outcomeType = null;
         string? name = null;
@@ -59,8 +59,6 @@ public partial class OutcomesSection : ContentView
             valueStr = valueEntry.Text?.Trim();
             await _parentPage.ClosePopupAsync();
         };
-
-        Grid.SetColumn(sendButton, 1);
 
         var content = new VerticalStackLayout
         {
@@ -78,14 +76,10 @@ public partial class OutcomesSection : ContentView
                 },
                 nameEntry,
                 valueContainer,
-                new Grid
+                new HorizontalStackLayout
                 {
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = GridLength.Star },
-                        new ColumnDefinition { Width = GridLength.Star },
-                    },
-                    ColumnSpacing = 8,
+                    HorizontalOptions = LayoutOptions.End,
+                    Spacing = 8,
                     Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, sendButton },
                 },

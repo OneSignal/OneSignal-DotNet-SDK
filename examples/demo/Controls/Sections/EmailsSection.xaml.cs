@@ -108,7 +108,7 @@ public partial class EmailsSection : ContentView
             _parentPage,
             "Add Email",
             "Email address",
-            "ADD",
+            "Add",
             "email_input"
         );
 

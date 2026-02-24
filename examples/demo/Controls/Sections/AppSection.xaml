@@ -13,20 +13,20 @@
         <!-- App ID card -->
         <Border Style="{StaticResource CardBorderStyle}">
             <Grid Padding="12" ColumnDefinitions="Auto,*">
-                <Label Grid.Column="0" Text="App ID" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
-                <Label Grid.Column="1" x:Name="AppIdLabel" Text="" Style="{StaticResource ValueLabelStyle}"
-                       FontFamily="Courier New"
+                <Label Grid.Column="0" Text="App ID" Style="{StaticResource BodyMediumStyle}" VerticalOptions="Center" />
+                <Label Grid.Column="1" x:Name="AppIdLabel" Text="" Style="{StaticResource BodySmallStyle}"
+                       FontFamily="DroidSansMono"
                        HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="MiddleTruncation"
                        AutomationId="app_id_label" />
             </Grid>
         </Border>
 
         <!-- Guidance banner -->
-        <Border StrokeShape="RoundRectangle 12" Stroke="{StaticResource OsDivider}" StrokeThickness="1"
-                Background="{StaticResource OsWarningBackground}" Padding="12">
-            <VerticalStackLayout>
+        <Border Style="{StaticResource CardBorderStyle}"
+                Background="{StaticResource OsWarningBackground}">
+            <VerticalStackLayout Padding="12">
                 <Label Text="Add your own App ID, then rebuild to fully test all functionality."
-                       Style="{StaticResource ValueLabelStyle}" />
+                       Style="{StaticResource BodySmallStyle}" />
                 <Label x:Name="GetKeysLink" Text="Get your keys at onesignal.com"
                        FontSize="12" TextColor="{StaticResource OsPrimary}" FontAttributes="Bold">
                     <Label.GestureRecognizers>
@@ -42,8 +42,8 @@
                 <!-- Consent Required toggle -->
                 <Grid Padding="12" ColumnDefinitions="*,Auto">
                     <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
-                        <Label Text="Consent Required" FontSize="14" />
-                        <Label Text="Require consent before SDK processes data" Style="{StaticResource InfoLabelStyle}" />
+                        <Label Text="Consent Required" Style="{StaticResource BodyMediumStyle}" />
+                        <Label Text="Require consent before SDK processes data" Style="{StaticResource BodySmallStyle}" />
                     </VerticalStackLayout>
                     <Switch Grid.Column="1" x:Name="ConsentRequiredSwitch"
                             IsToggled="False"
@@ -57,8 +57,8 @@
 
                 <Grid x:Name="PrivacyConsentRow" Padding="12" ColumnDefinitions="*,Auto" IsVisible="False">
                     <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
-                        <Label Text="Privacy Consent" FontSize="14" />
-                        <Label Text="Consent given for data collection" Style="{StaticResource InfoLabelStyle}" />
+                        <Label Text="Privacy Consent" Style="{StaticResource BodyMediumStyle}" />
+                        <Label Text="Consent given for data collection" Style="{StaticResource BodySmallStyle}" />
                     </VerticalStackLayout>
                     <Switch Grid.Column="1" x:Name="PrivacyConsentSwitch"
                             IsToggled="False"

@@ -95,8 +95,8 @@ public static class MultiPairDialogHelper
             Padding = new Thickness(0, 8),
         };
 
-        var cancelButton = DialogInputHelper.ActionButton("CANCEL", "multi_pair_cancel_button");
-        var addAllButton = DialogInputHelper.ActionButton("ADD ALL", "multi_pair_add_all_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_pair_cancel_button");
+        var addAllButton = DialogInputHelper.ActionButton("Add All", "multi_pair_add_all_button");
 
         addRowButton.Clicked += (s, e) => AddRow();
         cancelButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
@@ -114,8 +114,6 @@ public static class MultiPairDialogHelper
             await parentPage.ClosePopupAsync(result.Count > 0 ? result : null);
         };
 
-        Grid.SetColumn(addAllButton, 1);
-
         var content = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
@@ -132,14 +130,10 @@ public static class MultiPairDialogHelper
                 },
                 new ScrollView { MaximumHeightRequest = 300, Content = rowsContainer },
                 addRowButton,
-                new Grid
+                new HorizontalStackLayout
                 {
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = GridLength.Star },
-                        new ColumnDefinition { Width = GridLength.Star },
-                    },
-                    ColumnSpacing = 8,
+                    HorizontalOptions = LayoutOptions.End,
+                    Spacing = 8,
                     Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, addAllButton },
                 },
@@ -174,13 +168,13 @@ public static class MultiPairDialogHelper
             itemsLayout.Children.Add(row);
         }
 
-        var cancelButton = DialogInputHelper.ActionButton("CANCEL", "multi_select_cancel_button");
-        var removeButton = DialogInputHelper.ActionButtonDisabled("REMOVE (0)", "multi_select_remove_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_select_cancel_button");
+        var removeButton = DialogInputHelper.ActionButtonDisabled("Remove (0)", "multi_select_remove_button");
 
         void UpdateButton()
         {
             var count = checkboxes.Count(c => c.Box.IsChecked);
-            removeButton.Text = $"REMOVE ({count})";
+            removeButton.Text = $"Remove ({count})";
             DialogInputHelper.SetActionButtonEnabled(removeButton, count > 0);
         }
 
@@ -198,8 +192,6 @@ public static class MultiPairDialogHelper
             await parentPage.ClosePopupAsync(selected);
         };
 
-        Grid.SetColumn(removeButton, 1);
-
         var content = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
@@ -215,14 +207,10 @@ public static class MultiPairDialogHelper
                     Margin = new Thickness(0, 0, 0, 4),
                 },
                 new ScrollView { MaximumHeightRequest = 300, Content = itemsLayout },
-                new Grid
+                new HorizontalStackLayout
                 {
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = GridLength.Star },
-                        new ColumnDefinition { Width = GridLength.Star },
-                    },
-                    ColumnSpacing = 8,
+                    HorizontalOptions = LayoutOptions.End,
+                    Spacing = 8,
                     Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, removeButton },
                 },

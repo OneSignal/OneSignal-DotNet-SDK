@@ -33,14 +33,14 @@ public partial class MainPage : ContentPage
         PushSectionControl.InfoTapped += (s, e) => ShowTooltip("push");
 
         SendPushSectionControl.Initialize(_viewModel);
-        SendPushSectionControl.InfoTapped += (s, e) => ShowTooltip("send_push");
+        SendPushSectionControl.InfoTapped += (s, e) => ShowTooltip("sendPushNotification");
         SendPushSectionControl.CustomNotificationRequested += OnCustomNotificationRequested;
 
         InAppSectionControl.Initialize(_viewModel);
-        InAppSectionControl.InfoTapped += (s, e) => ShowTooltip("in_app_messaging");
+        InAppSectionControl.InfoTapped += (s, e) => ShowTooltip("inAppMessaging");
 
         SendIamSectionControl.Initialize(_viewModel, this);
-        SendIamSectionControl.InfoTapped += (s, e) => ShowTooltip("send_iam");
+        SendIamSectionControl.InfoTapped += (s, e) => ShowTooltip("sendInAppMessage");
 
         AliasesSectionControl.Initialize(_viewModel, this);
         AliasesSectionControl.InfoTapped += (s, e) => ShowTooltip("aliases");
@@ -55,13 +55,13 @@ public partial class MainPage : ContentPage
         TagsSectionControl.InfoTapped += (s, e) => ShowTooltip("tags");
 
         OutcomesSectionControl.Initialize(_viewModel, this);
-        OutcomesSectionControl.InfoTapped += (s, e) => ShowTooltip("outcome_events");
+        OutcomesSectionControl.InfoTapped += (s, e) => ShowTooltip("outcomes");
 
         TriggersSectionControl.Initialize(_viewModel, this);
         TriggersSectionControl.InfoTapped += (s, e) => ShowTooltip("triggers");
 
         TrackEventSectionControl.Initialize(_viewModel, this);
-        TrackEventSectionControl.InfoTapped += (s, e) => ShowTooltip("track_event");
+        TrackEventSectionControl.InfoTapped += (s, e) => ShowTooltip("trackEvent");
 
         LocationSectionControl.Initialize(_viewModel);
         LocationSectionControl.InfoTapped += (s, e) => ShowTooltip("location");
@@ -82,7 +82,7 @@ public partial class MainPage : ContentPage
             this,
             "Login User",
             "External User Id",
-            "LOGIN"
+            "Login"
         );
 
         if (string.IsNullOrEmpty(userId))
@@ -118,7 +118,7 @@ public partial class MainPage : ContentPage
                     AutomationId = "custom_notif_body_input",
                 },
             },
-            "SEND",
+            "Send",
             "custom_notif_send_button"
         );
 
@@ -134,12 +134,7 @@ public partial class MainPage : ContentPage
         var tooltip = TooltipHelper.Instance.GetTooltip(key);
         if (tooltip == null) return;
 
-        var message = tooltip.Description;
-        if (tooltip.Options != null && tooltip.Options.Count > 0)
-        {
-            message += "\n\n" + string.Join("\n\n", tooltip.Options.Select(o => $"• {o.Name}: {o.Description}"));
-        }
-        await DisplayAlertAsync(tooltip.Title, message, "OK");
+        await TooltipDialogHelper.Show(this, tooltip);
     }
 
     private async void OnNextActivityClicked(object? sender, EventArgs e)

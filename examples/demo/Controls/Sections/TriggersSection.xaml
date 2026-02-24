@@ -2,13 +2,16 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     x:Class="OneSignalDemo.Controls.Sections.TriggersSection">
 
     <VerticalStackLayout Spacing="8">
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="TRIGGERS" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" Source="info" WidthRequest="18" HeightRequest="18"
-                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+            <ImageButton Grid.Column="1"
+                         Source="{mi:Material Icon=InfoOutline, IconSize=18, IconColor=#9E9E9E}"
+                         WidthRequest="18" HeightRequest="18"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="0" />
         </Grid>
 
         <Border Style="{StaticResource CardBorderStyle}">

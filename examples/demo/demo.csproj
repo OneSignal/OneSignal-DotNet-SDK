@@ -25,6 +25,9 @@
     <!-- Splash Screen -->
     <MauiSplashScreen Include="Resources\AppIcon\appicon.png" Color="#ffffff" BaseSize="128,128" />
 
+    <!-- Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
+
     <!-- Images -->
     <MauiImage Include="Resources\Images\*" />
 

@@ -2,20 +2,23 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     x:Class="OneSignalDemo.Controls.Sections.LocationSection">
 
     <VerticalStackLayout Spacing="8">
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="LOCATION" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" Source="info" WidthRequest="18" HeightRequest="18"
-                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+            <ImageButton Grid.Column="1"
+                         Source="{mi:Material Icon=InfoOutline, IconSize=18, IconColor=#9E9E9E}"
+                         WidthRequest="18" HeightRequest="18"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="0" />
         </Grid>
 
         <Border Style="{StaticResource CardBorderStyle}">
             <Grid Padding="12" ColumnDefinitions="*,Auto">
                 <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
-                    <Label Text="Location Shared" FontSize="14" />
-                    <Label Text="Share device location with OneSignal" Style="{StaticResource InfoLabelStyle}" />
+                    <Label Text="Location Shared" Style="{StaticResource BodyMediumStyle}" />
+                    <Label Text="Share device location with OneSignal" Style="{StaticResource BodySmallStyle}" />
                 </VerticalStackLayout>
                 <Switch Grid.Column="1" x:Name="LocationSharedSwitch"
                         IsToggled="False"

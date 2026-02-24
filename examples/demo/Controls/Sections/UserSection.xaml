@@ -14,16 +14,16 @@
         <Border Style="{StaticResource CardBorderStyle}">
             <VerticalStackLayout>
                 <Grid Padding="12" ColumnDefinitions="*,Auto">
-                    <Label Grid.Column="0" Text="Status" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
+                    <Label Grid.Column="0" Text="Status" Style="{StaticResource BodyMediumStyle}" VerticalOptions="Center" />
                     <Label Grid.Column="1" x:Name="StatusLabel" Text="Anonymous"
-                           Style="{StaticResource ValueLabelStyle}" FontFamily="Courier New" VerticalOptions="Center"
+                           Style="{StaticResource BodySmallStyle}" FontFamily="DroidSansMono" VerticalOptions="Center"
                            AutomationId="user_status_label" />
                 </Grid>
                 <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
                 <Grid Padding="12" ColumnDefinitions="*,Auto">
-                    <Label Grid.Column="0" Text="External ID" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
+                    <Label Grid.Column="0" Text="External ID" Style="{StaticResource BodyMediumStyle}" VerticalOptions="Center" />
                     <Label Grid.Column="1" x:Name="ExternalIdLabel" Text="–"
-                           Style="{StaticResource ValueLabelStyle}" FontFamily="Courier New" VerticalOptions="Center"
+                           Style="{StaticResource BodySmallStyle}" FontFamily="DroidSansMono" VerticalOptions="Center"
                            AutomationId="external_id_label" />
                 </Grid>
             </VerticalStackLayout>

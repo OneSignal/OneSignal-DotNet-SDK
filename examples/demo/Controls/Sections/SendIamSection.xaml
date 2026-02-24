@@ -8,8 +8,10 @@
     <VerticalStackLayout Spacing="8">
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="SEND IN-APP MESSAGE" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" Source="info" WidthRequest="18" HeightRequest="18"
-                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+            <ImageButton Grid.Column="1"
+                         Source="{mi:Material Icon=InfoOutline, IconSize=18, IconColor=#9E9E9E}"
+                         WidthRequest="18" HeightRequest="18"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="0" />
         </Grid>
 
         <!-- TOP BANNER -->

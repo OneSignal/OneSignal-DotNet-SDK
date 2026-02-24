@@ -103,7 +103,7 @@ public partial class SmsSection : ContentView
             _parentPage,
             "Add SMS",
             "Phone number",
-            "ADD",
+            "Add",
             "sms_input",
             keyboard: Keyboard.Telephone
         );

@@ -95,7 +95,7 @@ public partial class TagsSection : ContentView
             "Add Tag",
             new DialogInputField { Key = "key", Placeholder = "Key", AutomationId = "tag_key_input" },
             new DialogInputField { Key = "value", Placeholder = "Value", AutomationId = "tag_value_input" },
-            "ADD"
+            "Add"
         );
 
         if (

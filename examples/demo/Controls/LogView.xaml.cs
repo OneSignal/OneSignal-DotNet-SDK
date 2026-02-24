@@ -41,7 +41,7 @@ public partial class LogView : ContentView
                 Text = entry.Timestamp,
                 TextColor = Color.FromArgb("#676E7B"),
                 FontSize = 11,
-                FontFamily = "Courier New",
+                FontFamily = "DroidSansMono",
                 VerticalOptions = LayoutOptions.Center,
                 AutomationId = $"log_entry_{i}_timestamp"
             };
@@ -50,7 +50,7 @@ public partial class LogView : ContentView
                 Text = entry.Level,
                 TextColor = entry.LevelColor,
                 FontSize = 11,
-                FontFamily = "Courier New",
+                FontFamily = "DroidSansMono",
                 FontAttributes = FontAttributes.Bold,
                 VerticalOptions = LayoutOptions.Center,
                 Margin = new Thickness(4, 0),
@@ -61,7 +61,7 @@ public partial class LogView : ContentView
                 Text = entry.Message,
                 TextColor = Colors.White,
                 FontSize = 11,
-                FontFamily = "Courier New",
+                FontFamily = "DroidSansMono",
                 VerticalOptions = LayoutOptions.Center,
                 AutomationId = $"log_entry_{i}_message"
             };

@@ -59,8 +59,8 @@ public partial class TrackEventSection : ContentView
             IsVisible = false,
         };
 
-        var cancelButton = DialogInputHelper.ActionButton("CANCEL");
-        var confirmButton = DialogInputHelper.ActionButton("TRACK", "track_event_confirm_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel");
+        var confirmButton = DialogInputHelper.ActionButton("Track", "track_event_confirm_button");
 
         (string name, Dictionary<string, object>? properties)? popupResult = null;
 
@@ -99,8 +99,6 @@ public partial class TrackEventSection : ContentView
 
         cancelButton.Clicked += async (s, ev) => await parentPage.ClosePopupAsync();
 
-        Grid.SetColumn(confirmButton, 1);
-
         var card = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
@@ -120,14 +118,10 @@ public partial class TrackEventSection : ContentView
                         errorLabel,
                     }
                 },
-                new Grid
+                new HorizontalStackLayout
                 {
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = GridLength.Star },
-                        new ColumnDefinition { Width = GridLength.Star },
-                    },
-                    ColumnSpacing = 8,
+                    HorizontalOptions = LayoutOptions.End,
+                    Spacing = 8,
                     Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, confirmButton },
                 },

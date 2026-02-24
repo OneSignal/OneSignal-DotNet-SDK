@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     x:Class="OneSignalDemo.Controls.Sections.PushSection"
     x:Name="root">
 
@@ -9,23 +10,25 @@
         <!-- Section header with info icon -->
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="PUSH" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" x:Name="InfoButton" Source="info" WidthRequest="18" HeightRequest="18"
-                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
+            <ImageButton Grid.Column="1" x:Name="InfoButton"
+                         Source="{mi:Material Icon=InfoOutline, IconSize=18, IconColor=#9E9E9E}"
+                         WidthRequest="18" HeightRequest="18"
+                         BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="0" />
         </Grid>
 
         <!-- Push card -->
         <Border Style="{StaticResource CardBorderStyle}">
             <VerticalStackLayout>
                 <Grid Padding="12" ColumnDefinitions="*,Auto">
-                    <Label Grid.Column="0" Text="Push ID" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
-                    <Label Grid.Column="1" x:Name="PushIdLabel" Text="" Style="{StaticResource ValueLabelStyle}"
-                           FontFamily="Courier New"
+                    <Label Grid.Column="0" Text="Push ID" Style="{StaticResource BodyMediumStyle}" VerticalOptions="Center" />
+                    <Label Grid.Column="1" x:Name="PushIdLabel" Text="" Style="{StaticResource BodySmallStyle}"
+                           FontFamily="DroidSansMono"
                            HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="MiddleTruncation"
                            AutomationId="push_id_label" />
                 </Grid>
                 <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
                 <Grid Padding="12" ColumnDefinitions="*,Auto">
-                    <Label Grid.Column="0" Text="Enabled" FontSize="14" VerticalOptions="Center" />
+                    <Label Grid.Column="0" Text="Enabled" Style="{StaticResource BodyMediumStyle}" VerticalOptions="Center" />
                     <Switch Grid.Column="1" x:Name="PushEnabledSwitch"
                             IsToggled="False"
                             Toggled="OnPushEnabledToggled"
