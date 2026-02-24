@@ -5,8 +5,8 @@
     xmlns:controls="clr-namespace:OneSignalDemo.Controls"
     xmlns:sections="clr-namespace:OneSignalDemo.Controls.Sections"
     x:Class="OneSignalDemo.Pages.MainPage"
-    Title="Sample App"
-    BackgroundColor="{StaticResource LightBackground}">
+    Title="DotNet"
+    BackgroundColor="{StaticResource OsLightBackground}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,9 +19,10 @@
 
         <!-- Main scrollable content -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="12" Spacing="16">
+            <VerticalStackLayout Padding="16,24" Spacing="24">
 
                 <sections:AppSection x:Name="AppSectionControl" />
+                <sections:UserSection x:Name="UserSectionControl" />
                 <sections:PushSection x:Name="PushSectionControl" />
                 <sections:SendPushSection x:Name="SendPushSectionControl" />
                 <sections:InAppSection x:Name="InAppSectionControl" />

@@ -3,7 +3,6 @@ using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
-using Microsoft.Maui.Controls.Shapes;
 using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
 
@@ -55,13 +54,13 @@ public partial class TrackEventSection : ContentView
         var errorLabel = new Label
         {
             Text = "Invalid JSON format",
-            TextColor = Color.FromArgb("#E54B4D"),
+            TextColor = Color.FromArgb("#FF5370"),
             FontSize = 12,
             IsVisible = false,
         };
 
-        var cancelButton = GhostButton("CANCEL", Color.FromArgb("#6E6E73"));
-        var confirmButton = GhostButton("TRACK", Color.FromArgb("#E54B4D"), "track_event_confirm_button");
+        var cancelButton = DialogInputHelper.ActionButton("CANCEL");
+        var confirmButton = DialogInputHelper.ActionButton("TRACK", "track_event_confirm_button");
 
         (string name, Dictionary<string, object>? properties)? popupResult = null;
 
@@ -102,17 +101,15 @@ public partial class TrackEventSection : ContentView
 
         Grid.SetColumn(confirmButton, 1);
 
-        var width = parentPage.Width > 0 ? parentPage.Width : 320;
-
         var card = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
-            WidthRequest = Math.Max(240, width - 32),
-            Padding = new Thickness(16),
+            WidthRequest = DialogInputHelper.PopupContentWidth(parentPage),
+            Padding = new Thickness(24),
             Spacing = 12,
             Children =
             {
-                new Label { Text = "Track Event", FontAttributes = FontAttributes.Bold, FontSize = 16 },
+                new Label { Text = "Track Event", FontSize = 24 },
                 new VerticalStackLayout
                 {
                     Spacing = 8,
@@ -130,42 +127,16 @@ public partial class TrackEventSection : ContentView
                         new ColumnDefinition { Width = GridLength.Star },
                         new ColumnDefinition { Width = GridLength.Star },
                     },
+                    ColumnSpacing = 8,
+                    Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, confirmButton },
                 },
             },
         };
 
-        var options = new PopupOptions
-        {
-            CanBeDismissedByTappingOutsideOfPopup = true,
-            PageOverlayColor = Colors.Black.WithAlpha(0.4f),
-            Shape = new RoundRectangle { CornerRadius = 12, StrokeThickness = 0, Stroke = new SolidColorBrush(Colors.Transparent) },
-            Shadow = new Shadow
-            {
-                Brush = new SolidColorBrush(Colors.Black),
-                Opacity = 0.12f,
-                Radius = 10,
-                Offset = new Microsoft.Maui.Graphics.Point(0, 2),
-            },
-        };
-
-        await parentPage.ShowPopupAsync<(string, Dictionary<string, object>?)?>(card, options);
+        await parentPage.ShowPopupAsync<(string, Dictionary<string, object>?)?>(card, DialogInputHelper.DialogOptions);
         return popupResult;
     }
-
-    private static Button GhostButton(string text, Color textColor, string? automationId = null) => new()
-    {
-        Text = text,
-        Style = null,
-        BackgroundColor = Colors.Transparent,
-        TextColor = textColor,
-        FontAttributes = FontAttributes.Bold,
-        BorderWidth = 0,
-        BorderColor = Colors.Transparent,
-        Shadow = null,
-        HorizontalOptions = LayoutOptions.Fill,
-        AutomationId = automationId ?? string.Empty,
-    };
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
 }

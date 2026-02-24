@@ -7,9 +7,6 @@ public partial class AppSection : ContentView
     private AppViewModel? _viewModel;
     private bool _suppressToggle;
 
-    public event EventHandler? LoginRequested;
-    public event EventHandler? LogoutRequested;
-
     public AppSection()
     {
         InitializeComponent();
@@ -23,7 +20,6 @@ public partial class AppSection : ContentView
         ConsentRequiredSwitch.IsToggled = viewModel.ConsentRequired;
         UpdatePrivacyConsentVisibility(viewModel.ConsentRequired);
         PrivacyConsentSwitch.IsToggled = viewModel.PrivacyConsentGiven;
-        UpdateUserDisplay(viewModel);
 
         viewModel.PropertyChanged += (s, e) =>
         {
@@ -43,25 +39,8 @@ public partial class AppSection : ContentView
                     PrivacyConsentSwitch.IsToggled = viewModel.PrivacyConsentGiven;
                     _suppressToggle = false;
                     break;
-                case nameof(AppViewModel.UserStatus):
-                case nameof(AppViewModel.ExternalIdDisplay):
-                case nameof(AppViewModel.IsLoggedIn):
-                case nameof(AppViewModel.LoginButtonText):
-                    UpdateUserDisplay(viewModel);
-                    break;
             }
         };
-    }
-
-    private void UpdateUserDisplay(AppViewModel vm)
-    {
-        StatusLabel.Text = vm.UserStatus;
-        StatusLabel.TextColor = vm.IsLoggedIn
-            ? Color.FromArgb("#2E7D32")
-            : Color.FromArgb("#666666");
-        ExternalIdLabel.Text = vm.ExternalIdDisplay;
-        LoginButton.Text = vm.LoginButtonText;
-        LogoutButton.IsVisible = vm.IsLoggedIn;
     }
 
     private void UpdatePrivacyConsentVisibility(bool consentRequired)
@@ -81,16 +60,6 @@ public partial class AppSection : ContentView
     {
         if (_suppressToggle) return;
         _viewModel?.SetConsentGiven(e.Value);
-    }
-
-    private void OnLoginClicked(object? sender, EventArgs e)
-    {
-        LoginRequested?.Invoke(this, e);
-    }
-
-    private void OnLogoutClicked(object? sender, EventArgs e)
-    {
-        LogoutRequested?.Invoke(this, e);
     }
 
     private async void OnGetKeysTapped(object? sender, TappedEventArgs e)

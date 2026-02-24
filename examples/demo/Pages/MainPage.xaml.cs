@@ -24,8 +24,10 @@ public partial class MainPage : ContentPage
 
         // Wire up sections
         AppSectionControl.Initialize(_viewModel);
-        AppSectionControl.LoginRequested += OnLoginRequested;
-        AppSectionControl.LogoutRequested += OnLogoutRequested;
+
+        UserSectionControl.Initialize(_viewModel);
+        UserSectionControl.LoginRequested += OnLoginRequested;
+        UserSectionControl.LogoutRequested += OnLogoutRequested;
 
         PushSectionControl.Initialize(_viewModel);
         PushSectionControl.InfoTapped += (s, e) => ShowTooltip("push");

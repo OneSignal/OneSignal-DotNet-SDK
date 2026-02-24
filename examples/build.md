@@ -8,7 +8,6 @@ This document contains all the prompts and requirements needed to build the OneS
 
 ### Prompt 0.1 - Capture Reference UI
 
-```
 Before building anything, an Android emulator MUST be running with the
 reference OneSignal demo app installed. These screenshots are the source
 of truth for the UI you are building. Do NOT proceed to Phase 1 without them.
@@ -51,7 +50,6 @@ Pay close attention to:
   - List item layout (stacked vs inline key-value)
   - Icon choices (delete, close, info, etc.)
   - Typography, spacing, and colors
-  - Spacing: 12px gap between sections, 8px gap between cards/buttons within a section
 
 You can also interact with the reference app to observe specific flows:
 
@@ -84,7 +82,6 @@ button placement, spacing, and validation behavior.
 Refer back to these screenshots throughout all remaining phases whenever
 you need to decide on layout, spacing, section order, dialog flows, or
 overall look and feel.
-```
 
 ---
 
@@ -92,7 +89,6 @@ overall look and feel.
 
 ### Prompt 1.1 - Project Foundation
 
-```
 Create a new .NET MAUI project at examples/demo/ (relative to the SDK repo root).
 
 Build the app with:
@@ -100,7 +96,7 @@ Build the app with:
 - .NET 10+ with C# nullable reference types enabled
 - Material-style theming with OneSignal brand colors
 - App name: "OneSignal Demo"
-- Top app bar: title "Sample App" with the OneSignal logo image
+- Top app bar: title "DotNet" with the OneSignal logo image
 - Support for both Android and iOS
 - Android package name: com.onesignal.example
 - iOS bundle identifier: com.onesignal.example
@@ -114,16 +110,18 @@ Save it to Resources/Images/onesignal_logo.png and use it in the NavigationPage 
 Download the padded app icon PNG from:
   https://raw.githubusercontent.com/OneSignal/sdk-shared/refs/heads/main/assets/onesignal_logo_icon_padded.png
 Save it to Resources/AppIcon/appicon.png and configure it as the app icon in the .csproj with
-a white background color (the source PNG is transparent; Color fills it so iOS icons render correctly):
-  <MauiIcon Include="Resources\AppIcon\appicon.png" Color="#ffffff" />
+a white background color (the source PNG is transparent; Color fills it so iOS icons render correctly).
+ForegroundScale keeps the icon within Android's adaptive icon safe zone so it doesn't appear zoomed in:
+  <MauiIcon Include="Resources\AppIcon\appicon.png" Color="#ffffff" ForegroundScale="0.65" />
+
+Reuse the same icon as the splash screen:
+  <MauiSplashScreen Include="Resources\AppIcon\appicon.png" Color="#ffffff" BaseSize="128,128" />
 
 Reference the OneSignal .NET SDK from the parent repo using a project reference:
   <ProjectReference Include="..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
-```
 
 ### Prompt 1.2 - Dependencies (.csproj)
 
-```
 Add these packages to the demo .csproj:
 
 <ItemGroup>
@@ -156,11 +154,9 @@ iOS-specific setup:
   - The NotificationServiceExtension .csproj must include TrimmerRootAssembly for System.Net.Mail
     (the OneSignal native SDK depends on it; without it the NSE crashes on launch in aot-only mode):
       <TrimmerRootAssembly Include="System.Net.Mail" />
-```
 
 ### Prompt 1.3 - OneSignal Repository
 
-```
 Create a OneSignalRepository class that centralizes all OneSignal SDK calls.
 This is a plain C# class (not a ViewModel) injected into the ViewModel.
 
@@ -236,11 +232,9 @@ Notification sending (via REST API, delegated to OneSignalApiService):
 - SendNotificationAsync(NotificationType type) -> Task<bool>
 - SendCustomNotificationAsync(string title, string body) -> Task<bool>
 - FetchUserAsync(string onesignalId) -> Task<UserData?>
-```
 
 ### Prompt 1.4 - OneSignalApiService (REST API Client)
 
-```
 Create OneSignalApiService class for REST API calls using HttpClient:
 
 Properties:
@@ -265,11 +259,9 @@ FetchUserAsync endpoint:
 - GET https://api.onesignal.com/apps/{app_id}/users/by/onesignal_id/{onesignal_id}
 - NO Authorization header needed (public endpoint)
 - Returns UserData with aliases, tags, emails, smsNumbers, externalId
-```
 
 ### Prompt 1.5 - SDK Observers
 
-```
 In MauiProgram.cs (or App.xaml.cs), set up OneSignal initialization before the app runs:
 
 OneSignal.Debug.LogLevel = LogLevel.Verbose;
@@ -294,7 +286,6 @@ In AppViewModel, register observers:
 - OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged  (react to push subscription changes)
 - OneSignal.Notifications.PermissionChanged += OnPermissionChanged  (react to permission changes)
 - OneSignal.User.Changed += OnUserChanged  (call FetchUserDataFromApiAsync() when user changes)
-```
 
 ---
 
@@ -302,24 +293,24 @@ In AppViewModel, register observers:
 
 ### Section Order (top to bottom)
 
-1. **App Section** (App ID, Guidance Banner, Consent Toggle, Logged-in-as display, Login/Logout)
-2. **Push Section** (Push ID, Enabled Toggle, Auto-prompts permission on load)
-3. **Send Push Notification Section** (Simple, With Image, Custom buttons)
-4. **In-App Messaging Section** (Pause toggle)
-5. **Send In-App Message Section** (Top Banner, Bottom Banner, Center Modal, Full Screen - with icons)
-6. **Aliases Section** (Add/Add Multiple, read-only list)
-7. **Emails Section** (Collapsible list >5 items)
-8. **SMS Section** (Collapsible list >5 items)
-9. **Tags Section** (Add/Add Multiple/Remove Selected)
-10. **Outcome Events Section** (Send Outcome dialog with type selection)
-11. **Triggers Section** (Add/Add Multiple/Remove Selected/Clear All - IN MEMORY ONLY)
-12. **Track Event Section** (Track Event with JSON validation)
-13. **Location Section** (Location Shared toggle, Prompt Location button)
-14. **Next Page Button**
+1. **App Section** (App ID, Guidance Banner, Consent Toggle)
+2. **User Section** (Status, External ID, Login/Logout)
+3. **Push Section** (Push ID, Enabled Toggle, Auto-prompts permission on load)
+4. **Send Push Notification Section** (Simple, With Image, Custom buttons)
+5. **In-App Messaging Section** (Pause toggle)
+6. **Send In-App Message Section** (Top Banner, Bottom Banner, Center Modal, Full Screen - with icons)
+7. **Aliases Section** (Add/Add Multiple, read-only list)
+8. **Emails Section** (Collapsible list >5 items)
+9. **SMS Section** (Collapsible list >5 items)
+10. **Tags Section** (Add/Add Multiple/Remove Selected)
+11. **Outcome Events Section** (Send Outcome dialog with type selection)
+12. **Triggers Section** (Add/Add Multiple/Remove Selected/Clear All - IN MEMORY ONLY)
+13. **Track Event Section** (Track Event with JSON validation)
+14. **Location Section** (Location Shared toggle, Prompt Location button)
+15. **Next Page Button**
 
-### Prompt 2.1 - App Section
+### Prompt 2.1a - App Section
 
-```
 App Section layout:
 
 1. App ID display (readonly Label showing the OneSignal App ID)
@@ -327,7 +318,7 @@ App Section layout:
 2. Sticky guidance banner below App ID:
    - Text: "Add your own App ID, then rebuild to fully test all functionality."
    - Link text: "Get your keys at onesignal.com" (tappable, opens browser via Launcher.OpenAsync)
-   - Light background color to stand out
+   - Warning banner styling per styles.md
 
 3. Consent card with up to two toggles:
    a. "Consent Required" toggle (always visible):
@@ -338,10 +329,14 @@ App Section layout:
       - Label: "Privacy Consent"
       - Description: "Consent given for data collection"
       - Sets OneSignal.ConsentGiven = value
-      - Separated from the above toggle by a horizontal divider (BoxView)
+      - Separated from the above toggle by a horizontal divider
    - NOT a blocking overlay - user can interact with app regardless of state
 
-4. User status card (always visible, ABOVE the login/logout buttons):
+### Prompt 2.1b - User Section
+
+User Section layout (separate SectionCard titled "User", placed after App Section):
+
+1. User status card (always visible, ABOVE the login/logout buttons):
    - Card with two rows separated by a divider
    - Row 1: "Status" label on the left, value on the right
    - Row 2: "External ID" label on the left, value on the right
@@ -349,20 +344,18 @@ App Section layout:
      - Status shows "Anonymous"
      - External ID shows "–" (dash)
    - When logged in:
-     - Status shows "Logged In" with green styling (Color #2E7D32)
+     - Status shows "Logged In" with green styling
      - External ID shows the actual external user ID
 
-5. LOGIN USER button:
+2. LOGIN USER button:
    - Shows "LOGIN USER" when no user is logged in
    - Shows "SWITCH USER" when a user is logged in
-   - Opens a CommunityToolkit.Maui popup dialog with one "External User Id" input
+   - Opens "Login User" dialog with empty "External User Id" field
 
-6. LOGOUT USER button (only visible when a user is logged in)
-```
+3. LOGOUT USER button (only visible when a user is logged in)
 
 ### Prompt 2.2 - Push Section
 
-```
 Push Section:
 - Section title: "Push" with info icon for tooltip
 - Push Subscription ID display (readonly Label)
@@ -373,11 +366,9 @@ Push Section:
   - Only visible when notification permission is NOT granted (fallback if user denied)
   - Calls OneSignal.Notifications.RequestPermissionAsync(true) when clicked
   - Hidden once permission is granted
-```
 
 ### Prompt 2.3 - Send Push Notification Section
 
-```
 Send Push Notification Section (placed right after Push Section):
 - Section title: "Send Push Notification" with info icon for tooltip
 - Three buttons:
@@ -388,22 +379,18 @@ Send Push Notification Section (placed right after Push Section):
   3. CUSTOM - opens one CommunityToolkit.Maui popup with Title and Body fields
 
 Tooltip should explain each button type.
-```
 
 ### Prompt 2.4 - In-App Messaging Section
 
-```
 In-App Messaging Section (placed right after Send Push):
 - Section title: "In-App Messaging" with info icon for tooltip
 - Pause In-App Messages toggle switch:
   - Label: "Pause In-App Messages"
   - Description: "Toggle in-app message display"
   - Sets OneSignal.InAppMessages.Paused = value
-```
 
 ### Prompt 2.5 - Send In-App Message Section
 
-```
 Send In-App Message Section (placed right after In-App Messaging):
 - Section title: "Send In-App Message" with info icon for tooltip
 - Four FULL-WIDTH buttons (not a grid):
@@ -411,22 +398,15 @@ Send In-App Message Section (placed right after In-App Messaging):
   2. BOTTOM BANNER - icon: Material.VerticalAlignBottom, trigger: "iam_type" = "bottom_banner"
   3. CENTER MODAL - icon: Material.CropSquare, trigger: "iam_type" = "center_modal"
   4. FULL SCREEN - icon: Material.Fullscreen, trigger: "iam_type" = "full_screen"
-- Button styling:
-  - RED background color (#E9444E)
-  - WHITE text
-  - Type-specific icon on LEFT side only (no right side icon)
-  - Full width of the card
-  - Left-aligned text and icon content (not centered)
-  - UPPERCASE button text
+- Button styling: primary (red) background, white text, type-specific icon on
+  LEFT side only, full width, left-aligned content, UPPERCASE text
 - On tap: calls OneSignal.InAppMessages.AddTrigger("iam_type", value) and shows a Toast/DisplayAlert
   - Also upserts "iam_type" in the Triggers list immediately so UI reflects the sent IAM type
 
 Tooltip should explain each IAM type.
-```
 
 ### Prompt 2.6 - Aliases Section
 
-```
 Aliases Section (placed after Send In-App Message):
 - Section title: "Aliases" with info icon for tooltip
 - List showing key-value pairs (read-only, no delete icons)
@@ -438,11 +418,9 @@ Aliases Section (placed after Send In-App Message):
 - ADD MULTIPLE button -> MultiPairInputDialog/Popup (dynamic rows, add/remove)
   [calls OneSignal.User.AddAliases(aliases)]
 - No remove/delete functionality (aliases are add-only from the UI)
-```
 
 ### Prompt 2.7 - Emails Section
 
-```
 Emails Section:
 - Section title: "Emails" with info icon for tooltip
 - List showing email addresses
@@ -455,11 +433,9 @@ Emails Section:
   - Show first 5 items
   - Show "X more" Label (tappable)
   - Expand to show all when tapped
-```
 
 ### Prompt 2.8 - SMS Section
 
-```
 SMS Section:
 - Section title: "SMS" with info icon for tooltip
 - List showing phone numbers
@@ -469,11 +445,9 @@ SMS Section:
 - ADD SMS button -> CommunityToolkit.Maui popup with one "Phone number" field (Telephone keyboard)
   [calls OneSignal.User.AddSms(number)]
 - Collapse behavior when >5 items (same as Emails)
-```
 
 ### Prompt 2.9 - Tags Section
 
-```
 Tags Section:
 - Section title: "Tags" with info icon for tooltip
 - List showing key-value pairs
@@ -488,11 +462,9 @@ Tags Section:
   - Only visible when at least one tag exists
   - Opens CommunityToolkit.Maui Popup overlay with checkboxes
   [calls OneSignal.User.RemoveTags(selectedKeys)]
-```
 
 ### Prompt 2.10 - Outcome Events Section
 
-```
 Outcome Events Section:
 - Section title: "Outcome Events" with info icon for tooltip
 - SEND OUTCOME button -> CommunityToolkit.Maui popup with:
@@ -502,11 +474,9 @@ Outcome Events Section:
     3. Outcome with Value [calls OneSignal.Session.AddOutcomeWithValue(name, value)]
   - Outcome name Entry field (AutomationId: outcome_name_input)
   - Value Entry field (float, numeric keyboard, AutomationId: outcome_value_input) — only visible when "Outcome with Value" is selected
-```
 
 ### Prompt 2.11 - Triggers Section (IN MEMORY ONLY)
 
-```
 Triggers Section:
 - Section title: "Triggers" with info icon for tooltip
 - List showing key-value pairs
@@ -529,11 +499,9 @@ IMPORTANT: Triggers are stored IN MEMORY ONLY during the app session.
 - Triggers are NOT persisted to Preferences
 - Triggers are cleared when the app is killed/restarted
 - This is intentional - triggers are transient test data for IAM testing
-```
 
 ### Prompt 2.12 - Track Event Section
 
-```
 Track Event Section:
 - Section title: "Track Event" with info icon for tooltip
 - TRACK EVENT button -> opens a custom CommunityToolkit.Maui popup (not ShowForm) with:
@@ -545,11 +513,9 @@ Track Event Section:
     - Only closes when name is non-empty AND JSON is valid (or empty)
     - If valid, parsed via System.Text.Json into Dictionary<string, object>; empty props passes null
 - Calls OneSignal.User.TrackEvent(name, properties)
-```
 
 ### Prompt 2.13 - Location Section
 
-```
 Location Section:
 - Section title: "Location" with info icon for tooltip
 - Location Shared toggle switch:
@@ -558,17 +524,14 @@ Location Section:
   - Sets OneSignal.Location.IsShared = value
 - PROMPT LOCATION button
   [calls OneSignal.Location.RequestPermission()]
-```
 
 ### Prompt 2.14 - Secondary Page
 
-```
 Secondary Page (launched by "Next Page" button at bottom of main screen):
 - Page title: "Secondary Activity"
 - Page content: centered Label "Secondary Activity" using a large font style
 - Simple screen, no additional functionality needed
 - Navigate using Shell.Current.GoToAsync or NavigationPage push
-```
 
 ---
 
@@ -576,7 +539,6 @@ Secondary Page (launched by "Next Page" button at bottom of main screen):
 
 ### Prompt 3.1 - Data Loading Flow
 
-```
 Loading indicator overlay:
 - Full-screen semi-transparent overlay with centered ActivityIndicator
 - IsLoading flag in AppViewModel
@@ -609,11 +571,9 @@ On User.Changed callback (EventHandler<UserStateChangedEventArgs>):
 - Update UI with new data (aliases, tags, emails, sms)
 
 Note: REST API key is NOT required for fetchUser endpoint.
-```
 
 ### Prompt 3.2 - UserData Model
 
-```
 public class UserData
 {
     public Dictionary<string, string> Aliases { get; }    // From identity object (filter out external_id, onesignal_id)
@@ -632,7 +592,6 @@ public class UserData
 
     public static UserData? FromJson(JsonElement json) { ... }
 }
-```
 
 ---
 
@@ -640,18 +599,15 @@ public class UserData
 
 ### Prompt 4.1 - Tooltip Content (Remote)
 
-```
 Tooltip content is fetched at runtime from the sdk-shared repo. Do NOT bundle a local copy.
 
 URL:
 https://raw.githubusercontent.com/OneSignal/sdk-shared/main/demo/tooltip_content.json
 
 This file is maintained in the sdk-shared repo and shared across all platform demo apps.
-```
 
 ### Prompt 4.2 - Tooltip Helper
 
-```
 Create TooltipHelper as a singleton:
 
 public class TooltipHelper
@@ -683,11 +639,9 @@ public class TooltipHelper
 
 public record TooltipData(string Title, string Description, List<TooltipOption>? Options);
 public record TooltipOption(string Name, string Description);
-```
 
 ### Prompt 4.3 - Tooltip UI Integration
 
-```
 For each section, pass an info tap Command or event to the SectionCard control:
 - SectionCard has an optional info ImageButton that fires the command when tapped
 - In MainPage, wire the command to show a TooltipPopup/DisplayAlert
@@ -705,7 +659,6 @@ void ShowTooltipPopup(TooltipData tooltip)
     // Show as DisplayAlert or custom popup overlay
     DisplayAlert(tooltip.Title, tooltip.Description, "OK");
 }
-```
 
 ---
 
@@ -713,7 +666,6 @@ void ShowTooltipPopup(TooltipData tooltip)
 
 ### What IS Persisted (Preferences)
 
-```
 PreferencesService stores (using Microsoft.Maui.Storage.Preferences):
 - OneSignal App ID
 - Consent required status
@@ -721,11 +673,9 @@ PreferencesService stores (using Microsoft.Maui.Storage.Preferences):
 - External user ID (for login state restoration)
 - Location shared status
 - In-app messaging paused status
-```
 
 ### Initialization Flow
 
-```
 On app startup, state is restored in two layers:
 
 1. MauiProgram.cs (or App.xaml.cs) restores SDK state from Preferences BEFORE Initialize:
@@ -749,11 +699,9 @@ This two-layer approach ensures:
 - The SDK is configured with the user's last preferences before anything else runs
 - The ViewModel reads the SDK's actual state as the source of truth for the UI
 - The UI always reflects what the SDK reports, not stale cache values
-```
 
 ### What is NOT Persisted (In-Memory Only)
 
-```
 AppViewModel holds in memory:
 - TriggersList: ObservableCollection<KeyValuePair<string, string>>
   - Triggers are session-only
@@ -773,13 +721,11 @@ AppViewModel holds in memory:
 - TagsList:
   - Can be read from SDK via OneSignal.User.GetTags()
   - Also fetched from API for consistency
-```
 
 ---
 
 ## Phase 6: Testing Values (Appium Compatibility)
 
-```
 All dialog input fields should be EMPTY by default.
 The test automation framework (Appium) will enter these values:
 
@@ -795,7 +741,6 @@ The test automation framework (Appium) will enter these values:
 - Outcome Dialog: Name = "test_outcome", Value = "1.5"
 - Track Event Dialog: Name = "test_event", Properties = "{\"key\": \"value\"}"
 - Custom Notification Dialog: Title = "Test Title", Body = "Test Body"
-```
 
 ---
 
@@ -803,7 +748,6 @@ The test automation framework (Appium) will enter these values:
 
 ### Alias Management
 
-```
 Aliases are managed with a hybrid approach:
 
 1. On app start/login: Fetched from REST API via FetchUserDataFromApiAsync()
@@ -812,18 +756,15 @@ Aliases are managed with a hybrid approach:
    - Immediately add to local AliasesList (don't wait for API)
    - This ensures instant UI feedback while SDK syncs in background
 3. On next app launch: Fresh data from API includes the synced alias
-```
 
 ### Notification Permission
 
-```
 Notification permission is automatically requested when the main page loads:
 - Call await viewModel.PromptPushAsync() in the page's OnAppearing() override
 - This ensures the prompt appears after the user sees the app UI
 - PROMPT PUSH button remains as fallback if user initially denied
 - Button hidden once OneSignal.Notifications.Permission is true
 - Keep Push "Enabled" Switch disabled until permission is granted
-```
 
 ---
 
@@ -831,7 +772,6 @@ Notification permission is automatically requested when the main page loads:
 
 ### Prompt 8.1 - State Management with MVVM
 
-```
 Use CommunityToolkit.Mvvm for MVVM boilerplate.
 
 MauiProgram.cs:
@@ -845,11 +785,9 @@ AppViewModel : ObservableObject (CommunityToolkit.Mvvm):
 - Receives OneSignalRepository via constructor injection
 - Receives PreferencesService via constructor injection
 - ObservableCollection<T> for list state (AliasesList, EmailsList, SmsNumbersList, TagsList, TriggersList)
-```
 
 ### Prompt 8.2 - Reusable Controls
 
-```
 Create reusable MAUI controls in Controls/:
 
 SectionCard.xaml:
@@ -889,18 +827,10 @@ Dialogs — use CommunityToolkit.Maui popup overlays for all app flows (do not u
 - Use shared helpers (DialogInputHelper and MultiPairDialogHelper) for consistent layout and ghost action buttons
 - Two-field single-add dialogs (add alias, add tag, add trigger): use DialogInputHelper.ShowPairInput — renders both fields side by side in a two-column Grid on one row
 
-Dialog styling rules:
-- Popup width: set WidthRequest to page width minus 32px (16px margin from each edge); popup is centered by the host
-- Action buttons are ghost style (transparent background, no border, bold text, no shadow):
-  - Primary/confirm action: red (#E54B4D)
-  - Secondary/cancel action: gray (#6E6E73)
-- Action buttons sit side by side in a two-column Grid at the bottom of the popup
-- No divider line above the action buttons
-```
+Dialog styling per styles.md (ghost action buttons, popup width, spacing).
 
 ### Prompt 8.3 - Reusable Multi-Pair Popup
 
-```
 Tags, Aliases, and Triggers all share a reusable MultiPairDialogHelper (static class)
 for adding multiple key-value pairs at once. It uses CommunityToolkit.Maui ShowPopupAsync<T>
 to show a dialog overlay (not a full-screen page). Close via page.ClosePopupAsync(result).
@@ -920,11 +850,9 @@ Used by:
 - ADD MULTIPLE button (Aliases section) -> calls viewModel.AddAliasesCommand
 - ADD MULTIPLE button (Tags section) -> calls viewModel.AddTagsCommand
 - ADD MULTIPLE button (Triggers section) -> calls viewModel.AddTriggersCommand
-```
 
 ### Prompt 8.4 - Reusable Remove Multi Popup
 
-```
 Tags and Triggers share a reusable MultiSelectRemovePopup control
 for selectively removing items from the current list.
 
@@ -938,37 +866,25 @@ Behavior:
 Used by:
 - REMOVE SELECTED button (Tags section) -> calls viewModel.RemoveSelectedTagsCommand
 - REMOVE SELECTED button (Triggers section) -> calls viewModel.RemoveSelectedTriggersCommand
-```
 
 ### Prompt 8.5 - Theme
 
-```
-Create OneSignal theme in Resources/Styles/:
+Create OneSignal theme in Resources/Styles/ (Colors.xaml and Styles.xaml).
 
-Colors (in Colors.xaml):
-- OneSignalRed = #E54B4D (primary)
-- OneSignalGreen = #34A853 (success)
-- OneSignalGreenLight = #E6F4EA (success background)
-- LightBackground = #F8F9FA
-- CardBackground = #FFFFFF
-- DividerColor = #E8EAED
-- WarningBackground = #FFF8E1
+All colors, spacing, typography, button styles, card styles, and component
+specs are defined in the shared style reference:
+  https://raw.githubusercontent.com/OneSignal/sdk-shared/refs/heads/main/demo/styles.md
 
-Spacing constants (use OnPlatform or static values):
-- CardGap = 8   // gap between a card/banner and its action buttons within a section
-- SectionGap = 12 // gap between sections (SectionCard wrapper bottom margin)
+Implement Colors.xaml with Color resources and Styles.xaml with global
+implicit/explicit styles that map the style reference values to MAUI
+controls (Border CornerRadius, Button CornerRadius, Entry Border,
+NavigationPage BarBackgroundColor/BarTextColor, etc.).
 
-App.xaml global styles:
-- Frame/Border style with rounded corners (12dp CornerRadius)
-- Button style with rounded corners (8dp CornerRadius)
-- Entry style with Border outline
-- NavigationPage BarBackgroundColor = OneSignalRed
-- NavigationPage BarTextColor = White
-```
+Also define AppSpacing as static doubles (or x:Double resources) that
+expose the spacing tokens from styles.md for use throughout the app.
 
 ### Prompt 8.6 - Log View (Appium-Ready)
 
-```
 Add collapsible log view at top of screen for debugging and Appium testing.
 
 Files:
@@ -981,15 +897,13 @@ LogManager Features:
 - Also prints to console via Debug.WriteLine for development
 
 LogView Features:
+- Refer to the Logs View section of the shared style reference for layout, colors, and typography
 - STICKY at the top of the screen (always visible while scrolling content below)
-- Full width, no horizontal margin, no rounded corners, no top margin (touches toolbar)
-- Background color: #1A1B1E
-- Single horizontal scroll on the entire log list (no text truncation)
 - Use VerticalStackLayout inside ScrollView instead of CollectionView (100dp container is small)
-- Fixed 100dp height
 - Default expanded
 - Material delete icon (mi:MauiIcon Icon=Delete) with TapGestureRecognizer for clearing logs
 - Collapse/expand toggle uses Material icons (mi:MauiIcon): ExpandLess when expanded, ExpandMore when collapsed; icon is toggled in code-behind via CollapseArrow.Icon = MaterialIcons.ExpandLess/ExpandMore
+- Trash icon only visible when entries exist
 - Auto-scroll to newest using ScrollView.ScrollToAsync
 
 Appium AutomationId Labels:
@@ -1008,11 +922,9 @@ Appium AutomationId Labels:
 
 Set AutomationId on each element for Appium accessibility:
   <Label AutomationId="log_entry_0_message" Text="{Binding Message}" />
-```
 
 ### Prompt 8.7 - Toast / Snackbar Messages
 
-```
 All user actions should display feedback messages (use DisplayAlert, a Toast,
 or CommunityToolkit.Maui Snackbar):
 
@@ -1032,7 +944,6 @@ Implementation:
 - AppViewModel exposes a SnackbarMessage property (string?)
 - MainPage observes the property and shows the appropriate feedback UI
 - All messages are also logged via LogManager.Instance.I()
-```
 
 ---
 

@@ -16,9 +16,10 @@ public partial class App : Application
     {
         var mainPage = _serviceProvider.GetRequiredService<MainPage>();
 
+        var osPrimary = (Color)Application.Current!.Resources["OsPrimary"];
         var navPage = new NavigationPage(mainPage)
         {
-            BarBackgroundColor = Color.FromArgb("#E54B4D"),
+            BarBackgroundColor = osPrimary,
             BarTextColor = Colors.White
         };
 
@@ -44,7 +45,7 @@ public partial class App : Application
                 },
                 new Label
                 {
-                    Text = "Sample App",
+                    Text = "DotNet",
                     TextColor = Colors.White,
                     FontSize = 14,
                     VerticalOptions = LayoutOptions.Center

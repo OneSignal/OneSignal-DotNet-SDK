@@ -47,28 +47,26 @@ public partial class AliasesSection : ContentView
                 {
                     HeightRequest = 1,
                     Color = Color.FromArgb("#E8EAED"),
-                    Margin = new Thickness(16, 0)
+                    Margin = new Thickness(12, 0)
                 });
             }
             first = false;
 
             var row = new VerticalStackLayout
             {
-                Padding = new Thickness(16, 12),
+                Padding = new Thickness(12, 4),
                 Spacing = 2
             };
             row.Children.Add(new Label
             {
                 Text = alias.Key,
-                FontAttributes = FontAttributes.Bold,
                 FontSize = 14,
-                TextColor = Color.FromArgb("#333333")
             });
             row.Children.Add(new Label
             {
                 Text = alias.Value,
-                FontSize = 13,
-                TextColor = Color.FromArgb("#666666")
+                FontSize = 12,
+                TextColor = Color.FromArgb("#757575")
             });
 
             AliasListContainer.Children.Add(row);

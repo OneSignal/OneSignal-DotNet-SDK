@@ -18,10 +18,10 @@ public class LogEntry
         Message = message;
         LevelColor = level switch
         {
-            "E" => Colors.Red,
-            "W" => Colors.Orange,
-            "I" => Colors.LightGreen,
-            _ => Colors.LightGray
+            "E" => Color.FromArgb("#FF5370"),
+            "W" => Color.FromArgb("#FFCB6B"),
+            "I" => Color.FromArgb("#C3E88D"),
+            _ => Color.FromArgb("#82AAFF"),
         };
     }
 }

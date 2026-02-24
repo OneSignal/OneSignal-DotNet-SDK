@@ -9,25 +9,25 @@
         <!-- Section header with info icon -->
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="PUSH" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" x:Name="InfoButton" Source="info" WidthRequest="20" HeightRequest="20"
+            <ImageButton Grid.Column="1" x:Name="InfoButton" Source="info" WidthRequest="18" HeightRequest="18"
                          BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
         </Grid>
 
         <!-- Push card -->
         <Border Style="{StaticResource CardBorderStyle}">
             <VerticalStackLayout>
-                <Grid Padding="16,14" ColumnDefinitions="*,Auto">
+                <Grid Padding="12" ColumnDefinitions="*,Auto">
                     <Label Grid.Column="0" Text="Push ID" Style="{StaticResource KeyLabelStyle}" VerticalOptions="Center" />
-                    <Label Grid.Column="1" x:Name="PushIdLabel" Text="" FontSize="12" TextColor="#555555"
+                    <Label Grid.Column="1" x:Name="PushIdLabel" Text="" Style="{StaticResource ValueLabelStyle}"
+                           FontFamily="Courier New"
                            HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="MiddleTruncation"
                            AutomationId="push_id_label" />
                 </Grid>
-                <BoxView HeightRequest="1" Color="{StaticResource DividerColor}" Margin="16,0" />
-                <Grid Padding="16,14" ColumnDefinitions="*,Auto">
-                    <Label Grid.Column="0" Text="Enabled" FontSize="15" TextColor="#333333" VerticalOptions="Center" />
+                <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
+                <Grid Padding="12" ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" Text="Enabled" FontSize="14" VerticalOptions="Center" />
                     <Switch Grid.Column="1" x:Name="PushEnabledSwitch"
                             IsToggled="False"
-                           
                             Toggled="OnPushEnabledToggled"
                             AutomationId="push_enabled_switch" />
                 </Grid>

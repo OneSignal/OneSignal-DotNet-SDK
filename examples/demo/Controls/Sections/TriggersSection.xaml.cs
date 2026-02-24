@@ -42,13 +42,13 @@ public partial class TriggersSection : ContentView
         foreach (var trigger in list!)
         {
             if (!first)
-                TriggerListContainer.Children.Add(new BoxView { HeightRequest = 1, Color = Color.FromArgb("#E8EAED"), Margin = new Thickness(16, 0) });
+                TriggerListContainer.Children.Add(new BoxView { HeightRequest = 1, Color = Color.FromArgb("#E8EAED"), Margin = new Thickness(12, 0) });
             first = false;
 
             var captured = trigger;
             var row = new Grid
             {
-                Padding = new Thickness(16, 12),
+                Padding = new Thickness(12, 4),
                 ColumnDefinitions =
                 {
                     new ColumnDefinition { Width = GridLength.Star },
@@ -57,8 +57,8 @@ public partial class TriggersSection : ContentView
             };
 
             var textStack = new VerticalStackLayout { Spacing = 2 };
-            textStack.Children.Add(new Label { Text = trigger.Key, FontAttributes = FontAttributes.Bold, FontSize = 14, TextColor = Color.FromArgb("#333333") });
-            textStack.Children.Add(new Label { Text = trigger.Value, FontSize = 13, TextColor = Color.FromArgb("#666666") });
+            textStack.Children.Add(new Label { Text = trigger.Key, FontSize = 14 });
+            textStack.Children.Add(new Label { Text = trigger.Value, FontSize = 12, TextColor = Color.FromArgb("#757575") });
             row.Children.Add(textStack);
 
             var deleteBtn = new Button
@@ -67,7 +67,7 @@ public partial class TriggersSection : ContentView
                 BackgroundColor = Colors.Transparent,
                 TextColor = Color.FromArgb("#E54B4D"),
                 Padding = new Thickness(8, 0),
-                FontSize = 14,
+                FontSize = 18,
                 HeightRequest = 40,
                 VerticalOptions = LayoutOptions.Center
             };

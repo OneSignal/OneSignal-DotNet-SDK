@@ -7,52 +7,6 @@ namespace OneSignalDemo.Controls;
 
 public static class MultiPairDialogHelper
 {
-    private static readonly PopupOptions DefaultOptions = new()
-    {
-        CanBeDismissedByTappingOutsideOfPopup = true,
-        PageOverlayColor = Colors.Black.WithAlpha(0.4f),
-        Shape = new RoundRectangle { CornerRadius = 12, StrokeThickness = 0, Stroke = new SolidColorBrush(Colors.Transparent) },
-        Shadow = new Shadow
-        {
-            Brush = new SolidColorBrush(Colors.Black),
-            Opacity = 0.12f,
-            Radius = 10,
-            Offset = new Microsoft.Maui.Graphics.Point(0, 2),
-        },
-    };
-
-    private static Button PrimaryGhostButton(string text, string? automationId = null) =>
-        GhostButton(text, Color.FromArgb("#E54B4D"), automationId);
-
-    private static Button SecondaryGhostButton(string text, string? automationId = null) =>
-        GhostButton(text, Color.FromArgb("#6E6E73"), automationId);
-
-    private static Button GhostButton(string text, Color textColor, string? automationId = null) =>
-        new()
-        {
-            Text = text,
-            Style = null,
-            BackgroundColor = Colors.Transparent,
-            TextColor = textColor,
-            FontAttributes = FontAttributes.Bold,
-            BorderWidth = 0,
-            BorderColor = Colors.Transparent,
-            Shadow = null,
-            HorizontalOptions = LayoutOptions.Fill,
-            AutomationId = automationId ?? string.Empty,
-        };
-
-    private static View ButtonRow(Button cancel, Button confirm) =>
-        new Grid
-        {
-            ColumnDefinitions =
-            {
-                new ColumnDefinition { Width = GridLength.Star },
-                new ColumnDefinition { Width = GridLength.Star },
-            },
-            Children = { cancel, confirm },
-        };
-
     public static async Task<Dictionary<string, string>?> Show(
         Page parentPage,
         string title,
@@ -141,8 +95,8 @@ public static class MultiPairDialogHelper
             Padding = new Thickness(0, 8),
         };
 
-        var cancelButton = SecondaryGhostButton("CANCEL", "multi_pair_cancel_button");
-        var addAllButton = PrimaryGhostButton("ADD ALL", "multi_pair_add_all_button");
+        var cancelButton = DialogInputHelper.ActionButton("CANCEL", "multi_pair_cancel_button");
+        var addAllButton = DialogInputHelper.ActionButton("ADD ALL", "multi_pair_add_all_button");
 
         addRowButton.Clicked += (s, e) => AddRow();
         cancelButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
@@ -165,27 +119,36 @@ public static class MultiPairDialogHelper
         var content = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
-            Padding = new Thickness(16),
-            WidthRequest = PopupContentWidth(parentPage),
+            Padding = new Thickness(24, 24),
+            WidthRequest = DialogInputHelper.PopupContentWidth(parentPage),
             Spacing = 8,
             Children =
             {
                 new Label
                 {
                     Text = title,
-                    FontAttributes = FontAttributes.Bold,
-                    FontSize = 16,
+                    FontSize = 24,
                     Margin = new Thickness(0, 0, 0, 4),
                 },
                 new ScrollView { MaximumHeightRequest = 300, Content = rowsContainer },
                 addRowButton,
-                ButtonRow(cancelButton, addAllButton),
+                new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Star },
+                    },
+                    ColumnSpacing = 8,
+                    Padding = new Thickness(0, 8, 0, 0),
+                    Children = { cancelButton, addAllButton },
+                },
             },
         };
 
         var result2 = await parentPage.ShowPopupAsync<Dictionary<string, string>?>(
             content,
-            DefaultOptions
+            DialogInputHelper.DialogOptions
         );
         return result2?.Result;
     }
@@ -211,15 +174,14 @@ public static class MultiPairDialogHelper
             itemsLayout.Children.Add(row);
         }
 
-        var cancelButton = SecondaryGhostButton("CANCEL", "multi_select_cancel_button");
-        var removeButton = PrimaryGhostButton("REMOVE (0)", "multi_select_remove_button");
-        removeButton.IsEnabled = false;
+        var cancelButton = DialogInputHelper.ActionButton("CANCEL", "multi_select_cancel_button");
+        var removeButton = DialogInputHelper.ActionButtonDisabled("REMOVE (0)", "multi_select_remove_button");
 
         void UpdateButton()
         {
             var count = checkboxes.Count(c => c.Box.IsChecked);
             removeButton.Text = $"REMOVE ({count})";
-            removeButton.IsEnabled = count > 0;
+            DialogInputHelper.SetActionButtonEnabled(removeButton, count > 0);
         }
 
         foreach (var (cb, _) in checkboxes)
@@ -241,30 +203,33 @@ public static class MultiPairDialogHelper
         var content = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
-            Padding = new Thickness(16),
-            WidthRequest = PopupContentWidth(parentPage),
+            Padding = new Thickness(24, 24),
+            WidthRequest = DialogInputHelper.PopupContentWidth(parentPage),
             Spacing = 8,
             Children =
             {
                 new Label
                 {
                     Text = title,
-                    FontAttributes = FontAttributes.Bold,
-                    FontSize = 16,
+                    FontSize = 24,
                     Margin = new Thickness(0, 0, 0, 4),
                 },
                 new ScrollView { MaximumHeightRequest = 300, Content = itemsLayout },
-                ButtonRow(cancelButton, removeButton),
+                new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Star },
+                    },
+                    ColumnSpacing = 8,
+                    Padding = new Thickness(0, 8, 0, 0),
+                    Children = { cancelButton, removeButton },
+                },
             },
         };
 
-        var result = await parentPage.ShowPopupAsync<List<string>>(content, DefaultOptions);
+        var result = await parentPage.ShowPopupAsync<List<string>>(content, DialogInputHelper.DialogOptions);
         return result?.Result;
-    }
-
-    private static double PopupContentWidth(Page page)
-    {
-        var width = page.Width > 0 ? page.Width : DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density;
-        return Math.Max(240, width - 32);
     }
 }

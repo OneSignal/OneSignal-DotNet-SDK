@@ -34,13 +34,14 @@ public partial class LogView : ContentView
         for (int i = 0; i < logs.Count; i++)
         {
             var entry = logs[i];
-            var row = new HorizontalStackLayout { Spacing = 4 };
+            var row = new HorizontalStackLayout { Spacing = 4, Padding = new Thickness(0, 1) };
 
             var ts = new Label
             {
                 Text = entry.Timestamp,
-                TextColor = Color.FromArgb("#888888"),
-                FontSize = 10,
+                TextColor = Color.FromArgb("#676E7B"),
+                FontSize = 11,
+                FontFamily = "Courier New",
                 VerticalOptions = LayoutOptions.Center,
                 AutomationId = $"log_entry_{i}_timestamp"
             };
@@ -48,7 +49,8 @@ public partial class LogView : ContentView
             {
                 Text = entry.Level,
                 TextColor = entry.LevelColor,
-                FontSize = 10,
+                FontSize = 11,
+                FontFamily = "Courier New",
                 FontAttributes = FontAttributes.Bold,
                 VerticalOptions = LayoutOptions.Center,
                 Margin = new Thickness(4, 0),
@@ -57,8 +59,9 @@ public partial class LogView : ContentView
             var msg = new Label
             {
                 Text = entry.Message,
-                TextColor = Color.FromArgb("#DDDDDD"),
-                FontSize = 10,
+                TextColor = Colors.White,
+                FontSize = 11,
+                FontFamily = "Courier New",
                 VerticalOptions = LayoutOptions.Center,
                 AutomationId = $"log_entry_{i}_message"
             };
@@ -77,7 +80,9 @@ public partial class LogView : ContentView
 
     private void UpdateCount()
     {
-        LogCountLabel.Text = $"({LogManager.Instance.Logs.Count})";
+        var count = LogManager.Instance.Logs.Count;
+        LogCountLabel.Text = $"({count})";
+        ClearIcon.IsVisible = count > 0;
     }
 
     private async Task ScrollToBottomAsync()

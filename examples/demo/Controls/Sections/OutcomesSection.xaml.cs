@@ -2,8 +2,7 @@ using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
-using Microsoft.Maui.Controls.Shapes;
-using Microsoft.Maui.Devices;
+using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -43,31 +42,8 @@ public partial class OutcomesSection : ContentView
         radioNormal.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
         radioUnique.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
 
-        var cancelButton = new Button
-        {
-            Text = "CANCEL",
-            Style = null,
-            BackgroundColor = Colors.Transparent,
-            TextColor = Color.FromArgb("#6E6E73"),
-            FontAttributes = FontAttributes.Bold,
-            BorderWidth = 0,
-            BorderColor = Colors.Transparent,
-            Shadow = null,
-            HorizontalOptions = LayoutOptions.Fill,
-        };
-
-        var sendButton = new Button
-        {
-            Text = "SEND",
-            Style = null,
-            BackgroundColor = Colors.Transparent,
-            TextColor = Color.FromArgb("#E54B4D"),
-            FontAttributes = FontAttributes.Bold,
-            BorderWidth = 0,
-            BorderColor = Colors.Transparent,
-            Shadow = null,
-            HorizontalOptions = LayoutOptions.Fill,
-        };
+        var cancelButton = DialogInputHelper.ActionButton("CANCEL");
+        var sendButton = DialogInputHelper.ActionButton("SEND");
 
         string? outcomeType = null;
         string? name = null;
@@ -89,12 +65,12 @@ public partial class OutcomesSection : ContentView
         var content = new VerticalStackLayout
         {
             BackgroundColor = Colors.White,
-            WidthRequest = PopupContentWidth(_parentPage),
-            Padding = new Thickness(16),
+            WidthRequest = DialogInputHelper.PopupContentWidth(_parentPage),
+            Padding = new Thickness(24),
             Spacing = 12,
             Children =
             {
-                new Label { Text = "Send Outcome", FontAttributes = FontAttributes.Bold, FontSize = 16 },
+                new Label { Text = "Send Outcome", FontSize = 24 },
                 new VerticalStackLayout
                 {
                     Spacing = 4,
@@ -109,32 +85,14 @@ public partial class OutcomesSection : ContentView
                         new ColumnDefinition { Width = GridLength.Star },
                         new ColumnDefinition { Width = GridLength.Star },
                     },
+                    ColumnSpacing = 8,
+                    Padding = new Thickness(0, 8, 0, 0),
                     Children = { cancelButton, sendButton },
                 },
             },
         };
 
-        await _parentPage.ShowPopupAsync(
-            content,
-            new PopupOptions
-            {
-                CanBeDismissedByTappingOutsideOfPopup = true,
-                PageOverlayColor = Colors.Black.WithAlpha(0.4f),
-                Shape = new RoundRectangle
-                {
-                    CornerRadius = 12,
-                    StrokeThickness = 0,
-                    Stroke = new SolidColorBrush(Colors.Transparent),
-                },
-                Shadow = new Shadow
-                {
-                    Brush = new SolidColorBrush(Colors.Black),
-                    Opacity = 0.12f,
-                    Radius = 10,
-                    Offset = new Microsoft.Maui.Graphics.Point(0, 2),
-                },
-            }
-        );
+        await _parentPage.ShowPopupAsync(content, DialogInputHelper.DialogOptions);
 
         if (string.IsNullOrEmpty(outcomeType) || string.IsNullOrEmpty(name))
             return;
@@ -158,10 +116,4 @@ public partial class OutcomesSection : ContentView
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
-
-    private static double PopupContentWidth(Page? page)
-    {
-        var width = (page?.Width ?? 0) > 0 ? page!.Width : DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density;
-        return Math.Max(240, width - 32);
-    }
 }

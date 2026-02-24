@@ -10,7 +10,7 @@
         <Label Text="Secondary Activity"
                FontSize="24"
                FontAttributes="Bold"
-               TextColor="#333333"
+               TextColor="{StaticResource OsGrey700}"
                HorizontalOptions="Center"
                AutomationId="secondary_activity_label" />
     </VerticalStackLayout>

@@ -7,14 +7,14 @@
     <VerticalStackLayout Spacing="8">
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="IN-APP MESSAGING" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" Source="info" WidthRequest="20" HeightRequest="20"
+            <ImageButton Grid.Column="1" Source="info" WidthRequest="18" HeightRequest="18"
                          BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
         </Grid>
 
         <Border Style="{StaticResource CardBorderStyle}">
-            <Grid Padding="16,14" ColumnDefinitions="*,Auto">
+            <Grid Padding="12" ColumnDefinitions="*,Auto">
                 <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
-                    <Label Text="Pause In-App Messages" FontSize="15" TextColor="#333333" />
+                    <Label Text="Pause In-App Messages" FontSize="14" />
                     <Label Text="Toggle in-app message display" Style="{StaticResource InfoLabelStyle}" />
                 </VerticalStackLayout>
                 <Switch Grid.Column="1" x:Name="IamPausedSwitch"

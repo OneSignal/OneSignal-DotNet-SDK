@@ -44,13 +44,13 @@ public partial class EmailsSection : ContentView
         foreach (var email in displayList)
         {
             if (!first)
-                EmailListContainer.Children.Add(new BoxView { HeightRequest = 1, Color = Color.FromArgb("#E8EAED"), Margin = new Thickness(16, 0) });
+                EmailListContainer.Children.Add(new BoxView { HeightRequest = 1, Color = Color.FromArgb("#E8EAED"), Margin = new Thickness(12, 0) });
             first = false;
 
             var captured = email;
             var row = new Grid
             {
-                Padding = new Thickness(16, 12),
+                Padding = new Thickness(12, 4),
                 ColumnDefinitions =
                 {
                     new ColumnDefinition { Width = GridLength.Star },
@@ -62,7 +62,6 @@ public partial class EmailsSection : ContentView
             {
                 Text = email,
                 FontSize = 14,
-                TextColor = Color.FromArgb("#333333"),
                 VerticalOptions = LayoutOptions.Center
             });
 
@@ -72,7 +71,7 @@ public partial class EmailsSection : ContentView
                 BackgroundColor = Colors.Transparent,
                 TextColor = Color.FromArgb("#E54B4D"),
                 Padding = new Thickness(8, 0),
-                FontSize = 14,
+                FontSize = 18,
                 HeightRequest = 40
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveEmail(captured);
@@ -89,8 +88,9 @@ public partial class EmailsSection : ContentView
             {
                 Text = $"{more} more",
                 TextColor = Color.FromArgb("#E54B4D"),
-                Padding = new Thickness(16, 8),
-                FontSize = 13
+                FontAttributes = FontAttributes.Bold,
+                Padding = new Thickness(12, 4),
+                FontSize = 14
             };
             moreLabel.GestureRecognizers.Add(new TapGestureRecognizer
             {

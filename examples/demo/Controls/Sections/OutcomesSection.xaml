@@ -7,7 +7,7 @@
     <VerticalStackLayout Spacing="8">
         <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
             <Label Grid.Column="0" Text="OUTCOME EVENTS" Style="{StaticResource SectionHeaderStyle}" VerticalOptions="Center" />
-            <ImageButton Grid.Column="1" Source="info" WidthRequest="20" HeightRequest="20"
+            <ImageButton Grid.Column="1" Source="info" WidthRequest="18" HeightRequest="18"
                          BackgroundColor="Transparent" Clicked="OnInfoTapped" Padding="4" />
         </Grid>
 
