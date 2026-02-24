@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OneSignalDemo.Controls.Sections.AppSection"
+    x:Name="root">
+
+    <VerticalStackLayout Spacing="8">
+
+        <!-- Section header -->
+        <Label Text="APP" Style="{StaticResource SectionHeaderStyle}" Padding="4,0,0,0" />
+
+        <!-- App ID card -->
+        <Border Style="{StaticResource CardBorderStyle}">
+            <Grid Padding="12" ColumnDefinitions="Auto,*">
+                <Label Grid.Column="0" Text="App ID" Style="{StaticResource BodyMediumStyle}" VerticalOptions="Center" />
+                <Label Grid.Column="1" x:Name="AppIdLabel" Text="" Style="{StaticResource BodySmallStyle}"
+                       FontFamily="DroidSansMono"
+                       HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="MiddleTruncation"
+                       AutomationId="app_id_label" />
+            </Grid>
+        </Border>
+
+        <!-- Guidance banner -->
+        <Border Style="{StaticResource CardBorderStyle}"
+                Background="{StaticResource OsWarningBackground}">
+            <VerticalStackLayout Padding="12">
+                <Label Text="Add your own App ID, then rebuild to fully test all functionality."
+                       Style="{StaticResource BodySmallStyle}" />
+                <Label x:Name="GetKeysLink" Text="Get your keys at onesignal.com"
+                       FontSize="12" TextColor="{StaticResource OsPrimary}" FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGetKeysTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Consent card -->
+        <Border Style="{StaticResource CardBorderStyle}">
+            <VerticalStackLayout>
+                <!-- Consent Required toggle -->
+                <Grid Padding="12" ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Consent Required" Style="{StaticResource BodyMediumStyle}" />
+                        <Label Text="Require consent before SDK processes data" Style="{StaticResource BodySmallStyle}" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" x:Name="ConsentRequiredSwitch"
+                            IsToggled="False"
+                            Toggled="OnConsentRequiredToggled"
+                            AutomationId="consent_required_switch" />
+                </Grid>
+
+                <!-- Divider + Privacy Consent (conditional) -->
+                <BoxView x:Name="ConsentDivider" HeightRequest="1" Color="{StaticResource OsDivider}"
+                         IsVisible="False" Margin="12,0" />
+
+                <Grid x:Name="PrivacyConsentRow" Padding="12" ColumnDefinitions="*,Auto" IsVisible="False">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Privacy Consent" Style="{StaticResource BodyMediumStyle}" />
+                        <Label Text="Consent given for data collection" Style="{StaticResource BodySmallStyle}" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" x:Name="PrivacyConsentSwitch"
+                            IsToggled="False"
+                            Toggled="OnPrivacyConsentToggled"
+                            AutomationId="privacy_consent_switch" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+</ContentView>

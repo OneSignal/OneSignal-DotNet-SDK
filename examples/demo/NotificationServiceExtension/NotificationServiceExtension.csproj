@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-ios</TargetFramework>
+    <OutputType>Library</OutputType>
+    <IsAppExtension>true</IsAppExtension>
+    <ApplicationId>com.onesignal.example.NotificationServiceExtensionDotNet</ApplicationId>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignTeamId>99SW8E36CT</CodesignTeamId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\OneSignalSDK.DotNet\OneSignalSDK.DotNet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Net.Mail" />
+  </ItemGroup>
+</Project>
