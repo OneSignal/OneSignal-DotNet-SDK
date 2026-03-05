@@ -41,8 +41,3 @@ Thumbs.db
 
 # dotCover
 *.dotCover
-
-.vs
-/Samples/OneSignalApp/<AndroidSdkPath>
-/Samples/OneSignalApp/<JavaSdkPath>
-/Samples/OneSignalDevApp/Platforms/Android/google-services.json
