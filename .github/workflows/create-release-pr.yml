@@ -66,6 +66,9 @@ jobs:
     name: Create Release PR
     needs: prep
     runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: dotnet-sdk
     outputs:
       dotnet_from: ${{ steps.current_versions.outputs.dotnet_from }}
       android_from: ${{ steps.current_versions.outputs.android_from }}
@@ -78,6 +81,7 @@ jobs:
           repository: OneSignal/OneSignal-DotNet-SDK
           ref: ${{ needs.prep.outputs.release_branch }}
           token: ${{ secrets.GH_PUSH_TOKEN || github.token }}
+          path: dotnet-sdk
 
       - name: Setup Git User
         uses: OneSignal/sdk-shared/.github/actions/setup-git-user@main
