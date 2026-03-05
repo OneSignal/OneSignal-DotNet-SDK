@@ -66,9 +66,6 @@ jobs:
     name: Create Release PR
     needs: prep
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: dotnet-sdk
     outputs:
       dotnet_from: ${{ steps.current_versions.outputs.dotnet_from }}
       android_from: ${{ steps.current_versions.outputs.android_from }}
@@ -81,7 +78,6 @@ jobs:
           repository: OneSignal/OneSignal-DotNet-SDK
           ref: ${{ needs.prep.outputs.release_branch }}
           token: ${{ secrets.GH_PUSH_TOKEN || github.token }}
-          path: dotnet-sdk
 
       - name: Setup Git User
         uses: OneSignal/sdk-shared/.github/actions/setup-git-user@main
@@ -111,7 +107,15 @@ jobs:
           # Clone iOS SDK if ios_version is provided
           if [ -n "${{ inputs.ios_version }}" ]; then
             echo "Cloning iOS SDK..."
-            git clone --branch ${{ inputs.ios_version }} --depth 1 https://github.com/OneSignal/OneSignal-iOS-SDK.git ../OneSignal-iOS-SDK
+            IOS_CLONE_PATH="../OneSignal-iOS-SDK"
+            # When called from the iOS SDK repo, ../OneSignal-iOS-SDK resolves to the
+            # workspace itself. Clone to a temp path and set IOS_SDK_PATH for the script.
+            RESOLVED=$(cd "$(dirname "$IOS_CLONE_PATH")" && echo "$(pwd)/$(basename "$IOS_CLONE_PATH")")
+            if [ "$RESOLVED" = "$(pwd)" ]; then
+              IOS_CLONE_PATH="${RUNNER_TEMP}/OneSignal-iOS-SDK"
+              export IOS_SDK_PATH="$IOS_CLONE_PATH"
+            fi
+            git clone --branch ${{ inputs.ios_version }} --depth 1 https://github.com/OneSignal/OneSignal-iOS-SDK.git "$IOS_CLONE_PATH"
           fi
 
           echo "Running update_native_binaries.sh..."
