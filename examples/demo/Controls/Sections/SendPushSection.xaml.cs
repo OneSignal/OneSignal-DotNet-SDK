@@ -39,5 +39,10 @@ public partial class SendPushSection : ContentView
         CustomNotificationRequested?.Invoke(this, e);
     }
 
+    private void OnClearAllClicked(object? sender, EventArgs e)
+    {
+        _viewModel?.ClearAllNotifications();
+    }
+
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
 }

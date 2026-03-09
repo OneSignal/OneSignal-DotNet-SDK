@@ -389,6 +389,13 @@ public partial class AppViewModel : ObservableObject
         );
     }
 
+    [RelayCommand]
+    public void ClearAllNotifications()
+    {
+        _repository.ClearAllNotifications();
+        LogManager.Instance.I("AppVM", "All notifications cleared");
+    }
+
     public async Task SendCustomNotificationAsync(string title, string body)
     {
         var success = await _repository.SendCustomNotificationAsync(title, body);
