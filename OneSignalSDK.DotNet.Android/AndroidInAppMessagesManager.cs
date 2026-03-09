@@ -2,12 +2,12 @@
 using OneSignalSDK.DotNet.Android.Utilities;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.InAppMessages;
-
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android;
 
-public class AndroidInAppMessagesManager : OneSignalSDK.DotNet.Core.InAppMessages.IInAppMessagesManager
+public class AndroidInAppMessagesManager
+    : OneSignalSDK.DotNet.Core.InAppMessages.IInAppMessagesManager
 {
     public event EventHandler<InAppMessageWillDisplayEventArgs>? WillDisplay;
     public event EventHandler<InAppMessageDidDisplayEventArgs>? DidDisplay;
@@ -61,11 +61,13 @@ public class AndroidInAppMessagesManager : OneSignalSDK.DotNet.Core.InAppMessage
         OneSignalNative.InAppMessages.RemoveTriggers(keys);
     }
 
-    private class InternalInAppMessageEventsHandler : Java.Lang.Object,
-        Com.OneSignal.Android.InAppMessages.IInAppMessageClickListener,
-        Com.OneSignal.Android.InAppMessages.IInAppMessageLifecycleListener
+    private class InternalInAppMessageEventsHandler
+        : Java.Lang.Object,
+            Com.OneSignal.Android.InAppMessages.IInAppMessageClickListener,
+            Com.OneSignal.Android.InAppMessages.IInAppMessageLifecycleListener
     {
         private AndroidInAppMessagesManager _manager;
+
         public InternalInAppMessageEventsHandler(AndroidInAppMessagesManager manager)
         {
             _manager = manager;
@@ -73,10 +75,12 @@ public class AndroidInAppMessagesManager : OneSignalSDK.DotNet.Core.InAppMessage
 
         public void OnClick(IInAppMessageClickEvent clickEvent)
         {
-            var args = new InAppMessageClickedEventArgs(FromNativeConversion.ToInAppMessage(clickEvent.Message), FromNativeConversion.ToInAppMessageClickResult(clickEvent.Result));
+            var args = new InAppMessageClickedEventArgs(
+                FromNativeConversion.ToInAppMessage(clickEvent.Message),
+                FromNativeConversion.ToInAppMessageClickResult(clickEvent.Result)
+            );
             _manager.Clicked?.Invoke(_manager, args);
         }
-
 
         public void OnWillDisplay(IInAppMessageWillDisplayEvent willDisplayEvent)
         {
@@ -98,24 +102,40 @@ public class AndroidInAppMessagesManager : OneSignalSDK.DotNet.Core.InAppMessage
             _manager.DidDismiss?.Invoke(_manager, GetDidDismissEventArgs(didDismissEvent));
         }
 
-        private InAppMessageWillDisplayEventArgs GetWillDisplayEventArgs(Com.OneSignal.Android.InAppMessages.IInAppMessageWillDisplayEvent willDisplayEvent)
+        private InAppMessageWillDisplayEventArgs GetWillDisplayEventArgs(
+            Com.OneSignal.Android.InAppMessages.IInAppMessageWillDisplayEvent willDisplayEvent
+        )
         {
-            return new InAppMessageWillDisplayEventArgs(FromNativeConversion.ToInAppMessage(willDisplayEvent.Message));
+            return new InAppMessageWillDisplayEventArgs(
+                FromNativeConversion.ToInAppMessage(willDisplayEvent.Message)
+            );
         }
 
-        private InAppMessageDidDisplayEventArgs GetDidDisplayEventArgs(Com.OneSignal.Android.InAppMessages.IInAppMessageDidDisplayEvent didDisplayEvent)
+        private InAppMessageDidDisplayEventArgs GetDidDisplayEventArgs(
+            Com.OneSignal.Android.InAppMessages.IInAppMessageDidDisplayEvent didDisplayEvent
+        )
         {
-            return new InAppMessageDidDisplayEventArgs(FromNativeConversion.ToInAppMessage(didDisplayEvent.Message));
+            return new InAppMessageDidDisplayEventArgs(
+                FromNativeConversion.ToInAppMessage(didDisplayEvent.Message)
+            );
         }
 
-        private InAppMessageWillDismissEventArgs GetWillDismissEventArgs(Com.OneSignal.Android.InAppMessages.IInAppMessageWillDismissEvent willDismissEvent)
+        private InAppMessageWillDismissEventArgs GetWillDismissEventArgs(
+            Com.OneSignal.Android.InAppMessages.IInAppMessageWillDismissEvent willDismissEvent
+        )
         {
-            return new InAppMessageWillDismissEventArgs(FromNativeConversion.ToInAppMessage(willDismissEvent.Message));
+            return new InAppMessageWillDismissEventArgs(
+                FromNativeConversion.ToInAppMessage(willDismissEvent.Message)
+            );
         }
 
-        private InAppMessageDidDismissEventArgs GetDidDismissEventArgs(Com.OneSignal.Android.InAppMessages.IInAppMessageDidDismissEvent didDismissEvent)
+        private InAppMessageDidDismissEventArgs GetDidDismissEventArgs(
+            Com.OneSignal.Android.InAppMessages.IInAppMessageDidDismissEvent didDismissEvent
+        )
         {
-            return new InAppMessageDidDismissEventArgs(FromNativeConversion.ToInAppMessage(didDismissEvent.Message));
+            return new InAppMessageDidDismissEventArgs(
+                FromNativeConversion.ToInAppMessage(didDismissEvent.Message)
+            );
         }
     }
 }

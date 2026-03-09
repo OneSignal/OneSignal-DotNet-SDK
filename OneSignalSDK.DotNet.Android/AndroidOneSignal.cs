@@ -1,16 +1,15 @@
-﻿using Android.Content;
+﻿using Android.App;
+using Android.Content;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
+using OneSignalSDK.DotNet.Core.Internal.Utilities;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 using OneSignalSDK.DotNet.Core.Location;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Session;
 using OneSignalSDK.DotNet.Core.User;
-using OneSignalSDK.DotNet.Core.Internal.Utilities;
-
-using Android.App;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
-using OneSignalSDK.DotNet.Core.LiveActivities;
 
 namespace OneSignalSDK.DotNet.Android;
 
@@ -20,7 +19,7 @@ public class AndroidOneSignal : IOneSignal
      *  in the binding projects that are otherwised not referenced. If we did *not*, then
      *  the binding DLLs will not be included in the output bin directory.
      */
-    
+
     private static Com.OneSignal.Android.InAppMessages.IInAppMessagesManager InAppMessagesBuildConfig;
     private static Com.OneSignal.Android.Notifications.INotificationsManager NotificationsBuildConfig;
     private static Com.OneSignal.Android.Location.ILocationManager LocationBuildConfig;
@@ -56,7 +55,8 @@ public class AndroidOneSignal : IOneSignal
         Com.OneSignal.Android.Common.OneSignalWrapper.SdkType = WrapperSDK.Type;
 
         var version = WrapperSDK.Version;
-        if (version != null) {
+        if (version != null)
+        {
             Com.OneSignal.Android.Common.OneSignalWrapper.SdkVersion = version;
         }
 

@@ -27,20 +27,47 @@ public partial class OutcomesSection : ContentView
 
     private async void OnSendOutcomeClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
 
         const string group = "outcome_type";
-        var radioNormal = new RadioButton { Content = "Normal Outcome", GroupName = group, IsChecked = true };
+        var radioNormal = new RadioButton
+        {
+            Content = "Normal Outcome",
+            GroupName = group,
+            IsChecked = true,
+        };
         var radioUnique = new RadioButton { Content = "Unique Outcome", GroupName = group };
         var radioWithValue = new RadioButton { Content = "Outcome with Value", GroupName = group };
 
-        var nameEntry = new Entry { Placeholder = "Outcome name", AutomationId = "outcome_name_input" };
-        var valueEntry = new Entry { Placeholder = "Value (float)", Keyboard = Keyboard.Numeric, AutomationId = "outcome_value_input" };
-        var valueContainer = new VerticalStackLayout { IsVisible = false, Children = { valueEntry } };
+        var nameEntry = new Entry
+        {
+            Placeholder = "Outcome name",
+            AutomationId = "outcome_name_input",
+        };
+        var valueEntry = new Entry
+        {
+            Placeholder = "Value (float)",
+            Keyboard = Keyboard.Numeric,
+            AutomationId = "outcome_value_input",
+        };
+        var valueContainer = new VerticalStackLayout
+        {
+            IsVisible = false,
+            Children = { valueEntry },
+        };
 
         radioWithValue.CheckedChanged += (s, e2) => valueContainer.IsVisible = e2.Value;
-        radioNormal.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
-        radioUnique.CheckedChanged += (s, e2) => { if (e2.Value) valueContainer.IsVisible = false; };
+        radioNormal.CheckedChanged += (s, e2) =>
+        {
+            if (e2.Value)
+                valueContainer.IsVisible = false;
+        };
+        radioUnique.CheckedChanged += (s, e2) =>
+        {
+            if (e2.Value)
+                valueContainer.IsVisible = false;
+        };
 
         var cancelButton = DialogInputHelper.ActionButton("Cancel");
         var sendButton = DialogInputHelper.ActionButton("Send");
@@ -52,9 +79,10 @@ public partial class OutcomesSection : ContentView
         cancelButton.Clicked += async (s, e2) => await _parentPage.ClosePopupAsync();
         sendButton.Clicked += async (s, e2) =>
         {
-            outcomeType = radioWithValue.IsChecked ? "Outcome with Value"
-                        : radioUnique.IsChecked ? "Unique Outcome"
-                        : "Normal Outcome";
+            outcomeType =
+                radioWithValue.IsChecked ? "Outcome with Value"
+                : radioUnique.IsChecked ? "Unique Outcome"
+                : "Normal Outcome";
             name = nameEntry.Text?.Trim();
             valueStr = valueEntry.Text?.Trim();
             await _parentPage.ClosePopupAsync();
@@ -72,7 +100,7 @@ public partial class OutcomesSection : ContentView
                 new VerticalStackLayout
                 {
                     Spacing = 4,
-                    Children = { radioNormal, radioUnique, radioWithValue }
+                    Children = { radioNormal, radioUnique, radioWithValue },
                 },
                 nameEntry,
                 valueContainer,

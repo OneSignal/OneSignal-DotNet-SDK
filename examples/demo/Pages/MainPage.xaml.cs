@@ -1,7 +1,7 @@
+using OneSignalDemo.Controls;
 using OneSignalDemo.Models;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
-using OneSignalDemo.Controls;
 
 namespace OneSignalDemo.Pages;
 
@@ -70,7 +70,8 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_initialLoadDone) return;
+        if (_initialLoadDone)
+            return;
         _initialLoadDone = true;
         await _viewModel.LoadInitialStateAsync();
         await _viewModel.PromptPushAsync();
@@ -122,7 +123,11 @@ public partial class MainPage : ContentPage
             "custom_notif_send_button"
         );
 
-        if (form == null || !form.TryGetValue("title", out var title) || string.IsNullOrEmpty(title))
+        if (
+            form == null
+            || !form.TryGetValue("title", out var title)
+            || string.IsNullOrEmpty(title)
+        )
             return;
 
         form.TryGetValue("body", out var body);
@@ -132,7 +137,8 @@ public partial class MainPage : ContentPage
     private async void ShowTooltip(string key)
     {
         var tooltip = TooltipHelper.Instance.GetTooltip(key);
-        if (tooltip == null) return;
+        if (tooltip == null)
+            return;
 
         await TooltipDialogHelper.Show(this, tooltip);
     }

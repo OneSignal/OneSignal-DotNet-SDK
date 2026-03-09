@@ -1,5 +1,5 @@
-using OneSignalDemo.ViewModels;
 using OneSignalDemo.Controls;
+using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -36,15 +36,23 @@ public partial class EmailsSection : ContentView
             return;
         }
 
-        var displayList = (!_expanded && list.Count > CollapseThreshold)
-            ? list.Take(CollapseThreshold).ToList()
-            : list.ToList();
+        var displayList =
+            (!_expanded && list.Count > CollapseThreshold)
+                ? list.Take(CollapseThreshold).ToList()
+                : list.ToList();
 
         bool first = true;
         foreach (var email in displayList)
         {
             if (!first)
-                EmailListContainer.Children.Add(new BoxView { HeightRequest = 1, Color = Color.FromArgb("#E8EAED"), Margin = new Thickness(12, 0) });
+                EmailListContainer.Children.Add(
+                    new BoxView
+                    {
+                        HeightRequest = 1,
+                        Color = Color.FromArgb("#E8EAED"),
+                        Margin = new Thickness(12, 0),
+                    }
+                );
             first = false;
 
             var captured = email;
@@ -54,16 +62,18 @@ public partial class EmailsSection : ContentView
                 ColumnDefinitions =
                 {
                     new ColumnDefinition { Width = GridLength.Star },
-                    new ColumnDefinition { Width = GridLength.Auto }
-                }
+                    new ColumnDefinition { Width = GridLength.Auto },
+                },
             };
 
-            row.Children.Add(new Label
-            {
-                Text = email,
-                FontSize = 14,
-                VerticalOptions = LayoutOptions.Center
-            });
+            row.Children.Add(
+                new Label
+                {
+                    Text = email,
+                    FontSize = 14,
+                    VerticalOptions = LayoutOptions.Center,
+                }
+            );
 
             var deleteBtn = new Button
             {
@@ -72,7 +82,7 @@ public partial class EmailsSection : ContentView
                 TextColor = Color.FromArgb("#E54B4D"),
                 Padding = new Thickness(8, 0),
                 FontSize = 18,
-                HeightRequest = 40
+                HeightRequest = 40,
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveEmail(captured);
             Grid.SetColumn(deleteBtn, 1);
@@ -90,19 +100,26 @@ public partial class EmailsSection : ContentView
                 TextColor = Color.FromArgb("#E54B4D"),
                 FontAttributes = FontAttributes.Bold,
                 Padding = new Thickness(12, 4),
-                FontSize = 14
+                FontSize = 14,
             };
-            moreLabel.GestureRecognizers.Add(new TapGestureRecognizer
-            {
-                Command = new Command(() => { _expanded = true; RebuildList(); })
-            });
+            moreLabel.GestureRecognizers.Add(
+                new TapGestureRecognizer
+                {
+                    Command = new Command(() =>
+                    {
+                        _expanded = true;
+                        RebuildList();
+                    }),
+                }
+            );
             EmailListContainer.Children.Add(moreLabel);
         }
     }
 
     private async void OnAddEmailClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
 
         var email = await DialogInputHelper.ShowSingleInput(
             _parentPage,
@@ -112,7 +129,8 @@ public partial class EmailsSection : ContentView
             "email_input"
         );
 
-        if (string.IsNullOrEmpty(email)) return;
+        if (string.IsNullOrEmpty(email))
+            return;
         _viewModel.AddEmail(email);
     }
 

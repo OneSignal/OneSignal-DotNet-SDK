@@ -36,8 +36,10 @@ public class PreferencesService
         get => Preferences.Get(KeyExternalUserId, (string?)null);
         set
         {
-            if (value == null) Preferences.Remove(KeyExternalUserId);
-            else Preferences.Set(KeyExternalUserId, value);
+            if (value == null)
+                Preferences.Remove(KeyExternalUserId);
+            else
+                Preferences.Set(KeyExternalUserId, value);
         }
     }
 

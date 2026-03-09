@@ -17,7 +17,10 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// </summary>
         public NotificationClickResult Result { get; }
 
-        public NotificationClickedEventArgs(Notification notification, NotificationClickResult result)
+        public NotificationClickedEventArgs(
+            Notification notification,
+            NotificationClickResult result
+        )
         {
             Notification = notification;
             Result = result;

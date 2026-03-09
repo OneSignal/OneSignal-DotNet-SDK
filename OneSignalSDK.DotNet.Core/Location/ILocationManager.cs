@@ -1,7 +1,7 @@
-﻿using static System.Net.WebRequestMethods;
-using System.Security;
-using System.Xml.Linq;
+﻿using System.Security;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace OneSignalSDK.DotNet.Core.Location
 {

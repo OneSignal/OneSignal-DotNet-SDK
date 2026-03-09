@@ -1,6 +1,5 @@
 ﻿using System;
 using UserNotifications;
-
 using OneSignalNative = Com.OneSignal.iOS;
 
 namespace OneSignalSDK.DotNet.iOS
@@ -18,17 +17,18 @@ namespace OneSignalSDK.DotNet.iOS
         /// <param name="contentHandler">A content handler.</param>
         /// <returns>The notification content.</returns>
         public static UNMutableNotificationContent DidReceiveNotificationExtensionRequest(
-           UNNotificationRequest request,
-           UNMutableNotificationContent replacementContent,
-           Action<UNNotificationContent> contentHandler)
+            UNNotificationRequest request,
+            UNMutableNotificationContent replacementContent,
+            Action<UNNotificationContent> contentHandler
+        )
         {
             return OneSignalNative.OneSignal.DidReceiveNotificationExtensionRequest(
-               request,
-               replacementContent,
-               delegate (UNNotificationContent notificationContent)
-               {
-                   contentHandler.Invoke(notificationContent);
-               }
+                request,
+                replacementContent,
+                delegate(UNNotificationContent notificationContent)
+                {
+                    contentHandler.Invoke(notificationContent);
+                }
             );
         }
 
@@ -38,10 +38,14 @@ namespace OneSignalSDK.DotNet.iOS
         /// <param name="request">The notification request.</param>
         /// <param name="replacementContent">The notification content.</param>
         public static void ServiceExtensionTimeWillExpireRequest(
-           UNNotificationRequest request,
-           UNMutableNotificationContent replacementContent)
+            UNNotificationRequest request,
+            UNMutableNotificationContent replacementContent
+        )
         {
-            OneSignalNative.OneSignal.ServiceExtensionTimeWillExpireRequest(request, replacementContent);
+            OneSignalNative.OneSignal.ServiceExtensionTimeWillExpireRequest(
+                request,
+                replacementContent
+            );
         }
     }
 }

@@ -92,7 +92,9 @@ public static class ToNativeConversion
         return null;
     }
 
-    public static IDictionary<string, Java.Lang.Object>? DictToJavaMap(IDictionary<string, object>? dict)
+    public static IDictionary<string, Java.Lang.Object>? DictToJavaMap(
+        IDictionary<string, object>? dict
+    )
     {
         if (dict == null)
             return null;

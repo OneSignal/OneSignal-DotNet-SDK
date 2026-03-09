@@ -1,3 +1,5 @@
 ﻿<metadata>
-	<attr path="/api/package[@name='com.onesignal.location']" name="managedName">Com.OneSignal.Android.Location</attr>
+  <attr path="/api/package[@name='com.onesignal.location']" name="managedName"
+    >Com.OneSignal.Android.Location</attr
+  >
 </metadata>

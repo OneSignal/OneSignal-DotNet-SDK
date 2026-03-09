@@ -1,6 +1,5 @@
 ﻿using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Location;
-
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android;

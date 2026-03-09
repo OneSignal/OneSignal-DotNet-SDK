@@ -36,7 +36,8 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// <summary>
         /// The key/value custom additional data specified when creating the notification.
         /// </summary>
-        public IDictionary<string, object> AdditionalData { get; } = new Dictionary<string, object>();
+        public IDictionary<string, object> AdditionalData { get; } =
+            new Dictionary<string, object>();
 
         /// <summary>
         /// The OneSignal notification id.
@@ -176,38 +177,39 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         #endregion iOS
 
         public Notification(
-           string title,
-           string body,
-           string sound,
-           string launchUrl,
-           IList<ActionButton> actionButtons,
-           IDictionary<string, object> additionalData,
-           string notificationId,
-           IList<Notification> groupedNotifications = null,
-           BackgroundImageLayout backgroundImageLayout = null,
-           string templateId = null,
-           string templateName = null,
-           string groupKey = null,
-           string groupMessage = null,
-           string ledColor = null,
-           Nullable<int> priority = null,
-           string smallIcon = null,
-           string largeIcon = null,
-           string bigPicture = null,
-           string collapseId = null,
-           string fromProjectNumber = null,
-           string smallIconAccentColor = null,
-           Nullable<int> lockScreenVisibility = null,
-           Nullable<int> androidNotificationId = null,
-           Nullable<int> badge = null,
-           Nullable<int> badgeIncrement = null,
-           string category = null,
-           string threadId = null,
-           string subtitle = null,
-           Nullable<float> relevanceScore = null,
-           Nullable<bool> mutableContent = null,
-           Nullable<bool> contentAvailable = null,
-           string interruptionLevel = null)
+            string title,
+            string body,
+            string sound,
+            string launchUrl,
+            IList<ActionButton> actionButtons,
+            IDictionary<string, object> additionalData,
+            string notificationId,
+            IList<Notification> groupedNotifications = null,
+            BackgroundImageLayout backgroundImageLayout = null,
+            string templateId = null,
+            string templateName = null,
+            string groupKey = null,
+            string groupMessage = null,
+            string ledColor = null,
+            Nullable<int> priority = null,
+            string smallIcon = null,
+            string largeIcon = null,
+            string bigPicture = null,
+            string collapseId = null,
+            string fromProjectNumber = null,
+            string smallIconAccentColor = null,
+            Nullable<int> lockScreenVisibility = null,
+            Nullable<int> androidNotificationId = null,
+            Nullable<int> badge = null,
+            Nullable<int> badgeIncrement = null,
+            string category = null,
+            string threadId = null,
+            string subtitle = null,
+            Nullable<float> relevanceScore = null,
+            Nullable<bool> mutableContent = null,
+            Nullable<bool> contentAvailable = null,
+            string interruptionLevel = null
+        )
         {
             Title = title;
             Body = body;

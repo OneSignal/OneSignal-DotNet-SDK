@@ -1,11 +1,13 @@
 using System.Runtime.InteropServices;
 using ObjCRuntime;
-namespace Com.OneSignal.iOS {
+
+namespace Com.OneSignal.iOS
+{
     [Native]
     public enum OSNotificationActionType : ulong
     {
         Opened,
-        ActionTaken
+        ActionTaken,
     }
 
     [Native]
@@ -17,7 +19,7 @@ namespace Com.OneSignal.iOS {
         Warn,
         Info,
         Debug,
-        Verbose
+        Verbose,
     }
 
     [Native]
@@ -27,7 +29,7 @@ namespace Com.OneSignal.iOS {
         Denied,
         Authorized,
         Provisional,
-        Ephemeral
+        Ephemeral,
     }
 
     [Native]
@@ -35,6 +37,6 @@ namespace Com.OneSignal.iOS {
     {
         Safari,
         Webview,
-        ReplaceContent
+        ReplaceContent,
     }
 }

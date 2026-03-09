@@ -15,7 +15,8 @@ public class UserData
         Dictionary<string, string> tags,
         List<string> emails,
         List<string> smsNumbers,
-        string? externalId)
+        string? externalId
+    )
     {
         Aliases = aliases;
         Tags = tags;
@@ -33,17 +34,24 @@ public class UserData
             {
                 foreach (var prop in identity.EnumerateObject())
                 {
-                    if (prop.Name is "external_id" or "onesignal_id") continue;
+                    if (prop.Name is "external_id" or "onesignal_id")
+                        continue;
                     aliases[prop.Name] = prop.Value.GetString() ?? "";
                 }
             }
 
             string? externalId = null;
-            if (json.TryGetProperty("identity", out var id2) && id2.TryGetProperty("external_id", out var extId))
+            if (
+                json.TryGetProperty("identity", out var id2)
+                && id2.TryGetProperty("external_id", out var extId)
+            )
                 externalId = extId.GetString();
 
             var tags = new Dictionary<string, string>();
-            if (json.TryGetProperty("properties", out var props) && props.TryGetProperty("tags", out var tagsEl))
+            if (
+                json.TryGetProperty("properties", out var props)
+                && props.TryGetProperty("tags", out var tagsEl)
+            )
             {
                 foreach (var prop in tagsEl.EnumerateObject())
                     tags[prop.Name] = prop.Value.GetString() ?? "";
@@ -55,13 +63,19 @@ public class UserData
             {
                 foreach (var sub in subs.EnumerateArray())
                 {
-                    if (!sub.TryGetProperty("type", out var typeEl)) continue;
+                    if (!sub.TryGetProperty("type", out var typeEl))
+                        continue;
                     var subType = typeEl.GetString();
-                    var token = sub.TryGetProperty("token", out var tokenEl) ? tokenEl.GetString() : null;
-                    if (string.IsNullOrEmpty(token)) continue;
+                    var token = sub.TryGetProperty("token", out var tokenEl)
+                        ? tokenEl.GetString()
+                        : null;
+                    if (string.IsNullOrEmpty(token))
+                        continue;
 
-                    if (subType == "Email") emails.Add(token);
-                    else if (subType == "SMS") smsNumbers.Add(token);
+                    if (subType == "Email")
+                        emails.Add(token);
+                    else if (subType == "SMS")
+                        smsNumbers.Add(token);
                 }
             }
 

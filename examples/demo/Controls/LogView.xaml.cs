@@ -1,5 +1,5 @@
-using MauiIcons.Material;
 using MauiIcons.Core;
+using MauiIcons.Material;
 using OneSignalDemo.Services;
 
 namespace OneSignalDemo.Controls;
@@ -43,7 +43,7 @@ public partial class LogView : ContentView
                 FontSize = 11,
                 FontFamily = "DroidSansMono",
                 VerticalOptions = LayoutOptions.Center,
-                AutomationId = $"log_entry_{i}_timestamp"
+                AutomationId = $"log_entry_{i}_timestamp",
             };
             var level = new Label
             {
@@ -54,7 +54,7 @@ public partial class LogView : ContentView
                 FontAttributes = FontAttributes.Bold,
                 VerticalOptions = LayoutOptions.Center,
                 Margin = new Thickness(4, 0),
-                AutomationId = $"log_entry_{i}_level"
+                AutomationId = $"log_entry_{i}_level",
             };
             var msg = new Label
             {
@@ -63,7 +63,7 @@ public partial class LogView : ContentView
                 FontSize = 11,
                 FontFamily = "DroidSansMono",
                 VerticalOptions = LayoutOptions.Center,
-                AutomationId = $"log_entry_{i}_message"
+                AutomationId = $"log_entry_{i}_message",
             };
 
             row.Children.Add(ts);

@@ -32,15 +32,17 @@ namespace OneSignalSDK.DotNet.Core.Notifications
             string smallIconAccentColor = null,
             int? lockScreenVisibility = null,
             int? androidNotificationId = null,
-            int? badge = null, int?
-            badgeIncrement = null,
+            int? badge = null,
+            int? badgeIncrement = null,
             string category = null,
             string threadId = null,
             string subtitle = null,
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string interruptionLevel = null) : base(
+            string interruptionLevel = null
+        )
+            : base(
                 title,
                 body,
                 sound,
@@ -72,11 +74,9 @@ namespace OneSignalSDK.DotNet.Core.Notifications
                 relevanceScore,
                 mutableContent,
                 contentAvailable,
-                interruptionLevel)
-        {
-        }
+                interruptionLevel
+            ) { }
 
         public abstract void display();
     }
-
 }

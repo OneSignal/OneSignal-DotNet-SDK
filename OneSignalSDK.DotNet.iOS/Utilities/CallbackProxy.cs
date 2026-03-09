@@ -28,6 +28,4 @@ public abstract class CallbackProxy<TReturn>
 /// <summary>
 /// A boolean callback proxy.
 /// </summary>
-public sealed class BooleanCallbackProxy : CallbackProxy<bool>
-{
-}
+public sealed class BooleanCallbackProxy : CallbackProxy<bool> { }

@@ -28,16 +28,21 @@ public partial class TrackEventSection : ContentView
 
     private async void OnTrackEventClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
 
         var result = await ShowTrackEventPopup(_parentPage);
-        if (result == null) return;
+        if (result == null)
+            return;
 
         _viewModel.TrackEvent(result.Value.name, result.Value.properties);
         await Toast.Make($"Event tracked: {result.Value.name}", ToastDuration.Short).Show();
     }
 
-    private static async Task<(string name, Dictionary<string, object>? properties)?> ShowTrackEventPopup(Page parentPage)
+    private static async Task<(
+        string name,
+        Dictionary<string, object>? properties
+    )?> ShowTrackEventPopup(Page parentPage)
     {
         var nameEntry = new Entry
         {
@@ -67,7 +72,8 @@ public partial class TrackEventSection : ContentView
         confirmButton.Clicked += async (s, ev) =>
         {
             var name = nameEntry.Text?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(name)) return;
+            if (string.IsNullOrEmpty(name))
+                return;
 
             var propsText = propsEntry.Text?.Trim() ?? string.Empty;
             Dictionary<string, object>? properties = null;
@@ -111,12 +117,7 @@ public partial class TrackEventSection : ContentView
                 new VerticalStackLayout
                 {
                     Spacing = 8,
-                    Children =
-                    {
-                        nameEntry,
-                        propsEntry,
-                        errorLabel,
-                    }
+                    Children = { nameEntry, propsEntry, errorLabel },
                 },
                 new HorizontalStackLayout
                 {
@@ -128,7 +129,10 @@ public partial class TrackEventSection : ContentView
             },
         };
 
-        await parentPage.ShowPopupAsync<(string, Dictionary<string, object>?)?>(card, DialogInputHelper.DialogOptions);
+        await parentPage.ShowPopupAsync<(string, Dictionary<string, object>?)?>(
+            card,
+            DialogInputHelper.DialogOptions
+        );
         return popupResult;
     }
 

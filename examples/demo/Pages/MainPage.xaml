@@ -1,55 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:controls="clr-namespace:OneSignalDemo.Controls"
-    xmlns:sections="clr-namespace:OneSignalDemo.Controls.Sections"
-    x:Class="OneSignalDemo.Pages.MainPage"
-    Title="DotNet"
-    BackgroundColor="{StaticResource OsLightBackground}">
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+  xmlns:controls="clr-namespace:OneSignalDemo.Controls"
+  xmlns:sections="clr-namespace:OneSignalDemo.Controls.Sections"
+  x:Class="OneSignalDemo.Pages.MainPage"
+  Title="DotNet"
+  BackgroundColor="{StaticResource OsLightBackground}"
+>
+  <ContentPage.Behaviors>
+    <toolkit:StatusBarBehavior
+      StatusBarColor="{StaticResource OsPrimary}"
+      StatusBarStyle="LightContent"
+    />
+  </ContentPage.Behaviors>
 
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource OsPrimary}" StatusBarStyle="LightContent" />
-    </ContentPage.Behaviors>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <!-- Sticky LogView at the very top -->
+    <controls:LogView Grid.Row="0" x:Name="LogViewControl" />
 
-        <!-- Sticky LogView at the very top -->
-        <controls:LogView Grid.Row="0" x:Name="LogViewControl" />
+    <!-- Main scrollable content -->
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Padding="16,24" Spacing="24">
+        <sections:AppSection x:Name="AppSectionControl" />
+        <sections:UserSection x:Name="UserSectionControl" />
+        <sections:PushSection x:Name="PushSectionControl" />
+        <sections:SendPushSection x:Name="SendPushSectionControl" />
+        <sections:InAppSection x:Name="InAppSectionControl" />
+        <sections:SendIamSection x:Name="SendIamSectionControl" />
+        <sections:AliasesSection x:Name="AliasesSectionControl" />
+        <sections:EmailsSection x:Name="EmailsSectionControl" />
+        <sections:SmsSection x:Name="SmsSectionControl" />
+        <sections:TagsSection x:Name="TagsSectionControl" />
+        <sections:OutcomesSection x:Name="OutcomesSectionControl" />
+        <sections:TriggersSection x:Name="TriggersSectionControl" />
+        <sections:TrackEventSection x:Name="TrackEventSectionControl" />
+        <sections:LocationSection x:Name="LocationSectionControl" />
 
-        <!-- Main scrollable content -->
-        <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="16,24" Spacing="24">
+        <!-- Next Activity button -->
+        <Button
+          Text="NEXT ACTIVITY"
+          Style="{StaticResource PrimaryButtonStyle}"
+          Clicked="OnNextActivityClicked"
+          AutomationId="next_activity_button"
+          Margin="0,0,0,16"
+        />
+      </VerticalStackLayout>
+    </ScrollView>
 
-                <sections:AppSection x:Name="AppSectionControl" />
-                <sections:UserSection x:Name="UserSectionControl" />
-                <sections:PushSection x:Name="PushSectionControl" />
-                <sections:SendPushSection x:Name="SendPushSectionControl" />
-                <sections:InAppSection x:Name="InAppSectionControl" />
-                <sections:SendIamSection x:Name="SendIamSectionControl" />
-                <sections:AliasesSection x:Name="AliasesSectionControl" />
-                <sections:EmailsSection x:Name="EmailsSectionControl" />
-                <sections:SmsSection x:Name="SmsSectionControl" />
-                <sections:TagsSection x:Name="TagsSectionControl" />
-                <sections:OutcomesSection x:Name="OutcomesSectionControl" />
-                <sections:TriggersSection x:Name="TriggersSectionControl" />
-                <sections:TrackEventSection x:Name="TrackEventSectionControl" />
-                <sections:LocationSection x:Name="LocationSectionControl" />
-
-                <!-- Next Activity button -->
-                <Button Text="NEXT ACTIVITY" Style="{StaticResource PrimaryButtonStyle}"
-                        Clicked="OnNextActivityClicked" AutomationId="next_activity_button"
-                        Margin="0,0,0,16" />
-
-            </VerticalStackLayout>
-        </ScrollView>
-
-        <!-- Loading overlay (sits above everything) -->
-        <controls:LoadingOverlay Grid.RowSpan="2" x:Name="LoadingOverlayControl" />
-    </Grid>
+    <!-- Loading overlay (sits above everything) -->
+    <controls:LoadingOverlay Grid.RowSpan="2" x:Name="LoadingOverlayControl" />
+  </Grid>
 </ContentPage>

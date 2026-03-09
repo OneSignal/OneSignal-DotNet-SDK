@@ -6,7 +6,6 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
 {
     public static class WrapperSDK
     {
-
         public static string Type = "dotnet";
 
         public static string Version

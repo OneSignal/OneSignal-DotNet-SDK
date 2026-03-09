@@ -6,109 +6,114 @@ using UIKit;
 using UserNotifications;
 using WebKit;
 
-namespace Com.OneSignal.iOS {
+namespace Com.OneSignal.iOS
+{
     // @interface OSNotification : NSObject
     [BaseType(typeof(NSObject))]
     interface OSNotification
     {
         // @property (readonly) NSString * _Nullable notificationId;
-        [NullAllowed, Export ("notificationId")]
+        [NullAllowed, Export("notificationId")]
         string NotificationId { get; }
 
         // @property (readonly) NSString * _Nullable templateId;
-        [NullAllowed, Export ("templateId")]
+        [NullAllowed, Export("templateId")]
         string TemplateId { get; }
 
         // @property (readonly) NSString * _Nullable templateName;
-        [NullAllowed, Export ("templateName")]
+        [NullAllowed, Export("templateName")]
         string TemplateName { get; }
 
         // @property (readonly) BOOL contentAvailable;
-        [Export ("contentAvailable")]
+        [Export("contentAvailable")]
         bool ContentAvailable { get; }
 
         // @property (readonly, getter = hasMutableContent) BOOL mutableContent;
-        [Export ("mutableContent")]
-        bool MutableContent { [Bind("hasMutableContent")] get; }
+        [Export("mutableContent")]
+        bool MutableContent
+        {
+            [Bind("hasMutableContent")]
+            get;
+        }
 
         // @property (readonly) NSString * _Nullable category;
-        [NullAllowed, Export ("category")]
+        [NullAllowed, Export("category")]
         string Category { get; }
 
         // @property (readonly) NSInteger badge;
-        [Export ("badge")]
+        [Export("badge")]
         nint Badge { get; }
 
         // @property (readonly) NSInteger badgeIncrement;
-        [Export ("badgeIncrement")]
+        [Export("badgeIncrement")]
         nint BadgeIncrement { get; }
 
         // @property (readonly) NSString * _Nullable sound;
-        [NullAllowed, Export ("sound")]
+        [NullAllowed, Export("sound")]
         string Sound { get; }
 
         // @property (readonly) NSString * _Nullable title;
-        [NullAllowed, Export ("title")]
+        [NullAllowed, Export("title")]
         string Title { get; }
 
         // @property (readonly) NSString * _Nullable subtitle;
-        [NullAllowed, Export ("subtitle")]
+        [NullAllowed, Export("subtitle")]
         string Subtitle { get; }
 
         // @property (readonly) NSString * _Nullable body;
-        [NullAllowed, Export ("body")]
+        [NullAllowed, Export("body")]
         string Body { get; }
 
         // @property (readonly) NSString * _Nullable launchURL;
-        [NullAllowed, Export ("launchURL")]
+        [NullAllowed, Export("launchURL")]
         string LaunchURL { get; }
 
         // @property (readonly) NSDictionary * _Nullable additionalData;
-        [NullAllowed, Export ("additionalData")]
+        [NullAllowed, Export("additionalData")]
         NSDictionary AdditionalData { get; }
 
         // @property (readonly) NSDictionary * _Nullable attachments;
-        [NullAllowed, Export ("attachments")]
+        [NullAllowed, Export("attachments")]
         NSDictionary Attachments { get; }
 
         // @property (readonly) NSArray * _Nullable actionButtons;
-        [NullAllowed, Export ("actionButtons")]
+        [NullAllowed, Export("actionButtons")]
         //[Verify(StronglyTypedNSArray)]
         NSObject[] ActionButtons { get; }
 
         // @property (readonly) NSDictionary * _Nonnull rawPayload;
-        [Export ("rawPayload")]
+        [Export("rawPayload")]
         NSDictionary RawPayload { get; }
 
         // @property (readonly) NSString * _Nullable threadId;
-        [NullAllowed, Export ("threadId")]
+        [NullAllowed, Export("threadId")]
         string ThreadId { get; }
 
         // @property (readonly) NSNumber * _Nullable relevanceScore;
-        [NullAllowed, Export ("relevanceScore")]
+        [NullAllowed, Export("relevanceScore")]
         NSNumber RelevanceScore { get; }
 
         // @property (readonly) NSString * _Nullable interruptionLevel;
-        [NullAllowed, Export ("interruptionLevel")]
+        [NullAllowed, Export("interruptionLevel")]
         string InterruptionLevel { get; }
 
         // @property (readonly) NSString * _Nullable collapseId;
-        [NullAllowed, Export ("collapseId")]
+        [NullAllowed, Export("collapseId")]
         string CollapseId { get; }
 
         // +(instancetype _Nullable)parseWithApns:(NSDictionary * _Nonnull)message;
         [Static]
-        [Export ("parseWithApns:")]
+        [Export("parseWithApns:")]
         [return: NullAllowed]
         OSNotification ParseWithApns(NSDictionary message);
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
 
         // -(NSString * _Nonnull)stringify;
-        [Export ("stringify")]
+        [Export("stringify")]
         //[Verify(MethodToProperty)]
         string Stringify { get; }
     }
@@ -121,11 +126,11 @@ namespace Com.OneSignal.iOS {
     interface OSNotificationClickResult
     {
         // @property (readonly) NSString * _Nullable actionId;
-        [NullAllowed, Export ("actionId")]
+        [NullAllowed, Export("actionId")]
         string ActionId { get; }
 
         // @property (readonly) NSString * _Nullable url;
-        [NullAllowed, Export ("url")]
+        [NullAllowed, Export("url")]
         string Url { get; }
     }
 
@@ -134,20 +139,20 @@ namespace Com.OneSignal.iOS {
     interface OSNotificationClickEvent
     {
         // @property (readonly) OSNotification * _Nonnull notification;
-        [Export ("notification")]
+        [Export("notification")]
         OSNotification Notification { get; }
 
         // @property (readonly) OSNotificationClickResult * _Nonnull result;
-        [Export ("result")]
+        [Export("result")]
         OSNotificationClickResult Result { get; }
 
         // -(NSString * _Nonnull)stringify;
-        [Export ("stringify")]
+        [Export("stringify")]
         //[Verify(MethodToProperty)]
         string Stringify { get; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
@@ -159,12 +164,12 @@ namespace Com.OneSignal.iOS {
     {
         // @required +(void)setLogLevel:(ONE_S_LOG_LEVEL)logLevel;
         //[Static, Abstract]
-        [Export ("setLogLevel:")]
+        [Export("setLogLevel:")]
         void SetLogLevel(OneSLogLevel logLevel);
 
         // @required +(void)setAlertLevel:(ONE_S_LOG_LEVEL)logLevel __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("setAlertLevel:")]
+        [Export("setAlertLevel:")]
         void SetAlertLevel(OneSLogLevel logLevel);
     }
 
@@ -174,12 +179,12 @@ namespace Com.OneSignal.iOS {
     {
         // @property (class) NSString * _Nullable sdkType;
         [Static]
-        [NullAllowed, Export ("sdkType")]
+        [NullAllowed, Export("sdkType")]
         string SdkType { get; set; }
 
         // @property (class) NSString * _Nullable sdkVersion;
         [Static]
-        [NullAllowed, Export ("sdkVersion")]
+        [NullAllowed, Export("sdkVersion")]
         string SdkVersion { get; set; }
     }
 
@@ -190,17 +195,17 @@ namespace Com.OneSignal.iOS {
     {
         // @required +(void)addOutcome:(NSString * _Nonnull)name;
         //[Static, Abstract]
-        [Export ("addOutcome:")]
+        [Export("addOutcome:")]
         void AddOutcome(string name);
 
         // @required +(void)addUniqueOutcome:(NSString * _Nonnull)name;
         //[Static, Abstract]
-        [Export ("addUniqueOutcome:")]
+        [Export("addUniqueOutcome:")]
         void AddUniqueOutcome(string name);
 
         // @required +(void)addOutcomeWithValue:(NSString * _Nonnull)name value:(NSNumber * _Nonnull)value __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("addOutcomeWithValue:value:")]
+        [Export("addOutcomeWithValue:value:")]
         void AddOutcomeWithValue(string name, NSNumber value);
     }
 
@@ -212,17 +217,16 @@ namespace Com.OneSignal.iOS {
     {
         // @required -(void)onNotificationPermissionDidChange:(BOOL)permission;
         //[Abstract]
-        [Export ("onNotificationPermissionDidChange:")]
+        [Export("onNotificationPermissionDidChange:")]
         void OnNotificationPermissionDidChange(bool permission);
     }
-
 
     // @interface OSDisplayableNotification : OSNotification
     [BaseType(typeof(OSNotification))]
     interface OSDisplayableNotification
     {
         // -(void)display;
-        [Export ("display")]
+        [Export("display")]
         void Display();
     }
 
@@ -234,7 +238,7 @@ namespace Com.OneSignal.iOS {
     {
         // @required -(void)onClickNotification:(OSNotificationClickEvent * _Nonnull)event __attribute__((swift_name("onClick(event:)")));
         //[Abstract]
-        [Export ("onClickNotification:")]
+        [Export("onClickNotification:")]
         void OnClickNotification(OSNotificationClickEvent @event);
     }
 
@@ -243,11 +247,11 @@ namespace Com.OneSignal.iOS {
     interface OSNotificationWillDisplayEvent
     {
         // @property (readonly, nonatomic, strong) OSDisplayableNotification * _Nonnull notification;
-        [Export ("notification", ArgumentSemantic.Strong)]
+        [Export("notification", ArgumentSemantic.Strong)]
         OSDisplayableNotification Notification { get; }
 
         // -(void)preventDefault;
-        [Export ("preventDefault")]
+        [Export("preventDefault")]
         void PreventDefault();
     }
 
@@ -259,7 +263,7 @@ namespace Com.OneSignal.iOS {
     {
         // @required -(void)onWillDisplayNotification:(OSNotificationWillDisplayEvent * _Nonnull)event __attribute__((swift_name("onWillDisplay(event:)")));
         //[Abstract]
-        [Export ("onWillDisplayNotification:")]
+        [Export("onWillDisplayNotification:")]
         void OnWillDisplayNotification(OSNotificationWillDisplayEvent @event);
     }
 
@@ -273,73 +277,74 @@ namespace Com.OneSignal.iOS {
     {
         // @required +(BOOL)permission __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("permission")]
+        [Export("permission")]
         //[Verify(MethodToProperty)]
         bool Permission { get; }
 
         // @required +(BOOL)canRequestPermission __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("canRequestPermission")]
+        [Export("canRequestPermission")]
         //[Verify(MethodToProperty)]
         bool CanRequestPermission { get; }
 
         // @required +(OSNotificationPermission)permissionNative __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("permissionNative")]
+        [Export("permissionNative")]
         //[Verify(MethodToProperty)]
         OSNotificationPermission PermissionNative { get; }
 
         // @required +(void)addForegroundLifecycleListener:(NSObject<OSNotificationLifecycleListener> * _Nullable)listener;
         //[Static, Abstract]
-        [Export ("addForegroundLifecycleListener:")]
+        [Export("addForegroundLifecycleListener:")]
         void AddForegroundLifecycleListener([NullAllowed] OSNotificationLifecycleListener listener);
 
         // @required +(void)removeForegroundLifecycleListener:(NSObject<OSNotificationLifecycleListener> * _Nullable)listener;
         //[Static, Abstract]
-        [Export ("removeForegroundLifecycleListener:")]
-        void RemoveForegroundLifecycleListener([NullAllowed] OSNotificationLifecycleListener listener);
+        [Export("removeForegroundLifecycleListener:")]
+        void RemoveForegroundLifecycleListener(
+            [NullAllowed] OSNotificationLifecycleListener listener
+        );
 
         // @required +(void)addClickListener:(NSObject<OSNotificationClickListener> * _Nonnull)listener __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("addClickListener:")]
+        [Export("addClickListener:")]
         void AddClickListener(OSNotificationClickListener listener);
 
         // @required +(void)removeClickListener:(NSObject<OSNotificationClickListener> * _Nonnull)listener __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("removeClickListener:")]
+        [Export("removeClickListener:")]
         void RemoveClickListener(OSNotificationClickListener listener);
 
         // @required +(void)requestPermission:(OSUserResponseBlock _Nullable)block;
         //[Static, Abstract]
-        [Export ("requestPermission:")]
+        [Export("requestPermission:")]
         void RequestPermission([NullAllowed] OSUserResponseBlock block);
 
         // @required +(void)requestPermission:(OSUserResponseBlock _Nullable)block fallbackToSettings:(BOOL)fallback;
         //[Static, Abstract]
-        [Export ("requestPermission:fallbackToSettings:")]
+        [Export("requestPermission:fallbackToSettings:")]
         void RequestPermission([NullAllowed] OSUserResponseBlock block, bool fallback);
 
         // @required +(void)registerForProvisionalAuthorization:(OSUserResponseBlock _Nullable)block __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("registerForProvisionalAuthorization:")]
+        [Export("registerForProvisionalAuthorization:")]
         void RegisterForProvisionalAuthorization([NullAllowed] OSUserResponseBlock block);
 
         // @required +(void)addPermissionObserver:(NSObject<OSNotificationPermissionObserver> * _Nonnull)observer __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("addPermissionObserver:")]
+        [Export("addPermissionObserver:")]
         void AddPermissionObserver(OSNotificationPermissionObserver observer);
 
         // @required +(void)removePermissionObserver:(NSObject<OSNotificationPermissionObserver> * _Nonnull)observer __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("removePermissionObserver:")]
+        [Export("removePermissionObserver:")]
         void RemovePermissionObserver(OSNotificationPermissionObserver observer);
 
         // @required +(void)clearAll;
         //[Static, Abstract]
-        [Export ("clearAll")]
+        [Export("clearAll")]
         void ClearAll();
     }
-
 
     // @interface OSPushSubscriptionChangedState : NSObject
     [BaseType(typeof(NSObject), Name = "_TtC13OneSignalUser30OSPushSubscriptionChangedState")]
@@ -347,19 +352,19 @@ namespace Com.OneSignal.iOS {
     interface OSPushSubscriptionChangedState
     {
         // @property (readonly, nonatomic, strong) OSPushSubscriptionState * _Nonnull current;
-        [Export ("current", ArgumentSemantic.Strong)]
+        [Export("current", ArgumentSemantic.Strong)]
         OSPushSubscriptionState Current { get; }
 
         // @property (readonly, nonatomic, strong) OSPushSubscriptionState * _Nonnull previous;
-        [Export ("previous", ArgumentSemantic.Strong)]
+        [Export("previous", ArgumentSemantic.Strong)]
         OSPushSubscriptionState Previous { get; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nonnull description;
-        [Export ("description")]
+        [Export("description")]
         string Description { get; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation __attribute__((warn_unused_result("")));
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
@@ -372,7 +377,7 @@ namespace Com.OneSignal.iOS {
     {
         // @required -(void)onPushSubscriptionDidChangeWithState:(OSPushSubscriptionChangedState * _Nonnull)state;
         //[Abstract]
-        [Export ("onPushSubscriptionDidChangeWithState:")]
+        [Export("onPushSubscriptionDidChangeWithState:")]
         void OnPushSubscriptionDidChangeWithState(OSPushSubscriptionChangedState state);
     }
 
@@ -382,23 +387,23 @@ namespace Com.OneSignal.iOS {
     interface OSPushSubscriptionState
     {
         // @property (readonly, copy, nonatomic) NSString * _Nullable id;
-        [NullAllowed, Export ("id")]
+        [NullAllowed, Export("id")]
         string Id { get; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nullable token;
-        [NullAllowed, Export ("token")]
+        [NullAllowed, Export("token")]
         string Token { get; }
 
         // @property (readonly, nonatomic) BOOL optedIn;
-        [Export ("optedIn")]
+        [Export("optedIn")]
         bool OptedIn { get; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nonnull description;
-        [Export ("description")]
+        [Export("description")]
         string Description { get; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation __attribute__((warn_unused_result("")));
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
@@ -410,92 +415,92 @@ namespace Com.OneSignal.iOS {
     {
         // @required @property (readonly, copy, nonatomic) NSString * _Nullable id;
         //[Abstract]
-        [NullAllowed, Export ("id")]
+        [NullAllowed, Export("id")]
         string Id { get; }
 
         // @required @property (readonly, copy, nonatomic) NSString * _Nullable token;
         //[Abstract]
-        [NullAllowed, Export ("token")]
+        [NullAllowed, Export("token")]
         string Token { get; }
 
         // @required @property (readonly, nonatomic) BOOL optedIn;
         //[Abstract]
-        [Export ("optedIn")]
+        [Export("optedIn")]
         bool OptedIn { get; }
 
         // @required -(void)optIn;
         //[Abstract]
-        [Export ("optIn")]
+        [Export("optIn")]
         void OptIn();
 
         // @required -(void)optOut;
         //[Abstract]
-        [Export ("optOut")]
+        [Export("optOut")]
         void OptOut();
 
         // @required -(void)addObserver:(id<OSPushSubscriptionObserver> _Nonnull)observer;
         //[Abstract]
-        [Export ("addObserver:")]
+        [Export("addObserver:")]
         void AddObserver(OSPushSubscriptionObserver observer);
 
         // @required -(void)removeObserver:(id<OSPushSubscriptionObserver> _Nonnull)observer;
         //[Abstract]
-        [Export ("removeObserver:")]
+        [Export("removeObserver:")]
         void RemoveObserver(OSPushSubscriptionObserver observer);
     }
 
     // @interface OSUserState : NSObject
-    [BaseType (typeof(NSObject), Name = "_TtC13OneSignalUser11OSUserState")]
+    [BaseType(typeof(NSObject), Name = "_TtC13OneSignalUser11OSUserState")]
     [DisableDefaultCtor]
     interface OSUserState
     {
         // @property (readonly, copy, nonatomic) NSString * _Nullable onesignalId;
-        [NullAllowed, Export ("onesignalId")]
+        [NullAllowed, Export("onesignalId")]
         string OnesignalId { get; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nullable externalId;
-        [NullAllowed, Export ("externalId")]
+        [NullAllowed, Export("externalId")]
         string ExternalId { get; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nonnull description;
-        [Export ("description")]
+        [Export("description")]
         string Description { get; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation __attribute__((warn_unused_result("")));
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify (MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
 
     // @interface OSUserChangedState : NSObject
-    [BaseType (typeof(NSObject), Name = "_TtC13OneSignalUser18OSUserChangedState")]
+    [BaseType(typeof(NSObject), Name = "_TtC13OneSignalUser18OSUserChangedState")]
     [DisableDefaultCtor]
     interface OSUserChangedState
     {
         // @property (readonly, nonatomic, strong) OSUserState * _Nonnull current;
-        [Export ("current", ArgumentSemantic.Strong)]
+        [Export("current", ArgumentSemantic.Strong)]
         OSUserState Current { get; }
 
         // @property (readonly, copy, nonatomic) NSString * _Nonnull description;
-        [Export ("description")]
+        [Export("description")]
         string Description { get; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation __attribute__((warn_unused_result("")));
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify (MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
 
     // @protocol OSUserStateObserver
-    [Protocol (Name = "_TtP13OneSignalUser19OSUserStateObserver_")]
+    [Protocol(Name = "_TtP13OneSignalUser19OSUserStateObserver_")]
     [Model]
     [BaseType(typeof(NSObject))]
     interface OSUserStateObserver
     {
         // @required -(void)onUserStateDidChangeWithState:(OSUserChangedState * _Nonnull)state;
         //[Abstract]
-        [Export ("onUserStateDidChangeWithState:")]
-        void OnUserStateDidChangeWithState (OSUserChangedState state);
+        [Export("onUserStateDidChangeWithState:")]
+        void OnUserStateDidChangeWithState(OSUserChangedState state);
     }
 
     // @protocol OSUser
@@ -505,98 +510,98 @@ namespace Com.OneSignal.iOS {
     {
         // @required @property (readonly, nonatomic, strong) id<OSPushSubscription> _Nonnull pushSubscription;
         //[Abstract]
-        [Export ("pushSubscription", ArgumentSemantic.Strong)]
+        [Export("pushSubscription", ArgumentSemantic.Strong)]
         OSPushSubscription PushSubscription { get; }
 
         // @required @property (readonly, copy, nonatomic) NSString * _Nullable onesignalId;
         //[Abstract]
-        [NullAllowed, Export ("onesignalId")]
+        [NullAllowed, Export("onesignalId")]
         string OnesignalId { get; }
 
         // @required @property (readonly, copy, nonatomic) NSString * _Nullable externalId;
         //[Abstract]
-        [NullAllowed, Export ("externalId")]
+        [NullAllowed, Export("externalId")]
         string ExternalId { get; }
 
         // @required -(void)addObserver:(id<OSUserStateObserver> _Nonnull)observer;
         //[Abstract]
-        [Export ("addObserver:")]
-        void AddObserver (OSUserStateObserver observer);
+        [Export("addObserver:")]
+        void AddObserver(OSUserStateObserver observer);
 
         // @required -(void)removeObserver:(id<OSUserStateObserver> _Nonnull)observer;
         [Abstract]
-        [Export ("removeObserver:")]
-        void RemoveObserver (OSUserStateObserver observer);
+        [Export("removeObserver:")]
+        void RemoveObserver(OSUserStateObserver observer);
 
         // @required -(void)addAliasWithLabel:(NSString * _Nonnull)label id:(NSString * _Nonnull)id;
         //[Abstract]
-        [Export ("addAliasWithLabel:id:")]
+        [Export("addAliasWithLabel:id:")]
         void AddAliasWithLabel(string label, string id);
 
         // @required -(void)addAliases:(NSDictionary<NSString *,NSString *> * _Nonnull)aliases;
         //[Abstract]
-        [Export ("addAliases:")]
+        [Export("addAliases:")]
         void AddAliases(NSDictionary<NSString, NSString> aliases);
 
         // @required -(void)removeAlias:(NSString * _Nonnull)label;
         //[Abstract]
-        [Export ("removeAlias:")]
+        [Export("removeAlias:")]
         void RemoveAlias(string label);
 
         // @required -(void)removeAliases:(NSArray<NSString *> * _Nonnull)labels;
         //[Abstract]
-        [Export ("removeAliases:")]
+        [Export("removeAliases:")]
         void RemoveAliases(string[] labels);
 
         // @required -(void)addTagWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value;
         //[Abstract]
-        [Export ("addTagWithKey:value:")]
+        [Export("addTagWithKey:value:")]
         void AddTagWithKey(string key, string value);
 
         // @required -(void)addTags:(NSDictionary<NSString *,NSString *> * _Nonnull)tags;
         //[Abstract]
-        [Export ("addTags:")]
+        [Export("addTags:")]
         void AddTags(NSDictionary<NSString, NSString> tags);
 
         // @required -(void)removeTag:(NSString * _Nonnull)tag;
         //[Abstract]
-        [Export ("removeTag:")]
+        [Export("removeTag:")]
         void RemoveTag(string tag);
 
         // @required -(void)removeTags:(NSArray<NSString *> * _Nonnull)tags;
         //[Abstract]
-        [Export ("removeTags:")]
+        [Export("removeTags:")]
         void RemoveTags(string[] tags);
 
         // @required -(NSDictionary<NSString *,NSString *>)getTags;
         //[Abstract]
-        [Export ("getTags")]
+        [Export("getTags")]
         [return: NullAllowed]
         NSDictionary<NSString, NSString> GetTags();
 
         // @required -(void)addEmail:(NSString * _Nonnull)email;
         //[Abstract]
-        [Export ("addEmail:")]
+        [Export("addEmail:")]
         void AddEmail(string email);
 
         // @required -(void)removeEmail:(NSString * _Nonnull)email;
         //[Abstract]
-        [Export ("removeEmail:")]
+        [Export("removeEmail:")]
         void RemoveEmail(string email);
 
         // @required -(void)addSms:(NSString * _Nonnull)number;
         //[Abstract]
-        [Export ("addSms:")]
+        [Export("addSms:")]
         void AddSms(string number);
 
         // @required -(void)removeSms:(NSString * _Nonnull)number;
         //[Abstract]
-        [Export ("removeSms:")]
+        [Export("removeSms:")]
         void RemoveSms(string number);
 
         // @required -(void)setLanguage:(NSString * _Nonnull)language;
         //[Abstract]
-        [Export ("setLanguage:")]
+        [Export("setLanguage:")]
         void SetLanguage(string language);
 
         // @required -(void)onJwtExpiredWithExpiredHandler:(void (^ _Nonnull)(NSString * _Nonnull, __attribute__((noescape)) void (^ _Nonnull)(NSString * _Nonnull)))expiredHandler;
@@ -606,8 +611,11 @@ namespace Com.OneSignal.iOS {
 
         // @required -(void)trackEventWithName:(NSString * _Nonnull)name properties:(NSDictionary<NSString *, id> * _Nullable)properties;
         //[Abstract]
-        [Export ("trackEventWithName:properties:")]
-        void TrackEventWithName(string name, [NullAllowed] NSDictionary<NSString, NSObject> properties);
+        [Export("trackEventWithName:properties:")]
+        void TrackEventWithName(
+            string name,
+            [NullAllowed] NSDictionary<NSString, NSObject> properties
+        );
     }
 
     // @interface OSInAppMessage : NSObject
@@ -615,11 +623,11 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessage
     {
         // @property (nonatomic, strong) NSString * _Nonnull messageId;
-        [Export ("messageId", ArgumentSemantic.Strong)]
+        [Export("messageId", ArgumentSemantic.Strong)]
         string MessageId { get; set; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
@@ -629,66 +637,64 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageTag
     {
         // @property (nonatomic, strong) NSDictionary * _Nullable tagsToAdd;
-        [NullAllowed, Export ("tagsToAdd", ArgumentSemantic.Strong)]
+        [NullAllowed, Export("tagsToAdd", ArgumentSemantic.Strong)]
         NSDictionary TagsToAdd { get; set; }
 
         // @property (nonatomic, strong) NSArray * _Nullable tagsToRemove;
-        [NullAllowed, Export ("tagsToRemove", ArgumentSemantic.Strong)]
+        [NullAllowed, Export("tagsToRemove", ArgumentSemantic.Strong)]
         //[Verify(StronglyTypedNSArray)]
         NSObject[] TagsToRemove { get; set; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
-
 
     // @interface OSInAppMessageOutcome : NSObject
     [BaseType(typeof(NSObject))]
     interface OSInAppMessageOutcome
     {
         // @property (nonatomic, strong) NSString * _Nonnull name;
-        [Export ("name", ArgumentSemantic.Strong)]
+        [Export("name", ArgumentSemantic.Strong)]
         string Name { get; set; }
 
         // @property (nonatomic, strong) NSNumber * _Nonnull weight;
-        [Export ("weight", ArgumentSemantic.Strong)]
+        [Export("weight", ArgumentSemantic.Strong)]
         NSNumber Weight { get; set; }
 
         // @property (nonatomic) BOOL unique;
-        [Export ("unique")]
+        [Export("unique")]
         bool Unique { get; set; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
-
 
     // @interface OSInAppMessageClickResult : NSObject
     [BaseType(typeof(NSObject))]
     interface OSInAppMessageClickResult
     {
         // @property (nonatomic, strong) NSString * _Nullable actionId;
-        [NullAllowed, Export ("actionId", ArgumentSemantic.Strong)]
+        [NullAllowed, Export("actionId", ArgumentSemantic.Strong)]
         string ActionId { get; set; }
 
         // @property (nonatomic, strong) NSString * _Nullable url;
-        [NullAllowed, Export ("url", ArgumentSemantic.Strong)]
+        [NullAllowed, Export("url", ArgumentSemantic.Strong)]
         string Url { get; set; }
 
         // @property (nonatomic) BOOL closingMessage;
-        [Export ("closingMessage")]
+        [Export("closingMessage")]
         bool ClosingMessage { get; set; }
 
         // @property (nonatomic) OSInAppMessageActionUrlType urlTarget;
-        [Export ("urlTarget", ArgumentSemantic.Assign)]
+        [Export("urlTarget", ArgumentSemantic.Assign)]
         OSInAppMessageActionUrlType UrlTarget { get; set; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
@@ -698,7 +704,7 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageWillDisplayEvent
     {
         // @property (readonly, nonatomic) OSInAppMessage * _Nonnull message;
-        [Export ("message")]
+        [Export("message")]
         OSInAppMessage Message { get; }
     }
 
@@ -707,7 +713,7 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageDidDisplayEvent
     {
         // @property (readonly, nonatomic) OSInAppMessage * _Nonnull message;
-        [Export ("message")]
+        [Export("message")]
         OSInAppMessage Message { get; }
     }
 
@@ -716,7 +722,7 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageWillDismissEvent
     {
         // @property (readonly, nonatomic) OSInAppMessage * _Nonnull message;
-        [Export ("message")]
+        [Export("message")]
         OSInAppMessage Message { get; }
     }
 
@@ -725,7 +731,7 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageDidDismissEvent
     {
         // @property (readonly, nonatomic) OSInAppMessage * _Nonnull message;
-        [Export ("message")]
+        [Export("message")]
         OSInAppMessage Message { get; }
     }
 
@@ -736,19 +742,19 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageLifecycleListener
     {
         // @optional -(void)onWillDisplayInAppMessage:(OSInAppMessageWillDisplayEvent * _Nonnull)event __attribute__((swift_name("onWillDisplay(event:)")));
-        [Export ("onWillDisplayInAppMessage:")]
+        [Export("onWillDisplayInAppMessage:")]
         void OnWillDisplayInAppMessage(OSInAppMessageWillDisplayEvent @event);
 
         // @optional -(void)onDidDisplayInAppMessage:(OSInAppMessageDidDisplayEvent * _Nonnull)event __attribute__((swift_name("onDidDisplay(event:)")));
-        [Export ("onDidDisplayInAppMessage:")]
+        [Export("onDidDisplayInAppMessage:")]
         void OnDidDisplayInAppMessage(OSInAppMessageDidDisplayEvent @event);
 
         // @optional -(void)onWillDismissInAppMessage:(OSInAppMessageWillDismissEvent * _Nonnull)event __attribute__((swift_name("onWillDismiss(event:)")));
-        [Export ("onWillDismissInAppMessage:")]
+        [Export("onWillDismissInAppMessage:")]
         void OnWillDismissInAppMessage(OSInAppMessageWillDismissEvent @event);
 
         // @optional -(void)onDidDismissInAppMessage:(OSInAppMessageDidDismissEvent * _Nonnull)event __attribute__((swift_name("onDidDismiss(event:)")));
-        [Export ("onDidDismissInAppMessage:")]
+        [Export("onDidDismissInAppMessage:")]
         void OnDidDismissInAppMessage(OSInAppMessageDidDismissEvent @event);
     }
 
@@ -757,15 +763,15 @@ namespace Com.OneSignal.iOS {
     interface OSInAppMessageClickEvent
     {
         // @property (readonly, nonatomic) OSInAppMessage * _Nonnull message;
-        [Export ("message")]
+        [Export("message")]
         OSInAppMessage Message { get; }
 
         // @property (readonly, nonatomic) OSInAppMessageClickResult * _Nonnull result;
-        [Export ("result")]
+        [Export("result")]
         OSInAppMessageClickResult Result { get; }
 
         // -(NSDictionary * _Nonnull)jsonRepresentation;
-        [Export ("jsonRepresentation")]
+        [Export("jsonRepresentation")]
         //[Verify(MethodToProperty)]
         NSDictionary JsonRepresentation { get; }
     }
@@ -778,7 +784,7 @@ namespace Com.OneSignal.iOS {
     {
         // @required -(void)onClickInAppMessage:(OSInAppMessageClickEvent * _Nonnull)event __attribute__((swift_name("onClick(event:)")));
         ////[Abstract]
-        [Export ("onClickInAppMessage:")]
+        [Export("onClickInAppMessage:")]
         void OnClickInAppMessage(OSInAppMessageClickEvent @event);
     }
 
@@ -789,58 +795,58 @@ namespace Com.OneSignal.iOS {
     {
         // @required +(void)addTrigger:(NSString * _Nonnull)key withValue:(NSString * _Nonnull)value;
         //[Static, Abstract]
-        [Export ("addTrigger:withValue:")]
+        [Export("addTrigger:withValue:")]
         void AddTrigger(string key, string value);
 
         // @required +(void)addTriggers:(NSDictionary<NSString *,NSString *> * _Nonnull)triggers;
         //[Static, Abstract]
-        [Export ("addTriggers:")]
+        [Export("addTriggers:")]
         void AddTriggers(NSDictionary<NSString, NSString> triggers);
 
         // @required +(void)removeTrigger:(NSString * _Nonnull)key;
         //[Static, Abstract]
-        [Export ("removeTrigger:")]
+        [Export("removeTrigger:")]
         void RemoveTrigger(string key);
 
         // @required +(void)removeTriggers:(NSArray<NSString *> * _Nonnull)keys;
         //[Static, Abstract]
-        [Export ("removeTriggers:")]
+        [Export("removeTriggers:")]
         void RemoveTriggers(string[] keys);
 
         // @required +(void)clearTriggers;
         //[Static, Abstract]
-        [Export ("clearTriggers")]
+        [Export("clearTriggers")]
         void ClearTriggers();
 
         // @required +(BOOL)paused __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("paused")]
+        [Export("paused")]
         //[Verify(MethodToProperty)]
         bool Paused { get; }
 
         // @required +(void)paused:(BOOL)pause __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("paused:")]
+        [Export("paused:")]
         void SetPaused(bool pause);
 
         // @required +(void)addClickListener:(NSObject<OSInAppMessageClickListener> * _Nullable)listener __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("addClickListener:")]
+        [Export("addClickListener:")]
         void AddClickListener([NullAllowed] OSInAppMessageClickListener listener);
 
         // @required +(void)removeClickListener:(NSObject<OSInAppMessageClickListener> * _Nullable)listener __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("removeClickListener:")]
+        [Export("removeClickListener:")]
         void RemoveClickListener([NullAllowed] OSInAppMessageClickListener listener);
 
         // @required +(void)addLifecycleListener:(NSObject<OSInAppMessageLifecycleListener> * _Nullable)listener __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("addLifecycleListener:")]
+        [Export("addLifecycleListener:")]
         void AddLifecycleListener([NullAllowed] OSInAppMessageLifecycleListener listener);
 
         // @required +(void)removeLifecycleListener:(NSObject<OSInAppMessageLifecycleListener> * _Nullable)listener __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("removeLifecycleListener:")]
+        [Export("removeLifecycleListener:")]
         void RemoveLifecycleListener([NullAllowed] OSInAppMessageLifecycleListener listener);
     }
 
@@ -851,17 +857,17 @@ namespace Com.OneSignal.iOS {
     {
         // @required +(void)requestPermission;
         //[Static, Abstract]
-        [Export ("requestPermission")]
+        [Export("requestPermission")]
         void RequestPermission();
 
         // @required +(void)setShared:(BOOL)enable __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("setShared:")]
+        [Export("setShared:")]
         void SetShared(bool enable);
 
         // @required +(BOOL)isShared __attribute__((swift_private));
         //[Static, Abstract]
-        [Export ("isShared")]
+        [Export("isShared")]
         //[Verify(MethodToProperty)]
         bool IsShared { get; }
     }
@@ -881,118 +887,130 @@ namespace Com.OneSignal.iOS {
     {
         // +(NSString *)appId;
         [Static]
-        [Export ("appId")]
+        [Export("appId")]
         //[Verify(MethodToProperty)]
         string AppId { get; }
 
         // +(NSString * _Nonnull)sdkVersionRaw;
         [Static]
-        [Export ("sdkVersionRaw")]
+        [Export("sdkVersionRaw")]
         //[Verify(MethodToProperty)]
         string SdkVersionRaw { get; }
 
         // +(NSString * _Nonnull)sdkSemanticVersion;
         [Static]
-        [Export ("sdkSemanticVersion")]
+        [Export("sdkSemanticVersion")]
         //[Verify(MethodToProperty)]
         string SdkSemanticVersion { get; }
 
         // +(id<OSUser>)User __attribute__((swift_private));
         [Static]
-        [Export ("User")]
+        [Export("User")]
         //[Verify(MethodToProperty)]
         OSUser User { get; }
 
         // +(void)login:(NSString * _Nonnull)externalId;
         [Static]
-        [Export ("login:")]
+        [Export("login:")]
         void Login(string externalId);
 
         // +(void)login:(NSString * _Nonnull)externalId withToken:(NSString * _Nullable)token __attribute__((swift_name("login(externalId:token:)")));
         [Static]
-        [Export ("login:withToken:")]
+        [Export("login:withToken:")]
         void Login(string externalId, [NullAllowed] string token);
 
         // +(void)logout;
         [Static]
-        [Export ("logout")]
+        [Export("logout")]
         void Logout();
 
         // +(Class<OSNotifications>)Notifications __attribute__((swift_private));
         [Static]
-        [Export ("Notifications")]
+        [Export("Notifications")]
         //[Verify(MethodToProperty)]
         OSNotifications Notifications { get; }
 
         // +(void)setLaunchOptions:(NSDictionary * _Nullable)newLaunchOptions;
         [Static]
-        [Export ("setLaunchOptions:")]
+        [Export("setLaunchOptions:")]
         void SetLaunchOptions([NullAllowed] NSDictionary newLaunchOptions);
 
         // +(void)initialize:(NSString * _Nonnull)newAppId withLaunchOptions:(NSDictionary * _Nullable)launchOptions;
         [Static]
-        [Export ("initialize:withLaunchOptions:")]
+        [Export("initialize:withLaunchOptions:")]
         void Initialize(string newAppId, [NullAllowed] NSDictionary launchOptions);
 
         // +(void)setProvidesNotificationSettingsView:(BOOL)providesView;
         [Static]
-        [Export ("setProvidesNotificationSettingsView:")]
+        [Export("setProvidesNotificationSettingsView:")]
         void SetProvidesNotificationSettingsView(bool providesView);
 
         // +(Class<OSLiveActivities>)LiveActivities __attribute__((swift_private));
         [Static]
-        [Export ("LiveActivities")]
+        [Export("LiveActivities")]
         //[Verify(MethodToProperty)]
         OSLiveActivities LiveActivities { get; }
 
         // +(Class<OSDebug>)Debug __attribute__((swift_private));
         [Static]
-        [Export ("Debug")]
+        [Export("Debug")]
         //[Verify(MethodToProperty)]
         OSDebug Debug { get; }
 
         // +(void)setConsentRequired:(BOOL)required;
         [Static]
-        [Export ("setConsentRequired:")]
+        [Export("setConsentRequired:")]
         void SetConsentRequired(bool required);
 
         // +(void)setConsentGiven:(BOOL)granted;
         [Static]
-        [Export ("setConsentGiven:")]
+        [Export("setConsentGiven:")]
         void SetConsentGiven(bool granted);
 
         // +(Class<OSInAppMessages>)InAppMessages __attribute__((swift_private));
         [Static]
-        [Export ("InAppMessages")]
+        [Export("InAppMessages")]
         //[Verify(MethodToProperty)]
         OSInAppMessages InAppMessages { get; }
 
         // +(Class<OSLocation>)Location __attribute__((swift_private));
         [Static]
-        [Export ("Location")]
+        [Export("Location")]
         //[Verify(MethodToProperty)]
         OSLocation Location { get; }
 
         // +(Class<OSSession>)Session __attribute__((swift_private));
         [Static]
-        [Export ("Session")]
+        [Export("Session")]
         //[Verify(MethodToProperty)]
         OSSession Session { get; }
 
         // +(UNMutableNotificationContent *)didReceiveNotificationExtensionRequest:(UNNotificationRequest * _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent * _Nullable)replacementContent __attribute__((deprecated("Please use didReceiveNotificationExtensionRequest:withMutableNotificationContent:withContentHandler: instead.")));
         [Static]
-        [Export ("didReceiveNotificationExtensionRequest:withMutableNotificationContent:")]
-        UNMutableNotificationContent DidReceiveNotificationExtensionRequest(UNNotificationRequest request, [NullAllowed] UNMutableNotificationContent replacementContent);
+        [Export("didReceiveNotificationExtensionRequest:withMutableNotificationContent:")]
+        UNMutableNotificationContent DidReceiveNotificationExtensionRequest(
+            UNNotificationRequest request,
+            [NullAllowed] UNMutableNotificationContent replacementContent
+        );
 
         // +(UNMutableNotificationContent *)didReceiveNotificationExtensionRequest:(UNNotificationRequest * _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent * _Nullable)replacementContent withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler;
         [Static]
-        [Export ("didReceiveNotificationExtensionRequest:withMutableNotificationContent:withContentHandler:")]
-        UNMutableNotificationContent DidReceiveNotificationExtensionRequest(UNNotificationRequest request, [NullAllowed] UNMutableNotificationContent replacementContent, Action<UNNotificationContent> contentHandler);
+        [Export(
+            "didReceiveNotificationExtensionRequest:withMutableNotificationContent:withContentHandler:"
+        )]
+        UNMutableNotificationContent DidReceiveNotificationExtensionRequest(
+            UNNotificationRequest request,
+            [NullAllowed] UNMutableNotificationContent replacementContent,
+            Action<UNNotificationContent> contentHandler
+        );
 
         // +(UNMutableNotificationContent *)serviceExtensionTimeWillExpireRequest:(UNNotificationRequest * _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent * _Nullable)replacementContent;
         [Static]
-        [Export ("serviceExtensionTimeWillExpireRequest:withMutableNotificationContent:")]
-        UNMutableNotificationContent ServiceExtensionTimeWillExpireRequest(UNNotificationRequest request, [NullAllowed] UNMutableNotificationContent replacementContent);
+        [Export("serviceExtensionTimeWillExpireRequest:withMutableNotificationContent:")]
+        UNMutableNotificationContent ServiceExtensionTimeWillExpireRequest(
+            UNNotificationRequest request,
+            [NullAllowed] UNMutableNotificationContent replacementContent
+        );
     }
 
     // @protocol OSLiveActivities <NSObject>
@@ -1002,65 +1020,82 @@ namespace Com.OneSignal.iOS {
     {
         // @required +(void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)token;
         //[Static, Abstract]
-        [Export ("enter:withToken:")]
+        [Export("enter:withToken:")]
         void Enter(string activityId, string token);
 
         // @required +(void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)token withSuccess:(OSResultSuccessBlock _Nullable)successBlock withFailure:(OSFailureBlock _Nullable)failureBlock;
         //[Static, Abstract]
-        [Export ("enter:withToken:withSuccess:withFailure:")]
-        void Enter(string activityId, string token, [NullAllowed] OSResultSuccessBlock successBlock, [NullAllowed] OSFailureBlock failureBlock);
+        [Export("enter:withToken:withSuccess:withFailure:")]
+        void Enter(
+            string activityId,
+            string token,
+            [NullAllowed] OSResultSuccessBlock successBlock,
+            [NullAllowed] OSFailureBlock failureBlock
+        );
 
         // @required +(void)exit:(NSString * _Nonnull)activityId;
         //[Static, Abstract]
-        [Export ("exit:")]
+        [Export("exit:")]
         void Exit(string activityId);
 
         // @required +(void)exit:(NSString * _Nonnull)activityId withSuccess:(OSResultSuccessBlock _Nullable)successBlock withFailure:(OSFailureBlock _Nullable)failureBlock;
         //[Static, Abstract]
-        [Export ("exit:withSuccess:withFailure:")]
-        void Exit(string activityId, [NullAllowed] OSResultSuccessBlock successBlock, [NullAllowed] OSFailureBlock failureBlock);
+        [Export("exit:withSuccess:withFailure:")]
+        void Exit(
+            string activityId,
+            [NullAllowed] OSResultSuccessBlock successBlock,
+            [NullAllowed] OSFailureBlock failureBlock
+        );
     }
 
-    [BaseType (typeof(NSObject))]
+    [BaseType(typeof(NSObject))]
     interface OneSignalLiveActivitiesManagerImpl
     {
         // +(BOOL)setPushToStartToken:(NSString * _Nonnull)activityType withToken:(NSString * _Nonnull)withToken error:(NSError * _Nullable * _Nullable)error __attribute__((availability(ios, introduced=17.2)));
         [Static]
-        [Export ("setPushToStartToken:withToken:error:")]
-        bool SetPushToStartToken (string activityType, string withToken, [NullAllowed] out NSError error);
+        [Export("setPushToStartToken:withToken:error:")]
+        bool SetPushToStartToken(
+            string activityType,
+            string withToken,
+            [NullAllowed] out NSError error
+        );
 
         // +(BOOL)removePushToStartToken:(NSString * _Nonnull)activityType error:(NSError * _Nullable * _Nullable)error __attribute__((availability(ios, introduced=17.2)));
         [Static]
-        [Export ("removePushToStartToken:error:")]
-        bool RemovePushToStartToken (string activityType, [NullAllowed] out NSError error);
+        [Export("removePushToStartToken:error:")]
+        bool RemovePushToStartToken(string activityType, [NullAllowed] out NSError error);
 
         // +(void)setupDefaultWithOptions:(LiveActivitySetupOptions * _Nullable)options __attribute__((availability(ios, introduced=16.1)));
         [Static]
-        [Export ("setupDefaultWithOptions:")]
-        void SetupDefaultWithOptions ([NullAllowed] LiveActivitySetupOptions options);
+        [Export("setupDefaultWithOptions:")]
+        void SetupDefaultWithOptions([NullAllowed] LiveActivitySetupOptions options);
 
         // +(void)startDefault:(NSString * _Nonnull)activityId attributes:(NSDictionary<NSString *,id> * _Nonnull)attributes content:(NSDictionary<NSString *,id> * _Nonnull)content __attribute__((availability(ios, introduced=16.1)));
         [Static]
-        [Export ("startDefault:attributes:content:")]
-        void StartDefault (string activityId, NSDictionary<NSString, NSObject> attributes, NSDictionary<NSString, NSObject> content);
+        [Export("startDefault:attributes:content:")]
+        void StartDefault(
+            string activityId,
+            NSDictionary<NSString, NSObject> attributes,
+            NSDictionary<NSString, NSObject> content
+        );
     }
 
     // @interface LiveActivitySetupOptions : NSObject
-    [BaseType (typeof(NSObject))]
+    [BaseType(typeof(NSObject))]
     [DisableDefaultCtor]
     interface LiveActivitySetupOptions
     {
         // @property (nonatomic) BOOL enablePushToStart;
-        [Export ("enablePushToStart")]
+        [Export("enablePushToStart")]
         bool EnablePushToStart { get; set; }
 
         // @property (nonatomic) BOOL enablePushToUpdate;
-        [Export ("enablePushToUpdate")]
+        [Export("enablePushToUpdate")]
         bool EnablePushToUpdate { get; set; }
 
         // -(instancetype _Nonnull)initWithEnablePushToStart:(BOOL)enablePushToStart enablePushToUpdate:(BOOL)enablePushToUpdate __attribute__((objc_designated_initializer));
-        [Export ("initWithEnablePushToStart:enablePushToUpdate:")]
+        [Export("initWithEnablePushToStart:enablePushToUpdate:")]
         [DesignatedInitializer]
-        NativeHandle Constructor (bool enablePushToStart, bool enablePushToUpdate);
+        NativeHandle Constructor(bool enablePushToStart, bool enablePushToUpdate);
     }
 }

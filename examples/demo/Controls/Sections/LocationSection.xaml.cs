@@ -34,7 +34,8 @@ public partial class LocationSection : ContentView
 
     private void OnLocationSharedToggled(object? sender, ToggledEventArgs e)
     {
-        if (_suppressToggle) return;
+        if (_suppressToggle)
+            return;
         _viewModel?.SetLocationSharedValue(e.Value);
     }
 

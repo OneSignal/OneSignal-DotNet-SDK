@@ -163,13 +163,21 @@ public static class MultiPairDialogHelper
             var row = new HorizontalStackLayout { Spacing = 8 };
             row.Children.Add(cb);
             row.Children.Add(
-                new Label { Text = key, VerticalOptions = LayoutOptions.Center, FontSize = 14 }
+                new Label
+                {
+                    Text = key,
+                    VerticalOptions = LayoutOptions.Center,
+                    FontSize = 14,
+                }
             );
             itemsLayout.Children.Add(row);
         }
 
         var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_select_cancel_button");
-        var removeButton = DialogInputHelper.ActionButtonDisabled("Remove (0)", "multi_select_remove_button");
+        var removeButton = DialogInputHelper.ActionButtonDisabled(
+            "Remove (0)",
+            "multi_select_remove_button"
+        );
 
         void UpdateButton()
         {
@@ -185,10 +193,7 @@ public static class MultiPairDialogHelper
 
         removeButton.Clicked += async (s, e) =>
         {
-            var selected = checkboxes
-                .Where(c => c.Box.IsChecked)
-                .Select(c => c.Key)
-                .ToList();
+            var selected = checkboxes.Where(c => c.Box.IsChecked).Select(c => c.Key).ToList();
             await parentPage.ClosePopupAsync(selected);
         };
 
@@ -217,7 +222,10 @@ public static class MultiPairDialogHelper
             },
         };
 
-        var result = await parentPage.ShowPopupAsync<List<string>>(content, DialogInputHelper.DialogOptions);
+        var result = await parentPage.ShowPopupAsync<List<string>>(
+            content,
+            DialogInputHelper.DialogOptions
+        );
         return result?.Result;
     }
 }

@@ -29,14 +29,16 @@ public abstract class AndroidConsumer<TResult> : Java.Lang.Object, IConsumer
             {
                 _completionSource.TrySetResult(Complete(result.Data));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _completionSource.TrySetException(e);
             }
         }
         else
         {
-            _completionSource.TrySetException(result?.Throwable ?? new Exception("Error with async method"));
+            _completionSource.TrySetException(
+                result?.Throwable ?? new Exception("Error with async method")
+            );
         }
     }
 
@@ -73,7 +75,7 @@ public class AndroidBoolConsumer : AndroidConsumer<bool>, IConsumer
 {
     protected override bool Complete(Java.Lang.Object? data)
     {
-        if(data != null && (data is Java.Lang.Boolean))
+        if (data != null && (data is Java.Lang.Boolean))
         {
             return ((Java.Lang.Boolean)data!).BooleanValue();
         }

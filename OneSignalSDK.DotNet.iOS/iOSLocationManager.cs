@@ -1,6 +1,5 @@
 ﻿using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Location;
-
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 
 namespace OneSignalSDK.DotNet.iOS;

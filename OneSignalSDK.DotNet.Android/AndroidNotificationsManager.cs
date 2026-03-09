@@ -2,7 +2,6 @@
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Internal.Utilities;
 using OneSignalSDK.DotNet.Core.Notifications;
-
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android;
@@ -16,6 +15,7 @@ public class AndroidNotificationsManager : INotificationsManager
     public bool Permission => OneSignalNative.Notifications.Permission;
 
     private InternalNotificationsEventsHandler? _notificationsEventsHandler;
+
     public void Initialize()
     {
         _notificationsEventsHandler = new InternalNotificationsEventsHandler(this);
@@ -27,22 +27,27 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public NotificationPermission PermissionNative()
     {
-       return this.Permission ? NotificationPermission.Authorized : NotificationPermission.Denied;
+        return this.Permission ? NotificationPermission.Authorized : NotificationPermission.Denied;
     }
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
         var consumer = new AndroidBoolConsumer();
-        OneSignalNative.Notifications.RequestPermission(fallbackToSettings, Com.OneSignal.Android.Continue.With(consumer));
+        OneSignalNative.Notifications.RequestPermission(
+            fallbackToSettings,
+            Com.OneSignal.Android.Continue.With(consumer)
+        );
         return await consumer;
     }
 
-    private class InternalNotificationsEventsHandler : Java.Lang.Object,
-        Com.OneSignal.Android.Notifications.IPermissionObserver,
-        Com.OneSignal.Android.Notifications.INotificationLifecycleListener,
-        Com.OneSignal.Android.Notifications.INotificationClickListener
+    private class InternalNotificationsEventsHandler
+        : Java.Lang.Object,
+            Com.OneSignal.Android.Notifications.IPermissionObserver,
+            Com.OneSignal.Android.Notifications.INotificationLifecycleListener,
+            Com.OneSignal.Android.Notifications.INotificationClickListener
     {
         private AndroidNotificationsManager _manager;
+
         public InternalNotificationsEventsHandler(AndroidNotificationsManager manager)
         {
             _manager = manager;
@@ -50,12 +55,19 @@ public class AndroidNotificationsManager : INotificationsManager
 
         public void OnNotificationPermissionChange(bool permission)
         {
-            _manager.PermissionChanged?.Invoke(_manager, new NotificationPermissionChangedEventArgs(permission));
+            _manager.PermissionChanged?.Invoke(
+                _manager,
+                new NotificationPermissionChangedEventArgs(permission)
+            );
         }
 
-        public void OnWillDisplay(Com.OneSignal.Android.Notifications.INotificationWillDisplayEvent willDisplayEvent)
+        public void OnWillDisplay(
+            Com.OneSignal.Android.Notifications.INotificationWillDisplayEvent willDisplayEvent
+        )
         {
-            var notification = AndroidDisplayableNotification.ToDisplayableNotification(willDisplayEvent.Notification);
+            var notification = AndroidDisplayableNotification.ToDisplayableNotification(
+                willDisplayEvent.Notification
+            );
             var args = new AndroidNotificationWillDisplayEventArgs(willDisplayEvent, notification);
 
             _manager.WillDisplay?.Invoke(_manager, args);
@@ -65,17 +77,24 @@ public class AndroidNotificationsManager : INotificationsManager
         {
             var notification = FromNativeConversion.ToNotification(clickEvent.Notification);
             var result = FromNativeConversion.ToNotificationClickResult(clickEvent.Result);
-            var args = new OneSignalSDK.DotNet.Core.Notifications.NotificationClickedEventArgs(notification, result);
+            var args = new OneSignalSDK.DotNet.Core.Notifications.NotificationClickedEventArgs(
+                notification,
+                result
+            );
             _manager.Clicked?.Invoke(_manager, args);
         }
     }
 
-    private sealed class AndroidNotificationWillDisplayEventArgs : OneSignalSDK.DotNet.Core.Notifications.NotificationWillDisplayEventArgs
+    private sealed class AndroidNotificationWillDisplayEventArgs
+        : OneSignalSDK.DotNet.Core.Notifications.NotificationWillDisplayEventArgs
     {
         private Com.OneSignal.Android.Notifications.INotificationWillDisplayEvent _willDisplayEvent;
 
-        public AndroidNotificationWillDisplayEventArgs(Com.OneSignal.Android.Notifications.INotificationWillDisplayEvent willDisplayEvent,
-                                                   DisplayableNotification notification) : base(notification)
+        public AndroidNotificationWillDisplayEventArgs(
+            Com.OneSignal.Android.Notifications.INotificationWillDisplayEvent willDisplayEvent,
+            DisplayableNotification notification
+        )
+            : base(notification)
         {
             _willDisplayEvent = willDisplayEvent;
         }
@@ -86,41 +105,54 @@ public class AndroidNotificationsManager : INotificationsManager
         }
     }
 
-    private sealed class AndroidDisplayableNotification : OneSignalSDK.DotNet.Core.Notifications.DisplayableNotification
+    private sealed class AndroidDisplayableNotification
+        : OneSignalSDK.DotNet.Core.Notifications.DisplayableNotification
     {
-        public static AndroidDisplayableNotification ToDisplayableNotification(Com.OneSignal.Android.Notifications.IDisplayableNotification notification)
+        public static AndroidDisplayableNotification ToDisplayableNotification(
+            Com.OneSignal.Android.Notifications.IDisplayableNotification notification
+        )
         {
             IDictionary<string, object> additionalData = new Dictionary<string, object>();
             if (notification.AdditionalData != null)
-                additionalData = Json.Deserialize(notification.AdditionalData.ToString()) as IDictionary<string, object> ?? new Dictionary<string, object>();
+                additionalData =
+                    Json.Deserialize(notification.AdditionalData.ToString())
+                        as IDictionary<string, object>
+                    ?? new Dictionary<string, object>();
 
             IList<OneSignalSDK.DotNet.Core.Notifications.Notification>? groupedNotifications = null;
             if (notification.GroupedNotifications != null)
             {
-                groupedNotifications = new List<OneSignalSDK.DotNet.Core.Notifications.Notification>();
+                groupedNotifications =
+                    new List<OneSignalSDK.DotNet.Core.Notifications.Notification>();
                 foreach (var individualNotification in notification.GroupedNotifications)
-                    groupedNotifications.Add(FromNativeConversion.ToNotification(individualNotification));
+                    groupedNotifications.Add(
+                        FromNativeConversion.ToNotification(individualNotification)
+                    );
             }
 
             var actionButtons = new List<OneSignalSDK.DotNet.Core.Notifications.ActionButton>();
             if (notification.ActionButtons != null)
             {
                 foreach (var actionButton in notification.ActionButtons)
-                    actionButtons.Add(new OneSignalSDK.DotNet.Core.Notifications.ActionButton(
-                        id: actionButton.Id,
-                        text: actionButton.Text,
-                        icon: actionButton.Icon
-                    ));
+                    actionButtons.Add(
+                        new OneSignalSDK.DotNet.Core.Notifications.ActionButton(
+                            id: actionButton.Id,
+                            text: actionButton.Text,
+                            icon: actionButton.Icon
+                        )
+                    );
             }
 
-            OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout? backgroundImageLayout = null;
+            OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout? backgroundImageLayout =
+                null;
             if (notification.BackgroundImageLayout != null)
             {
-                backgroundImageLayout = new OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout(
-                    image: notification.BackgroundImageLayout.Image,
-                    titleTextColor: notification.BackgroundImageLayout.TitleTextColor,
-                    bodyTextColor: notification.BackgroundImageLayout.BodyTextColor
-                );
+                backgroundImageLayout =
+                    new OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout(
+                        image: notification.BackgroundImageLayout.Image,
+                        titleTextColor: notification.BackgroundImageLayout.TitleTextColor,
+                        bodyTextColor: notification.BackgroundImageLayout.BodyTextColor
+                    );
             }
 
             return new AndroidDisplayableNotification(
@@ -148,7 +180,7 @@ public class AndroidNotificationsManager : INotificationsManager
                 androidNotificationId: notification.AndroidNotificationId
             );
         }
-            
+
         private Com.OneSignal.Android.Notifications.IDisplayableNotification _displayableNotification;
 
         public AndroidDisplayableNotification(
@@ -176,15 +208,17 @@ public class AndroidNotificationsManager : INotificationsManager
             string smallIconAccentColor = null,
             int? lockScreenVisibility = null,
             int? androidNotificationId = null,
-            int? badge = null, int?
-            badgeIncrement = null,
+            int? badge = null,
+            int? badgeIncrement = null,
             string category = null,
             string threadId = null,
             string subtitle = null,
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string interruptionLevel = null) : base(
+            string interruptionLevel = null
+        )
+            : base(
                 title,
                 body,
                 sound,
@@ -216,7 +250,8 @@ public class AndroidNotificationsManager : INotificationsManager
                 relevanceScore,
                 mutableContent,
                 contentAvailable,
-                interruptionLevel)
+                interruptionLevel
+            )
         {
             _displayableNotification = displayableNotification;
         }

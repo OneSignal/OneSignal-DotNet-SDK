@@ -1,8 +1,8 @@
 using System.Reflection.Emit;
+using OneSignalSDK.DotNet.Android.Utilities;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.User;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
-using OneSignalSDK.DotNet.Android.Utilities;
 using OneSignalNative = Com.OneSignal.Android.OneSignal;
 
 namespace OneSignalSDK.DotNet.Android
@@ -25,39 +25,52 @@ namespace OneSignalSDK.DotNet.Android
             ((AndroidPushSubscription)PushSubscription).Initialize();
         }
 
-        public string OneSignalId 
+        public string OneSignalId
         {
-            get {
+            get
+            {
                 string id = OneSignalNative.User.OnesignalId;
-                return string.IsNullOrEmpty(id)? null : id;
+                return string.IsNullOrEmpty(id) ? null : id;
             }
         }
 
-        public string ExternalId 
+        public string ExternalId
         {
-            get {
+            get
+            {
                 string id = OneSignalNative.User.ExternalId;
-                return string.IsNullOrEmpty(id)? null : id;
+                return string.IsNullOrEmpty(id) ? null : id;
             }
         }
 
         public event EventHandler<UserStateChangedEventArgs> Changed;
 
         public void AddAlias(string label, string id) => OneSignalNative.User.AddAlias(label, id);
-        public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(aliases);
+
+        public void AddAliases(IDictionary<string, string> aliases) =>
+            OneSignalNative.User.AddAliases(aliases);
+
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
-        public void RemoveAliases(params string[] labels) => OneSignalNative.User.RemoveAliases(labels);
+
+        public void RemoveAliases(params string[] labels) =>
+            OneSignalNative.User.RemoveAliases(labels);
 
         public void AddEmail(string email) => OneSignalNative.User.AddEmail(email);
+
         public void RemoveEmail(string email) => OneSignalNative.User.RemoveEmail(email);
 
         public void AddSms(string sms) => OneSignalNative.User.AddSms(sms);
+
         public void RemoveSms(string sms) => OneSignalNative.User.RemoveSms(sms);
 
         public void AddTag(string key, string value) => OneSignalNative.User.AddTag(key, value);
+
         public void AddTags(IDictionary<string, string> tags) => OneSignalNative.User.AddTags(tags);
+
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
+
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
+
         public IDictionary<string, string> GetTags() => OneSignalNative.User.Tags;
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
@@ -78,9 +91,12 @@ namespace OneSignalSDK.DotNet.Android
             }
         }
 
-        private class InternalUserChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.State.IUserStateObserver
+        private class InternalUserChangedHandler
+            : Java.Lang.Object,
+                Com.OneSignal.Android.User.State.IUserStateObserver
         {
             private AndroidUserManager _manager;
+
             public InternalUserChangedHandler(AndroidUserManager manager)
             {
                 _manager = manager;
@@ -88,7 +104,10 @@ namespace OneSignalSDK.DotNet.Android
 
             public void OnUserStateChange(Com.OneSignal.Android.User.State.UserChangedState state)
             {
-                var current = new InternalUserState(state.Current.OnesignalId, state.Current.ExternalId);
+                var current = new InternalUserState(
+                    state.Current.OnesignalId,
+                    state.Current.ExternalId
+                );
                 var userChangedState = new UserChangedState(current);
                 _manager.Changed?.Invoke(_manager, new UserStateChangedEventArgs(userChangedState));
             }
@@ -131,7 +150,6 @@ namespace OneSignalSDK.DotNet.Android
 
             public bool OptedIn { get; }
 
-
             public InternalPushSubscriptionState(string token, bool optedIn, string id)
             {
                 Token = token;
@@ -140,22 +158,37 @@ namespace OneSignalSDK.DotNet.Android
             }
         }
 
-        private class InternalSubscriptionChangedHandler : Java.Lang.Object, Com.OneSignal.Android.User.Subscriptions.IPushSubscriptionObserver
+        private class InternalSubscriptionChangedHandler
+            : Java.Lang.Object,
+                Com.OneSignal.Android.User.Subscriptions.IPushSubscriptionObserver
         {
             private AndroidPushSubscription _manager;
+
             public InternalSubscriptionChangedHandler(AndroidPushSubscription manager)
             {
                 _manager = manager;
             }
 
-            public void OnPushSubscriptionChange(Com.OneSignal.Android.User.Subscriptions.PushSubscriptionChangedState state)
+            public void OnPushSubscriptionChange(
+                Com.OneSignal.Android.User.Subscriptions.PushSubscriptionChangedState state
+            )
             {
-                var previous = new InternalPushSubscriptionState(state.Previous.Token, state.Previous.OptedIn, state.Previous.Id);
-                var current = new InternalPushSubscriptionState(state.Current.Token, state.Current.OptedIn, state.Current.Id);
+                var previous = new InternalPushSubscriptionState(
+                    state.Previous.Token,
+                    state.Previous.OptedIn,
+                    state.Previous.Id
+                );
+                var current = new InternalPushSubscriptionState(
+                    state.Current.Token,
+                    state.Current.OptedIn,
+                    state.Current.Id
+                );
                 var changedState = new PushSubscriptionChangedState(previous, current);
-                _manager.Changed?.Invoke(_manager, new PushSubscriptionChangedEventArgs(changedState));
+                _manager.Changed?.Invoke(
+                    _manager,
+                    new PushSubscriptionChangedEventArgs(changedState)
+                );
             }
         }
-
     }
 }

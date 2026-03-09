@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
-using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Internal.Utilities;
+using OneSignalSDK.DotNet.Core.Notifications;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
 
@@ -12,11 +12,16 @@ namespace OneSignalSDK.DotNet.Android.Utilities;
 /// </summary>
 public static class FromNativeConversion
 {
-    public static OneSignalSDK.DotNet.Core.Notifications.Notification ToNotification(Com.OneSignal.Android.Notifications.INotification notification)
+    public static OneSignalSDK.DotNet.Core.Notifications.Notification ToNotification(
+        Com.OneSignal.Android.Notifications.INotification notification
+    )
     {
         IDictionary<string, object> additionalData = new Dictionary<string, object>();
         if (notification.AdditionalData != null)
-            additionalData = Json.Deserialize(notification.AdditionalData.ToString()) as IDictionary<string, object> ?? new Dictionary<string, object>();
+            additionalData =
+                Json.Deserialize(notification.AdditionalData.ToString())
+                    as IDictionary<string, object>
+                ?? new Dictionary<string, object>();
 
         IList<OneSignalSDK.DotNet.Core.Notifications.Notification>? groupedNotifications = null;
         if (notification.GroupedNotifications != null)
@@ -30,21 +35,24 @@ public static class FromNativeConversion
         if (notification.ActionButtons != null)
         {
             foreach (var actionButton in notification.ActionButtons)
-                actionButtons.Add(new OneSignalSDK.DotNet.Core.Notifications.ActionButton(
-                    id: actionButton.Id,
-                    text: actionButton.Text,
-                    icon: actionButton.Icon
-                ));
+                actionButtons.Add(
+                    new OneSignalSDK.DotNet.Core.Notifications.ActionButton(
+                        id: actionButton.Id,
+                        text: actionButton.Text,
+                        icon: actionButton.Icon
+                    )
+                );
         }
 
         OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout? backgroundImageLayout = null;
         if (notification.BackgroundImageLayout != null)
         {
-            backgroundImageLayout = new OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout(
-                image: notification.BackgroundImageLayout.Image,
-                titleTextColor: notification.BackgroundImageLayout.TitleTextColor,
-                bodyTextColor: notification.BackgroundImageLayout.BodyTextColor
-            );
+            backgroundImageLayout =
+                new OneSignalSDK.DotNet.Core.Notifications.BackgroundImageLayout(
+                    image: notification.BackgroundImageLayout.Image,
+                    titleTextColor: notification.BackgroundImageLayout.TitleTextColor,
+                    bodyTextColor: notification.BackgroundImageLayout.BodyTextColor
+                );
         }
 
         return new OneSignalSDK.DotNet.Core.Notifications.Notification(
@@ -72,22 +80,23 @@ public static class FromNativeConversion
         );
     }
 
-    public static OneSignalSDK.DotNet.Core.Notifications.NotificationClickResult ToNotificationClickResult(Com.OneSignal.Android.Notifications.INotificationClickResult result)
+    public static OneSignalSDK.DotNet.Core.Notifications.NotificationClickResult ToNotificationClickResult(
+        Com.OneSignal.Android.Notifications.INotificationClickResult result
+    )
     {
-        return new NotificationClickResult(
-            actionId: result.ActionId,
-            url: result.Url
-        );
+        return new NotificationClickResult(actionId: result.ActionId, url: result.Url);
     }
 
-    public static InAppMessage ToInAppMessage(Com.OneSignal.Android.InAppMessages.IInAppMessage inAppMessage)
+    public static InAppMessage ToInAppMessage(
+        Com.OneSignal.Android.InAppMessages.IInAppMessage inAppMessage
+    )
     {
-        return new InAppMessage(
-           messageId: inAppMessage.MessageId
-        );
+        return new InAppMessage(messageId: inAppMessage.MessageId);
     }
 
-    public static InAppMessageClickResult ToInAppMessageClickResult(Com.OneSignal.Android.InAppMessages.IInAppMessageClickResult clickResult)
+    public static InAppMessageClickResult ToInAppMessageClickResult(
+        Com.OneSignal.Android.InAppMessages.IInAppMessageClickResult clickResult
+    )
     {
         return new InAppMessageClickResult(
             actionId: clickResult.ActionId,

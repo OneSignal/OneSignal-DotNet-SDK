@@ -3,9 +3,9 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Dynamic;
 using OneSignalSDK.DotNet.Core;
-using OneSignalSDK.DotNet.Core.LiveActivities;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 using OneSignalSDK.DotNet.Core.Location;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Session;
@@ -20,7 +20,9 @@ namespace OneSignalSDK.DotNet
     /// </summary>
     public class OneSignal
     {
-        private static readonly Lazy<IOneSignal> Implementation = new Lazy<IOneSignal>(CreateOneSignal);
+        private static readonly Lazy<IOneSignal> Implementation = new Lazy<IOneSignal>(
+            CreateOneSignal
+        );
 
         /// <summary>
         /// The user manager for accessing user-scoped management.
@@ -35,7 +37,8 @@ namespace OneSignalSDK.DotNet
         /// <summary>
         /// The notification manager for accessing device-scoped notification management.
         /// </summary>
-        public static INotificationsManager Notifications { get; } = OneSignal.Default.Notifications;
+        public static INotificationsManager Notifications { get; } =
+            OneSignal.Default.Notifications;
 
         /// <summary>
         /// The location manager for accessing device-scoped location management.
@@ -45,7 +48,8 @@ namespace OneSignalSDK.DotNet
         /// <summary>
         /// The In App Messaging manager for accessing device-scoped IAP management.
         /// </summary>
-        public static IInAppMessagesManager InAppMessages { get; } = OneSignal.Default.InAppMessages;
+        public static IInAppMessagesManager InAppMessages { get; } =
+            OneSignal.Default.InAppMessages;
 
         /// <summary>
         /// Access to debug the SDK in the event additional information is required to diagnose any
@@ -59,20 +63,27 @@ namespace OneSignalSDK.DotNet
         /// <summary>
         /// The LiveActivities manager for accessing iOS Live Activity management.
         /// </summary>
-        public static ILiveActivitiesManager LiveActivities { get; } = OneSignal.Default.LiveActivities;
+        public static ILiveActivitiesManager LiveActivities { get; } =
+            OneSignal.Default.LiveActivities;
 
         /// <summary>
         /// Determines whether a user must consent to privacy prior to their user data being sent
         /// up to OneSignal.This should be set to <code>true</code> prior to the invocation of
         /// <see cref="Initialize(string)"/>to ensure compliance.
         /// </summary>
-        public static bool ConsentRequired { set => OneSignal.Default.ConsentRequired = value; }
+        public static bool ConsentRequired
+        {
+            set => OneSignal.Default.ConsentRequired = value;
+        }
 
         /// <summary>
         /// Indicates whether privacy consent has been granted. This field is only relevant when
         /// the application has opted into data privacy protections. <see cref="ConsentRequired"/>.
         /// </summary>
-        public static bool ConsentGiven { set => OneSignal.Default.ConsentGiven = value; }
+        public static bool ConsentGiven
+        {
+            set => OneSignal.Default.ConsentGiven = value;
+        }
 
         /// <summary>
         /// Initialze the OneSignal SDK.  This should be called during startup of the application.
@@ -145,19 +156,20 @@ namespace OneSignalSDK.DotNet
         private static IOneSignal CreateOneSignal()
         {
 #if __IOS__
-        return new OneSignalSDK.DotNet.iOS.iOSOneSignal();
+            return new OneSignalSDK.DotNet.iOS.iOSOneSignal();
 #elif __ANDROID__
-        return new OneSignalSDK.DotNet.Android.AndroidOneSignal();
+            return new OneSignalSDK.DotNet.Android.AndroidOneSignal();
 #else
             System.Diagnostics.Debug.WriteLine("PORTABLE Reached");
             return null;
 #endif
-
         }
 
         private static Exception NotImplementedInReferenceAssembly()
         {
-            return new NotImplementedException("This functionality is not implemented in the portable version of this assembly.  You should reference the NuGet package from your main application project in order to reference the platform-specific implementation.");
+            return new NotImplementedException(
+                "This functionality is not implemented in the portable version of this assembly.  You should reference the NuGet package from your main application project in order to reference the platform-specific implementation."
+            );
         }
     }
 }
