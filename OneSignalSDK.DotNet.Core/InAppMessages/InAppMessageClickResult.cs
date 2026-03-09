@@ -29,7 +29,12 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
         /// </summary>
         public bool ClosingMessage { get; }
 
-        public InAppMessageClickResult(string actionId, string url, InAppMessageActionUrlType urlTarget, bool closingMessage)
+        public InAppMessageClickResult(
+            string actionId,
+            string url,
+            InAppMessageActionUrlType urlTarget,
+            bool closingMessage
+        )
         {
             ActionId = actionId;
             Url = url;
@@ -42,6 +47,6 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
     {
         Browser,
         InAppWebview,
-        ReplaceContent
+        ReplaceContent,
     }
 }

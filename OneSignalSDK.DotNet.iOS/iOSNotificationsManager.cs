@@ -1,9 +1,9 @@
 ﻿using System.Security.Permissions;
 using Com.OneSignal.iOS;
+using Foundation;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.iOS.Utilities;
-using Foundation;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 
 namespace OneSignalSDK.DotNet.iOS;
@@ -26,24 +26,31 @@ public class iOSNotificationsManager : INotificationsManager
         var _notificationsClickListener = new InternalNotificationsClickListener(this);
         var _notificationsLifecycleListener = new InternalNotificationsLifecycleListener(this);
 
-
         OneSignalNative.Notifications.AddPermissionObserver(_notificationsPermissionObserver);
-        OneSignalNative.Notifications.AddForegroundLifecycleListener(_notificationsLifecycleListener);
+        OneSignalNative.Notifications.AddForegroundLifecycleListener(
+            _notificationsLifecycleListener
+        );
         OneSignalNative.Notifications.AddClickListener(_notificationsClickListener);
     }
 
-    public NotificationPermission PermissionNative() => (NotificationPermission)OneSignalNative.Notifications.PermissionNative;
+    public NotificationPermission PermissionNative() =>
+        (NotificationPermission)OneSignalNative.Notifications.PermissionNative;
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
         var proxy = new BooleanCallbackProxy();
-        OneSignalNative.Notifications.RequestPermission(r => proxy.OnResponse(r), fallbackToSettings);
+        OneSignalNative.Notifications.RequestPermission(
+            r => proxy.OnResponse(r),
+            fallbackToSettings
+        );
         return await proxy;
     }
 
-    private sealed class InternalNotificationsPermissionObserver : Com.OneSignal.iOS.OSNotificationPermissionObserver
+    private sealed class InternalNotificationsPermissionObserver
+        : Com.OneSignal.iOS.OSNotificationPermissionObserver
     {
         private iOSNotificationsManager _manager;
+
         public InternalNotificationsPermissionObserver(iOSNotificationsManager manager)
         {
             _manager = manager;
@@ -51,35 +58,48 @@ public class iOSNotificationsManager : INotificationsManager
 
         public override void OnNotificationPermissionDidChange(bool permission)
         {
-            _manager.PermissionChanged?.Invoke(_manager, new NotificationPermissionChangedEventArgs(permission));
+            _manager.PermissionChanged?.Invoke(
+                _manager,
+                new NotificationPermissionChangedEventArgs(permission)
+            );
         }
     }
 
-    private sealed class InternalNotificationsLifecycleListener : Com.OneSignal.iOS.OSNotificationLifecycleListener
+    private sealed class InternalNotificationsLifecycleListener
+        : Com.OneSignal.iOS.OSNotificationLifecycleListener
     {
         private iOSNotificationsManager _manager;
+
         public InternalNotificationsLifecycleListener(iOSNotificationsManager manager)
         {
             _manager = manager;
         }
 
-        public override void OnWillDisplayNotification(Com.OneSignal.iOS.OSNotificationWillDisplayEvent willDisplayEvent)
+        public override void OnWillDisplayNotification(
+            Com.OneSignal.iOS.OSNotificationWillDisplayEvent willDisplayEvent
+        )
         {
-            var notification = iOSDisplayableNotification.ToDisplayableNotification(willDisplayEvent.Notification);
+            var notification = iOSDisplayableNotification.ToDisplayableNotification(
+                willDisplayEvent.Notification
+            );
             var args = new iOSNotificationWillDisplayEventArgs(willDisplayEvent, notification);
             _manager.WillDisplay?.Invoke(_manager, args);
         }
     }
 
-    private sealed class InternalNotificationsClickListener : Com.OneSignal.iOS.OSNotificationClickListener
+    private sealed class InternalNotificationsClickListener
+        : Com.OneSignal.iOS.OSNotificationClickListener
     {
         private iOSNotificationsManager _manager;
+
         public InternalNotificationsClickListener(iOSNotificationsManager manager)
         {
             _manager = manager;
         }
 
-        public override void OnClickNotification(Com.OneSignal.iOS.OSNotificationClickEvent clickEvent)
+        public override void OnClickNotification(
+            Com.OneSignal.iOS.OSNotificationClickEvent clickEvent
+        )
         {
             var notification = FromNativeConversion.ToNotification(clickEvent.Notification);
             var result = FromNativeConversion.ToNotificationClickResult(clickEvent.Result);
@@ -88,12 +108,16 @@ public class iOSNotificationsManager : INotificationsManager
         }
     }
 
-    private sealed class iOSNotificationWillDisplayEventArgs : OneSignalSDK.DotNet.Core.Notifications.NotificationWillDisplayEventArgs
+    private sealed class iOSNotificationWillDisplayEventArgs
+        : OneSignalSDK.DotNet.Core.Notifications.NotificationWillDisplayEventArgs
     {
         private Com.OneSignal.iOS.OSNotificationWillDisplayEvent _willDisplayEvent;
 
-        public iOSNotificationWillDisplayEventArgs(Com.OneSignal.iOS.OSNotificationWillDisplayEvent willDisplayEvent,
-                                                   DisplayableNotification notification) : base(notification)
+        public iOSNotificationWillDisplayEventArgs(
+            Com.OneSignal.iOS.OSNotificationWillDisplayEvent willDisplayEvent,
+            DisplayableNotification notification
+        )
+            : base(notification)
         {
             _willDisplayEvent = willDisplayEvent;
         }
@@ -104,14 +128,19 @@ public class iOSNotificationsManager : INotificationsManager
         }
     }
 
-    private sealed class iOSDisplayableNotification : OneSignalSDK.DotNet.Core.Notifications.DisplayableNotification
+    private sealed class iOSDisplayableNotification
+        : OneSignalSDK.DotNet.Core.Notifications.DisplayableNotification
     {
-        public static iOSDisplayableNotification ToDisplayableNotification(Com.OneSignal.iOS.OSDisplayableNotification notification)
+        public static iOSDisplayableNotification ToDisplayableNotification(
+            Com.OneSignal.iOS.OSDisplayableNotification notification
+        )
         {
             Dictionary<string, object> additionalDataXam = new Dictionary<string, object>();
             if (notification.AdditionalData != null)
             {
-                additionalDataXam = FromNativeConversion.NSDictToPureDict(notification.AdditionalData);
+                additionalDataXam = FromNativeConversion.NSDictToPureDict(
+                    notification.AdditionalData
+                );
             }
 
             List<ActionButton> actionButtonsXam = new List<ActionButton>();
@@ -119,14 +148,17 @@ public class iOSNotificationsManager : INotificationsManager
             {
                 foreach (NSObject actionButton in notification.ActionButtons)
                 {
-                    Dictionary<string, string> actionButtonXam = FromNativeConversion.NSObjectToPureDict(actionButton);
+                    Dictionary<string, string> actionButtonXam =
+                        FromNativeConversion.NSObjectToPureDict(actionButton);
                     if (actionButtonXam != null)
                     {
-                        actionButtonsXam.Add(new ActionButton(
-                            id: actionButtonXam.GetValueOrDefault("id"),
-                            text: actionButtonXam.GetValueOrDefault("text"),
-                            icon: actionButtonXam.GetValueOrDefault("icon")
-                        ));
+                        actionButtonsXam.Add(
+                            new ActionButton(
+                                id: actionButtonXam.GetValueOrDefault("id"),
+                                text: actionButtonXam.GetValueOrDefault("text"),
+                                icon: actionButtonXam.GetValueOrDefault("icon")
+                            )
+                        );
                     }
                 }
             }
@@ -141,7 +173,9 @@ public class iOSNotificationsManager : INotificationsManager
                 additionalData: additionalDataXam,
                 launchUrl: notification.LaunchURL,
                 sound: notification.Sound,
-                relevanceScore: notification.RelevanceScore != null ? (float)notification.RelevanceScore : 0,
+                relevanceScore: notification.RelevanceScore != null
+                    ? (float)notification.RelevanceScore
+                    : 0,
                 badge: (int)notification.Badge,
                 badgeIncrement: (int)notification.BadgeIncrement,
                 actionButtons: actionButtonsXam,
@@ -181,15 +215,17 @@ public class iOSNotificationsManager : INotificationsManager
             string smallIconAccentColor = null,
             int? lockScreenVisibility = null,
             int? androidNotificationId = null,
-            int? badge = null, int?
-            badgeIncrement = null,
+            int? badge = null,
+            int? badgeIncrement = null,
             string category = null,
             string threadId = null,
             string subtitle = null,
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string interruptionLevel = null) : base(
+            string interruptionLevel = null
+        )
+            : base(
                 title,
                 body,
                 sound,
@@ -221,7 +257,8 @@ public class iOSNotificationsManager : INotificationsManager
                 relevanceScore,
                 mutableContent,
                 contentAvailable,
-                interruptionLevel)
+                interruptionLevel
+            )
         {
             _displayableNotification = displayableNotification;
         }

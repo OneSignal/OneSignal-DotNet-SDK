@@ -9,15 +9,18 @@ namespace OneSignalSDK.DotNet.Core.User
     {
         public UserChangedState State { get; }
 
-        public UserStateChangedEventArgs(UserChangedState state) {
+        public UserStateChangedEventArgs(UserChangedState state)
+        {
             State = state;
         }
     }
 
-    public sealed class UserChangedState {
+    public sealed class UserChangedState
+    {
         public IUserState Current { get; }
 
-        public UserChangedState(IUserState state) {
+        public UserChangedState(IUserState state)
+        {
             Current = state;
         }
     }

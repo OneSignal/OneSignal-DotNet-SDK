@@ -1,5 +1,5 @@
-using OneSignalDemo.ViewModels;
 using OneSignalDemo.Controls;
+using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
 
@@ -42,7 +42,14 @@ public partial class TriggersSection : ContentView
         foreach (var trigger in list!)
         {
             if (!first)
-                TriggerListContainer.Children.Add(new BoxView { HeightRequest = 1, Color = Color.FromArgb("#E8EAED"), Margin = new Thickness(12, 0) });
+                TriggerListContainer.Children.Add(
+                    new BoxView
+                    {
+                        HeightRequest = 1,
+                        Color = Color.FromArgb("#E8EAED"),
+                        Margin = new Thickness(12, 0),
+                    }
+                );
             first = false;
 
             var captured = trigger;
@@ -52,13 +59,20 @@ public partial class TriggersSection : ContentView
                 ColumnDefinitions =
                 {
                     new ColumnDefinition { Width = GridLength.Star },
-                    new ColumnDefinition { Width = GridLength.Auto }
-                }
+                    new ColumnDefinition { Width = GridLength.Auto },
+                },
             };
 
             var textStack = new VerticalStackLayout { Spacing = 2 };
             textStack.Children.Add(new Label { Text = trigger.Key, FontSize = 14 });
-            textStack.Children.Add(new Label { Text = trigger.Value, FontSize = 12, TextColor = Color.FromArgb("#757575") });
+            textStack.Children.Add(
+                new Label
+                {
+                    Text = trigger.Value,
+                    FontSize = 12,
+                    TextColor = Color.FromArgb("#757575"),
+                }
+            );
             row.Children.Add(textStack);
 
             var deleteBtn = new Button
@@ -69,7 +83,7 @@ public partial class TriggersSection : ContentView
                 Padding = new Thickness(8, 0),
                 FontSize = 18,
                 HeightRequest = 40,
-                VerticalOptions = LayoutOptions.Center
+                VerticalOptions = LayoutOptions.Center,
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveTrigger(captured.Key);
             Grid.SetColumn(deleteBtn, 1);
@@ -81,13 +95,24 @@ public partial class TriggersSection : ContentView
 
     private async void OnAddClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
 
         var form = await DialogInputHelper.ShowPairInput(
             _parentPage,
             "Add Trigger",
-            new DialogInputField { Key = "key", Placeholder = "Key", AutomationId = "trigger_key_input" },
-            new DialogInputField { Key = "value", Placeholder = "Value", AutomationId = "trigger_value_input" },
+            new DialogInputField
+            {
+                Key = "key",
+                Placeholder = "Key",
+                AutomationId = "trigger_key_input",
+            },
+            new DialogInputField
+            {
+                Key = "value",
+                Placeholder = "Value",
+                AutomationId = "trigger_value_input",
+            },
             "Add"
         );
 
@@ -104,18 +129,31 @@ public partial class TriggersSection : ContentView
 
     private async void OnAddMultipleClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
-        var pairs = await MultiPairDialogHelper.Show(_parentPage, "Add Multiple Triggers", "Key", "Value");
-        if (pairs == null || pairs.Count == 0) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
+        var pairs = await MultiPairDialogHelper.Show(
+            _parentPage,
+            "Add Multiple Triggers",
+            "Key",
+            "Value"
+        );
+        if (pairs == null || pairs.Count == 0)
+            return;
         _viewModel.AddTriggers(pairs);
     }
 
     private async void OnRemoveSelectedClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
         var keys = _viewModel.TriggersList.Select(t => t.Key).ToList();
-        var selected = await MultiPairDialogHelper.ShowMultiSelect(_parentPage, "Remove Triggers", keys);
-        if (selected == null || selected.Count == 0) return;
+        var selected = await MultiPairDialogHelper.ShowMultiSelect(
+            _parentPage,
+            "Remove Triggers",
+            keys
+        );
+        if (selected == null || selected.Count == 0)
+            return;
         _viewModel.RemoveSelectedTriggers(selected);
     }
 

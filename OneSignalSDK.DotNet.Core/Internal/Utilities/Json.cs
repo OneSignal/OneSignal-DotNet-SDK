@@ -44,7 +44,7 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
                 NUMBER,
                 TRUE,
                 FALSE,
-                NULL
+                NULL,
             };
 
             StringReader json;
@@ -182,7 +182,6 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
                 bool parsing = true;
                 while (parsing)
                 {
-
                     if (json.Peek() == -1)
                     {
                         parsing = false;
@@ -277,18 +276,12 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
 
             char PeekChar
             {
-                get
-                {
-                    return Convert.ToChar(json.Peek());
-                }
+                get { return Convert.ToChar(json.Peek()); }
             }
 
             char NextChar
             {
-                get
-                {
-                    return Convert.ToChar(json.Read());
-                }
+                get { return Convert.ToChar(json.Read()); }
             }
 
             string NextWord
@@ -536,19 +529,20 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
                 {
                     builder.Append(((float)value).ToString("R"));
                 }
-                else if (value is int
-                  || value is uint
-                  || value is long
-                  || value is sbyte
-                  || value is byte
-                  || value is short
-                  || value is ushort
-                  || value is ulong)
+                else if (
+                    value is int
+                    || value is uint
+                    || value is long
+                    || value is sbyte
+                    || value is byte
+                    || value is short
+                    || value is ushort
+                    || value is ulong
+                )
                 {
                     builder.Append(value);
                 }
-                else if (value is double
-                  || value is decimal)
+                else if (value is double || value is decimal)
                 {
                     builder.Append(Convert.ToDouble(value).ToString("R"));
                 }

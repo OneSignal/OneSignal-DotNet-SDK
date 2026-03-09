@@ -3,6 +3,7 @@ using System.Text.Json;
 namespace OneSignalDemo.Services;
 
 public record TooltipOption(string Name, string Description);
+
 public record TooltipData(string Title, string Description, List<TooltipOption>? Options);
 
 public class TooltipHelper
@@ -20,7 +21,8 @@ public class TooltipHelper
 
     public async Task InitAsync()
     {
-        if (_initialized) return;
+        if (_initialized)
+            return;
         try
         {
             using var client = new HttpClient();
@@ -36,13 +38,18 @@ public class TooltipHelper
                 var desc = el.TryGetProperty("description", out var d) ? d.GetString() ?? "" : "";
                 List<TooltipOption>? options = null;
 
-                if (el.TryGetProperty("options", out var opts) && opts.ValueKind == JsonValueKind.Array)
+                if (
+                    el.TryGetProperty("options", out var opts)
+                    && opts.ValueKind == JsonValueKind.Array
+                )
                 {
                     options = new List<TooltipOption>();
                     foreach (var opt in opts.EnumerateArray())
                     {
                         var name = opt.TryGetProperty("name", out var n) ? n.GetString() ?? "" : "";
-                        var optDesc = opt.TryGetProperty("description", out var od) ? od.GetString() ?? "" : "";
+                        var optDesc = opt.TryGetProperty("description", out var od)
+                            ? od.GetString() ?? ""
+                            : "";
                         options.Add(new TooltipOption(name, optDesc));
                     }
                 }

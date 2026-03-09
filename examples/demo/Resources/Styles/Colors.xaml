@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+>
+  <Color x:Key="OsPrimary">#E54B4D</Color>
+  <Color x:Key="OsSuccess">#34A853</Color>
+  <Color x:Key="OsGrey700">#616161</Color>
+  <Color x:Key="OsGrey600">#757575</Color>
+  <Color x:Key="OsGrey500">#9E9E9E</Color>
+  <Color x:Key="OsLightBackground">#F8F9FA</Color>
+  <Color x:Key="OsCardBackground">#FFFFFF</Color>
+  <Color x:Key="OsCardBorder">#1A000000</Color>
+  <Color x:Key="OsDivider">#E8EAED</Color>
+  <Color x:Key="OsWarningBackground">#FFF8E1</Color>
+  <Color x:Key="OsLogBackground">#1A1B1E</Color>
+  <Color x:Key="OsLogDebug">#82AAFF</Color>
+  <Color x:Key="OsLogInfo">#C3E88D</Color>
+  <Color x:Key="OsLogWarn">#FFCB6B</Color>
+  <Color x:Key="OsLogError">#FF5370</Color>
+  <Color x:Key="OsLogTimestamp">#676E7B</Color>
 
-    <Color x:Key="OsPrimary">#E54B4D</Color>
-    <Color x:Key="OsSuccess">#34A853</Color>
-    <Color x:Key="OsGrey700">#616161</Color>
-    <Color x:Key="OsGrey600">#757575</Color>
-    <Color x:Key="OsGrey500">#9E9E9E</Color>
-    <Color x:Key="OsLightBackground">#F8F9FA</Color>
-    <Color x:Key="OsCardBackground">#FFFFFF</Color>
-    <Color x:Key="OsCardBorder">#1A000000</Color>
-    <Color x:Key="OsDivider">#E8EAED</Color>
-    <Color x:Key="OsWarningBackground">#FFF8E1</Color>
-    <Color x:Key="OsLogBackground">#1A1B1E</Color>
-    <Color x:Key="OsLogDebug">#82AAFF</Color>
-    <Color x:Key="OsLogInfo">#C3E88D</Color>
-    <Color x:Key="OsLogWarn">#FFCB6B</Color>
-    <Color x:Key="OsLogError">#FF5370</Color>
-    <Color x:Key="OsLogTimestamp">#676E7B</Color>
-
-    <!-- Legacy aliases kept so existing XAML references still compile -->
-    <Color x:Key="OneSignalRed">#E54B4D</Color>
-    <Color x:Key="OneSignalGreen">#34A853</Color>
-    <Color x:Key="LightBackground">#F8F9FA</Color>
-    <Color x:Key="CardBackground">#FFFFFF</Color>
-    <Color x:Key="DividerColor">#E8EAED</Color>
-    <Color x:Key="WarningBackground">#FFF8E1</Color>
-    <Color x:Key="LogViewBackground">#1A1B1E</Color>
-
+  <!-- Legacy aliases kept so existing XAML references still compile -->
+  <Color x:Key="OneSignalRed">#E54B4D</Color>
+  <Color x:Key="OneSignalGreen">#34A853</Color>
+  <Color x:Key="LightBackground">#F8F9FA</Color>
+  <Color x:Key="CardBackground">#FFFFFF</Color>
+  <Color x:Key="DividerColor">#E8EAED</Color>
+  <Color x:Key="WarningBackground">#FFF8E1</Color>
+  <Color x:Key="LogViewBackground">#1A1B1E</Color>
 </ResourceDictionary>

@@ -20,7 +20,7 @@ public partial class App : Application
         var navPage = new NavigationPage(mainPage)
         {
             BarBackgroundColor = osPrimary,
-            BarTextColor = Colors.White
+            BarTextColor = Colors.White,
         };
 
         NavigationPage.SetTitleView(mainPage, CreateTitleView());
@@ -41,16 +41,16 @@ public partial class App : Application
                 {
                     Source = "onesignal_logo",
                     HeightRequest = 22,
-                    VerticalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Center,
                 },
                 new Label
                 {
                     Text = "DotNet",
                     TextColor = Colors.White,
                     FontSize = 14,
-                    VerticalOptions = LayoutOptions.Center
-                }
-            }
+                    VerticalOptions = LayoutOptions.Center,
+                },
+            },
         };
     }
 }

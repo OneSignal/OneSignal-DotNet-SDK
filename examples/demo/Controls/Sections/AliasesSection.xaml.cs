@@ -43,31 +43,27 @@ public partial class AliasesSection : ContentView
         {
             if (!first)
             {
-                AliasListContainer.Children.Add(new BoxView
-                {
-                    HeightRequest = 1,
-                    Color = Color.FromArgb("#E8EAED"),
-                    Margin = new Thickness(12, 0)
-                });
+                AliasListContainer.Children.Add(
+                    new BoxView
+                    {
+                        HeightRequest = 1,
+                        Color = Color.FromArgb("#E8EAED"),
+                        Margin = new Thickness(12, 0),
+                    }
+                );
             }
             first = false;
 
-            var row = new VerticalStackLayout
-            {
-                Padding = new Thickness(12, 4),
-                Spacing = 2
-            };
-            row.Children.Add(new Label
-            {
-                Text = alias.Key,
-                FontSize = 14,
-            });
-            row.Children.Add(new Label
-            {
-                Text = alias.Value,
-                FontSize = 12,
-                TextColor = Color.FromArgb("#757575")
-            });
+            var row = new VerticalStackLayout { Padding = new Thickness(12, 4), Spacing = 2 };
+            row.Children.Add(new Label { Text = alias.Key, FontSize = 14 });
+            row.Children.Add(
+                new Label
+                {
+                    Text = alias.Value,
+                    FontSize = 12,
+                    TextColor = Color.FromArgb("#757575"),
+                }
+            );
 
             AliasListContainer.Children.Add(row);
         }
@@ -75,13 +71,24 @@ public partial class AliasesSection : ContentView
 
     private async void OnAddClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
 
         var form = await DialogInputHelper.ShowPairInput(
             _parentPage,
             "Add Alias",
-            new DialogInputField { Key = "label", Placeholder = "Label", AutomationId = "alias_label_input" },
-            new DialogInputField { Key = "id", Placeholder = "ID", AutomationId = "alias_id_input" },
+            new DialogInputField
+            {
+                Key = "label",
+                Placeholder = "Label",
+                AutomationId = "alias_label_input",
+            },
+            new DialogInputField
+            {
+                Key = "id",
+                Placeholder = "ID",
+                AutomationId = "alias_id_input",
+            },
             "Add"
         );
 
@@ -100,17 +107,24 @@ public partial class AliasesSection : ContentView
 
     private async void OnAddMultipleClicked(object? sender, EventArgs e)
     {
-        if (_parentPage == null || _viewModel == null) return;
+        if (_parentPage == null || _viewModel == null)
+            return;
         var pairs = await ShowMultiPairDialog("Add Multiple Aliases", "Label", "ID");
-        if (pairs == null || pairs.Count == 0) return;
+        if (pairs == null || pairs.Count == 0)
+            return;
 
         _viewModel.AddAliases(pairs);
         await Toast.Make($"{pairs.Count} alias(es) added", ToastDuration.Short).Show();
     }
 
-    private async Task<Dictionary<string, string>?> ShowMultiPairDialog(string title, string keyLabel, string valueLabel)
+    private async Task<Dictionary<string, string>?> ShowMultiPairDialog(
+        string title,
+        string keyLabel,
+        string valueLabel
+    )
     {
-        if (_parentPage == null) return null;
+        if (_parentPage == null)
+            return null;
         return await MultiPairDialogHelper.Show(_parentPage, title, keyLabel, valueLabel);
     }
 

@@ -12,30 +12,36 @@ public static class TooltipDialogHelper
         okButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
 
         var contentStack = new VerticalStackLayout { Spacing = 8 };
-        contentStack.Children.Add(new Label
-        {
-            Text = tooltip.Description,
-            FontSize = 14,
-            TextColor = Color.FromArgb("#5F6368"),
-        });
+        contentStack.Children.Add(
+            new Label
+            {
+                Text = tooltip.Description,
+                FontSize = 14,
+                TextColor = Color.FromArgb("#5F6368"),
+            }
+        );
 
         if (tooltip.Options is { Count: > 0 })
         {
             foreach (var option in tooltip.Options)
             {
-                contentStack.Children.Add(new Label
-                {
-                    Text = option.Name,
-                    FontSize = 14,
-                    FontAttributes = FontAttributes.Bold,
-                });
-                contentStack.Children.Add(new Label
-                {
-                    Text = option.Description,
-                    FontSize = 13,
-                    TextColor = Color.FromArgb("#5F6368"),
-                    Margin = new Thickness(0, 0, 0, 4),
-                });
+                contentStack.Children.Add(
+                    new Label
+                    {
+                        Text = option.Name,
+                        FontSize = 14,
+                        FontAttributes = FontAttributes.Bold,
+                    }
+                );
+                contentStack.Children.Add(
+                    new Label
+                    {
+                        Text = option.Description,
+                        FontSize = 13,
+                        TextColor = Color.FromArgb("#5F6368"),
+                        Margin = new Thickness(0, 0, 0, 4),
+                    }
+                );
             }
         }
 

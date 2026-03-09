@@ -51,14 +51,16 @@ public partial class AppSection : ContentView
 
     private void OnConsentRequiredToggled(object? sender, ToggledEventArgs e)
     {
-        if (_suppressToggle) return;
+        if (_suppressToggle)
+            return;
         _viewModel?.SetConsentRequired(e.Value);
         UpdatePrivacyConsentVisibility(e.Value);
     }
 
     private void OnPrivacyConsentToggled(object? sender, ToggledEventArgs e)
     {
-        if (_suppressToggle) return;
+        if (_suppressToggle)
+            return;
         _viewModel?.SetConsentGiven(e.Value);
     }
 

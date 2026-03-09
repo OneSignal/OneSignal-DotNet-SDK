@@ -20,7 +20,7 @@ public static class NativeConversion
         var values = new NSObject[dict.Count];
         var index = 0;
 
-        foreach(var entry in dict)
+        foreach (var entry in dict)
         {
             keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
             values[index] = ObjectToNSObject(entry.Value);

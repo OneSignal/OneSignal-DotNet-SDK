@@ -22,9 +22,12 @@ public partial class PushSection : ContentView
 
         viewModel.PropertyChanged += (s, e) =>
         {
-            if (e.PropertyName is nameof(AppViewModel.PushSubscriptionId)
-                or nameof(AppViewModel.IsPushEnabled)
-                or nameof(AppViewModel.HasNotificationPermission))
+            if (
+                e.PropertyName
+                is nameof(AppViewModel.PushSubscriptionId)
+                    or nameof(AppViewModel.IsPushEnabled)
+                    or nameof(AppViewModel.HasNotificationPermission)
+            )
             {
                 Refresh();
             }
@@ -33,7 +36,8 @@ public partial class PushSection : ContentView
 
     private void Refresh()
     {
-        if (_viewModel == null) return;
+        if (_viewModel == null)
+            return;
         PushIdLabel.Text = _viewModel.PushSubscriptionId;
 
         _suppressToggle = true;
@@ -46,7 +50,8 @@ public partial class PushSection : ContentView
 
     private void OnPushEnabledToggled(object? sender, ToggledEventArgs e)
     {
-        if (_suppressToggle) return;
+        if (_suppressToggle)
+            return;
         _viewModel?.SetPushEnabled(e.Value);
     }
 
@@ -55,6 +60,7 @@ public partial class PushSection : ContentView
     private async void OnPromptPushClicked(object? sender, EventArgs e)
     {
         PromptPushRequested?.Invoke(this, e);
-        if (_viewModel != null) await _viewModel.PromptPushAsync();
+        if (_viewModel != null)
+            await _viewModel.PromptPushAsync();
     }
 }

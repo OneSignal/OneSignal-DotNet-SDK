@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using OneSignalSDK.DotNet;
-using OneSignalSDK.DotNet.Core.User;
-using OneSignalSDK.DotNet.Core.User.Subscriptions;
 using OneSignalDemo.Models;
 using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
+using OneSignalSDK.DotNet;
+using OneSignalSDK.DotNet.Core.User;
+using OneSignalSDK.DotNet.Core.User.Subscriptions;
 
 namespace OneSignalDemo.ViewModels;
 
@@ -16,27 +16,48 @@ public partial class AppViewModel : ObservableObject
     private readonly PreferencesService _prefs;
 
     // App section
-    [ObservableProperty] private string _appId = "";
-    [ObservableProperty] private bool _consentRequired;
-    [ObservableProperty] private bool _privacyConsentGiven;
-    [ObservableProperty] private string _userStatus = "Anonymous";
-    [ObservableProperty] private string _externalIdDisplay = "–";
-    [ObservableProperty] private bool _isLoggedIn;
-    [ObservableProperty] private string _loginButtonText = "LOGIN USER";
+    [ObservableProperty]
+    private string _appId = "";
+
+    [ObservableProperty]
+    private bool _consentRequired;
+
+    [ObservableProperty]
+    private bool _privacyConsentGiven;
+
+    [ObservableProperty]
+    private string _userStatus = "Anonymous";
+
+    [ObservableProperty]
+    private string _externalIdDisplay = "–";
+
+    [ObservableProperty]
+    private bool _isLoggedIn;
+
+    [ObservableProperty]
+    private string _loginButtonText = "LOGIN USER";
 
     // Push section
-    [ObservableProperty] private string _pushSubscriptionId = "";
-    [ObservableProperty] private bool _isPushEnabled;
-    [ObservableProperty] private bool _hasNotificationPermission;
+    [ObservableProperty]
+    private string _pushSubscriptionId = "";
+
+    [ObservableProperty]
+    private bool _isPushEnabled;
+
+    [ObservableProperty]
+    private bool _hasNotificationPermission;
 
     // IAM section
-    [ObservableProperty] private bool _inAppMessagesPaused;
+    [ObservableProperty]
+    private bool _inAppMessagesPaused;
 
     // Location section
-    [ObservableProperty] private bool _locationShared;
+    [ObservableProperty]
+    private bool _locationShared;
 
     // Loading
-    [ObservableProperty] private bool _isLoading;
+    [ObservableProperty]
+    private bool _isLoading;
 
     // Lists
     public ObservableCollection<KeyValuePair<string, string>> AliasesList { get; } = new();
@@ -109,7 +130,8 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public async Task LoginUserAsync(string externalUserId)
     {
-        if (string.IsNullOrWhiteSpace(externalUserId)) return;
+        if (string.IsNullOrWhiteSpace(externalUserId))
+            return;
         IsLoading = true;
         ClearUserData();
         _repository.LoginUser(externalUserId);
@@ -153,7 +175,8 @@ public partial class AppViewModel : ObservableObject
     public void AddAliases(IDictionary<string, string> aliases)
     {
         _repository.AddAliases(aliases);
-        foreach (var kv in aliases) UpsertAlias(kv.Key, kv.Value);
+        foreach (var kv in aliases)
+            UpsertAlias(kv.Key, kv.Value);
         LogManager.Instance.I("AppVM", $"{aliases.Count} alias(es) added");
     }
 
@@ -176,7 +199,8 @@ public partial class AppViewModel : ObservableObject
     public void AddEmail(string email)
     {
         _repository.AddEmail(email);
-        if (!EmailsList.Contains(email)) EmailsList.Add(email);
+        if (!EmailsList.Contains(email))
+            EmailsList.Add(email);
         LogManager.Instance.I("AppVM", $"Email added: {email}");
     }
 
@@ -193,7 +217,8 @@ public partial class AppViewModel : ObservableObject
     public void AddSms(string sms)
     {
         _repository.AddSms(sms);
-        if (!SmsNumbersList.Contains(sms)) SmsNumbersList.Add(sms);
+        if (!SmsNumbersList.Contains(sms))
+            SmsNumbersList.Add(sms);
         LogManager.Instance.I("AppVM", $"SMS added: {sms}");
     }
 
@@ -218,7 +243,8 @@ public partial class AppViewModel : ObservableObject
     public void AddTags(IDictionary<string, string> tags)
     {
         _repository.AddTags(tags);
-        foreach (var kv in tags) UpsertTag(kv.Key, kv.Value);
+        foreach (var kv in tags)
+            UpsertTag(kv.Key, kv.Value);
         LogManager.Instance.I("AppVM", $"{tags.Count} tag(s) added");
     }
 
@@ -227,7 +253,8 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.RemoveTag(key);
         var item = TagsList.FirstOrDefault(t => t.Key == key);
-        if (item.Key != null) TagsList.Remove(item);
+        if (item.Key != null)
+            TagsList.Remove(item);
         LogManager.Instance.I("AppVM", $"Tag removed: {key}");
     }
 
@@ -239,7 +266,8 @@ public partial class AppViewModel : ObservableObject
         foreach (var key in keyList)
         {
             var item = TagsList.FirstOrDefault(t => t.Key == key);
-            if (item.Key != null) TagsList.Remove(item);
+            if (item.Key != null)
+                TagsList.Remove(item);
         }
         LogManager.Instance.I("AppVM", $"{keyList.Count} tag(s) removed");
     }
@@ -271,7 +299,8 @@ public partial class AppViewModel : ObservableObject
     public void AddTriggers(IDictionary<string, string> triggers)
     {
         _repository.AddTriggers(triggers);
-        foreach (var kv in triggers) UpsertTrigger(kv.Key, kv.Value);
+        foreach (var kv in triggers)
+            UpsertTrigger(kv.Key, kv.Value);
         LogManager.Instance.I("AppVM", $"{triggers.Count} trigger(s) added");
     }
 
@@ -280,7 +309,8 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.RemoveTrigger(key);
         var item = TriggersList.FirstOrDefault(t => t.Key == key);
-        if (item.Key != null) TriggersList.Remove(item);
+        if (item.Key != null)
+            TriggersList.Remove(item);
         LogManager.Instance.I("AppVM", $"Trigger removed: {key}");
     }
 
@@ -292,7 +322,8 @@ public partial class AppViewModel : ObservableObject
         foreach (var key in keyList)
         {
             var item = TriggersList.FirstOrDefault(t => t.Key == key);
-            if (item.Key != null) TriggersList.Remove(item);
+            if (item.Key != null)
+                TriggersList.Remove(item);
         }
         LogManager.Instance.I("AppVM", $"{keyList.Count} trigger(s) removed");
     }
@@ -352,13 +383,19 @@ public partial class AppViewModel : ObservableObject
     public async Task SendNotificationAsync(NotificationType type)
     {
         var success = await _repository.SendNotificationAsync(type);
-        LogManager.Instance.I("AppVM", success ? $"Notification sent: {type}" : "Failed to send notification");
+        LogManager.Instance.I(
+            "AppVM",
+            success ? $"Notification sent: {type}" : "Failed to send notification"
+        );
     }
 
     public async Task SendCustomNotificationAsync(string title, string body)
     {
         var success = await _repository.SendCustomNotificationAsync(title, body);
-        LogManager.Instance.I("AppVM", success ? $"Notification sent: {title}" : "Failed to send notification");
+        LogManager.Instance.I(
+            "AppVM",
+            success ? $"Notification sent: {title}" : "Failed to send notification"
+        );
     }
 
     // IAM
@@ -367,7 +404,10 @@ public partial class AppViewModel : ObservableObject
         _repository.SetInAppMessagesPaused(paused);
         _prefs.IamPaused = paused;
         InAppMessagesPaused = paused;
-        LogManager.Instance.I("AppVM", paused ? "In-App Messages paused" : "In-App Messages resumed");
+        LogManager.Instance.I(
+            "AppVM",
+            paused ? "In-App Messages paused" : "In-App Messages resumed"
+        );
     }
 
     public void SendInAppMessage(InAppMessageType type)
@@ -384,7 +424,10 @@ public partial class AppViewModel : ObservableObject
         _repository.SetLocationShared(shared);
         _prefs.LocationShared = shared;
         LocationShared = shared;
-        LogManager.Instance.I("AppVM", shared ? "Location sharing enabled" : "Location sharing disabled");
+        LogManager.Instance.I(
+            "AppVM",
+            shared ? "Location sharing enabled" : "Location sharing disabled"
+        );
     }
 
     [RelayCommand]
@@ -412,8 +455,10 @@ public partial class AppViewModel : ObservableObject
     // Toggle push
     public void SetPushEnabled(bool enabled)
     {
-        if (enabled) _repository.OptInPush();
-        else _repository.OptOutPush();
+        if (enabled)
+            _repository.OptInPush();
+        else
+            _repository.OptOutPush();
         IsPushEnabled = enabled;
         LogManager.Instance.I("AppVM", enabled ? "Push enabled" : "Push disabled");
     }
@@ -425,11 +470,17 @@ public partial class AppViewModel : ObservableObject
         {
             PushSubscriptionId = _repository.GetPushSubscriptionId() ?? "";
             IsPushEnabled = _repository.IsPushOptedIn();
-            LogManager.Instance.D("AppVM", $"Push subscription changed: id={PushSubscriptionId}, optedIn={IsPushEnabled}");
+            LogManager.Instance.D(
+                "AppVM",
+                $"Push subscription changed: id={PushSubscriptionId}, optedIn={IsPushEnabled}"
+            );
         });
     }
 
-    private void OnPermissionChanged(object? sender, OneSignalSDK.DotNet.Core.Notifications.NotificationPermissionChangedEventArgs args)
+    private void OnPermissionChanged(
+        object? sender,
+        OneSignalSDK.DotNet.Core.Notifications.NotificationPermissionChangedEventArgs args
+    )
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -438,7 +489,10 @@ public partial class AppViewModel : ObservableObject
         });
     }
 
-    private void OnUserChanged(object? sender, OneSignalSDK.DotNet.Core.User.UserStateChangedEventArgs args)
+    private void OnUserChanged(
+        object? sender,
+        OneSignalSDK.DotNet.Core.User.UserStateChangedEventArgs args
+    )
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {

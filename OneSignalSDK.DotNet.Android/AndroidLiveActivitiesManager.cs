@@ -1,11 +1,12 @@
 ﻿using System;
+
 namespace OneSignalSDK.DotNet.Android;
 
 using System.Threading.Tasks;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.LiveActivities;
 
-public class AndroidLiveActivitiesManager: ILiveActivitiesManager
+public class AndroidLiveActivitiesManager : ILiveActivitiesManager
 {
     public Task<bool> Enter(string activityId, string token)
     {
@@ -34,7 +35,11 @@ public class AndroidLiveActivitiesManager: ILiveActivitiesManager
         Console.WriteLine("OneSignal: SetupDefault is available on iOS only");
     }
 
-    public void StartDefault(string activityId, IDictionary<string, object> attributes, IDictionary<string, object> content)
+    public void StartDefault(
+        string activityId,
+        IDictionary<string, object> attributes,
+        IDictionary<string, object> content
+    )
     {
         Console.WriteLine("OneSignal: StartDefault is available on iOS only");
     }

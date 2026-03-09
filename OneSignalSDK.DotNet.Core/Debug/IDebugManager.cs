@@ -1,6 +1,5 @@
 ﻿namespace OneSignalSDK.DotNet.Core.Debug
 {
-
     /// <summary>
     /// Access to debug the SDK in the event additional information is required to diagnose any
     /// SDK-related issues.

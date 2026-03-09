@@ -1,3 +1,5 @@
 ﻿<metadata>
-	<attr path="/api/package[@name='com.onesignal.notifications']" name="managedName">Com.OneSignal.Android.Notifications</attr>
+  <attr path="/api/package[@name='com.onesignal.notifications']" name="managedName"
+    >Com.OneSignal.Android.Notifications</attr
+  >
 </metadata>

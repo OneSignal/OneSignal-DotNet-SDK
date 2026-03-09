@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
@@ -14,8 +13,14 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion
+      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
+      >14.2</SupportedOSPlatformVersion
+    >
+    <SupportedOSPlatformVersion
+      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
+      >26.0</SupportedOSPlatformVersion
+    >
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +35,6 @@
 
     <!-- Images -->
     <MauiImage Include="Resources\Images\*" />
-
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +50,10 @@
 
   <!-- Android -->
   <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
-    <GoogleServicesJson Include="Platforms\Android\google-services.json" Condition="Exists('Platforms\Android\google-services.json')" />
+    <GoogleServicesJson
+      Include="Platforms\Android\google-services.json"
+      Condition="Exists('Platforms\Android\google-services.json')"
+    />
   </ItemGroup>
 
   <!-- iOS -->
@@ -64,5 +71,4 @@
       <IsAppExtension>true</IsAppExtension>
     </ProjectReference>
   </ItemGroup>
-
 </Project>

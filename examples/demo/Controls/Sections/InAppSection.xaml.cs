@@ -34,7 +34,8 @@ public partial class InAppSection : ContentView
 
     private void OnIamPausedToggled(object? sender, ToggledEventArgs e)
     {
-        if (_suppressToggle) return;
+        if (_suppressToggle)
+            return;
         _viewModel?.SetIamPaused(e.Value);
     }
 

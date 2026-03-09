@@ -1,82 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+>
+  <Style TargetType="Border" x:Key="CardBorderStyle">
+    <Setter Property="Background" Value="{StaticResource OsCardBackground}" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+    <Setter Property="Stroke" Value="{StaticResource OsCardBorder}" />
+    <Setter Property="StrokeThickness" Value="2" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
 
-    <Style TargetType="Border" x:Key="CardBorderStyle">
-        <Setter Property="Background" Value="{StaticResource OsCardBackground}" />
-        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
-        <Setter Property="Stroke" Value="{StaticResource OsCardBorder}" />
-        <Setter Property="StrokeThickness" Value="2" />
-        <Setter Property="Padding" Value="0" />
-    </Style>
+  <Style TargetType="Button" x:Key="PrimaryButtonStyle">
+    <Setter Property="BackgroundColor" Value="{StaticResource OsPrimary}" />
+    <Setter Property="TextColor" Value="White" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="HeightRequest" Value="48" />
+    <Setter Property="HorizontalOptions" Value="Fill" />
+  </Style>
 
-    <Style TargetType="Button" x:Key="PrimaryButtonStyle">
-        <Setter Property="BackgroundColor" Value="{StaticResource OsPrimary}" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="HeightRequest" Value="48" />
-        <Setter Property="HorizontalOptions" Value="Fill" />
-    </Style>
+  <Style TargetType="Button" x:Key="OutlineButtonStyle">
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="TextColor" Value="{StaticResource OsPrimary}" />
+    <Setter Property="BorderColor" Value="{StaticResource OsPrimary}" />
+    <Setter Property="BorderWidth" Value="1.5" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="HeightRequest" Value="48" />
+    <Setter Property="HorizontalOptions" Value="Fill" />
+  </Style>
 
-    <Style TargetType="Button" x:Key="OutlineButtonStyle">
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="{StaticResource OsPrimary}" />
-        <Setter Property="BorderColor" Value="{StaticResource OsPrimary}" />
-        <Setter Property="BorderWidth" Value="1.5" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="HeightRequest" Value="48" />
-        <Setter Property="HorizontalOptions" Value="Fill" />
-    </Style>
+  <Style TargetType="Button">
+    <Setter Property="TextTransform" Value="None" />
+  </Style>
 
-    <Style TargetType="Button">
-        <Setter Property="TextTransform" Value="None" />
-    </Style>
+  <Style TargetType="Switch">
+    <Setter Property="OnColor" Value="{StaticResource OsPrimary}" />
+  </Style>
 
-    <Style TargetType="Switch">
-        <Setter Property="OnColor" Value="{StaticResource OsPrimary}" />
-    </Style>
+  <Style TargetType="Label">
+    <Setter Property="TextColor" Value="Black" />
+  </Style>
 
-    <Style TargetType="Label">
-        <Setter Property="TextColor" Value="Black" />
-    </Style>
+  <Style TargetType="Entry">
+    <Setter Property="PlaceholderColor" Value="{StaticResource OsGrey600}" />
+  </Style>
 
-    <Style TargetType="Entry">
-        <Setter Property="PlaceholderColor" Value="{StaticResource OsGrey600}" />
-    </Style>
+  <Style TargetType="Label" x:Key="SectionHeaderStyle">
+    <Setter Property="FontAttributes" Value="Bold" />
+    <Setter Property="TextColor" Value="{StaticResource OsGrey700}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="CharacterSpacing" Value="0.5" />
+  </Style>
 
-    <Style TargetType="Label" x:Key="SectionHeaderStyle">
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="{StaticResource OsGrey700}" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="CharacterSpacing" Value="0.5" />
-    </Style>
+  <Style TargetType="Label" x:Key="BodyLargeStyle">
+    <Setter Property="FontSize" Value="16" />
+  </Style>
 
-    <Style TargetType="Label" x:Key="BodyLargeStyle">
-        <Setter Property="FontSize" Value="16" />
-    </Style>
+  <Style TargetType="Label" x:Key="BodyMediumStyle">
+    <Setter Property="FontSize" Value="14" />
+  </Style>
 
-    <Style TargetType="Label" x:Key="BodyMediumStyle">
-        <Setter Property="FontSize" Value="14" />
-    </Style>
+  <Style TargetType="Label" x:Key="BodySmallStyle">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="TextColor" Value="{StaticResource OsGrey600}" />
+  </Style>
 
-    <Style TargetType="Label" x:Key="BodySmallStyle">
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="{StaticResource OsGrey600}" />
-    </Style>
+  <Style TargetType="Label" x:Key="LabelSmallStyle">
+    <Setter Property="FontSize" Value="11" />
+  </Style>
 
-    <Style TargetType="Label" x:Key="LabelSmallStyle">
-        <Setter Property="FontSize" Value="11" />
-    </Style>
-
-    <Style TargetType="Label" x:Key="EmptyStateStyle">
-        <Setter Property="TextColor" Value="{StaticResource OsGrey600}" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="Padding" Value="0,12" />
-    </Style>
-
+  <Style TargetType="Label" x:Key="EmptyStateStyle">
+    <Setter Property="TextColor" Value="{StaticResource OsGrey600}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="HorizontalOptions" Value="Center" />
+    <Setter Property="VerticalOptions" Value="Center" />
+    <Setter Property="Padding" Value="0,12" />
+  </Style>
 </ResourceDictionary>

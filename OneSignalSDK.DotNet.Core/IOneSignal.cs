@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 using OneSignalSDK.DotNet.Core.Location;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Session;
 using OneSignalSDK.DotNet.Core.User;
-using OneSignalSDK.DotNet.Core.LiveActivities;
 
 namespace OneSignalSDK.DotNet.Core
 {

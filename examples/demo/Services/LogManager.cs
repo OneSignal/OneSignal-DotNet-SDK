@@ -40,8 +40,11 @@ public class LogManager : INotifyPropertyChanged
     private LogManager() { }
 
     public void D(string tag, string message) => AddLog("D", tag, message);
+
     public void I(string tag, string message) => AddLog("I", tag, message);
+
     public void W(string tag, string message) => AddLog("W", tag, message);
+
     public void E(string tag, string message) => AddLog("E", tag, message);
 
     private void AddLog(string level, string tag, string message)

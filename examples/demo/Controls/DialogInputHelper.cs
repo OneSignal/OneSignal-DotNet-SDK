@@ -19,7 +19,12 @@ public static class DialogInputHelper
     {
         CanBeDismissedByTappingOutsideOfPopup = true,
         PageOverlayColor = Colors.Black.WithAlpha(0.54f),
-        Shape = new RoundRectangle { CornerRadius = 28, StrokeThickness = 0, Stroke = new SolidColorBrush(Colors.Transparent) },
+        Shape = new RoundRectangle
+        {
+            CornerRadius = 28,
+            StrokeThickness = 0,
+            Stroke = new SolidColorBrush(Colors.Transparent),
+        },
         Shadow = new Shadow
         {
             Brush = new SolidColorBrush(Colors.Black),
@@ -83,12 +88,19 @@ public static class DialogInputHelper
         Grid.SetColumn(secondEntry, 1);
         row.Children.Add(secondEntry);
 
-        return ShowPopupAsync(parentPage, title, row, confirmText, confirmAutomationId, () =>
-            new Dictionary<string, string>(StringComparer.Ordinal)
-            {
-                [firstField.Key] = firstEntry.Text?.Trim() ?? string.Empty,
-                [secondField.Key] = secondEntry.Text?.Trim() ?? string.Empty,
-            });
+        return ShowPopupAsync(
+            parentPage,
+            title,
+            row,
+            confirmText,
+            confirmAutomationId,
+            () =>
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    [firstField.Key] = firstEntry.Text?.Trim() ?? string.Empty,
+                    [secondField.Key] = secondEntry.Text?.Trim() ?? string.Empty,
+                }
+        );
     }
 
     public static Task<Dictionary<string, string>?> ShowForm(
@@ -112,8 +124,19 @@ public static class DialogInputHelper
             contentStack.Children.Add(entry);
         }
 
-        return ShowPopupAsync(parentPage, title, contentStack, confirmText, confirmAutomationId, () =>
-            entries.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Text?.Trim() ?? string.Empty, StringComparer.Ordinal));
+        return ShowPopupAsync(
+            parentPage,
+            title,
+            contentStack,
+            confirmText,
+            confirmAutomationId,
+            () =>
+                entries.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Text?.Trim() ?? string.Empty,
+                    StringComparer.Ordinal
+                )
+        );
     }
 
     private static async Task<Dictionary<string, string>?> ShowPopupAsync(
@@ -151,16 +174,20 @@ public static class DialogInputHelper
             },
         };
 
-        var result = await parentPage.ShowPopupAsync<Dictionary<string, string>>(card, DefaultOptions);
+        var result = await parentPage.ShowPopupAsync<Dictionary<string, string>>(
+            card,
+            DefaultOptions
+        );
         return result?.Result;
     }
 
-    private static Entry BuildEntry(DialogInputField field) => new()
-    {
-        Placeholder = field.Placeholder,
-        AutomationId = field.AutomationId ?? string.Empty,
-        Keyboard = field.Keyboard,
-    };
+    private static Entry BuildEntry(DialogInputField field) =>
+        new()
+        {
+            Placeholder = field.Placeholder,
+            AutomationId = field.AutomationId ?? string.Empty,
+            Keyboard = field.Keyboard,
+        };
 
     internal static Button ActionButton(string text, string? automationId = null) =>
         new()
@@ -188,14 +215,16 @@ public static class DialogInputHelper
     internal static void SetActionButtonEnabled(Button btn, bool enabled)
     {
         btn.IsEnabled = enabled;
-        btn.TextColor = enabled
-            ? Color.FromArgb("#E54B4D")
-            : Color.FromArgb("#9E9E9E");
+        btn.TextColor = enabled ? Color.FromArgb("#E54B4D") : Color.FromArgb("#9E9E9E");
     }
 
     internal static double PopupContentWidth(Page page)
     {
-        var width = page.Width > 0 ? page.Width : DeviceDisplay.Current.MainDisplayInfo.Width / DeviceDisplay.Current.MainDisplayInfo.Density;
+        var width =
+            page.Width > 0
+                ? page.Width
+                : DeviceDisplay.Current.MainDisplayInfo.Width
+                    / DeviceDisplay.Current.MainDisplayInfo.Density;
         return Math.Max(240, width - 32);
     }
 

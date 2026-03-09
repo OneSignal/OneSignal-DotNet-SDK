@@ -30,7 +30,10 @@ namespace OneSignalSDK.DotNet.Core.User.Subscriptions
         /// </summary>
         public IPushSubscriptionState Current { get; }
 
-        public PushSubscriptionChangedState(IPushSubscriptionState previous, IPushSubscriptionState current)
+        public PushSubscriptionChangedState(
+            IPushSubscriptionState previous,
+            IPushSubscriptionState current
+        )
         {
             Previous = previous;
             Current = current;

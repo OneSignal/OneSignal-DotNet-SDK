@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Foundation;
 using HomeKit;
-using System.Text.Json;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.InAppMessages;
-using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.Internal.Utilities;
+using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignaliOS = Com.OneSignal.iOS;
 
 namespace OneSignalSDK.DotNet.iOS.Utilities;
@@ -64,11 +64,13 @@ public static class FromNativeConversion
                 Dictionary<string, string> actionButtonXam = NSObjectToPureDict(actionButton);
                 if (actionButtonXam != null)
                 {
-                    actionButtonsXam.Add(new ActionButton(
-                        id: actionButtonXam.GetValueOrDefault("id"),
-                        text: actionButtonXam.GetValueOrDefault("text"),
-                        icon: actionButtonXam.GetValueOrDefault("icon")
-                    ));
+                    actionButtonsXam.Add(
+                        new ActionButton(
+                            id: actionButtonXam.GetValueOrDefault("id"),
+                            text: actionButtonXam.GetValueOrDefault("text"),
+                            icon: actionButtonXam.GetValueOrDefault("icon")
+                        )
+                    );
                 }
             }
         }
@@ -82,7 +84,9 @@ public static class FromNativeConversion
             additionalData: additionalDataXam,
             launchUrl: notification.LaunchURL,
             sound: notification.Sound,
-            relevanceScore: notification.RelevanceScore != null ? (float)notification.RelevanceScore : 0,
+            relevanceScore: notification.RelevanceScore != null
+                ? (float)notification.RelevanceScore
+                : 0,
             badge: (int)notification.Badge,
             badgeIncrement: (int)notification.BadgeIncrement,
             actionButtons: actionButtonsXam,
@@ -95,15 +99,16 @@ public static class FromNativeConversion
         );
     }
 
-    public static NotificationClickResult ToNotificationClickResult(OneSignaliOS.OSNotificationClickResult result)
+    public static NotificationClickResult ToNotificationClickResult(
+        OneSignaliOS.OSNotificationClickResult result
+    )
     {
-        return new NotificationClickResult(
-            actionId: result.ActionId,
-            url: result.Url
-        );
+        return new NotificationClickResult(actionId: result.ActionId, url: result.Url);
     }
 
-    public static InAppMessageClickResult ToInAppMessageClickResult(OneSignaliOS.OSInAppMessageClickResult inAppMessageClickResult)
+    public static InAppMessageClickResult ToInAppMessageClickResult(
+        OneSignaliOS.OSInAppMessageClickResult inAppMessageClickResult
+    )
     {
         long urlTarget = (long)inAppMessageClickResult.UrlTarget;
         return new InAppMessageClickResult(
@@ -116,8 +121,6 @@ public static class FromNativeConversion
 
     public static InAppMessage ToInAppMessage(OneSignaliOS.OSInAppMessage inAppMessage)
     {
-        return new InAppMessage(
-            messageId: inAppMessage.MessageId
-        );
+        return new InAppMessage(messageId: inAppMessage.MessageId);
     }
 }

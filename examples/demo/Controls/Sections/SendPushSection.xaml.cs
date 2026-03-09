@@ -22,13 +22,15 @@ public partial class SendPushSection : ContentView
 
     private async void OnSimpleClicked(object? sender, EventArgs e)
     {
-        if (_viewModel == null) return;
+        if (_viewModel == null)
+            return;
         await _viewModel.SendNotificationAsync(NotificationType.Simple);
     }
 
     private async void OnWithImageClicked(object? sender, EventArgs e)
     {
-        if (_viewModel == null) return;
+        if (_viewModel == null)
+            return;
         await _viewModel.SendNotificationAsync(NotificationType.WithImage);
     }
 

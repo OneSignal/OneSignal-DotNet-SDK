@@ -1,8 +1,9 @@
 using System;
 
-namespace OneSignalSDK.DotNet.Core.User 
+namespace OneSignalSDK.DotNet.Core.User
 {
-    public interface IUserState {
+    public interface IUserState
+    {
         /// <summary>
         /// The unique identifier for your OneSignal account. This will be an empty string until the
         /// user has been successfully logged in on the backend and assigned an ID.

@@ -9,13 +9,15 @@ public class OneSignalApiService
     private string _appId = "";
 
     public void SetAppId(string appId) => _appId = appId;
+
     public string GetAppId() => _appId;
 
     public async Task<bool> SendNotificationAsync(NotificationType type, string subscriptionId)
     {
         try
         {
-            string title, body;
+            string title,
+                body;
             Dictionary<string, object>? extra = null;
 
             switch (type)
@@ -29,12 +31,14 @@ public class OneSignalApiService
                     body = "This notification includes an image";
                     extra = new Dictionary<string, object>
                     {
-                        ["big_picture"] = "https://media.onesignal.com/automated_push_templates/ratings_template.png",
+                        ["big_picture"] =
+                            "https://media.onesignal.com/automated_push_templates/ratings_template.png",
                         ["ios_attachments"] = new Dictionary<string, string>
                         {
-                            ["image"] = "https://media.onesignal.com/automated_push_templates/ratings_template.png"
+                            ["image"] =
+                                "https://media.onesignal.com/automated_push_templates/ratings_template.png",
                         },
-                        ["mutable_content"] = true
+                        ["mutable_content"] = true,
                     };
                     break;
                 default:
@@ -49,7 +53,11 @@ public class OneSignalApiService
         }
     }
 
-    public async Task<bool> SendCustomNotificationAsync(string title, string body, string subscriptionId)
+    public async Task<bool> SendCustomNotificationAsync(
+        string title,
+        string body,
+        string subscriptionId
+    )
     {
         try
         {
@@ -61,7 +69,12 @@ public class OneSignalApiService
         }
     }
 
-    private async Task<bool> SendAsync(string title, string body, string subscriptionId, Dictionary<string, object>? extra)
+    private async Task<bool> SendAsync(
+        string title,
+        string body,
+        string subscriptionId,
+        Dictionary<string, object>? extra
+    )
     {
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Add("Accept", "application/vnd.onesignal.v1+json");
@@ -71,7 +84,7 @@ public class OneSignalApiService
             ["app_id"] = _appId,
             ["headings"] = new Dictionary<string, string> { ["en"] = title },
             ["contents"] = new Dictionary<string, string> { ["en"] = body },
-            ["include_subscription_ids"] = new[] { subscriptionId }
+            ["include_subscription_ids"] = new[] { subscriptionId },
         };
 
         if (extra != null)
@@ -82,7 +95,10 @@ public class OneSignalApiService
 
         var json = JsonSerializer.Serialize(payload);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("https://onesignal.com/api/v1/notifications", content);
+        var response = await client.PostAsync(
+            "https://onesignal.com/api/v1/notifications",
+            content
+        );
         return response.IsSuccessStatusCode;
     }
 
@@ -91,9 +107,11 @@ public class OneSignalApiService
         try
         {
             using var client = new HttpClient();
-            var url = $"https://api.onesignal.com/apps/{_appId}/users/by/onesignal_id/{onesignalId}";
+            var url =
+                $"https://api.onesignal.com/apps/{_appId}/users/by/onesignal_id/{onesignalId}";
             var response = await client.GetAsync(url);
-            if (!response.IsSuccessStatusCode) return null;
+            if (!response.IsSuccessStatusCode)
+                return null;
 
             var json = await response.Content.ReadAsStringAsync();
             var doc = JsonDocument.Parse(json);

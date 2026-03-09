@@ -27,37 +27,55 @@ namespace OneSignalSDK.DotNet.iOS
             ((iOSPushSubscription)PushSubscription).Initialize();
         }
 
-        public string OneSignalId 
+        public string OneSignalId
         {
             get => OneSignalNative.User.OnesignalId;
         }
 
-        public string ExternalId 
+        public string ExternalId
         {
             get => OneSignalNative.User.ExternalId;
         }
         public event EventHandler<UserStateChangedEventArgs>? Changed;
 
-        public void AddAlias(string label, string id) => OneSignalNative.User.AddAliasWithLabel(label, id);
-        public void AddAliases(IDictionary<string, string> aliases) => OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
+        public void AddAlias(string label, string id) =>
+            OneSignalNative.User.AddAliasWithLabel(label, id);
+
+        public void AddAliases(IDictionary<string, string> aliases) =>
+            OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
+
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
-        public void RemoveAliases(params string[] labels) => OneSignalNative.User.RemoveAliases(labels);
+
+        public void RemoveAliases(params string[] labels) =>
+            OneSignalNative.User.RemoveAliases(labels);
 
         public void AddEmail(string email) => OneSignalNative.User.AddEmail(email);
+
         public void RemoveEmail(string email) => OneSignalNative.User.RemoveEmail(email);
 
         public void AddSms(string sms) => OneSignalNative.User.AddSms(sms);
+
         public void RemoveSms(string sms) => OneSignalNative.User.RemoveSms(sms);
 
-        public void AddTag(string key, string value) => OneSignalNative.User.AddTagWithKey(key, value);
-        public void AddTags(IDictionary<string, string> tags) => OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags));
+        public void AddTag(string key, string value) =>
+            OneSignalNative.User.AddTagWithKey(key, value);
+
+        public void AddTags(IDictionary<string, string> tags) =>
+            OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags));
+
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
+
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
-        public IDictionary<string, string> GetTags() => FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
+
+        public IDictionary<string, string> GetTags() =>
+            FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
-            OneSignalNative.User.TrackEventWithName(name, properties == null ? null : NativeConversion.DictToNSDict(properties));
+            OneSignalNative.User.TrackEventWithName(
+                name,
+                properties == null ? null : NativeConversion.DictToNSDict(properties)
+            );
         }
 
         private sealed class InternalUserState : IUserState
@@ -76,6 +94,7 @@ namespace OneSignalSDK.DotNet.iOS
         private class InternalUserChangedHandler : Com.OneSignal.iOS.OSUserStateObserver
         {
             private iOSUserManager _manager;
+
             public InternalUserChangedHandler(iOSUserManager manager)
             {
                 _manager = manager;
@@ -83,7 +102,10 @@ namespace OneSignalSDK.DotNet.iOS
 
             public override void OnUserStateDidChangeWithState(OSUserChangedState state)
             {
-                var current = new InternalUserState(state.Current.OnesignalId, state.Current.ExternalId);
+                var current = new InternalUserState(
+                    state.Current.OnesignalId,
+                    state.Current.ExternalId
+                );
                 var userChangedState = new UserChangedState(current);
                 _manager.Changed?.Invoke(_manager, new UserStateChangedEventArgs(userChangedState));
             }
@@ -126,7 +148,6 @@ namespace OneSignalSDK.DotNet.iOS
 
             public bool OptedIn { get; }
 
-
             public InternalPushSubscriptionState(string token, bool optedIn, string id)
             {
                 Token = token;
@@ -135,20 +156,35 @@ namespace OneSignalSDK.DotNet.iOS
             }
         }
 
-        private sealed class InternalPushSubscriptionChangedHandler : Com.OneSignal.iOS.OSPushSubscriptionObserver
+        private sealed class InternalPushSubscriptionChangedHandler
+            : Com.OneSignal.iOS.OSPushSubscriptionObserver
         {
             private iOSPushSubscription _manager;
+
             public InternalPushSubscriptionChangedHandler(iOSPushSubscription manager)
             {
                 _manager = manager;
             }
 
-            public override void OnPushSubscriptionDidChangeWithState(OSPushSubscriptionChangedState state)
+            public override void OnPushSubscriptionDidChangeWithState(
+                OSPushSubscriptionChangedState state
+            )
             {
-                var previous = new InternalPushSubscriptionState(state.Previous.Token, state.Previous.OptedIn, state.Previous.Id);
-                var current = new InternalPushSubscriptionState(state.Current.Token, state.Current.OptedIn, state.Current.Id);
+                var previous = new InternalPushSubscriptionState(
+                    state.Previous.Token,
+                    state.Previous.OptedIn,
+                    state.Previous.Id
+                );
+                var current = new InternalPushSubscriptionState(
+                    state.Current.Token,
+                    state.Current.OptedIn,
+                    state.Current.Id
+                );
                 var changedState = new PushSubscriptionChangedState(previous, current);
-                _manager.Changed?.Invoke(_manager, new PushSubscriptionChangedEventArgs(changedState));
+                _manager.Changed?.Invoke(
+                    _manager,
+                    new PushSubscriptionChangedEventArgs(changedState)
+                );
             }
         }
     }
