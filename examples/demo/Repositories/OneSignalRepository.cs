@@ -81,7 +81,7 @@ public class OneSignalRepository
     public void OptOutPush() => OneSignal.User.PushSubscription.OptOut();
 
     // Notifications
-    public void ClearAllNotifications() => OneSignal.Notifications.ClearAllNotifications();
+    public void ClearAllNotifications() => OneSignal.Notifications.ClearAll();
 
     public bool HasPermission() => OneSignal.Notifications.Permission;
 

@@ -25,8 +25,8 @@
     </Grid>
 
     <!-- TOP BANNER -->
-    <Border Style="{StaticResource CardBorderStyle}" Padding="0">
-      <Grid BackgroundColor="{StaticResource OneSignalRed}" ColumnDefinitions="Auto,*" Padding="12">
+    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+      <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnTopBannerTapped" />
         </Grid.GestureRecognizers>
@@ -51,8 +51,8 @@
     </Border>
 
     <!-- BOTTOM BANNER -->
-    <Border Style="{StaticResource CardBorderStyle}" Padding="0">
-      <Grid BackgroundColor="{StaticResource OneSignalRed}" ColumnDefinitions="Auto,*" Padding="12">
+    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+      <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnBottomBannerTapped" />
         </Grid.GestureRecognizers>
@@ -77,8 +77,8 @@
     </Border>
 
     <!-- CENTER MODAL -->
-    <Border Style="{StaticResource CardBorderStyle}" Padding="0">
-      <Grid BackgroundColor="{StaticResource OneSignalRed}" ColumnDefinitions="Auto,*" Padding="12">
+    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+      <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnCenterModalTapped" />
         </Grid.GestureRecognizers>
@@ -103,8 +103,8 @@
     </Border>
 
     <!-- FULL SCREEN -->
-    <Border Style="{StaticResource CardBorderStyle}" Padding="0">
-      <Grid BackgroundColor="{StaticResource OneSignalRed}" ColumnDefinitions="Auto,*" Padding="12">
+    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+      <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnFullScreenTapped" />
         </Grid.GestureRecognizers>

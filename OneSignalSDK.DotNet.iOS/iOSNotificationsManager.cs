@@ -46,7 +46,7 @@ public class iOSNotificationsManager : INotificationsManager
         return await proxy;
     }
 
-    public void ClearAllNotifications()
+    public void ClearAll()
     {
         OneSignalNative.Notifications.ClearAll();
     }
