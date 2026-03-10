@@ -44,7 +44,7 @@
     />
     <Button
       Text="CLEAR ALL"
-      Style="{StaticResource PrimaryButtonStyle}"
+      Style="{StaticResource OutlineButtonStyle}"
       Clicked="OnClearAllClicked"
       AutomationId="clear_all_notifications_button"
     />
