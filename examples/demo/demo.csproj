@@ -10,8 +10,8 @@
 
     <ApplicationTitle>OneSignal Demo</ApplicationTitle>
     <ApplicationId>com.onesignal.example</ApplicationId>
-    <ApplicationVersion>1</ApplicationVersion>
-    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>2</ApplicationVersion>
+    <ApplicationDisplayVersion>3</ApplicationDisplayVersion>
 
     <SupportedOSPlatformVersion
       Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
