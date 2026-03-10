@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -65,5 +65,10 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// the result is false if the user is opted out of notifications permission(user rejected).
         /// </returns>
         Task<bool> RequestPermissionAsync(bool fallbackToSettings);
+
+        /// <summary>
+        /// Removes all OneSignal notifications from the Notification Shade.
+        /// </summary>
+        void ClearAllNotifications();
     }
 }

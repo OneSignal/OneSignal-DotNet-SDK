@@ -42,5 +42,11 @@
       Clicked="OnCustomClicked"
       AutomationId="send_custom_push_button"
     />
+    <Button
+      Text="CLEAR ALL"
+      Style="{StaticResource OutlineButtonStyle}"
+      Clicked="OnClearAllClicked"
+      AutomationId="clear_all_notifications_button"
+    />
   </VerticalStackLayout>
 </ContentView>

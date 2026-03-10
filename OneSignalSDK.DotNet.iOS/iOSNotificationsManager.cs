@@ -1,4 +1,4 @@
-﻿using System.Security.Permissions;
+using System.Security.Permissions;
 using Com.OneSignal.iOS;
 using Foundation;
 using OneSignalSDK.DotNet.Core;
@@ -44,6 +44,11 @@ public class iOSNotificationsManager : INotificationsManager
             fallbackToSettings
         );
         return await proxy;
+    }
+
+    public void ClearAllNotifications()
+    {
+        OneSignalNative.Notifications.ClearAll();
     }
 
     private sealed class InternalNotificationsPermissionObserver

@@ -1,4 +1,4 @@
-﻿using OneSignalSDK.DotNet.Android.Utilities;
+using OneSignalSDK.DotNet.Android.Utilities;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Internal.Utilities;
 using OneSignalSDK.DotNet.Core.Notifications;
@@ -38,6 +38,11 @@ public class AndroidNotificationsManager : INotificationsManager
             Com.OneSignal.Android.Continue.With(consumer)
         );
         return await consumer;
+    }
+
+    public void ClearAllNotifications()
+    {
+        OneSignalNative.Notifications.ClearAllNotifications();
     }
 
     private class InternalNotificationsEventsHandler
