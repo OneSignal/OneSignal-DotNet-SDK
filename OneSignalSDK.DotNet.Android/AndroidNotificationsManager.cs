@@ -40,7 +40,7 @@ public class AndroidNotificationsManager : INotificationsManager
         return await consumer;
     }
 
-    public void ClearAll()
+    public void ClearAllNotifications()
     {
         OneSignalNative.Notifications.ClearAllNotifications();
     }

@@ -69,6 +69,6 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         /// <summary>
         /// Removes all OneSignal notifications from the Notification Shade.
         /// </summary>
-        void ClearAll();
+        void ClearAllNotifications();
     }
 }
