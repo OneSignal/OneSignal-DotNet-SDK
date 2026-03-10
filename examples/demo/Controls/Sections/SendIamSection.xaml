@@ -25,7 +25,13 @@
     </Grid>
 
     <!-- TOP BANNER -->
-    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+    <Border
+      BackgroundColor="{StaticResource OneSignalRed}"
+      StrokeShape="RoundRectangle 8"
+      StrokeThickness="0"
+      Padding="12"
+      HeightRequest="48"
+    >
       <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnTopBannerTapped" />
@@ -51,7 +57,13 @@
     </Border>
 
     <!-- BOTTOM BANNER -->
-    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+    <Border
+      BackgroundColor="{StaticResource OneSignalRed}"
+      StrokeShape="RoundRectangle 8"
+      StrokeThickness="0"
+      Padding="12"
+      HeightRequest="48"
+    >
       <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnBottomBannerTapped" />
@@ -77,7 +89,13 @@
     </Border>
 
     <!-- CENTER MODAL -->
-    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+    <Border
+      BackgroundColor="{StaticResource OneSignalRed}"
+      StrokeShape="RoundRectangle 8"
+      StrokeThickness="0"
+      Padding="12"
+      HeightRequest="48"
+    >
       <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnCenterModalTapped" />
@@ -103,7 +121,13 @@
     </Border>
 
     <!-- FULL SCREEN -->
-    <Border BackgroundColor="{StaticResource OneSignalRed}" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="12" HeightRequest="48">
+    <Border
+      BackgroundColor="{StaticResource OneSignalRed}"
+      StrokeShape="RoundRectangle 8"
+      StrokeThickness="0"
+      Padding="12"
+      HeightRequest="48"
+    >
       <Grid ColumnDefinitions="Auto,*">
         <Grid.GestureRecognizers>
           <TapGestureRecognizer Tapped="OnFullScreenTapped" />
