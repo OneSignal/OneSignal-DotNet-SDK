@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace OneSignalDemo.Services;
 
@@ -47,14 +46,22 @@ public class LogManager : INotifyPropertyChanged
 
     public void E(string tag, string message) => AddLog("E", tag, message);
 
+    private const int MaxEntries = 100;
+
     private void AddLog(string level, string tag, string message)
     {
         var entry = new LogEntry(level, $"[{tag}] {message}");
-        Debug.WriteLine($"{level} {entry.Timestamp} [{tag}] {message}");
+        var line = $"[{level}][{tag}] {message}";
+        if (level is "W" or "E")
+            Console.Error.WriteLine(line);
+        else
+            Console.WriteLine(line);
 
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            Logs.Add(entry);
+            Logs.Insert(0, entry);
+            if (Logs.Count > MaxEntries)
+                Logs.RemoveAt(Logs.Count - 1);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Logs)));
             LogAdded?.Invoke(this, EventArgs.Empty);
         });

@@ -18,11 +18,7 @@ public partial class LogView : ContentView
 
     private void OnLogAdded(object? sender, EventArgs e)
     {
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            RebuildLogList();
-            _ = ScrollToBottomAsync();
-        });
+        MainThread.BeginInvokeOnMainThread(RebuildLogList);
     }
 
     private void RebuildLogList()
@@ -83,12 +79,7 @@ public partial class LogView : ContentView
         var count = LogManager.Instance.Logs.Count;
         LogCountLabel.Text = $"({count})";
         ClearIcon.IsVisible = count > 0;
-    }
-
-    private async Task ScrollToBottomAsync()
-    {
-        await Task.Delay(50);
-        await LogScrollView.ScrollToAsync(0, LogScrollView.ContentSize.Height, false);
+        EmptyLabel.IsVisible = count == 0;
     }
 
     private void OnHeaderTapped(object? sender, TappedEventArgs e)

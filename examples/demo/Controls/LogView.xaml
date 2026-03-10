@@ -86,7 +86,19 @@
       BackgroundColor="{StaticResource OsLogBackground}"
       AutomationId="log_view_list"
     >
-      <VerticalStackLayout x:Name="LogList" Spacing="0" Padding="12,0" />
+      <Grid>
+        <Label
+          x:Name="EmptyLabel"
+          Text="No logs yet"
+          TextColor="{StaticResource OsGrey500}"
+          FontSize="11"
+          FontFamily="DroidSansMono"
+          HorizontalOptions="Center"
+          VerticalOptions="Center"
+          AutomationId="log_view_empty"
+        />
+        <VerticalStackLayout x:Name="LogList" Spacing="0" Padding="12,0" />
+      </Grid>
     </ScrollView>
   </Grid>
 </ContentView>
