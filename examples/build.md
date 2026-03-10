@@ -107,6 +107,7 @@ Use the static `OneSignal` class from `OneSignalSDK.DotNet`:
 | IsPushOptedIn() | `OneSignal.User.PushSubscription.OptedIn` |
 | OptInPush() | `OneSignal.User.PushSubscription.OptIn()` |
 | OptOutPush() | `OneSignal.User.PushSubscription.OptOut()` |
+| ClearAllNotifications() | `OneSignal.Notifications.ClearAllNotifications()` |
 | HasPermission() | `OneSignal.Notifications.Permission` |
 | RequestPermissionAsync(fallback) | `OneSignal.Notifications.RequestPermissionAsync(fallback)` |
 | SetInAppMessagesPaused(paused) | `OneSignal.InAppMessages.Paused = paused` |
