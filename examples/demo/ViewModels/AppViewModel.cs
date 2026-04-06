@@ -55,6 +55,29 @@ public partial class AppViewModel : ObservableObject
     [ObservableProperty]
     private bool _locationShared;
 
+    // Live Activities section
+    [ObservableProperty]
+    private string _liveActivityId = "order-1";
+
+    [ObservableProperty]
+    private string _liveActivityOrderNumber = "ORD-1234";
+
+    [ObservableProperty]
+    private int _liveActivityStatusIndex;
+
+    [ObservableProperty]
+    private string _liveActivityUpdateButtonText = "UPDATE → ON THE WAY";
+
+    [ObservableProperty]
+    private bool _isLiveActivityUpdating;
+
+    private static readonly (string Status, string Message, string EstimatedTime)[] OrderStatuses =
+    {
+        ("preparing", "Your order is being prepared", "15 min"),
+        ("on_the_way", "Driver is heading your way", "10 min"),
+        ("delivered", "Order delivered!", ""),
+    };
+
     // Loading
     [ObservableProperty]
     private bool _isLoading;
@@ -442,6 +465,112 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.RequestLocationPermission();
         LogManager.Instance.I("AppVM", "Location permission requested");
+    }
+
+    // Live Activities
+    public bool HasApiKey() => _repository.HasApiKey();
+
+    public void StartLiveActivity()
+    {
+        var activityId = LiveActivityId;
+        if (string.IsNullOrWhiteSpace(activityId))
+            return;
+
+        var currentStatus = OrderStatuses[0];
+        var attributes = new Dictionary<string, object>
+        {
+            ["orderNumber"] = LiveActivityOrderNumber,
+        };
+        var content = new Dictionary<string, object>
+        {
+            ["status"] = currentStatus.Status,
+            ["message"] = currentStatus.Message,
+            ["estimatedTime"] = currentStatus.EstimatedTime,
+        };
+
+        _repository.StartDefaultLiveActivity(activityId, attributes, content);
+        LiveActivityStatusIndex = 0;
+        UpdateLiveActivityButtonText();
+        LogManager.Instance.I("AppVM", $"Started Live Activity: {activityId}");
+    }
+
+    public async Task UpdateLiveActivityAsync()
+    {
+        var activityId = LiveActivityId;
+        if (string.IsNullOrWhiteSpace(activityId) || IsLiveActivityUpdating)
+            return;
+
+        IsLiveActivityUpdating = true;
+
+        var nextIndex = LiveActivityStatusIndex + 1;
+        if (nextIndex >= OrderStatuses.Length)
+            nextIndex = 0;
+
+        var nextStatus = OrderStatuses[nextIndex];
+        var eventUpdates = new Dictionary<string, object>
+        {
+            ["status"] = nextStatus.Status,
+            ["message"] = nextStatus.Message,
+            ["estimatedTime"] = nextStatus.EstimatedTime,
+        };
+
+        var success = await _repository.UpdateLiveActivityAsync(
+            activityId,
+            "update",
+            eventUpdates
+        );
+
+        if (success)
+        {
+            LiveActivityStatusIndex = nextIndex;
+            UpdateLiveActivityButtonText();
+            LogManager.Instance.I("AppVM", $"Updated Live Activity: {activityId}");
+        }
+        else
+        {
+            LogManager.Instance.E("AppVM", "Failed to update Live Activity");
+        }
+
+        IsLiveActivityUpdating = false;
+    }
+
+    public async Task EndLiveActivityAsync()
+    {
+        var activityId = LiveActivityId;
+        if (string.IsNullOrWhiteSpace(activityId) || IsLiveActivityUpdating)
+            return;
+
+        IsLiveActivityUpdating = true;
+
+        var eventUpdates = new Dictionary<string, object>
+        {
+            ["message"] = "Ended",
+        };
+
+        var success = await _repository.UpdateLiveActivityAsync(activityId, "end", eventUpdates);
+
+        if (success)
+        {
+            LiveActivityStatusIndex = 0;
+            UpdateLiveActivityButtonText();
+            LogManager.Instance.I("AppVM", $"Ended Live Activity: {activityId}");
+        }
+        else
+        {
+            LogManager.Instance.E("AppVM", "Failed to end Live Activity");
+        }
+
+        IsLiveActivityUpdating = false;
+    }
+
+    private void UpdateLiveActivityButtonText()
+    {
+        var nextIndex = LiveActivityStatusIndex + 1;
+        if (nextIndex >= OrderStatuses.Length)
+            nextIndex = 0;
+
+        var nextStatus = OrderStatuses[nextIndex].Status.ToUpper().Replace('_', ' ');
+        LiveActivityUpdateButtonText = $"UPDATE → {nextStatus}";
     }
 
     // Consent

@@ -12,6 +12,15 @@ public class OneSignalApiService
 
     public string GetAppId() => _appId;
 
+    public bool HasApiKey()
+    {
+        var key = Environment.GetEnvironmentVariable("ONESIGNAL_API_KEY");
+        return !string.IsNullOrWhiteSpace(key) && key != "your_rest_api_key";
+    }
+
+    private string GetApiKey() =>
+        Environment.GetEnvironmentVariable("ONESIGNAL_API_KEY") ?? "";
+
     public async Task<bool> SendNotificationAsync(NotificationType type, string subscriptionId)
     {
         try
@@ -120,6 +129,57 @@ public class OneSignalApiService
         catch
         {
             return null;
+        }
+    }
+
+    public async Task<bool> UpdateLiveActivityAsync(
+        string activityId,
+        string eventType,
+        Dictionary<string, object>? eventUpdates = null
+    )
+    {
+        try
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Key {GetApiKey()}");
+
+            var payload = new Dictionary<string, object>
+            {
+                ["event"] = eventType,
+                ["name"] = "Live Activity Update",
+                ["priority"] = 10,
+            };
+
+            if (eventUpdates != null)
+            {
+                payload["event_updates"] = new Dictionary<string, object>
+                {
+                    ["data"] = eventUpdates,
+                };
+            }
+
+            if (eventType == "end")
+            {
+                payload["dismissal_date"] = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                payload["event_updates"] = new Dictionary<string, object>
+                {
+                    ["data"] = eventUpdates ?? new Dictionary<string, object>
+                    {
+                        ["message"] = "Ended",
+                    },
+                };
+            }
+
+            var json = JsonSerializer.Serialize(payload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var url =
+                $"https://api.onesignal.com/apps/{_appId}/live_activities/{activityId}/notifications";
+            var response = await client.PostAsync(url, content);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
         }
     }
 }

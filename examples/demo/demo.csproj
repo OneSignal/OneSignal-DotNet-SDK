@@ -64,6 +64,8 @@
 
   <ItemGroup>
     <Compile Remove="NotificationServiceExtension\**" />
+    <Compile Remove="OneSignalWidget\**" />
+    <None Remove="OneSignalWidget\**" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">

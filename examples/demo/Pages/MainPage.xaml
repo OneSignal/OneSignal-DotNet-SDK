@@ -42,13 +42,14 @@
         <sections:TriggersSection x:Name="TriggersSectionControl" />
         <sections:TrackEventSection x:Name="TrackEventSectionControl" />
         <sections:LocationSection x:Name="LocationSectionControl" />
+        <sections:LiveActivitiesSection x:Name="LiveActivitiesSectionControl" IsVisible="False" />
 
-        <!-- Next Activity button -->
+        <!-- Next Screen button -->
         <Button
-          Text="NEXT ACTIVITY"
+          Text="NEXT SCREEN"
           Style="{StaticResource PrimaryButtonStyle}"
           Clicked="OnNextActivityClicked"
-          AutomationId="next_activity_button"
+          AutomationId="next_screen_button"
           Margin="0,0,0,16"
         />
       </VerticalStackLayout>

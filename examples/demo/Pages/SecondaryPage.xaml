@@ -3,12 +3,12 @@
   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
   x:Class="OneSignalDemo.Pages.SecondaryPage"
-  Title="Secondary Activity"
+  Title="Secondary Screen"
   BackgroundColor="{StaticResource LightBackground}"
 >
   <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
     <Label
-      Text="Secondary Activity"
+      Text="Secondary Screen"
       FontSize="24"
       FontAttributes="Bold"
       TextColor="{StaticResource OsGrey700}"

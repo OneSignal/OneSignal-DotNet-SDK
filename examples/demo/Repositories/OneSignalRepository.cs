@@ -129,4 +129,22 @@ public class OneSignalRepository
 
     public Task<UserData?> FetchUserAsync(string onesignalId) =>
         _apiService.FetchUserAsync(onesignalId);
+
+    // Live Activities (iOS only)
+    public void StartDefaultLiveActivity(
+        string activityId,
+        IDictionary<string, object> attributes,
+        IDictionary<string, object> content
+    )
+    {
+        OneSignal.LiveActivities.StartDefault(activityId, attributes, content);
+    }
+
+    public Task<bool> UpdateLiveActivityAsync(
+        string activityId,
+        string eventType,
+        Dictionary<string, object>? eventUpdates = null
+    ) => _apiService.UpdateLiveActivityAsync(activityId, eventType, eventUpdates);
+
+    public bool HasApiKey() => _apiService.HasApiKey();
 }

@@ -5,6 +5,7 @@ using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
 using OneSignalSDK.DotNet;
+using OneSignalSDK.DotNet.Core.LiveActivities;
 using OsLogLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel;
 #if ANDROID
 using AndroidX.AppCompat.Content.Res;
@@ -79,6 +80,16 @@ public static class MauiProgram
         OneSignal.ConsentRequired = prefs.ConsentRequired;
         OneSignal.ConsentGiven = prefs.PrivacyConsent;
         OneSignal.Initialize(prefs.AppId);
+
+#if IOS
+        OneSignal.LiveActivities.SetupDefault(
+            new LiveActivitySetupOptions
+            {
+                EnablePushToStart = true,
+                EnablePushToUpdate = true,
+            }
+        );
+#endif
 
         // Register observers
         OneSignal.InAppMessages.WillDisplay += (s, e) =>
