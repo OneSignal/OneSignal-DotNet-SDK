@@ -1,0 +1,40 @@
+name: OneSignalWidget
+options:
+  bundleIdPrefix: com.onesignal.example
+  deploymentTarget:
+    iOS: "16.2"
+
+targets:
+  OneSignalWidgetExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - OneSignalWidgetBundle.swift
+      - OneSignalWidgetLiveActivity.swift
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: OneSignalWidget
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        NSSupportsLiveActivities: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.onesignal.example.OneSignalWidget
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.0"
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGNING_ALLOWED: "NO"
+        LD_RUNPATH_SEARCH_PATHS: "@executable_path/../../Frameworks"
+    dependencies:
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalLiveActivities.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalCore.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOSCore.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalUser.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalFramework.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalNotifications.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOutcomes.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalExtension.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalInAppMessages.xcframework
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalLocation.xcframework

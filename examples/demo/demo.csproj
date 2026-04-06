@@ -75,22 +75,4 @@
     <ProjectReference Include="NotificationServiceExtension\NotificationServiceExtension.csproj">
       <IsAppExtension>true</IsAppExtension>
     </ProjectReference>
-  </ItemGroup>
-
-  <!-- Build and embed the OneSignalWidget extension (iOS only) -->
-  <Target
-    Name="BuildOneSignalWidget"
-    Condition="$(TargetFramework.Contains('-ios'))"
-    AfterTargets="_CopyAppExtensionsToBundle"
-  >
-    <PropertyGroup>
-      <_WidgetPlatform Condition="$(RuntimeIdentifier.Contains('simulator'))">iossimulator</_WidgetPlatform>
-      <_WidgetPlatform Condition="!$(RuntimeIdentifier.Contains('simulator'))">ios</_WidgetPlatform>
-      <_WidgetArch>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant())</_WidgetArch>
-      <_WidgetArch Condition="'$(_WidgetArch)' == 'arm64' or '$(_WidgetArch)' == ''">arm64</_WidgetArch>
-    </PropertyGroup>
-    <Exec Command="bash OneSignalWidget/build-widget.sh $(Configuration) $(_WidgetPlatform) $(_WidgetArch)" />
-    <Exec Command="cp -r OneSignalWidget/build/OneSignalWidgetExtension.appex &quot;$(_AppBundlePath)PlugIns/&quot;" />
-    <Message Importance="high" Text="OneSignalWidget extension embedded into app bundle." />
-  </Target>
-</Project>
+  </ItemGroup></Project>

@@ -86,11 +86,7 @@ public static class MauiProgram
 
 #if IOS
         OneSignal.LiveActivities.SetupDefault(
-            new LiveActivitySetupOptions
-            {
-                EnablePushToStart = true,
-                EnablePushToUpdate = true,
-            }
+            new LiveActivitySetupOptions { EnablePushToStart = true, EnablePushToUpdate = true }
         );
 #endif
 

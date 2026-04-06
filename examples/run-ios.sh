@@ -43,4 +43,32 @@ else
   selected="${udids[$idx]}"
 fi
 
+# Build the OneSignalWidget extension if xcodegen is available
+WIDGET_DIR="$SCRIPT_DIR/demo/OneSignalWidget"
+if [ -f "$WIDGET_DIR/project.yml" ] && command -v xcodegen &>/dev/null; then
+  echo "Building OneSignalWidget extension..."
+  cd "$WIDGET_DIR"
+  xcodegen generate -q 2>/dev/null || xcodegen generate
+  xcodebuild build \
+    -project OneSignalWidget.xcodeproj \
+    -scheme OneSignalWidgetExtension \
+    -configuration Debug \
+    -sdk iphonesimulator \
+    -arch arm64 \
+    -derivedDataPath build \
+    CODE_SIGN_IDENTITY="-" \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGNING_ALLOWED=NO \
+    -quiet
+  echo "OneSignalWidget extension built."
+fi
+
 dotnet build "$SCRIPT_DIR/demo/demo.csproj" -f net10.0-ios -t:Build,Run -p:_DeviceName=":v2:udid=$selected"
+
+# Copy widget extension into app bundle after MAUI build
+APPEX="$WIDGET_DIR/build/Build/Products/Debug-iphonesimulator/OneSignalWidgetExtension.appex"
+APP_BUNDLE="$SCRIPT_DIR/demo/bin/Debug/net10.0-ios/iossimulator-arm64/demo.app"
+if [ -d "$APPEX" ] && [ -d "$APP_BUNDLE/PlugIns" ]; then
+  cp -r "$APPEX" "$APP_BUNDLE/PlugIns/"
+  echo "OneSignalWidget extension embedded into app."
+fi
