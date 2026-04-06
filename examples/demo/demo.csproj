@@ -75,4 +75,15 @@
     <ProjectReference Include="NotificationServiceExtension\NotificationServiceExtension.csproj">
       <IsAppExtension>true</IsAppExtension>
     </ProjectReference>
-  </ItemGroup></Project>
+  </ItemGroup>
+
+  <!-- Bundle the pre-built OneSignalWidget extension (Live Activities) -->
+  <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
+    <Content
+      Include="Platforms\iOS\PlugIns\OneSignalWidgetExtension.appex\**"
+      Condition="Exists('Platforms\iOS\PlugIns\OneSignalWidgetExtension.appex')"
+      Link="PlugIns\OneSignalWidgetExtension.appex\%(RecursiveDir)%(Filename)%(Extension)"
+      CopyToOutputDirectory="PreserveNewest"
+    />
+  </ItemGroup>
+</Project>

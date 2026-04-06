@@ -44,7 +44,3 @@ Thumbs.db
 
 # Environment files
 .env
-
-# Widget extension build artifacts
-examples/demo/OneSignalWidget/build/
-examples/demo/OneSignalWidget/OneSignalWidget.xcodeproj/
