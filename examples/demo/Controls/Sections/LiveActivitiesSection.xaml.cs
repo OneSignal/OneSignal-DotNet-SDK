@@ -49,9 +49,13 @@ public partial class LiveActivitiesSection : ContentView
 
             if (e.PropertyName == nameof(AppViewModel.IsLiveActivityUpdating))
             {
-                UpdateButton.IsEnabled = !viewModel.IsLiveActivityUpdating && viewModel.HasApiKey()
+                UpdateButton.IsEnabled =
+                    !viewModel.IsLiveActivityUpdating
+                    && viewModel.HasApiKey()
                     && !string.IsNullOrWhiteSpace(ActivityIdEntry.Text);
-                EndButton.IsEnabled = !viewModel.IsLiveActivityUpdating && viewModel.HasApiKey()
+                EndButton.IsEnabled =
+                    !viewModel.IsLiveActivityUpdating
+                    && viewModel.HasApiKey()
                     && !string.IsNullOrWhiteSpace(ActivityIdEntry.Text);
             }
         };
@@ -64,9 +68,13 @@ public partial class LiveActivitiesSection : ContentView
 
         var hasText = !string.IsNullOrWhiteSpace(e.NewTextValue);
         StartButton.IsEnabled = hasText;
-        UpdateButton.IsEnabled = hasText && _viewModel?.HasApiKey() == true
+        UpdateButton.IsEnabled =
+            hasText
+            && _viewModel?.HasApiKey() == true
             && _viewModel?.IsLiveActivityUpdating != true;
-        EndButton.IsEnabled = hasText && _viewModel?.HasApiKey() == true
+        EndButton.IsEnabled =
+            hasText
+            && _viewModel?.HasApiKey() == true
             && _viewModel?.IsLiveActivityUpdating != true;
     }
 

@@ -14,7 +14,8 @@ public static class DotEnv
 
         try
         {
-            using var stream = FileSystem.OpenAppPackageFileAsync(".env")
+            using var stream = FileSystem
+                .OpenAppPackageFileAsync(".env")
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
@@ -39,6 +40,5 @@ public static class DotEnv
         }
     }
 
-    public static string Get(string key) =>
-        _values.TryGetValue(key, out var value) ? value : "";
+    public static string Get(string key) => _values.TryGetValue(key, out var value) ? value : "";
 }

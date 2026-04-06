@@ -162,10 +162,8 @@ public class OneSignalApiService
                 payload["dismissal_date"] = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 payload["event_updates"] = new Dictionary<string, object>
                 {
-                    ["data"] = eventUpdates ?? new Dictionary<string, object>
-                    {
-                        ["message"] = "Ended",
-                    },
+                    ["data"] =
+                        eventUpdates ?? new Dictionary<string, object> { ["message"] = "Ended" },
                 };
             }
 

@@ -514,11 +514,7 @@ public partial class AppViewModel : ObservableObject
             ["estimatedTime"] = nextStatus.EstimatedTime,
         };
 
-        var success = await _repository.UpdateLiveActivityAsync(
-            activityId,
-            "update",
-            eventUpdates
-        );
+        var success = await _repository.UpdateLiveActivityAsync(activityId, "update", eventUpdates);
 
         if (success)
         {
@@ -542,10 +538,7 @@ public partial class AppViewModel : ObservableObject
 
         IsLiveActivityUpdating = true;
 
-        var eventUpdates = new Dictionary<string, object>
-        {
-            ["message"] = "Ended",
-        };
+        var eventUpdates = new Dictionary<string, object> { ["message"] = "Ended" };
 
         var success = await _repository.UpdateLiveActivityAsync(activityId, "end", eventUpdates);
 
