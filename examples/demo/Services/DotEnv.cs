@@ -5,7 +5,7 @@ public static class DotEnv
     private static readonly Dictionary<string, string> _values = new();
     private static bool _loaded;
 
-    public static async Task LoadAsync()
+    public static void Load()
     {
         if (_loaded)
             return;
@@ -14,9 +14,12 @@ public static class DotEnv
 
         try
         {
-            using var stream = await FileSystem.OpenAppPackageFileAsync(".env");
+            using var stream = FileSystem.OpenAppPackageFileAsync(".env")
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
             using var reader = new StreamReader(stream);
-            var content = await reader.ReadToEndAsync();
+            var content = reader.ReadToEnd();
 
             foreach (var line in content.Split('\n', StringSplitOptions.RemoveEmptyEntries))
             {
