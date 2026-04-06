@@ -71,6 +71,9 @@ public static class MauiProgram
 
         var app = builder.Build();
 
+        // Load .env file for API keys
+        DotEnv.LoadAsync().GetAwaiter().GetResult();
+
         // Initialize OneSignal SDK before building the app
         var prefs = app.Services.GetRequiredService<PreferencesService>();
         var apiService = app.Services.GetRequiredService<OneSignalApiService>();

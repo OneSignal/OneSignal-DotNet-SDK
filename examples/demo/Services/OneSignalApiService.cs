@@ -14,12 +14,11 @@ public class OneSignalApiService
 
     public bool HasApiKey()
     {
-        var key = Environment.GetEnvironmentVariable("ONESIGNAL_API_KEY");
+        var key = DotEnv.Get("ONESIGNAL_API_KEY");
         return !string.IsNullOrWhiteSpace(key) && key != "your_rest_api_key";
     }
 
-    private string GetApiKey() =>
-        Environment.GetEnvironmentVariable("ONESIGNAL_API_KEY") ?? "";
+    private string GetApiKey() => DotEnv.Get("ONESIGNAL_API_KEY");
 
     public async Task<bool> SendNotificationAsync(NotificationType type, string subscriptionId)
     {

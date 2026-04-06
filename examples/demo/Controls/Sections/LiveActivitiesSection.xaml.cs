@@ -1,3 +1,4 @@
+using Microsoft.Maui.Handlers;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -11,6 +12,26 @@ public partial class LiveActivitiesSection : ContentView
     public LiveActivitiesSection()
     {
         InitializeComponent();
+        RemoveEntryBorder(ActivityIdEntry);
+        RemoveEntryBorder(OrderNumberEntry);
+    }
+
+    private static void RemoveEntryBorder(Entry entry)
+    {
+        entry.HandlerChanged += (s, e) =>
+        {
+#if IOS
+            if (entry.Handler?.PlatformView is UIKit.UITextField textField)
+            {
+                textField.BorderStyle = UIKit.UITextBorderStyle.None;
+            }
+#elif ANDROID
+            if (entry.Handler?.PlatformView is Android.Widget.EditText editText)
+            {
+                editText.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            }
+#endif
+        };
     }
 
     public void Initialize(AppViewModel viewModel)
