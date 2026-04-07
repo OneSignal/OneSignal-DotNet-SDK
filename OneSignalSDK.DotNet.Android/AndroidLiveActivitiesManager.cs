@@ -14,6 +14,7 @@ public class AndroidLiveActivitiesManager : ILiveActivitiesManager
         return Task.FromResult(false);
     }
 
+    [Obsolete("Currently unsupported, avoid using this method.")]
     public Task<bool> Exit(string activityId)
     {
         Console.WriteLine("OneSignal: ExitLiveActivity is available on iOS only");

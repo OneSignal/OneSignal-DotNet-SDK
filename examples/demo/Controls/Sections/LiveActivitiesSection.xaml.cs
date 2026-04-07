@@ -1,0 +1,96 @@
+using Microsoft.Maui.Handlers;
+using OneSignalDemo.ViewModels;
+
+namespace OneSignalDemo.Controls.Sections;
+
+public partial class LiveActivitiesSection : ContentView
+{
+    private AppViewModel? _viewModel;
+
+    public event EventHandler? InfoTapped;
+
+    public LiveActivitiesSection()
+    {
+        InitializeComponent();
+        RemoveEntryBorder(ActivityIdEntry);
+        RemoveEntryBorder(OrderNumberEntry);
+    }
+
+    private static void RemoveEntryBorder(Entry entry)
+    {
+        entry.HandlerChanged += (s, e) =>
+        {
+#if IOS
+            if (entry.Handler?.PlatformView is UIKit.UITextField textField)
+            {
+                textField.BorderStyle = UIKit.UITextBorderStyle.None;
+            }
+#elif ANDROID
+            if (entry.Handler?.PlatformView is Android.Widget.EditText editText)
+            {
+                editText.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            }
+#endif
+        };
+    }
+
+    public void Initialize(AppViewModel viewModel)
+    {
+        _viewModel = viewModel;
+        RefreshUpdateEndButtons();
+
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.LiveActivityUpdateButtonText))
+                UpdateButton.Text = viewModel.LiveActivityUpdateButtonText;
+
+            if (e.PropertyName == nameof(AppViewModel.IsLiveActivityUpdating))
+                RefreshUpdateEndButtons();
+        };
+    }
+
+    private void OnActivityIdChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_viewModel != null)
+            _viewModel.LiveActivityId = e.NewTextValue;
+
+        StartButton.IsEnabled = !string.IsNullOrWhiteSpace(e.NewTextValue);
+        RefreshUpdateEndButtons();
+    }
+
+    private void RefreshUpdateEndButtons()
+    {
+        bool canInteract =
+            !string.IsNullOrWhiteSpace(ActivityIdEntry.Text)
+            && _viewModel?.HasApiKey() == true
+            && _viewModel?.IsLiveActivityUpdating != true;
+        UpdateButton.IsEnabled = canInteract;
+        EndButton.IsEnabled = canInteract;
+    }
+
+    private void OnOrderNumberChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_viewModel != null)
+            _viewModel.LiveActivityOrderNumber = e.NewTextValue;
+    }
+
+    private void OnStartClicked(object? sender, EventArgs e)
+    {
+        _viewModel?.StartLiveActivity();
+        RefreshUpdateEndButtons();
+    }
+
+    private async void OnUpdateClicked(object? sender, EventArgs e)
+    {
+        if (_viewModel != null)
+            await _viewModel.UpdateLiveActivityAsync();
+    }
+
+    private async void OnEndClicked(object? sender, EventArgs e)
+    {
+        if (_viewModel != null)
+            await _viewModel.EndLiveActivityAsync();
+    }
+
+    private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
+}

@@ -42,5 +42,7 @@
     <string>development</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/appicon.appiconset</string>
+    <key>NSSupportsLiveActivities</key>
+    <true/>
 </dict>
 </plist>

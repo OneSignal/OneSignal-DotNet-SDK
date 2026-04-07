@@ -43,4 +43,4 @@ else
   selected="${udids[$idx]}"
 fi
 
-dotnet build "$SCRIPT_DIR/demo/demo.csproj" -f net10.0-ios -t:Build,Run -p:_DeviceName=":v2:udid=$selected"
+dotnet build "$SCRIPT_DIR/demo.csproj" -f net10.0-ios -t:Build,Run -p:_DeviceName=":v2:udid=$selected"

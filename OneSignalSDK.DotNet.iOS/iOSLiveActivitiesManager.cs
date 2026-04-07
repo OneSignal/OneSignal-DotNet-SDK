@@ -22,6 +22,7 @@ namespace OneSignalSDK.DotNet.iOS
             return await proxy;
         }
 
+        [Obsolete("Currently unsupported, avoid using this method.")]
         public async Task<bool> Exit(string activityId)
         {
             BooleanCallbackProxy proxy = new BooleanCallbackProxy();

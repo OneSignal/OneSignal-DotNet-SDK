@@ -19,6 +19,7 @@ namespace OneSignalSDK.DotNet.Core.LiveActivities
         /// </summary>
         /// <param name="activityId">The (app-provided) ID of the activity that is being exited.</param>
         /// <returns>Awaitable boolean of whether the operation succeeded or failed</returns>
+        [Obsolete("Currently unsupported, avoid using this method.")]
         Task<bool> Exit(string activityId);
 
         /// <summary>

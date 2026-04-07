@@ -65,6 +65,12 @@ public partial class MainPage : ContentPage
 
         LocationSectionControl.Initialize(_viewModel);
         LocationSectionControl.InfoTapped += (s, e) => ShowTooltip("location");
+
+#if IOS
+        LiveActivitiesSectionControl.IsVisible = true;
+        LiveActivitiesSectionControl.Initialize(_viewModel);
+        LiveActivitiesSectionControl.InfoTapped += (s, e) => ShowTooltip("liveActivities");
+#endif
     }
 
     protected override async void OnAppearing()

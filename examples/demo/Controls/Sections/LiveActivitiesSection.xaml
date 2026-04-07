@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+  x:Class="OneSignalDemo.Controls.Sections.LiveActivitiesSection"
+>
+  <VerticalStackLayout Spacing="8">
+    <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
+      <Label
+        Grid.Column="0"
+        Text="LIVE ACTIVITIES"
+        Style="{StaticResource SectionHeaderStyle}"
+        VerticalOptions="Center"
+      />
+      <ImageButton
+        Grid.Column="1"
+        Source="{mi:Material Icon=InfoOutline, IconSize=18, IconColor=#9E9E9E}"
+        WidthRequest="18"
+        HeightRequest="18"
+        BackgroundColor="Transparent"
+        Clicked="OnInfoTapped"
+        Padding="0"
+      />
+    </Grid>
+
+    <!-- Input card -->
+    <Border Style="{StaticResource CardBorderStyle}">
+      <VerticalStackLayout Padding="16,12" Spacing="0">
+        <Grid ColumnDefinitions="Auto,*" HeightRequest="36">
+          <Label
+            Grid.Column="0"
+            Text="Activity ID"
+            Style="{StaticResource BodyMediumStyle}"
+            TextColor="{StaticResource OsGrey600}"
+            VerticalOptions="Center"
+          />
+          <Entry
+            Grid.Column="1"
+            x:Name="ActivityIdEntry"
+            Text="order-1"
+            HorizontalTextAlignment="End"
+            BackgroundColor="Transparent"
+            TextColor="#212121"
+            FontSize="14"
+            AutomationId="live_activity_id_input"
+            TextChanged="OnActivityIdChanged"
+          />
+        </Grid>
+        <Grid ColumnDefinitions="Auto,*" HeightRequest="36">
+          <Label
+            Grid.Column="0"
+            Text="Order #"
+            Style="{StaticResource BodyMediumStyle}"
+            TextColor="{StaticResource OsGrey600}"
+            VerticalOptions="Center"
+          />
+          <Entry
+            Grid.Column="1"
+            x:Name="OrderNumberEntry"
+            Text="ORD-1234"
+            HorizontalTextAlignment="End"
+            BackgroundColor="Transparent"
+            TextColor="#212121"
+            FontSize="14"
+            AutomationId="live_activity_order_input"
+            TextChanged="OnOrderNumberChanged"
+          />
+        </Grid>
+      </VerticalStackLayout>
+    </Border>
+
+    <Button
+      x:Name="StartButton"
+      Text="START LIVE ACTIVITY"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnStartClicked"
+      AutomationId="start_live_activity_button"
+    />
+    <Button
+      x:Name="UpdateButton"
+      Text="UPDATE → ON THE WAY"
+      Style="{StaticResource PrimaryButtonStyle}"
+      IsEnabled="False"
+      Clicked="OnUpdateClicked"
+      AutomationId="update_live_activity_button"
+    />
+    <Button
+      x:Name="EndButton"
+      Text="END LIVE ACTIVITY"
+      Style="{StaticResource OutlineButtonStyle}"
+      IsEnabled="False"
+      Clicked="OnEndClicked"
+      AutomationId="end_live_activity_button"
+    />
+  </VerticalStackLayout>
+</ContentView>
