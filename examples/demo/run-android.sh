@@ -38,4 +38,4 @@ else
   selected="${devices[$idx]}"
 fi
 
-dotnet build "$SCRIPT_DIR/demo/demo.csproj" -f net10.0-android -t:Run -p:AdbTarget="-s $selected"
+dotnet build "$SCRIPT_DIR/demo.csproj" -f net10.0-android -t:Run -p:AdbTarget="-s $selected"
