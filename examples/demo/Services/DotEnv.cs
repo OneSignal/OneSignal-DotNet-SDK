@@ -10,8 +10,6 @@ public static class DotEnv
         if (_loaded)
             return;
 
-        _loaded = true;
-
         try
         {
             using var stream = FileSystem
@@ -31,12 +29,24 @@ public static class DotEnv
                 var eqIndex = trimmed.IndexOf('=');
                 var key = trimmed[..eqIndex].Trim();
                 var value = trimmed[(eqIndex + 1)..].Trim();
+
+                if (
+                    value.Length >= 2
+                    && ((value[0] == '"' && value[^1] == '"')
+                        || (value[0] == '\'' && value[^1] == '\''))
+                )
+                    value = value[1..^1];
+
                 _values[key] = value;
             }
         }
-        catch (FileNotFoundException)
+        catch (Exception)
         {
-            // .env file not bundled -- keys will remain empty
+            // .env file not bundled or unreadable -- keys will remain empty
+        }
+        finally
+        {
+            _loaded = true;
         }
     }
 

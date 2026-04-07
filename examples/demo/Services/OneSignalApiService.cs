@@ -149,14 +149,6 @@ public class OneSignalApiService
                 ["priority"] = 10,
             };
 
-            if (eventUpdates != null)
-            {
-                payload["event_updates"] = new Dictionary<string, object>
-                {
-                    ["data"] = eventUpdates,
-                };
-            }
-
             if (eventType == "end")
             {
                 payload["dismissal_date"] = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -164,6 +156,13 @@ public class OneSignalApiService
                 {
                     ["data"] =
                         eventUpdates ?? new Dictionary<string, object> { ["message"] = "Ended" },
+                };
+            }
+            else if (eventUpdates != null)
+            {
+                payload["event_updates"] = new Dictionary<string, object>
+                {
+                    ["data"] = eventUpdates,
                 };
             }
 
