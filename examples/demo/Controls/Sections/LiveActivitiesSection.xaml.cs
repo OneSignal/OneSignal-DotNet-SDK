@@ -37,10 +37,7 @@ public partial class LiveActivitiesSection : ContentView
     public void Initialize(AppViewModel viewModel)
     {
         _viewModel = viewModel;
-
-        var hasApiKey = viewModel.HasApiKey();
-        UpdateButton.IsEnabled = hasApiKey;
-        EndButton.IsEnabled = hasApiKey;
+        RefreshUpdateEndButtons();
 
         viewModel.PropertyChanged += (s, e) =>
         {
@@ -48,16 +45,7 @@ public partial class LiveActivitiesSection : ContentView
                 UpdateButton.Text = viewModel.LiveActivityUpdateButtonText;
 
             if (e.PropertyName == nameof(AppViewModel.IsLiveActivityUpdating))
-            {
-                UpdateButton.IsEnabled =
-                    !viewModel.IsLiveActivityUpdating
-                    && viewModel.HasApiKey()
-                    && !string.IsNullOrWhiteSpace(ActivityIdEntry.Text);
-                EndButton.IsEnabled =
-                    !viewModel.IsLiveActivityUpdating
-                    && viewModel.HasApiKey()
-                    && !string.IsNullOrWhiteSpace(ActivityIdEntry.Text);
-            }
+                RefreshUpdateEndButtons();
         };
     }
 
@@ -66,16 +54,18 @@ public partial class LiveActivitiesSection : ContentView
         if (_viewModel != null)
             _viewModel.LiveActivityId = e.NewTextValue;
 
-        var hasText = !string.IsNullOrWhiteSpace(e.NewTextValue);
-        StartButton.IsEnabled = hasText;
-        UpdateButton.IsEnabled =
-            hasText
+        StartButton.IsEnabled = !string.IsNullOrWhiteSpace(e.NewTextValue);
+        RefreshUpdateEndButtons();
+    }
+
+    private void RefreshUpdateEndButtons()
+    {
+        bool canInteract =
+            !string.IsNullOrWhiteSpace(ActivityIdEntry.Text)
             && _viewModel?.HasApiKey() == true
             && _viewModel?.IsLiveActivityUpdating != true;
-        EndButton.IsEnabled =
-            hasText
-            && _viewModel?.HasApiKey() == true
-            && _viewModel?.IsLiveActivityUpdating != true;
+        UpdateButton.IsEnabled = canInteract;
+        EndButton.IsEnabled = canInteract;
     }
 
     private void OnOrderNumberChanged(object? sender, TextChangedEventArgs e)
@@ -87,6 +77,7 @@ public partial class LiveActivitiesSection : ContentView
     private void OnStartClicked(object? sender, EventArgs e)
     {
         _viewModel?.StartLiveActivity();
+        RefreshUpdateEndButtons();
     }
 
     private async void OnUpdateClicked(object? sender, EventArgs e)

@@ -12,9 +12,7 @@ public static class DotEnv
 
         try
         {
-            using var stream = FileSystem
-                .OpenAppPackageFileAsync(".env")
-                .ConfigureAwait(false)
+            using var stream = Task.Run(() => FileSystem.OpenAppPackageFileAsync(".env"))
                 .GetAwaiter()
                 .GetResult();
             using var reader = new StreamReader(stream);
