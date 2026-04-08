@@ -62,19 +62,19 @@ update_android_binaries() {
 	echo "Updating Android binaries to version ${ANDROID_NATIVE_VERSION}"
     curl https://repo1.maven.org/maven2/com/onesignal/core/${ANDROID_NATIVE_VERSION}/core-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Core.Binding/Jars/core-release.aar \
-         --fail --retry 20 --retry-delay 60 --retry-all-errors
+         --fail --retry 50 --retry-delay 60 --retry-all-errors
 
     curl https://repo1.maven.org/maven2/com/onesignal/notifications/${ANDROID_NATIVE_VERSION}/notifications-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Notifications.Binding/Jars/notifications-release.aar \
-         --fail --retry 20 --retry-delay 60 --retry-all-errors
+         --fail --retry 50 --retry-delay 60 --retry-all-errors
 
     curl https://repo1.maven.org/maven2/com/onesignal/location/${ANDROID_NATIVE_VERSION}/location-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Location.Binding/Jars/location-release.aar \
-         --fail --retry 20 --retry-delay 60 --retry-all-errors
+         --fail --retry 50 --retry-delay 60 --retry-all-errors
 
     curl https://repo1.maven.org/maven2/com/onesignal/in-app-messages/${ANDROID_NATIVE_VERSION}/in-app-messages-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.InAppMessages.Binding/Jars/in-app-messages-release.aar \
-         --fail --retry 20 --retry-delay 60 --retry-all-errors
+         --fail --retry 50 --retry-delay 60 --retry-all-errors
 }
 
 # Only update iOS if the version was provided
