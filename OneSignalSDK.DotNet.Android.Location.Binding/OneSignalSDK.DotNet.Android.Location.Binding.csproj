@@ -57,6 +57,6 @@
     <LibraryProjectZip Include="Jars\location-release.aar" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0.1" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.9.23.3" />
   </ItemGroup>
 </Project>
