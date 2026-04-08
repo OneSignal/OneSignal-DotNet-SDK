@@ -21,7 +21,7 @@
             <group targetFramework="net10.0-ios12.2">
             </group>
             <group targetFramework="net10.0-android21.0">
-                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.8.0.1" />
+                <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.9.23.3" />
                 <dependency id="Xamarin.KotlinX.Coroutines.Core" version="1.6.4.2" />
                 <dependency id="Xamarin.KotlinX.Coroutines.Android" version="1.6.4.2" />
 

@@ -52,7 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.0.1" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.9.23.3" />
     <PackageReference Include="Xamarin.KotlinX.Coroutines.Core" Version="1.6.4.2" />
     <PackageReference Include="Xamarin.KotlinX.Coroutines.Android" Version="1.6.4.2" />
     <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
