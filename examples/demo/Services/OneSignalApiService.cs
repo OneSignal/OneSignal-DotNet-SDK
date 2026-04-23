@@ -49,6 +49,15 @@ public class OneSignalApiService
                         ["mutable_content"] = true,
                     };
                     break;
+                case NotificationType.WithSound:
+                    title = "Sound Notification";
+                    body = "This notification plays a custom sound";
+                    extra = new Dictionary<string, object>
+                    {
+                        ["ios_sound"] = "vine_boom.wav",
+                        ["android_channel_id"] = "b3b015d9-c050-4042-8548-dcc34aa44aa4",
+                    };
+                    break;
                 default:
                     return false;
             }

@@ -34,6 +34,13 @@ public partial class SendPushSection : ContentView
         await _viewModel.SendNotificationAsync(NotificationType.WithImage);
     }
 
+    private async void OnWithSoundClicked(object? sender, EventArgs e)
+    {
+        if (_viewModel == null)
+            return;
+        await _viewModel.SendNotificationAsync(NotificationType.WithSound);
+    }
+
     private void OnCustomClicked(object? sender, EventArgs e)
     {
         CustomNotificationRequested?.Invoke(this, e);

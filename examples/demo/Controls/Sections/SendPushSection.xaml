@@ -38,6 +38,12 @@
       AutomationId="send_image_button"
     />
     <Button
+      Text="WITH SOUND"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnWithSoundClicked"
+      AutomationId="send_sound_button"
+    />
+    <Button
       Text="CUSTOM"
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnCustomClicked"

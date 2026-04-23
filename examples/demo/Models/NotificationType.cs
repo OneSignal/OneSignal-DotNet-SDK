@@ -4,5 +4,6 @@ public enum NotificationType
 {
     Simple,
     WithImage,
+    WithSound,
     Custom,
 }
