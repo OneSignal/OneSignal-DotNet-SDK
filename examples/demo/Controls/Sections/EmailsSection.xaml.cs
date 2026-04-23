@@ -72,6 +72,7 @@ public partial class EmailsSection : ContentView
                     Text = email,
                     FontSize = 14,
                     VerticalOptions = LayoutOptions.Center,
+                    AutomationId = $"emails_value_{email}",
                 }
             );
 
@@ -83,6 +84,7 @@ public partial class EmailsSection : ContentView
                 Padding = new Thickness(8, 0),
                 FontSize = 18,
                 HeightRequest = 40,
+                AutomationId = $"emails_remove_{email}",
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveEmail(captured);
             Grid.SetColumn(deleteBtn, 1);

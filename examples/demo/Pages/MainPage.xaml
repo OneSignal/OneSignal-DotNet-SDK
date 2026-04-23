@@ -26,7 +26,7 @@
     <controls:LogView Grid.Row="0" x:Name="LogViewControl" />
 
     <!-- Main scrollable content -->
-    <ScrollView Grid.Row="1">
+    <ScrollView Grid.Row="1" AutomationId="main_scroll_view">
       <VerticalStackLayout Padding="16,24" Spacing="24">
         <sections:AppSection x:Name="AppSectionControl" />
         <sections:UserSection x:Name="UserSectionControl" />

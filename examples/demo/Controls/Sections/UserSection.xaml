@@ -5,7 +5,7 @@
   x:Class="OneSignalDemo.Controls.Sections.UserSection"
   x:Name="root"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="user_section">
     <!-- Section header -->
     <Label Text="USER" Style="{StaticResource SectionHeaderStyle}" Padding="4,0,0,0" />
 
@@ -26,7 +26,7 @@
             Style="{StaticResource BodySmallStyle}"
             FontFamily="DroidSansMono"
             VerticalOptions="Center"
-            AutomationId="user_status_label"
+            AutomationId="user_status_value"
           />
         </Grid>
         <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
@@ -44,7 +44,7 @@
             Style="{StaticResource BodySmallStyle}"
             FontFamily="DroidSansMono"
             VerticalOptions="Center"
-            AutomationId="external_id_label"
+            AutomationId="user_external_id_value"
           />
         </Grid>
       </VerticalStackLayout>
@@ -56,7 +56,7 @@
       Text="LOGIN USER"
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnLoginClicked"
-      AutomationId="login_button"
+      AutomationId="login_user_button"
     />
     <Button
       x:Name="LogoutButton"
@@ -64,7 +64,7 @@
       Style="{StaticResource OutlineButtonStyle}"
       IsVisible="False"
       Clicked="OnLogoutClicked"
-      AutomationId="logout_button"
+      AutomationId="logout_user_button"
     />
   </VerticalStackLayout>
 </ContentView>

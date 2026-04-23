@@ -72,6 +72,7 @@ public partial class SmsSection : ContentView
                     Text = sms,
                     FontSize = 14,
                     VerticalOptions = LayoutOptions.Center,
+                    AutomationId = $"sms_value_{sms}",
                 }
             );
 
@@ -83,6 +84,7 @@ public partial class SmsSection : ContentView
                 Padding = new Thickness(8, 0),
                 FontSize = 18,
                 HeightRequest = 40,
+                AutomationId = $"sms_remove_{sms}",
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveSms(captured);
             Grid.SetColumn(deleteBtn, 1);

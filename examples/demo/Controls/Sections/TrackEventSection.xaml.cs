@@ -47,13 +47,13 @@ public partial class TrackEventSection : ContentView
         var nameEntry = new Entry
         {
             Placeholder = "Event name",
-            AutomationId = "track_event_name_input",
+            AutomationId = "event_name_input",
         };
 
         var propsEntry = new Entry
         {
             Placeholder = "{\"key\": \"value\"} (optional)",
-            AutomationId = "track_event_props_input",
+            AutomationId = "event_properties_input",
         };
 
         var errorLabel = new Label
@@ -65,7 +65,7 @@ public partial class TrackEventSection : ContentView
         };
 
         var cancelButton = DialogInputHelper.ActionButton("Cancel");
-        var confirmButton = DialogInputHelper.ActionButton("Track", "track_event_confirm_button");
+        var confirmButton = DialogInputHelper.ActionButton("Track", "event_track_button");
 
         (string name, Dictionary<string, object>? properties)? popupResult = null;
 

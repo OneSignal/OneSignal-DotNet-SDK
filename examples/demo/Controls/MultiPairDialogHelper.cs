@@ -32,12 +32,12 @@ public static class MultiPairDialogHelper
             var keyEntry = new Entry
             {
                 Placeholder = keyPlaceholder,
-                AutomationId = $"multi_pair_key_{rows.Count}",
+                AutomationId = $"multipair_key_{rows.Count}",
             };
             var valueEntry = new Entry
             {
                 Placeholder = valuePlaceholder,
-                AutomationId = $"multi_pair_value_{rows.Count}",
+                AutomationId = $"multipair_value_{rows.Count}",
             };
             var capturedRow = (keyEntry, valueEntry);
             rows.Add(capturedRow);
@@ -93,10 +93,11 @@ public static class MultiPairDialogHelper
             TextColor = Color.FromArgb("#E54B4D"),
             HorizontalOptions = LayoutOptions.Center,
             Padding = new Thickness(0, 8),
+            AutomationId = "multipair_add_row_button",
         };
 
-        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_pair_cancel_button");
-        var addAllButton = DialogInputHelper.ActionButton("Add All", "multi_pair_add_all_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multipair_cancel_button");
+        var addAllButton = DialogInputHelper.ActionButton("Add All", "multipair_confirm_button");
 
         addRowButton.Clicked += (s, e) => AddRow();
         cancelButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
@@ -160,7 +161,7 @@ public static class MultiPairDialogHelper
         {
             var cb = new CheckBox { Color = Color.FromArgb("#E54B4D") };
             checkboxes.Add((cb, key));
-            var row = new HorizontalStackLayout { Spacing = 8 };
+            var row = new HorizontalStackLayout { Spacing = 8, AutomationId = $"remove_checkbox_{key}" };
             row.Children.Add(cb);
             row.Children.Add(
                 new Label
@@ -173,10 +174,10 @@ public static class MultiPairDialogHelper
             itemsLayout.Children.Add(row);
         }
 
-        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_select_cancel_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multiselect_cancel_button");
         var removeButton = DialogInputHelper.ActionButtonDisabled(
             "Remove (0)",
-            "multi_select_remove_button"
+            "multiselect_confirm_button"
         );
 
         void UpdateButton()

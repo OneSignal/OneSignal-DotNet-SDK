@@ -5,7 +5,7 @@
   xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.TagsSection"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="tags_section">
     <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
       <Label
         Grid.Column="0"
@@ -21,6 +21,7 @@
         BackgroundColor="Transparent"
         Clicked="OnInfoTapped"
         Padding="0"
+        AutomationId="tags_info_icon"
       />
     </Grid>
 
@@ -31,7 +32,7 @@
           Text="No tags added"
           Style="{StaticResource EmptyStateStyle}"
           Padding="16"
-          AutomationId="tags_empty_label"
+          AutomationId="tags_empty"
         />
       </VerticalStackLayout>
     </Border>
@@ -54,7 +55,7 @@
       Style="{StaticResource PrimaryButtonStyle}"
       IsVisible="False"
       Clicked="OnRemoveSelectedClicked"
-      AutomationId="remove_selected_tags_button"
+      AutomationId="remove_tags_button"
     />
   </VerticalStackLayout>
 </ContentView>

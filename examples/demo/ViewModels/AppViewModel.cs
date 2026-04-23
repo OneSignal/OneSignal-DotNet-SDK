@@ -14,6 +14,7 @@ public partial class AppViewModel : ObservableObject
 {
     private readonly OneSignalRepository _repository;
     private readonly PreferencesService _prefs;
+    private readonly OneSignalApiService _apiService;
 
     // App section
     [ObservableProperty]
@@ -89,19 +90,31 @@ public partial class AppViewModel : ObservableObject
     public ObservableCollection<KeyValuePair<string, string>> TagsList { get; } = new();
     public ObservableCollection<KeyValuePair<string, string>> TriggersList { get; } = new();
 
-    public AppViewModel(OneSignalRepository repository, PreferencesService prefs)
+    public static bool IsE2EMode =>
+        string.Equals(DotEnv.Get("E2E_MODE"), "true", StringComparison.OrdinalIgnoreCase);
+
+    public AppViewModel(
+        OneSignalRepository repository,
+        PreferencesService prefs,
+        OneSignalApiService apiService
+    )
     {
         _repository = repository;
         _prefs = prefs;
+        _apiService = apiService;
 
         OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
         OneSignal.Notifications.PermissionChanged += OnPermissionChanged;
         OneSignal.User.Changed += OnUserChanged;
     }
 
+    private static string MaskValue(string value) =>
+        string.IsNullOrEmpty(value) ? value : new string('\u2022', value.Length);
+
     public async Task LoadInitialStateAsync()
     {
-        AppId = _prefs.AppId;
+        var rawAppId = _apiService.GetAppId();
+        AppId = IsE2EMode ? MaskValue(rawAppId) : rawAppId;
         ConsentRequired = _prefs.ConsentRequired;
         PrivacyConsentGiven = _prefs.PrivacyConsent;
         InAppMessagesPaused = _repository.IsInAppMessagesPaused();
@@ -111,8 +124,8 @@ public partial class AppViewModel : ObservableObject
         var extId = _repository.GetExternalId() ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
 
-        var pushId = _repository.GetPushSubscriptionId() ?? "";
-        PushSubscriptionId = pushId;
+        var rawPushId = _repository.GetPushSubscriptionId() ?? "";
+        PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
         IsPushEnabled = _repository.IsPushOptedIn();
 
         var onesignalId = _repository.GetOnesignalId();
@@ -597,11 +610,12 @@ public partial class AppViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            PushSubscriptionId = _repository.GetPushSubscriptionId() ?? "";
+            var rawPushId = _repository.GetPushSubscriptionId() ?? "";
+            PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
             IsPushEnabled = _repository.IsPushOptedIn();
             LogManager.Instance.D(
                 "AppVM",
-                $"Push subscription changed: id={PushSubscriptionId}, optedIn={IsPushEnabled}"
+                $"Push subscription changed: id={rawPushId}, optedIn={IsPushEnabled}"
             );
         });
     }

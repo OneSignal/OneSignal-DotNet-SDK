@@ -16,7 +16,7 @@ namespace OneSignalDemo;
 
 public static class MauiProgram
 {
-    private const string AppId = "77e32082-ea27-42e3-a898-c72e141824ef";
+    private const string DefaultAppId = "77e32082-ea27-42e3-a898-c72e141824ef";
 
     public static MauiApp CreateMauiApp()
     {
@@ -74,15 +74,20 @@ public static class MauiProgram
         // Load .env file for API keys
         DotEnv.Load();
 
-        // Initialize OneSignal SDK before building the app
+        // Load App ID from .env (fall back to default if empty or missing)
+        var envAppId = DotEnv.Get("ONESIGNAL_APP_ID");
+        var appId = string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
+            ? DefaultAppId
+            : envAppId;
+
         var prefs = app.Services.GetRequiredService<PreferencesService>();
         var apiService = app.Services.GetRequiredService<OneSignalApiService>();
-        apiService.SetAppId(prefs.AppId);
+        apiService.SetAppId(appId);
 
         OneSignal.Debug.LogLevel = OsLogLevel.VERBOSE;
         OneSignal.ConsentRequired = prefs.ConsentRequired;
         OneSignal.ConsentGiven = prefs.PrivacyConsent;
-        OneSignal.Initialize(prefs.AppId);
+        OneSignal.Initialize(appId);
 
 #if IOS
         OneSignal.LiveActivities.SetupDefault(

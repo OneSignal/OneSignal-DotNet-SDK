@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using OneSignalDemo.Controls;
 using OneSignalDemo.Models;
 using OneSignalDemo.Services;
@@ -89,7 +91,9 @@ public partial class MainPage : ContentPage
             this,
             "Login User",
             "External User Id",
-            "Login"
+            "Login",
+            "login_user_id_input",
+            "login_confirm_button"
         );
 
         if (string.IsNullOrEmpty(userId))
@@ -98,11 +102,13 @@ public partial class MainPage : ContentPage
         }
 
         await _viewModel.LoginUserAsync(userId);
+        await Toast.Make($"Logged in as {userId}", ToastDuration.Short).Show();
     }
 
     private async void OnLogoutRequested(object? sender, EventArgs e)
     {
         await _viewModel.LogoutUserAsync();
+        await Toast.Make("User logged out", ToastDuration.Short).Show();
     }
 
     private async void OnCustomNotificationRequested(object? sender, EventArgs e)
@@ -116,17 +122,17 @@ public partial class MainPage : ContentPage
                 {
                     Key = "title",
                     Placeholder = "Title",
-                    AutomationId = "custom_notif_title_input",
+                    AutomationId = "custom_notification_title_input",
                 },
                 new DialogInputField
                 {
                     Key = "body",
                     Placeholder = "Body",
-                    AutomationId = "custom_notif_body_input",
+                    AutomationId = "custom_notification_body_input",
                 },
             },
             "Send",
-            "custom_notif_send_button"
+            "custom_notification_send_button"
         );
 
         if (

@@ -5,7 +5,7 @@
   xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.EmailsSection"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="emails_section">
     <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
       <Label
         Grid.Column="0"
@@ -21,6 +21,7 @@
         BackgroundColor="Transparent"
         Clicked="OnInfoTapped"
         Padding="0"
+        AutomationId="emails_info_icon"
       />
     </Grid>
 
@@ -31,7 +32,7 @@
           Text="No emails added"
           Style="{StaticResource EmptyStateStyle}"
           Padding="16"
-          AutomationId="emails_empty_label"
+          AutomationId="emails_empty"
         />
       </VerticalStackLayout>
     </Border>
