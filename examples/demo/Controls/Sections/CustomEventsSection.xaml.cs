@@ -82,10 +82,17 @@ public partial class CustomEventsSection : ContentView
             {
                 try
                 {
-                    var doc = JsonDocument.Parse(propsText);
+                    using var doc = JsonDocument.Parse(propsText);
+                    if (doc.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("Root must be a JSON object");
+
                     properties = new Dictionary<string, object>();
                     foreach (var prop in doc.RootElement.EnumerateObject())
-                        properties[prop.Name] = prop.Value.GetString() ?? string.Empty;
+                    {
+                        var value = JsonElementToObject(prop.Value);
+                        if (value is not null)
+                            properties[prop.Name] = value;
+                    }
                     errorLabel.IsVisible = false;
                 }
                 catch
@@ -137,4 +144,23 @@ public partial class CustomEventsSection : ContentView
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
+
+    private static object? JsonElementToObject(JsonElement element) =>
+        element.ValueKind switch
+        {
+            JsonValueKind.String => element.GetString(),
+            JsonValueKind.Number => element.TryGetInt64(out var l) ? l : element.GetDouble(),
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            JsonValueKind.Object => element
+                .EnumerateObject()
+                .Where(p => p.Value.ValueKind != JsonValueKind.Null)
+                .ToDictionary(p => p.Name, p => JsonElementToObject(p.Value)!),
+            JsonValueKind.Array => element
+                .EnumerateArray()
+                .Select(JsonElementToObject)
+                .ToList(),
+            _ => null,
+        };
 }
