@@ -99,9 +99,10 @@ public static class MauiProgram
 
         // Load App ID from .env (fall back to default if empty or missing)
         var envAppId = DotEnv.Get("ONESIGNAL_APP_ID");
-        var appId = string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
-            ? DefaultAppId
-            : envAppId;
+        var appId =
+            string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
+                ? DefaultAppId
+                : envAppId;
 
         var prefs = app.Services.GetRequiredService<PreferencesService>();
         var apiService = app.Services.GetRequiredService<OneSignalApiService>();
@@ -126,7 +127,8 @@ public static class MauiProgram
         OneSignal.InAppMessages.DidDismiss += (s, e) => Debug.WriteLine("IAM DidDismiss");
         OneSignal.InAppMessages.Clicked += (s, e) => Debug.WriteLine("IAM Clicked");
         OneSignal.Notifications.Clicked += (s, e) => Debug.WriteLine("Notification clicked");
-        OneSignal.Notifications.WillDisplay += (s, e) => Debug.WriteLine("Notification willDisplay");
+        OneSignal.Notifications.WillDisplay += (s, e) =>
+            Debug.WriteLine("Notification willDisplay");
 
         // Restore SDK state from prefs (after Initialize)
         OneSignal.InAppMessages.Paused = prefs.IamPaused;

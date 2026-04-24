@@ -44,11 +44,7 @@ public partial class CustomEventsSection : ContentView
         Dictionary<string, object>? properties
     )?> ShowTrackEventPopup(Page parentPage)
     {
-        var nameEntry = new Entry
-        {
-            Placeholder = "Event name",
-            AutomationId = "event_name_input",
-        };
+        var nameEntry = new Entry { Placeholder = "Event name", AutomationId = "event_name_input" };
 
         var propsEntry = new Entry
         {
@@ -152,10 +148,7 @@ public partial class CustomEventsSection : ContentView
             JsonValueKind.Object => element
                 .EnumerateObject()
                 .ToDictionary(p => p.Name, p => JsonElementToObject(p.Value)!),
-            JsonValueKind.Array => element
-                .EnumerateArray()
-                .Select(JsonElementToObject)
-                .ToList(),
+            JsonValueKind.Array => element.EnumerateArray().Select(JsonElementToObject).ToList(),
             _ => null,
         };
 }
