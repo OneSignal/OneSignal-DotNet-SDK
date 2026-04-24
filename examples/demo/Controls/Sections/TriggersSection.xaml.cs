@@ -122,8 +122,7 @@ public partial class TriggersSection : ContentView
                 Placeholder = "Value",
                 AutomationId = "trigger_value_input",
             },
-            "Add",
-            "trigger_confirm_button"
+            "Add"
         );
 
         if (

@@ -36,7 +36,7 @@ public partial class TrackEventSection : ContentView
             return;
 
         _viewModel.TrackEvent(result.Value.name, result.Value.properties);
-        await Toast.Make($"Event tracked: {result.Value.name}", ToastDuration.Short).Show();
+        await Snackbar.Make($"Event tracked: {result.Value.name}").Show();
     }
 
     private static async Task<(

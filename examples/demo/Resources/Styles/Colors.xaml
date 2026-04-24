@@ -14,12 +14,6 @@
   <Color x:Key="OsCardBorder">#1A000000</Color>
   <Color x:Key="OsDivider">#E8EAED</Color>
   <Color x:Key="OsWarningBackground">#FFF8E1</Color>
-  <Color x:Key="OsLogBackground">#1A1B1E</Color>
-  <Color x:Key="OsLogDebug">#82AAFF</Color>
-  <Color x:Key="OsLogInfo">#C3E88D</Color>
-  <Color x:Key="OsLogWarn">#FFCB6B</Color>
-  <Color x:Key="OsLogError">#FF5370</Color>
-  <Color x:Key="OsLogTimestamp">#676E7B</Color>
 
   <!-- Legacy aliases kept so existing XAML references still compile -->
   <Color x:Key="OneSignalRed">#E54B4D</Color>
@@ -28,5 +22,4 @@
   <Color x:Key="CardBackground">#FFFFFF</Color>
   <Color x:Key="DividerColor">#E8EAED</Color>
   <Color x:Key="WarningBackground">#FFF8E1</Color>
-  <Color x:Key="LogViewBackground">#1A1B1E</Color>
 </ResourceDictionary>

@@ -51,9 +51,7 @@ public partial class LocationSection : ContentView
         if (_viewModel == null)
             return;
         var shared = _viewModel.LocationShared;
-        await Toast
-            .Make($"Location shared: {shared.ToString().ToLower()}", ToastDuration.Short)
-            .Show();
+        await Snackbar.Make($"Location shared: {shared.ToString().ToLower()}").Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

@@ -149,7 +149,7 @@ public partial class OutcomesSection : ContentView
             toastMessage = $"Outcome sent: {name}";
         }
 
-        await Toast.Make(toastMessage, ToastDuration.Short).Show();
+        await Snackbar.Make(toastMessage).Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OneSignalDemo.Models;
@@ -139,7 +140,7 @@ public partial class AppViewModel : ObservableObject
             catch (Exception e)
             {
                 IsLoading = false;
-                LogManager.Instance.E("AppVM", $"Error fetching initial user data: {e.Message}");
+                Debug.WriteLine($"Error fetching initial user data: {e.Message}");
             }
         }
     }
@@ -174,7 +175,7 @@ public partial class AppViewModel : ObservableObject
         _prefs.ExternalUserId = externalUserId;
         UpdateUserStatus(externalUserId);
         IsLoading = false;
-        LogManager.Instance.I("AppVM", $"Login: {externalUserId}");
+        Debug.WriteLine($"Login: {externalUserId}");
     }
 
     [RelayCommand]
@@ -186,7 +187,7 @@ public partial class AppViewModel : ObservableObject
         ClearUserData();
         UpdateUserStatus(null);
         IsLoading = false;
-        LogManager.Instance.I("AppVM", "Logged out");
+        Debug.WriteLine("Logged out");
     }
 
     private void ClearUserData()
@@ -204,7 +205,7 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.AddAlias(pair.Key, pair.Value);
         UpsertAlias(pair.Key, pair.Value);
-        LogManager.Instance.I("AppVM", $"Alias added: {pair.Key}");
+        Debug.WriteLine($"Alias added: {pair.Key}");
     }
 
     [RelayCommand]
@@ -213,7 +214,7 @@ public partial class AppViewModel : ObservableObject
         _repository.AddAliases(aliases);
         foreach (var kv in aliases)
             UpsertAlias(kv.Key, kv.Value);
-        LogManager.Instance.I("AppVM", $"{aliases.Count} alias(es) added");
+        Debug.WriteLine($"{aliases.Count} alias(es) added");
     }
 
     private void UpsertAlias(string key, string value)
@@ -237,7 +238,7 @@ public partial class AppViewModel : ObservableObject
         _repository.AddEmail(email);
         if (!EmailsList.Contains(email))
             EmailsList.Add(email);
-        LogManager.Instance.I("AppVM", $"Email added: {email}");
+        Debug.WriteLine($"Email added: {email}");
     }
 
     [RelayCommand]
@@ -245,7 +246,7 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.RemoveEmail(email);
         EmailsList.Remove(email);
-        LogManager.Instance.I("AppVM", $"Email removed: {email}");
+        Debug.WriteLine($"Email removed: {email}");
     }
 
     // SMS
@@ -255,7 +256,7 @@ public partial class AppViewModel : ObservableObject
         _repository.AddSms(sms);
         if (!SmsNumbersList.Contains(sms))
             SmsNumbersList.Add(sms);
-        LogManager.Instance.I("AppVM", $"SMS added: {sms}");
+        Debug.WriteLine($"SMS added: {sms}");
     }
 
     [RelayCommand]
@@ -263,7 +264,7 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.RemoveSms(sms);
         SmsNumbersList.Remove(sms);
-        LogManager.Instance.I("AppVM", $"SMS removed: {sms}");
+        Debug.WriteLine($"SMS removed: {sms}");
     }
 
     // Tags
@@ -272,7 +273,7 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.AddTag(pair.Key, pair.Value);
         UpsertTag(pair.Key, pair.Value);
-        LogManager.Instance.I("AppVM", $"Tag added: {pair.Key}");
+        Debug.WriteLine($"Tag added: {pair.Key}");
     }
 
     [RelayCommand]
@@ -281,7 +282,7 @@ public partial class AppViewModel : ObservableObject
         _repository.AddTags(tags);
         foreach (var kv in tags)
             UpsertTag(kv.Key, kv.Value);
-        LogManager.Instance.I("AppVM", $"{tags.Count} tag(s) added");
+        Debug.WriteLine($"{tags.Count} tag(s) added");
     }
 
     [RelayCommand]
@@ -291,7 +292,7 @@ public partial class AppViewModel : ObservableObject
         var item = TagsList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TagsList.Remove(item);
-        LogManager.Instance.I("AppVM", $"Tag removed: {key}");
+        Debug.WriteLine($"Tag removed: {key}");
     }
 
     [RelayCommand]
@@ -305,7 +306,7 @@ public partial class AppViewModel : ObservableObject
             if (item.Key != null)
                 TagsList.Remove(item);
         }
-        LogManager.Instance.I("AppVM", $"{keyList.Count} tag(s) removed");
+        Debug.WriteLine($"{keyList.Count} tag(s) removed");
     }
 
     private void UpsertTag(string key, string value)
@@ -328,7 +329,7 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.AddTrigger(pair.Key, pair.Value);
         UpsertTrigger(pair.Key, pair.Value);
-        LogManager.Instance.I("AppVM", $"Trigger added: {pair.Key}");
+        Debug.WriteLine($"Trigger added: {pair.Key}");
     }
 
     [RelayCommand]
@@ -337,7 +338,7 @@ public partial class AppViewModel : ObservableObject
         _repository.AddTriggers(triggers);
         foreach (var kv in triggers)
             UpsertTrigger(kv.Key, kv.Value);
-        LogManager.Instance.I("AppVM", $"{triggers.Count} trigger(s) added");
+        Debug.WriteLine($"{triggers.Count} trigger(s) added");
     }
 
     [RelayCommand]
@@ -347,7 +348,7 @@ public partial class AppViewModel : ObservableObject
         var item = TriggersList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TriggersList.Remove(item);
-        LogManager.Instance.I("AppVM", $"Trigger removed: {key}");
+        Debug.WriteLine($"Trigger removed: {key}");
     }
 
     [RelayCommand]
@@ -361,7 +362,7 @@ public partial class AppViewModel : ObservableObject
             if (item.Key != null)
                 TriggersList.Remove(item);
         }
-        LogManager.Instance.I("AppVM", $"{keyList.Count} trigger(s) removed");
+        Debug.WriteLine($"{keyList.Count} trigger(s) removed");
     }
 
     [RelayCommand]
@@ -369,7 +370,7 @@ public partial class AppViewModel : ObservableObject
     {
         _repository.ClearTriggers();
         TriggersList.Clear();
-        LogManager.Instance.I("AppVM", "All triggers cleared");
+        Debug.WriteLine("All triggers cleared");
     }
 
     public void UpsertTrigger(string key, string value)
@@ -391,27 +392,27 @@ public partial class AppViewModel : ObservableObject
     public void SendOutcome(string name)
     {
         _repository.SendOutcome(name);
-        LogManager.Instance.I("AppVM", $"Outcome sent: {name}");
+        Debug.WriteLine($"Outcome sent: {name}");
     }
 
     [RelayCommand]
     public void SendUniqueOutcome(string name)
     {
         _repository.SendUniqueOutcome(name);
-        LogManager.Instance.I("AppVM", $"Unique outcome sent: {name}");
+        Debug.WriteLine($"Unique outcome sent: {name}");
     }
 
     public void SendOutcomeWithValue(string name, float value)
     {
         _repository.SendOutcomeWithValue(name, value);
-        LogManager.Instance.I("AppVM", $"Outcome with value sent: {name} = {value}");
+        Debug.WriteLine($"Outcome with value sent: {name} = {value}");
     }
 
     // Track Event
     public void TrackEvent(string name, IDictionary<string, object>? properties = null)
     {
         _repository.TrackEvent(name, properties);
-        LogManager.Instance.I("AppVM", $"Event tracked: {name}");
+        Debug.WriteLine($"Event tracked: {name}");
     }
 
     // Notifications
@@ -419,8 +420,7 @@ public partial class AppViewModel : ObservableObject
     public async Task SendNotificationAsync(NotificationType type)
     {
         var success = await _repository.SendNotificationAsync(type);
-        LogManager.Instance.I(
-            "AppVM",
+        Debug.WriteLine(
             success ? $"Notification sent: {type}" : "Failed to send notification"
         );
     }
@@ -429,14 +429,13 @@ public partial class AppViewModel : ObservableObject
     public void ClearAllNotifications()
     {
         _repository.ClearAllNotifications();
-        LogManager.Instance.I("AppVM", "All notifications cleared");
+        Debug.WriteLine("All notifications cleared");
     }
 
     public async Task SendCustomNotificationAsync(string title, string body)
     {
         var success = await _repository.SendCustomNotificationAsync(title, body);
-        LogManager.Instance.I(
-            "AppVM",
+        Debug.WriteLine(
             success ? $"Notification sent: {title}" : "Failed to send notification"
         );
     }
@@ -447,10 +446,7 @@ public partial class AppViewModel : ObservableObject
         _repository.SetInAppMessagesPaused(paused);
         _prefs.IamPaused = paused;
         InAppMessagesPaused = paused;
-        LogManager.Instance.I(
-            "AppVM",
-            paused ? "In-App Messages paused" : "In-App Messages resumed"
-        );
+        Debug.WriteLine(paused ? "In-App Messages paused" : "In-App Messages resumed");
     }
 
     public void SendInAppMessage(InAppMessageType type)
@@ -458,7 +454,7 @@ public partial class AppViewModel : ObservableObject
         var triggerValue = type.GetTriggerValue();
         _repository.AddTrigger("iam_type", triggerValue);
         UpsertTrigger("iam_type", triggerValue);
-        LogManager.Instance.I("AppVM", $"Sent In-App Message: {type.GetDisplayName()}");
+        Debug.WriteLine($"Sent In-App Message: {type.GetDisplayName()}");
     }
 
     // Location
@@ -467,17 +463,14 @@ public partial class AppViewModel : ObservableObject
         _repository.SetLocationShared(shared);
         _prefs.LocationShared = shared;
         LocationShared = shared;
-        LogManager.Instance.I(
-            "AppVM",
-            shared ? "Location sharing enabled" : "Location sharing disabled"
-        );
+        Debug.WriteLine(shared ? "Location sharing enabled" : "Location sharing disabled");
     }
 
     [RelayCommand]
     public void PromptLocation()
     {
         _repository.RequestLocationPermission();
-        LogManager.Instance.I("AppVM", "Location permission requested");
+        Debug.WriteLine("Location permission requested");
     }
 
     // Live Activities
@@ -504,7 +497,7 @@ public partial class AppViewModel : ObservableObject
         _repository.StartDefaultLiveActivity(activityId, attributes, content);
         LiveActivityStatusIndex = 0;
         UpdateLiveActivityButtonText();
-        LogManager.Instance.I("AppVM", $"Started Live Activity: {activityId}");
+        Debug.WriteLine($"Started Live Activity: {activityId}");
     }
 
     public async Task UpdateLiveActivityAsync()
@@ -533,11 +526,11 @@ public partial class AppViewModel : ObservableObject
         {
             LiveActivityStatusIndex = nextIndex;
             UpdateLiveActivityButtonText();
-            LogManager.Instance.I("AppVM", $"Updated Live Activity: {activityId}");
+            Debug.WriteLine($"Updated Live Activity: {activityId}");
         }
         else
         {
-            LogManager.Instance.E("AppVM", "Failed to update Live Activity");
+            Debug.WriteLine("Failed to update Live Activity");
         }
 
         IsLiveActivityUpdating = false;
@@ -559,11 +552,11 @@ public partial class AppViewModel : ObservableObject
         {
             LiveActivityStatusIndex = 0;
             UpdateLiveActivityButtonText();
-            LogManager.Instance.I("AppVM", $"Ended Live Activity: {activityId}");
+            Debug.WriteLine($"Ended Live Activity: {activityId}");
         }
         else
         {
-            LogManager.Instance.E("AppVM", "Failed to end Live Activity");
+            Debug.WriteLine("Failed to end Live Activity");
         }
 
         IsLiveActivityUpdating = false;
@@ -602,7 +595,7 @@ public partial class AppViewModel : ObservableObject
         else
             _repository.OptOutPush();
         IsPushEnabled = enabled;
-        LogManager.Instance.I("AppVM", enabled ? "Push enabled" : "Push disabled");
+        Debug.WriteLine(enabled ? "Push enabled" : "Push disabled");
     }
 
     // Observers
@@ -613,8 +606,7 @@ public partial class AppViewModel : ObservableObject
             var rawPushId = _repository.GetPushSubscriptionId() ?? "";
             PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
             IsPushEnabled = _repository.IsPushOptedIn();
-            LogManager.Instance.D(
-                "AppVM",
+            Debug.WriteLine(
                 $"Push subscription changed: id={rawPushId}, optedIn={IsPushEnabled}"
             );
         });
@@ -628,7 +620,7 @@ public partial class AppViewModel : ObservableObject
         MainThread.BeginInvokeOnMainThread(() =>
         {
             HasNotificationPermission = args.Permission;
-            LogManager.Instance.D("AppVM", $"Permission changed: {args.Permission}");
+            Debug.WriteLine($"Permission changed: {args.Permission}");
         });
     }
 
@@ -641,7 +633,7 @@ public partial class AppViewModel : ObservableObject
         {
             var extId = _prefs.ExternalUserId;
             UpdateUserStatus(extId);
-            LogManager.Instance.D("AppVM", $"User changed: externalId={extId}");
+            Debug.WriteLine($"User changed: externalId={extId}");
             await FetchUserDataFromApiAsync();
         });
     }
@@ -685,7 +677,7 @@ public partial class AppViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            LogManager.Instance.E("AppVM", $"Error fetching user data: {e.Message}");
+            Debug.WriteLine($"Error fetching user data: {e.Message}");
         }
 
         await Task.Delay(100);

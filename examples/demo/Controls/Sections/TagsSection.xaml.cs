@@ -120,8 +120,7 @@ public partial class TagsSection : ContentView
                 Placeholder = "Value",
                 AutomationId = "tag_value_input",
             },
-            "Add",
-            "tag_confirm_button"
+            "Add"
         );
 
         if (

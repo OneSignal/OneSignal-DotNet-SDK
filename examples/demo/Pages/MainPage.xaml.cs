@@ -92,8 +92,7 @@ public partial class MainPage : ContentPage
             "Login User",
             "External User Id",
             "Login",
-            "login_user_id_input",
-            "login_confirm_button"
+            "login_user_id_input"
         );
 
         if (string.IsNullOrEmpty(userId))

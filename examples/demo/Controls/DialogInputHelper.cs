@@ -58,7 +58,7 @@ public static class DialogInputHelper
                 },
             },
             confirmText,
-            confirmAutomationId
+            confirmAutomationId ?? "singleinput_confirm_button"
         );
         return result != null && result.TryGetValue("value", out var value) ? value : null;
     }
@@ -93,7 +93,7 @@ public static class DialogInputHelper
             title,
             row,
             confirmText,
-            confirmAutomationId,
+            confirmAutomationId ?? "singlepair_confirm_button",
             () =>
                 new Dictionary<string, string>(StringComparer.Ordinal)
                 {

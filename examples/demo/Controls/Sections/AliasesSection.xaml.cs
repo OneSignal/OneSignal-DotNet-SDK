@@ -95,8 +95,7 @@ public partial class AliasesSection : ContentView
                 Placeholder = "ID",
                 AutomationId = "alias_id_input",
             },
-            "Add",
-            "alias_confirm_button"
+            "Add"
         );
 
         if (

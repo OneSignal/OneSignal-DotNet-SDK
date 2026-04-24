@@ -159,9 +159,13 @@ public static class MultiPairDialogHelper
 
         foreach (var key in keys)
         {
-            var cb = new CheckBox { Color = Color.FromArgb("#E54B4D") };
+            var cb = new CheckBox
+            {
+                Color = Color.FromArgb("#E54B4D"),
+                AutomationId = $"remove_checkbox_{key}",
+            };
             checkboxes.Add((cb, key));
-            var row = new HorizontalStackLayout { Spacing = 8, AutomationId = $"remove_checkbox_{key}" };
+            var row = new HorizontalStackLayout { Spacing = 8 };
             row.Children.Add(cb);
             row.Children.Add(
                 new Label

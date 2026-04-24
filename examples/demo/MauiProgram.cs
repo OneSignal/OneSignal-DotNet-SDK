@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CommunityToolkit.Maui;
 using MauiIcons.Material;
 using OneSignalDemo.Pages;
@@ -96,17 +97,13 @@ public static class MauiProgram
 #endif
 
         // Register observers
-        OneSignal.InAppMessages.WillDisplay += (s, e) =>
-            LogManager.Instance.D("IAM", $"WillDisplay");
-        OneSignal.InAppMessages.DidDisplay += (s, e) => LogManager.Instance.D("IAM", $"DidDisplay");
-        OneSignal.InAppMessages.WillDismiss += (s, e) =>
-            LogManager.Instance.D("IAM", $"WillDismiss");
-        OneSignal.InAppMessages.DidDismiss += (s, e) => LogManager.Instance.D("IAM", $"DidDismiss");
-        OneSignal.InAppMessages.Clicked += (s, e) => LogManager.Instance.D("IAM", $"Clicked");
-        OneSignal.Notifications.Clicked += (s, e) =>
-            LogManager.Instance.D("Notifications", "Clicked");
-        OneSignal.Notifications.WillDisplay += (s, e) =>
-            LogManager.Instance.D("Notifications", "WillDisplay");
+        OneSignal.InAppMessages.WillDisplay += (s, e) => Debug.WriteLine("IAM WillDisplay");
+        OneSignal.InAppMessages.DidDisplay += (s, e) => Debug.WriteLine("IAM DidDisplay");
+        OneSignal.InAppMessages.WillDismiss += (s, e) => Debug.WriteLine("IAM WillDismiss");
+        OneSignal.InAppMessages.DidDismiss += (s, e) => Debug.WriteLine("IAM DidDismiss");
+        OneSignal.InAppMessages.Clicked += (s, e) => Debug.WriteLine("IAM Clicked");
+        OneSignal.Notifications.Clicked += (s, e) => Debug.WriteLine("Notification clicked");
+        OneSignal.Notifications.WillDisplay += (s, e) => Debug.WriteLine("Notification willDisplay");
 
         // Restore SDK state from prefs (after Initialize)
         OneSignal.InAppMessages.Paused = prefs.IamPaused;
