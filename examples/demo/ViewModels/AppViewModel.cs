@@ -3,7 +3,6 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OneSignalDemo.Models;
-using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
 using OneSignalSDK.DotNet;
 using OneSignalSDK.DotNet.Core.User;
@@ -13,7 +12,6 @@ namespace OneSignalDemo.ViewModels;
 
 public partial class AppViewModel : ObservableObject
 {
-    private readonly OneSignalRepository _repository;
     private readonly PreferencesService _prefs;
     private readonly OneSignalApiService _apiService;
 
@@ -97,13 +95,8 @@ public partial class AppViewModel : ObservableObject
     public static bool IsE2EMode =>
         string.Equals(DotEnv.Get("E2E_MODE"), "true", StringComparison.OrdinalIgnoreCase);
 
-    public AppViewModel(
-        OneSignalRepository repository,
-        PreferencesService prefs,
-        OneSignalApiService apiService
-    )
+    public AppViewModel(PreferencesService prefs, OneSignalApiService apiService)
     {
-        _repository = repository;
         _prefs = prefs;
         _apiService = apiService;
 
@@ -121,18 +114,18 @@ public partial class AppViewModel : ObservableObject
         AppId = IsE2EMode ? MaskValue(rawAppId) : rawAppId;
         ConsentRequired = _prefs.ConsentRequired;
         PrivacyConsentGiven = _prefs.PrivacyConsent;
-        InAppMessagesPaused = _repository.IsInAppMessagesPaused();
-        LocationShared = _repository.IsLocationShared();
-        HasNotificationPermission = _repository.HasPermission();
+        InAppMessagesPaused = OneSignal.InAppMessages.Paused;
+        LocationShared = OneSignal.Location.IsShared;
+        HasNotificationPermission = OneSignal.Notifications.Permission;
 
-        var extId = _repository.GetExternalId() ?? _prefs.ExternalUserId;
+        var extId = OneSignal.User.ExternalId ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
 
-        var rawPushId = _repository.GetPushSubscriptionId() ?? "";
+        var rawPushId = OneSignal.User.PushSubscription.Id ?? "";
         PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
-        IsPushEnabled = _repository.IsPushOptedIn();
+        IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
 
-        var onesignalId = _repository.GetOnesignalId();
+        var onesignalId = OneSignal.User.OneSignalId;
         if (!string.IsNullOrEmpty(onesignalId))
         {
             await FetchUserDataFromApiAsync();
@@ -143,7 +136,7 @@ public partial class AppViewModel : ObservableObject
     {
         if (!HasNotificationPermission)
         {
-            var granted = await _repository.RequestPermissionAsync(false);
+            var granted = await OneSignal.Notifications.RequestPermissionAsync(false);
             HasNotificationPermission = granted;
         }
     }
@@ -165,7 +158,7 @@ public partial class AppViewModel : ObservableObject
             return;
         IsLoading = true;
         ClearUserData();
-        _repository.LoginUser(externalUserId);
+        OneSignal.Login(externalUserId);
         _prefs.ExternalUserId = externalUserId;
         UpdateUserStatus(externalUserId);
         IsLoading = false;
@@ -176,7 +169,7 @@ public partial class AppViewModel : ObservableObject
     public async Task LogoutUserAsync()
     {
         IsLoading = true;
-        _repository.LogoutUser();
+        OneSignal.Logout();
         _prefs.ExternalUserId = null;
         ClearUserData();
         UpdateUserStatus(null);
@@ -197,7 +190,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddAlias(KeyValuePair<string, string> pair)
     {
-        _repository.AddAlias(pair.Key, pair.Value);
+        OneSignal.User.AddAlias(pair.Key, pair.Value);
         UpsertAlias(pair.Key, pair.Value);
         Debug.WriteLine($"Alias added: {pair.Key}");
     }
@@ -205,7 +198,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddAliases(IDictionary<string, string> aliases)
     {
-        _repository.AddAliases(aliases);
+        OneSignal.User.AddAliases(aliases);
         foreach (var kv in aliases)
             UpsertAlias(kv.Key, kv.Value);
         Debug.WriteLine($"{aliases.Count} alias(es) added");
@@ -229,7 +222,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddEmail(string email)
     {
-        _repository.AddEmail(email);
+        OneSignal.User.AddEmail(email);
         if (!EmailsList.Contains(email))
             EmailsList.Add(email);
         Debug.WriteLine($"Email added: {email}");
@@ -238,7 +231,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void RemoveEmail(string email)
     {
-        _repository.RemoveEmail(email);
+        OneSignal.User.RemoveEmail(email);
         EmailsList.Remove(email);
         Debug.WriteLine($"Email removed: {email}");
     }
@@ -247,7 +240,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddSms(string sms)
     {
-        _repository.AddSms(sms);
+        OneSignal.User.AddSms(sms);
         if (!SmsNumbersList.Contains(sms))
             SmsNumbersList.Add(sms);
         Debug.WriteLine($"SMS added: {sms}");
@@ -256,7 +249,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void RemoveSms(string sms)
     {
-        _repository.RemoveSms(sms);
+        OneSignal.User.RemoveSms(sms);
         SmsNumbersList.Remove(sms);
         Debug.WriteLine($"SMS removed: {sms}");
     }
@@ -265,7 +258,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddTag(KeyValuePair<string, string> pair)
     {
-        _repository.AddTag(pair.Key, pair.Value);
+        OneSignal.User.AddTag(pair.Key, pair.Value);
         UpsertTag(pair.Key, pair.Value);
         Debug.WriteLine($"Tag added: {pair.Key}");
     }
@@ -273,7 +266,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddTags(IDictionary<string, string> tags)
     {
-        _repository.AddTags(tags);
+        OneSignal.User.AddTags(tags);
         foreach (var kv in tags)
             UpsertTag(kv.Key, kv.Value);
         Debug.WriteLine($"{tags.Count} tag(s) added");
@@ -282,7 +275,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void RemoveTag(string key)
     {
-        _repository.RemoveTag(key);
+        OneSignal.User.RemoveTag(key);
         var item = TagsList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TagsList.Remove(item);
@@ -293,7 +286,7 @@ public partial class AppViewModel : ObservableObject
     public void RemoveSelectedTags(IEnumerable<string> keys)
     {
         var keyList = keys.ToList();
-        _repository.RemoveTags(keyList);
+        OneSignal.User.RemoveTags(keyList.ToArray());
         foreach (var key in keyList)
         {
             var item = TagsList.FirstOrDefault(t => t.Key == key);
@@ -321,7 +314,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddTrigger(KeyValuePair<string, string> pair)
     {
-        _repository.AddTrigger(pair.Key, pair.Value);
+        OneSignal.InAppMessages.AddTrigger(pair.Key, pair.Value);
         UpsertTrigger(pair.Key, pair.Value);
         Debug.WriteLine($"Trigger added: {pair.Key}");
     }
@@ -329,7 +322,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddTriggers(IDictionary<string, string> triggers)
     {
-        _repository.AddTriggers(triggers);
+        OneSignal.InAppMessages.AddTriggers(triggers);
         foreach (var kv in triggers)
             UpsertTrigger(kv.Key, kv.Value);
         Debug.WriteLine($"{triggers.Count} trigger(s) added");
@@ -338,7 +331,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void RemoveTrigger(string key)
     {
-        _repository.RemoveTrigger(key);
+        OneSignal.InAppMessages.RemoveTrigger(key);
         var item = TriggersList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TriggersList.Remove(item);
@@ -349,7 +342,7 @@ public partial class AppViewModel : ObservableObject
     public void RemoveSelectedTriggers(IEnumerable<string> keys)
     {
         var keyList = keys.ToList();
-        _repository.RemoveTriggers(keyList);
+        OneSignal.InAppMessages.RemoveTriggers(keyList.ToArray());
         foreach (var key in keyList)
         {
             var item = TriggersList.FirstOrDefault(t => t.Key == key);
@@ -362,7 +355,7 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void ClearTriggers()
     {
-        _repository.ClearTriggers();
+        OneSignal.InAppMessages.ClearTriggers();
         TriggersList.Clear();
         Debug.WriteLine("All triggers cleared");
     }
@@ -385,27 +378,27 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void SendOutcome(string name)
     {
-        _repository.SendOutcome(name);
+        OneSignal.Session.AddOutcome(name);
         Debug.WriteLine($"Outcome sent: {name}");
     }
 
     [RelayCommand]
     public void SendUniqueOutcome(string name)
     {
-        _repository.SendUniqueOutcome(name);
+        OneSignal.Session.AddUniqueOutcome(name);
         Debug.WriteLine($"Unique outcome sent: {name}");
     }
 
     public void SendOutcomeWithValue(string name, float value)
     {
-        _repository.SendOutcomeWithValue(name, value);
+        OneSignal.Session.AddOutcomeWithValue(name, value);
         Debug.WriteLine($"Outcome with value sent: {name} = {value}");
     }
 
     // Track Event
     public void TrackEvent(string name, IDictionary<string, object>? properties = null)
     {
-        _repository.TrackEvent(name, properties);
+        OneSignal.User.TrackEvent(name, properties);
         Debug.WriteLine($"Event tracked: {name}");
     }
 
@@ -413,31 +406,39 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public async Task SendNotificationAsync(NotificationType type)
     {
-        var success = await _repository.SendNotificationAsync(type);
-        Debug.WriteLine(
-            success ? $"Notification sent: {type}" : "Failed to send notification"
-        );
+        var pushId = OneSignal.User.PushSubscription.Id;
+        if (string.IsNullOrEmpty(pushId))
+        {
+            Debug.WriteLine("Failed to send notification");
+            return;
+        }
+        var success = await _apiService.SendNotificationAsync(type, pushId);
+        Debug.WriteLine(success ? $"Notification sent: {type}" : "Failed to send notification");
     }
 
     [RelayCommand]
     public void ClearAllNotifications()
     {
-        _repository.ClearAllNotifications();
+        OneSignal.Notifications.ClearAllNotifications();
         Debug.WriteLine("All notifications cleared");
     }
 
     public async Task SendCustomNotificationAsync(string title, string body)
     {
-        var success = await _repository.SendCustomNotificationAsync(title, body);
-        Debug.WriteLine(
-            success ? $"Notification sent: {title}" : "Failed to send notification"
-        );
+        var pushId = OneSignal.User.PushSubscription.Id;
+        if (string.IsNullOrEmpty(pushId))
+        {
+            Debug.WriteLine("Failed to send notification");
+            return;
+        }
+        var success = await _apiService.SendCustomNotificationAsync(title, body, pushId);
+        Debug.WriteLine(success ? $"Notification sent: {title}" : "Failed to send notification");
     }
 
     // IAM
     public void SetIamPaused(bool paused)
     {
-        _repository.SetInAppMessagesPaused(paused);
+        OneSignal.InAppMessages.Paused = paused;
         _prefs.IamPaused = paused;
         InAppMessagesPaused = paused;
         Debug.WriteLine(paused ? "In-App Messages paused" : "In-App Messages resumed");
@@ -446,7 +447,7 @@ public partial class AppViewModel : ObservableObject
     public void SendInAppMessage(InAppMessageType type)
     {
         var triggerValue = type.GetTriggerValue();
-        _repository.AddTrigger("iam_type", triggerValue);
+        OneSignal.InAppMessages.AddTrigger("iam_type", triggerValue);
         UpsertTrigger("iam_type", triggerValue);
         Debug.WriteLine($"Sent In-App Message: {type.GetDisplayName()}");
     }
@@ -454,7 +455,7 @@ public partial class AppViewModel : ObservableObject
     // Location
     public void SetLocationSharedValue(bool shared)
     {
-        _repository.SetLocationShared(shared);
+        OneSignal.Location.IsShared = shared;
         _prefs.LocationShared = shared;
         LocationShared = shared;
         Debug.WriteLine(shared ? "Location sharing enabled" : "Location sharing disabled");
@@ -463,12 +464,12 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void PromptLocation()
     {
-        _repository.RequestLocationPermission();
+        OneSignal.Location.RequestPermission();
         Debug.WriteLine("Location permission requested");
     }
 
     // Live Activities
-    public bool HasApiKey() => _repository.HasApiKey();
+    public bool HasApiKey() => _apiService.HasApiKey();
 
     public void StartLiveActivity()
     {
@@ -488,7 +489,7 @@ public partial class AppViewModel : ObservableObject
             ["estimatedTime"] = currentStatus.EstimatedTime,
         };
 
-        _repository.StartDefaultLiveActivity(activityId, attributes, content);
+        OneSignal.LiveActivities.StartDefault(activityId, attributes, content);
         LiveActivityStatusIndex = 0;
         UpdateLiveActivityButtonText();
         Debug.WriteLine($"Started Live Activity: {activityId}");
@@ -514,7 +515,7 @@ public partial class AppViewModel : ObservableObject
             ["estimatedTime"] = nextStatus.EstimatedTime,
         };
 
-        var success = await _repository.UpdateLiveActivityAsync(activityId, "update", eventUpdates);
+        var success = await _apiService.UpdateLiveActivityAsync(activityId, "update", eventUpdates);
 
         if (success)
         {
@@ -540,7 +541,7 @@ public partial class AppViewModel : ObservableObject
 
         var eventUpdates = new Dictionary<string, object> { ["message"] = "Ended" };
 
-        var success = await _repository.UpdateLiveActivityAsync(activityId, "end", eventUpdates);
+        var success = await _apiService.UpdateLiveActivityAsync(activityId, "end", eventUpdates);
 
         if (success)
         {
@@ -569,14 +570,14 @@ public partial class AppViewModel : ObservableObject
     // Consent
     public void SetConsentRequired(bool required)
     {
-        _repository.SetConsentRequired(required);
+        OneSignal.ConsentRequired = required;
         _prefs.ConsentRequired = required;
         ConsentRequired = required;
     }
 
     public void SetConsentGiven(bool granted)
     {
-        _repository.SetConsentGiven(granted);
+        OneSignal.ConsentGiven = granted;
         _prefs.PrivacyConsent = granted;
         PrivacyConsentGiven = granted;
     }
@@ -585,9 +586,9 @@ public partial class AppViewModel : ObservableObject
     public void SetPushEnabled(bool enabled)
     {
         if (enabled)
-            _repository.OptInPush();
+            OneSignal.User.PushSubscription.OptIn();
         else
-            _repository.OptOutPush();
+            OneSignal.User.PushSubscription.OptOut();
         IsPushEnabled = enabled;
         Debug.WriteLine(enabled ? "Push enabled" : "Push disabled");
     }
@@ -597,12 +598,10 @@ public partial class AppViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            var rawPushId = _repository.GetPushSubscriptionId() ?? "";
+            var rawPushId = OneSignal.User.PushSubscription.Id ?? "";
             PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
-            IsPushEnabled = _repository.IsPushOptedIn();
-            Debug.WriteLine(
-                $"Push subscription changed: id={rawPushId}, optedIn={IsPushEnabled}"
-            );
+            IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+            Debug.WriteLine($"Push subscription changed: id={rawPushId}, optedIn={IsPushEnabled}");
         });
     }
 
@@ -639,11 +638,11 @@ public partial class AppViewModel : ObservableObject
 
         try
         {
-            var onesignalId = _repository.GetOnesignalId();
+            var onesignalId = OneSignal.User.OneSignalId;
             if (string.IsNullOrEmpty(onesignalId))
                 return;
 
-            var userData = await _repository.FetchUserAsync(onesignalId);
+            var userData = await _apiService.FetchUserAsync(onesignalId);
             if (userData == null)
                 return;
 

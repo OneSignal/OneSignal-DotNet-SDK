@@ -2,7 +2,6 @@ using System.Diagnostics;
 using CommunityToolkit.Maui;
 using MauiIcons.Material;
 using OneSignalDemo.Pages;
-using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
 using OneSignalSDK.DotNet;
@@ -65,7 +64,6 @@ public static class MauiProgram
         // Register services
         builder.Services.AddSingleton<PreferencesService>();
         builder.Services.AddSingleton<OneSignalApiService>();
-        builder.Services.AddSingleton<OneSignalRepository>();
         builder.Services.AddSingleton<AppViewModel>();
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddSingleton<App>();

@@ -75,9 +75,9 @@ SDK reference via project reference:
 
 ---
 
-## OneSignal Repository (SDK API Mapping)
+## SDK API Mapping
 
-Use the static `OneSignal` class from `OneSignalSDK.DotNet`:
+Call the static `OneSignal` class from `OneSignalSDK.DotNet` directly inside `AppViewModel`. There is no repository wrapper.
 
 | Operation | SDK Call |
 |---|---|
@@ -178,13 +178,14 @@ AppViewModel extends `ObservableObject` (CommunityToolkit.Mvvm):
 - `[ObservableProperty]` fields generate properties + INotifyPropertyChanged
 - `[RelayCommand]` methods for actions
 - `ObservableCollection<T>` for list state (AliasesList, EmailsList, SmsNumbersList, TagsList, TriggersList)
-- Receives `OneSignalRepository` and `PreferencesService` via constructor injection
+- Receives `PreferencesService` and `OneSignalApiService` via constructor injection
+- Calls `OneSignal.*` static APIs directly (no repository layer)
 
 Register with MAUI DI container:
 ```csharp
 builder.Services.AddSingleton<AppViewModel>();
-builder.Services.AddSingleton<OneSignalRepository>();
 builder.Services.AddSingleton<PreferencesService>();
+builder.Services.AddSingleton<OneSignalApiService>();
 ```
 
 Persistence: `Microsoft.Maui.Storage.Preferences`
@@ -270,8 +271,6 @@ examples/demo/
 │   ├── OneSignalApiService.cs              # REST API client (HttpClient)
 │   ├── PreferencesService.cs               # Preferences wrapper
 │   └── TooltipHelper.cs                    # Fetches tooltips from remote URL
-├── Repositories/
-│   └── OneSignalRepository.cs              # Centralized SDK calls
 ├── ViewModels/
 │   └── AppViewModel.cs                     # ObservableObject with all UI state
 ├── Pages/
