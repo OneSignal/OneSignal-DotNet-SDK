@@ -68,7 +68,18 @@
   <!-- iOS -->
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
     <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+  </PropertyGroup>
+
+  <!--
+    Codesigning for iOS device builds only. Setting CodesignTeamId on a
+    simulator build triggers provisioning-profile lookup, which fails because
+    no profile is issued for simulator. CodesignEntitlements above is still
+    applied on simulator so app groups / aps-environment keep working without
+    a real signing identity.
+  -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
     <CodesignTeamId>99SW8E36CT</CodesignTeamId>
+    <CodesignProvision>Appium Demo - Main</CodesignProvision>
   </PropertyGroup>
 
   <ItemGroup>

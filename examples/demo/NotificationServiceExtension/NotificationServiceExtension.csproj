@@ -3,9 +3,19 @@
     <TargetFramework>net10.0-ios</TargetFramework>
     <OutputType>Library</OutputType>
     <IsAppExtension>true</IsAppExtension>
-    <ApplicationId>com.example.onesignal.NSE</ApplicationId>
+    <ApplicationId>com.onesignal.example.NSE</ApplicationId>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+  </PropertyGroup>
+
+  <!--
+    Codesigning for device builds only. Setting CodesignTeamId on a simulator
+    build triggers provisioning-profile lookup, which fails because no profile
+    is issued for simulator. The simulator still applies CodesignEntitlements
+    (above) so app groups keep working without a real signing identity.
+  -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
     <CodesignTeamId>99SW8E36CT</CodesignTeamId>
+    <CodesignProvision>Appium Demo - NSE</CodesignProvision>
   </PropertyGroup>
 
   <ItemGroup>
