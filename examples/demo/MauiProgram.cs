@@ -9,6 +9,8 @@ using OneSignalSDK.DotNet.Core.LiveActivities;
 using OsLogLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel;
 #if ANDROID
 using AndroidX.AppCompat.Content.Res;
+#endif
+#if ANDROID || IOS
 using Microsoft.Maui.Handlers;
 #endif
 
@@ -59,6 +61,28 @@ public static class MauiProgram
                     }
                 );
 #endif
+
+#if IOS
+                // MAUI iOS attaches a default UIToolbar `inputAccessoryView`
+                // (a blue rounded "Done" affordance) above the on-screen
+                // keyboard for every Entry/Editor. Its tap target sits in
+                // the same on-screen Y range as the bottom-aligned confirm
+                // button of taller popups (e.g. multi-row input dialogs),
+                // and XCUITest tap routing happily hands the touch to the
+                // accessory view, which only dismisses the keyboard — the
+                // popup's confirm button never receives the click. Removing
+                // the accessory view restores normal hit-testing and matches
+                // the React Native demo's behavior (RN doesn't attach one
+                // by default).
+                EntryHandler.Mapper.AppendToMapping(
+                    "RemoveInputAccessoryView",
+                    (handler, _) => handler.PlatformView.InputAccessoryView = null
+                );
+                EditorHandler.Mapper.AppendToMapping(
+                    "RemoveInputAccessoryView",
+                    (handler, _) => handler.PlatformView.InputAccessoryView = null
+                );
+#endif
             });
 
         // Register services
@@ -92,6 +116,7 @@ public static class MauiProgram
         OneSignal.LiveActivities.SetupDefault(
             new LiveActivitySetupOptions { EnablePushToStart = true, EnablePushToUpdate = true }
         );
+        PopupKeyboardAvoider.Install();
 #endif
 
         // Register observers

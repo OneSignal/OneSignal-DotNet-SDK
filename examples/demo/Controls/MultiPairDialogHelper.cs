@@ -29,15 +29,30 @@ public static class MultiPairDialogHelper
                     }
                 );
 
+            // Keyboard.Plain + explicit prediction/spellcheck off:
+            //   - Drops the iOS QuickType prediction strip (~40pt of keyboard
+            //     height), giving the popup's confirm button more clearance
+            //     above the keyboard.
+            //   - Stops autocapitalize from mangling snake_case test input
+            //     like `test_label_2`.
+            //   - Mirrors RN's AppInputProps (autoCorrect: false,
+            //     autoCapitalize: 'none', autoComplete: 'off') in
+            //     react-native-onesignal/examples/demo/src/theme.ts.
             var keyEntry = new Entry
             {
                 Placeholder = keyPlaceholder,
                 AutomationId = $"multipair_key_{rows.Count}",
+                Keyboard = Keyboard.Plain,
+                IsTextPredictionEnabled = false,
+                IsSpellCheckEnabled = false,
             };
             var valueEntry = new Entry
             {
                 Placeholder = valuePlaceholder,
                 AutomationId = $"multipair_value_{rows.Count}",
+                Keyboard = Keyboard.Plain,
+                IsTextPredictionEnabled = false,
+                IsSpellCheckEnabled = false,
             };
             var capturedRow = (keyEntry, valueEntry);
             rows.Add(capturedRow);
@@ -112,7 +127,10 @@ public static class MultiPairDialogHelper
                 if (!string.IsNullOrEmpty(k))
                     result[k] = v;
             }
-            await parentPage.ClosePopupAsync(result.Count > 0 ? result : null);
+            // Always close with a non-null dictionary; empty-input semantics
+            // are handled by callers checking `pairs.Count == 0`. Mirrors
+            // the singlepair flow in DialogInputHelper.ShowPopupAsync.
+            await parentPage.ClosePopupAsync(result);
         };
 
         var content = new VerticalStackLayout
@@ -141,7 +159,7 @@ public static class MultiPairDialogHelper
             },
         };
 
-        var result2 = await parentPage.ShowPopupAsync<Dictionary<string, string>?>(
+        var result2 = await parentPage.ShowPopupAsync<Dictionary<string, string>>(
             content,
             DialogInputHelper.DialogOptions
         );
