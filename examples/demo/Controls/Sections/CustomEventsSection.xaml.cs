@@ -88,11 +88,7 @@ public partial class CustomEventsSection : ContentView
 
                     properties = new Dictionary<string, object>();
                     foreach (var prop in doc.RootElement.EnumerateObject())
-                    {
-                        var value = JsonElementToObject(prop.Value);
-                        if (value is not null)
-                            properties[prop.Name] = value;
-                    }
+                        properties[prop.Name] = JsonElementToObject(prop.Value)!;
                     errorLabel.IsVisible = false;
                 }
                 catch
@@ -155,7 +151,6 @@ public partial class CustomEventsSection : ContentView
             JsonValueKind.Null => null,
             JsonValueKind.Object => element
                 .EnumerateObject()
-                .Where(p => p.Value.ValueKind != JsonValueKind.Null)
                 .ToDictionary(p => p.Name, p => JsonElementToObject(p.Value)!),
             JsonValueKind.Array => element
                 .EnumerateArray()

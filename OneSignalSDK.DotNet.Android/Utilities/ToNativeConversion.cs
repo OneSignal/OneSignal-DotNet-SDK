@@ -102,9 +102,7 @@ public static class ToNativeConversion
         var javaMap = new Dictionary<string, Java.Lang.Object>();
         foreach (var kvp in dict)
         {
-            var javaValue = ToJavaObject(kvp.Value);
-            if (javaValue != null)
-                javaMap[kvp.Key] = javaValue;
+            javaMap[kvp.Key] = ToJavaObject(kvp.Value)!;
         }
         return javaMap;
     }
