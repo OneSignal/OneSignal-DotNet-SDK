@@ -8,14 +8,14 @@ using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
 
-public partial class TrackEventSection : ContentView
+public partial class CustomEventsSection : ContentView
 {
     private AppViewModel? _viewModel;
     private Page? _parentPage;
 
     public event EventHandler? InfoTapped;
 
-    public TrackEventSection()
+    public CustomEventsSection()
     {
         InitializeComponent();
     }

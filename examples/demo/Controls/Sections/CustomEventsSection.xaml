@@ -3,7 +3,7 @@
   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
   xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-  x:Class="OneSignalDemo.Controls.Sections.TrackEventSection"
+  x:Class="OneSignalDemo.Controls.Sections.CustomEventsSection"
 >
   <VerticalStackLayout Spacing="8" AutomationId="custom_events_section">
     <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">

@@ -84,6 +84,9 @@ public partial class AppViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoading;
 
+    // Drops stale fetchUserDataFromApi responses (mirrors requestSequenceRef in RN useOneSignal).
+    private int _requestSequence;
+
     // Lists
     public ObservableCollection<KeyValuePair<string, string>> AliasesList { get; } = new();
     public ObservableCollection<string> EmailsList { get; } = new();
@@ -132,16 +135,7 @@ public partial class AppViewModel : ObservableObject
         var onesignalId = _repository.GetOnesignalId();
         if (!string.IsNullOrEmpty(onesignalId))
         {
-            IsLoading = true;
-            try
-            {
-                await FetchUserDataFromApiAsync();
-            }
-            catch (Exception e)
-            {
-                IsLoading = false;
-                Debug.WriteLine($"Error fetching initial user data: {e.Message}");
-            }
+            await FetchUserDataFromApiAsync();
         }
     }
 
@@ -640,47 +634,72 @@ public partial class AppViewModel : ObservableObject
 
     public async Task FetchUserDataFromApiAsync()
     {
-        var onesignalId = _repository.GetOnesignalId();
-        if (string.IsNullOrEmpty(onesignalId))
-        {
-            IsLoading = false;
-            return;
-        }
+        var requestId = ++_requestSequence;
+        IsLoading = true;
 
         try
         {
+            var onesignalId = _repository.GetOnesignalId();
+            if (string.IsNullOrEmpty(onesignalId))
+                return;
+
             var userData = await _repository.FetchUserAsync(onesignalId);
-            if (userData != null)
+            if (userData == null)
+                return;
+
+            // Drop the response if a newer fetch has started while we were awaiting.
+            if (_requestSequence != requestId)
+                return;
+
+            MergePairs(AliasesList, userData.Aliases);
+            MergePairs(TagsList, userData.Tags);
+            MergeUnique(EmailsList, userData.Emails);
+            MergeUnique(SmsNumbersList, userData.SmsNumbers);
+
+            if (userData.ExternalId != null)
             {
-                AliasesList.Clear();
-                foreach (var kv in userData.Aliases)
-                    AliasesList.Add(kv);
-
-                TagsList.Clear();
-                foreach (var kv in userData.Tags)
-                    TagsList.Add(kv);
-
-                EmailsList.Clear();
-                foreach (var email in userData.Emails)
-                    EmailsList.Add(email);
-
-                SmsNumbersList.Clear();
-                foreach (var sms in userData.SmsNumbers)
-                    SmsNumbersList.Add(sms);
-
-                if (userData.ExternalId != null)
-                {
-                    UpdateUserStatus(userData.ExternalId);
-                    _prefs.ExternalUserId = userData.ExternalId;
-                }
+                UpdateUserStatus(userData.ExternalId);
+                _prefs.ExternalUserId = userData.ExternalId;
             }
         }
         catch (Exception e)
         {
             Debug.WriteLine($"Error fetching user data: {e.Message}");
         }
+        finally
+        {
+            if (_requestSequence == requestId)
+                IsLoading = false;
+        }
+    }
 
-        await Task.Delay(100);
-        IsLoading = false;
+    private static void MergePairs(
+        ObservableCollection<KeyValuePair<string, string>> target,
+        IDictionary<string, string> source
+    )
+    {
+        foreach (var kv in source)
+        {
+            var existing = target.FirstOrDefault(p => p.Key == kv.Key);
+            if (existing.Key != null)
+            {
+                var idx = target.IndexOf(existing);
+                if (!string.Equals(existing.Value, kv.Value, StringComparison.Ordinal))
+                    target[idx] = new KeyValuePair<string, string>(kv.Key, kv.Value);
+            }
+            else
+            {
+                target.Add(new KeyValuePair<string, string>(kv.Key, kv.Value));
+            }
+        }
+    }
+
+    private static void MergeUnique(ObservableCollection<string> target, IEnumerable<string> source)
+    {
+        foreach (var item in source)
+        {
+            if (!target.Contains(item))
+                target.Add(item);
+        }
     }
 }

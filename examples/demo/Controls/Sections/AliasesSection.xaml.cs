@@ -22,6 +22,11 @@ public partial class AliasesSection : ContentView
         _parentPage = parentPage;
 
         viewModel.AliasesList.CollectionChanged += (s, e) => RebuildList();
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.IsLoading))
+                RebuildList();
+        };
         RebuildList();
     }
 
@@ -32,7 +37,10 @@ public partial class AliasesSection : ContentView
 
         if (list == null || list.Count == 0)
         {
-            AliasListContainer.Children.Add(EmptyLabel);
+            if (_viewModel?.IsLoading == true)
+                AliasListContainer.Children.Add(new LoadingState("aliases_loading"));
+            else
+                AliasListContainer.Children.Add(EmptyLabel);
             return;
         }
 

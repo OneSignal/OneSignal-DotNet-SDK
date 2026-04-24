@@ -196,7 +196,7 @@ Persistence: `Microsoft.Maui.Storage.Preferences`
 XAML controls in `Controls/`:
 - `SectionCard.xaml` — Frame/Border with title Label, optional info ImageButton, ContentView child (BindableProperty)
 - `ToggleRow.xaml` — Label + description Label + Switch in a Grid with IsToggled two-way binding
-- `LoadingOverlay.xaml` — AbsoluteLayout overlay with centered ActivityIndicator, IsVisible bound to IsLoading
+- `LoadingState.xaml` — Inline ActivityIndicator shown by list-bearing sections (Aliases, Emails, SMS, Tags) while `AppViewModel.IsLoading` is true and the list is empty
 
 Button styles defined in `App.xaml` (PrimaryButton style, DestructiveButton style), not separate controls.
 
@@ -280,7 +280,7 @@ examples/demo/
 ├── Controls/
 │   ├── SectionCard.xaml                    # Card with title and info icon
 │   ├── ToggleRow.xaml                      # Label + Switch
-│   ├── LoadingOverlay.xaml                 # Full-screen loading spinner
+│   ├── LoadingState.xaml                   # Inline list loading spinner
 │   └── Sections/
 │       ├── AppSection.xaml
 │       ├── PushSection.xaml
@@ -293,7 +293,7 @@ examples/demo/
 │       ├── TagsSection.xaml
 │       ├── OutcomesSection.xaml
 │       ├── TriggersSection.xaml
-│       ├── TrackEventSection.xaml
+│       ├── CustomEventsSection.xaml
 │       └── LocationSection.xaml
 ├── Resources/
 │   ├── Styles/

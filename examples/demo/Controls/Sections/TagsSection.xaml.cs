@@ -20,6 +20,11 @@ public partial class TagsSection : ContentView
         _viewModel = viewModel;
         _parentPage = parentPage;
         viewModel.TagsList.CollectionChanged += (s, e) => RebuildList();
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.IsLoading))
+                RebuildList();
+        };
         RebuildList();
     }
 
@@ -32,7 +37,10 @@ public partial class TagsSection : ContentView
 
         if (list == null || list.Count == 0)
         {
-            TagListContainer.Children.Add(EmptyLabel);
+            if (_viewModel?.IsLoading == true)
+                TagListContainer.Children.Add(new LoadingState("tags_loading"));
+            else
+                TagListContainer.Children.Add(EmptyLabel);
             return;
         }
 
