@@ -29,15 +29,30 @@ public static class MultiPairDialogHelper
                     }
                 );
 
+            // Keyboard.Plain + explicit prediction/spellcheck off:
+            //   - Drops the iOS QuickType prediction strip (~40pt of keyboard
+            //     height), giving the popup's confirm button more clearance
+            //     above the keyboard.
+            //   - Stops autocapitalize from mangling snake_case test input
+            //     like `test_label_2`.
+            //   - Mirrors RN's AppInputProps (autoCorrect: false,
+            //     autoCapitalize: 'none', autoComplete: 'off') in
+            //     react-native-onesignal/examples/demo/src/theme.ts.
             var keyEntry = new Entry
             {
                 Placeholder = keyPlaceholder,
-                AutomationId = $"multi_pair_key_{rows.Count}",
+                AutomationId = $"multipair_key_{rows.Count}",
+                Keyboard = Keyboard.Plain,
+                IsTextPredictionEnabled = false,
+                IsSpellCheckEnabled = false,
             };
             var valueEntry = new Entry
             {
                 Placeholder = valuePlaceholder,
-                AutomationId = $"multi_pair_value_{rows.Count}",
+                AutomationId = $"multipair_value_{rows.Count}",
+                Keyboard = Keyboard.Plain,
+                IsTextPredictionEnabled = false,
+                IsSpellCheckEnabled = false,
             };
             var capturedRow = (keyEntry, valueEntry);
             rows.Add(capturedRow);
@@ -93,10 +108,11 @@ public static class MultiPairDialogHelper
             TextColor = Color.FromArgb("#E54B4D"),
             HorizontalOptions = LayoutOptions.Center,
             Padding = new Thickness(0, 8),
+            AutomationId = "multipair_add_row_button",
         };
 
-        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_pair_cancel_button");
-        var addAllButton = DialogInputHelper.ActionButton("Add All", "multi_pair_add_all_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multipair_cancel_button");
+        var addAllButton = DialogInputHelper.ActionButton("Add All", "multipair_confirm_button");
 
         addRowButton.Clicked += (s, e) => AddRow();
         cancelButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
@@ -111,7 +127,10 @@ public static class MultiPairDialogHelper
                 if (!string.IsNullOrEmpty(k))
                     result[k] = v;
             }
-            await parentPage.ClosePopupAsync(result.Count > 0 ? result : null);
+            // Always close with a non-null dictionary; empty-input semantics
+            // are handled by callers checking `pairs.Count == 0`. Mirrors
+            // the singlepair flow in DialogInputHelper.ShowPopupAsync.
+            await parentPage.ClosePopupAsync(result);
         };
 
         var content = new VerticalStackLayout
@@ -140,7 +159,7 @@ public static class MultiPairDialogHelper
             },
         };
 
-        var result2 = await parentPage.ShowPopupAsync<Dictionary<string, string>?>(
+        var result2 = await parentPage.ShowPopupAsync<Dictionary<string, string>>(
             content,
             DialogInputHelper.DialogOptions
         );
@@ -158,7 +177,11 @@ public static class MultiPairDialogHelper
 
         foreach (var key in keys)
         {
-            var cb = new CheckBox { Color = Color.FromArgb("#E54B4D") };
+            var cb = new CheckBox
+            {
+                Color = Color.FromArgb("#E54B4D"),
+                AutomationId = $"remove_checkbox_{key}",
+            };
             checkboxes.Add((cb, key));
             var row = new HorizontalStackLayout { Spacing = 8 };
             row.Children.Add(cb);
@@ -173,10 +196,10 @@ public static class MultiPairDialogHelper
             itemsLayout.Children.Add(row);
         }
 
-        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multi_select_cancel_button");
+        var cancelButton = DialogInputHelper.ActionButton("Cancel", "multiselect_cancel_button");
         var removeButton = DialogInputHelper.ActionButtonDisabled(
             "Remove (0)",
-            "multi_select_remove_button"
+            "multiselect_confirm_button"
         );
 
         void UpdateButton()

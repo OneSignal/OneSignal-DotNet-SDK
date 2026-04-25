@@ -8,7 +8,7 @@ public static class TooltipDialogHelper
 {
     public static async Task Show(Page parentPage, TooltipData tooltip)
     {
-        var okButton = DialogInputHelper.ActionButton("OK");
+        var okButton = DialogInputHelper.ActionButton("OK", "tooltip_ok_button");
         okButton.Clicked += async (s, e) => await parentPage.ClosePopupAsync();
 
         var contentStack = new VerticalStackLayout { Spacing = 8 };
@@ -18,6 +18,7 @@ public static class TooltipDialogHelper
                 Text = tooltip.Description,
                 FontSize = 14,
                 TextColor = Color.FromArgb("#5F6368"),
+                AutomationId = "tooltip_description",
             }
         );
 
@@ -53,7 +54,12 @@ public static class TooltipDialogHelper
             Spacing = 12,
             Children =
             {
-                new Label { Text = tooltip.Title, FontSize = 24 },
+                new Label
+                {
+                    Text = tooltip.Title,
+                    FontSize = 24,
+                    AutomationId = "tooltip_title",
+                },
                 new ScrollView { MaximumHeightRequest = 400, Content = contentStack },
                 new HorizontalStackLayout
                 {

@@ -4,20 +4,11 @@ namespace OneSignalDemo.Services;
 
 public class PreferencesService
 {
-    private const string KeyAppId = "onesignal_app_id";
     private const string KeyConsentRequired = "consent_required";
     private const string KeyPrivacyConsent = "privacy_consent";
     private const string KeyExternalUserId = "external_user_id";
     private const string KeyLocationShared = "location_shared";
     private const string KeyIamPaused = "iam_paused";
-
-    private const string DefaultAppId = "77e32082-ea27-42e3-a898-c72e141824ef";
-
-    public string AppId
-    {
-        get => Preferences.Get(KeyAppId, DefaultAppId);
-        set => Preferences.Set(KeyAppId, value);
-    }
 
     public bool ConsentRequired
     {

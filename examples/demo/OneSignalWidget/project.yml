@@ -1,0 +1,78 @@
+name: OneSignalWidgetExtension
+
+# Generates OneSignalWidgetExtension.xcodeproj from this file.
+#   xcodegen generate
+# Then build the .appex (Release config produces a statically-linked
+# Swift binary so no separate `*.debug.dylib` companion is needed at
+# runtime - this matches what gets bundled into demo.app/PlugIns/):
+#   xcodebuild -project OneSignalWidgetExtension.xcodeproj \
+#              -scheme OneSignalWidgetExtension \
+#              -configuration Release \
+#              -sdk iphonesimulator \
+#              -destination 'generic/platform=iOS Simulator' \
+#              SYMROOT=$(pwd)/build
+# The resulting .appex lands under build/Release-iphonesimulator/.
+#
+# The widget LINKS but does NOT EMBED OneSignalLiveActivities -
+# the host MAUI app already bundles that framework into
+# demo.app/Frameworks, and the widget reaches it via the standard
+# extension @rpath chain (@executable_path/../../Frameworks).
+
+options:
+  bundleIdPrefix: com.onesignal.example
+  deploymentTarget:
+    iOS: "16.2"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: NO
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+targets:
+  OneSignalWidgetExtension:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "16.2"
+    sources:
+      - path: .
+        excludes:
+          - Info.plist
+          - project.yml
+          - "*.xcodeproj"
+          - build
+    # NOTE: do NOT use the `info:` block here. xcodegen treats `info.path`
+    # as a destination it writes to (overwriting any existing file with
+    # only the keys it knows about), which strips required keys like
+    # `NSExtension`. Instead we point INFOPLIST_FILE at the hand-written
+    # Info.plist below and disable auto-generation.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.onesignal.example.LA
+        INFOPLIST_FILE: Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        SKIP_INSTALL: NO
+        ENABLE_BITCODE: NO
+    # Link (but don't embed) the OneSignal frameworks the widget needs at
+    # compile time. OneSignalLiveActivities transitively depends on
+    # OneSignalOSCore and OneSignalUser via its swiftinterface, so the
+    # compiler must see all three. The host MAUI app already embeds
+    # these into demo.app/Frameworks; the widget resolves them at
+    # runtime via @executable_path/../../Frameworks.
+    dependencies:
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalLiveActivities.xcframework
+        embed: false
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOSCore.xcframework
+        embed: false
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalUser.xcframework
+        embed: false
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalCore.xcframework
+        embed: false
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalNotifications.xcframework
+        embed: false
+      - framework: ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOutcomes.xcframework
+        embed: false

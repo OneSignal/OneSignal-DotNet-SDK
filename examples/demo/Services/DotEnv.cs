@@ -12,7 +12,11 @@ public static class DotEnv
 
         try
         {
-            using var stream = Task.Run(() => FileSystem.OpenAppPackageFileAsync(".env"))
+            // The on-disk source file is `.env`, but it is bundled into the app
+            // package under the LogicalName `appenv` (see demo.csproj). Android's
+            // aapt2 silently drops any asset whose name starts with `.`, so the
+            // hidden filename would never reach the runtime if used directly.
+            using var stream = Task.Run(() => FileSystem.OpenAppPackageFileAsync("appenv"))
                 .GetAwaiter()
                 .GetResult();
             using var reader = new StreamReader(stream);

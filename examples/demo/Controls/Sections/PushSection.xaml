@@ -6,7 +6,7 @@
   x:Class="OneSignalDemo.Controls.Sections.PushSection"
   x:Name="root"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="push_section">
     <!-- Section header with info icon -->
     <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
       <Label
@@ -24,6 +24,7 @@
         BackgroundColor="Transparent"
         Clicked="OnInfoTapped"
         Padding="0"
+        AutomationId="push_info_icon"
       />
     </Grid>
 
@@ -46,7 +47,7 @@
             HorizontalOptions="End"
             VerticalOptions="Center"
             LineBreakMode="MiddleTruncation"
-            AutomationId="push_id_label"
+            AutomationId="push_id_value"
           />
         </Grid>
         <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
@@ -62,7 +63,7 @@
             x:Name="PushEnabledSwitch"
             IsToggled="False"
             Toggled="OnPushEnabledToggled"
-            AutomationId="push_enabled_switch"
+            AutomationId="push_enabled_toggle"
           />
         </Grid>
       </VerticalStackLayout>

@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OneSignalDemo.Models;
-using OneSignalDemo.Repositories;
 using OneSignalDemo.Services;
 using OneSignalSDK.DotNet;
 using OneSignalSDK.DotNet.Core.User;
@@ -12,8 +12,8 @@ namespace OneSignalDemo.ViewModels;
 
 public partial class AppViewModel : ObservableObject
 {
-    private readonly OneSignalRepository _repository;
     private readonly PreferencesService _prefs;
+    private readonly OneSignalApiService _apiService;
 
     // App section
     [ObservableProperty]
@@ -82,6 +82,9 @@ public partial class AppViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoading;
 
+    // Drops stale fetchUserDataFromApi responses (mirrors requestSequenceRef in RN useOneSignal).
+    private int _requestSequence;
+
     // Lists
     public ObservableCollection<KeyValuePair<string, string>> AliasesList { get; } = new();
     public ObservableCollection<string> EmailsList { get; } = new();
@@ -89,45 +92,43 @@ public partial class AppViewModel : ObservableObject
     public ObservableCollection<KeyValuePair<string, string>> TagsList { get; } = new();
     public ObservableCollection<KeyValuePair<string, string>> TriggersList { get; } = new();
 
-    public AppViewModel(OneSignalRepository repository, PreferencesService prefs)
+    public static bool IsE2EMode =>
+        string.Equals(DotEnv.Get("E2E_MODE"), "true", StringComparison.OrdinalIgnoreCase);
+
+    public AppViewModel(PreferencesService prefs, OneSignalApiService apiService)
     {
-        _repository = repository;
         _prefs = prefs;
+        _apiService = apiService;
 
         OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
         OneSignal.Notifications.PermissionChanged += OnPermissionChanged;
         OneSignal.User.Changed += OnUserChanged;
     }
 
+    private static string MaskValue(string value) =>
+        string.IsNullOrEmpty(value) ? value : new string('\u2022', value.Length);
+
     public async Task LoadInitialStateAsync()
     {
-        AppId = _prefs.AppId;
+        var rawAppId = _apiService.GetAppId();
+        AppId = IsE2EMode ? MaskValue(rawAppId) : rawAppId;
         ConsentRequired = _prefs.ConsentRequired;
         PrivacyConsentGiven = _prefs.PrivacyConsent;
-        InAppMessagesPaused = _repository.IsInAppMessagesPaused();
-        LocationShared = _repository.IsLocationShared();
-        HasNotificationPermission = _repository.HasPermission();
+        InAppMessagesPaused = OneSignal.InAppMessages.Paused;
+        LocationShared = OneSignal.Location.IsShared;
+        HasNotificationPermission = OneSignal.Notifications.Permission;
 
-        var extId = _repository.GetExternalId() ?? _prefs.ExternalUserId;
+        var extId = OneSignal.User.ExternalId ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
 
-        var pushId = _repository.GetPushSubscriptionId() ?? "";
-        PushSubscriptionId = pushId;
-        IsPushEnabled = _repository.IsPushOptedIn();
+        var rawPushId = OneSignal.User.PushSubscription.Id ?? "";
+        PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
+        IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
 
-        var onesignalId = _repository.GetOnesignalId();
+        var onesignalId = OneSignal.User.OneSignalId;
         if (!string.IsNullOrEmpty(onesignalId))
         {
-            IsLoading = true;
-            try
-            {
-                await FetchUserDataFromApiAsync();
-            }
-            catch (Exception e)
-            {
-                IsLoading = false;
-                LogManager.Instance.E("AppVM", $"Error fetching initial user data: {e.Message}");
-            }
+            await FetchUserDataFromApiAsync();
         }
     }
 
@@ -135,7 +136,7 @@ public partial class AppViewModel : ObservableObject
     {
         if (!HasNotificationPermission)
         {
-            var granted = await _repository.RequestPermissionAsync(false);
+            var granted = await OneSignal.Notifications.RequestPermissionAsync(false);
             HasNotificationPermission = granted;
         }
     }
@@ -157,23 +158,23 @@ public partial class AppViewModel : ObservableObject
             return;
         IsLoading = true;
         ClearUserData();
-        _repository.LoginUser(externalUserId);
+        OneSignal.Login(externalUserId);
         _prefs.ExternalUserId = externalUserId;
         UpdateUserStatus(externalUserId);
         IsLoading = false;
-        LogManager.Instance.I("AppVM", $"Login: {externalUserId}");
+        Debug.WriteLine($"Login: {externalUserId}");
     }
 
     [RelayCommand]
     public async Task LogoutUserAsync()
     {
         IsLoading = true;
-        _repository.LogoutUser();
+        OneSignal.Logout();
         _prefs.ExternalUserId = null;
         ClearUserData();
         UpdateUserStatus(null);
         IsLoading = false;
-        LogManager.Instance.I("AppVM", "Logged out");
+        Debug.WriteLine("Logged out");
     }
 
     private void ClearUserData()
@@ -189,18 +190,18 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddAlias(KeyValuePair<string, string> pair)
     {
-        _repository.AddAlias(pair.Key, pair.Value);
+        OneSignal.User.AddAlias(pair.Key, pair.Value);
         UpsertAlias(pair.Key, pair.Value);
-        LogManager.Instance.I("AppVM", $"Alias added: {pair.Key}");
+        Debug.WriteLine($"Alias added: {pair.Key}");
     }
 
     [RelayCommand]
     public void AddAliases(IDictionary<string, string> aliases)
     {
-        _repository.AddAliases(aliases);
+        OneSignal.User.AddAliases(aliases);
         foreach (var kv in aliases)
             UpsertAlias(kv.Key, kv.Value);
-        LogManager.Instance.I("AppVM", $"{aliases.Count} alias(es) added");
+        Debug.WriteLine($"{aliases.Count} alias(es) added");
     }
 
     private void UpsertAlias(string key, string value)
@@ -221,78 +222,78 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddEmail(string email)
     {
-        _repository.AddEmail(email);
+        OneSignal.User.AddEmail(email);
         if (!EmailsList.Contains(email))
             EmailsList.Add(email);
-        LogManager.Instance.I("AppVM", $"Email added: {email}");
+        Debug.WriteLine($"Email added: {email}");
     }
 
     [RelayCommand]
     public void RemoveEmail(string email)
     {
-        _repository.RemoveEmail(email);
+        OneSignal.User.RemoveEmail(email);
         EmailsList.Remove(email);
-        LogManager.Instance.I("AppVM", $"Email removed: {email}");
+        Debug.WriteLine($"Email removed: {email}");
     }
 
     // SMS
     [RelayCommand]
     public void AddSms(string sms)
     {
-        _repository.AddSms(sms);
+        OneSignal.User.AddSms(sms);
         if (!SmsNumbersList.Contains(sms))
             SmsNumbersList.Add(sms);
-        LogManager.Instance.I("AppVM", $"SMS added: {sms}");
+        Debug.WriteLine($"SMS added: {sms}");
     }
 
     [RelayCommand]
     public void RemoveSms(string sms)
     {
-        _repository.RemoveSms(sms);
+        OneSignal.User.RemoveSms(sms);
         SmsNumbersList.Remove(sms);
-        LogManager.Instance.I("AppVM", $"SMS removed: {sms}");
+        Debug.WriteLine($"SMS removed: {sms}");
     }
 
     // Tags
     [RelayCommand]
     public void AddTag(KeyValuePair<string, string> pair)
     {
-        _repository.AddTag(pair.Key, pair.Value);
+        OneSignal.User.AddTag(pair.Key, pair.Value);
         UpsertTag(pair.Key, pair.Value);
-        LogManager.Instance.I("AppVM", $"Tag added: {pair.Key}");
+        Debug.WriteLine($"Tag added: {pair.Key}");
     }
 
     [RelayCommand]
     public void AddTags(IDictionary<string, string> tags)
     {
-        _repository.AddTags(tags);
+        OneSignal.User.AddTags(tags);
         foreach (var kv in tags)
             UpsertTag(kv.Key, kv.Value);
-        LogManager.Instance.I("AppVM", $"{tags.Count} tag(s) added");
+        Debug.WriteLine($"{tags.Count} tag(s) added");
     }
 
     [RelayCommand]
     public void RemoveTag(string key)
     {
-        _repository.RemoveTag(key);
+        OneSignal.User.RemoveTag(key);
         var item = TagsList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TagsList.Remove(item);
-        LogManager.Instance.I("AppVM", $"Tag removed: {key}");
+        Debug.WriteLine($"Tag removed: {key}");
     }
 
     [RelayCommand]
     public void RemoveSelectedTags(IEnumerable<string> keys)
     {
         var keyList = keys.ToList();
-        _repository.RemoveTags(keyList);
+        OneSignal.User.RemoveTags(keyList.ToArray());
         foreach (var key in keyList)
         {
             var item = TagsList.FirstOrDefault(t => t.Key == key);
             if (item.Key != null)
                 TagsList.Remove(item);
         }
-        LogManager.Instance.I("AppVM", $"{keyList.Count} tag(s) removed");
+        Debug.WriteLine($"{keyList.Count} tag(s) removed");
     }
 
     private void UpsertTag(string key, string value)
@@ -313,50 +314,50 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void AddTrigger(KeyValuePair<string, string> pair)
     {
-        _repository.AddTrigger(pair.Key, pair.Value);
+        OneSignal.InAppMessages.AddTrigger(pair.Key, pair.Value);
         UpsertTrigger(pair.Key, pair.Value);
-        LogManager.Instance.I("AppVM", $"Trigger added: {pair.Key}");
+        Debug.WriteLine($"Trigger added: {pair.Key}");
     }
 
     [RelayCommand]
     public void AddTriggers(IDictionary<string, string> triggers)
     {
-        _repository.AddTriggers(triggers);
+        OneSignal.InAppMessages.AddTriggers(triggers);
         foreach (var kv in triggers)
             UpsertTrigger(kv.Key, kv.Value);
-        LogManager.Instance.I("AppVM", $"{triggers.Count} trigger(s) added");
+        Debug.WriteLine($"{triggers.Count} trigger(s) added");
     }
 
     [RelayCommand]
     public void RemoveTrigger(string key)
     {
-        _repository.RemoveTrigger(key);
+        OneSignal.InAppMessages.RemoveTrigger(key);
         var item = TriggersList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TriggersList.Remove(item);
-        LogManager.Instance.I("AppVM", $"Trigger removed: {key}");
+        Debug.WriteLine($"Trigger removed: {key}");
     }
 
     [RelayCommand]
     public void RemoveSelectedTriggers(IEnumerable<string> keys)
     {
         var keyList = keys.ToList();
-        _repository.RemoveTriggers(keyList);
+        OneSignal.InAppMessages.RemoveTriggers(keyList.ToArray());
         foreach (var key in keyList)
         {
             var item = TriggersList.FirstOrDefault(t => t.Key == key);
             if (item.Key != null)
                 TriggersList.Remove(item);
         }
-        LogManager.Instance.I("AppVM", $"{keyList.Count} trigger(s) removed");
+        Debug.WriteLine($"{keyList.Count} trigger(s) removed");
     }
 
     [RelayCommand]
     public void ClearTriggers()
     {
-        _repository.ClearTriggers();
+        OneSignal.InAppMessages.ClearTriggers();
         TriggersList.Clear();
-        LogManager.Instance.I("AppVM", "All triggers cleared");
+        Debug.WriteLine("All triggers cleared");
     }
 
     public void UpsertTrigger(string key, string value)
@@ -377,98 +378,98 @@ public partial class AppViewModel : ObservableObject
     [RelayCommand]
     public void SendOutcome(string name)
     {
-        _repository.SendOutcome(name);
-        LogManager.Instance.I("AppVM", $"Outcome sent: {name}");
+        OneSignal.Session.AddOutcome(name);
+        Debug.WriteLine($"Outcome sent: {name}");
     }
 
     [RelayCommand]
     public void SendUniqueOutcome(string name)
     {
-        _repository.SendUniqueOutcome(name);
-        LogManager.Instance.I("AppVM", $"Unique outcome sent: {name}");
+        OneSignal.Session.AddUniqueOutcome(name);
+        Debug.WriteLine($"Unique outcome sent: {name}");
     }
 
     public void SendOutcomeWithValue(string name, float value)
     {
-        _repository.SendOutcomeWithValue(name, value);
-        LogManager.Instance.I("AppVM", $"Outcome with value sent: {name} = {value}");
+        OneSignal.Session.AddOutcomeWithValue(name, value);
+        Debug.WriteLine($"Outcome with value sent: {name} = {value}");
     }
 
     // Track Event
     public void TrackEvent(string name, IDictionary<string, object>? properties = null)
     {
-        _repository.TrackEvent(name, properties);
-        LogManager.Instance.I("AppVM", $"Event tracked: {name}");
+        OneSignal.User.TrackEvent(name, properties);
+        Debug.WriteLine($"Event tracked: {name}");
     }
 
     // Notifications
     [RelayCommand]
     public async Task SendNotificationAsync(NotificationType type)
     {
-        var success = await _repository.SendNotificationAsync(type);
-        LogManager.Instance.I(
-            "AppVM",
-            success ? $"Notification sent: {type}" : "Failed to send notification"
-        );
+        var pushId = OneSignal.User.PushSubscription.Id;
+        if (string.IsNullOrEmpty(pushId))
+        {
+            Debug.WriteLine("Failed to send notification");
+            return;
+        }
+        var success = await _apiService.SendNotificationAsync(type, pushId);
+        Debug.WriteLine(success ? $"Notification sent: {type}" : "Failed to send notification");
     }
 
     [RelayCommand]
     public void ClearAllNotifications()
     {
-        _repository.ClearAllNotifications();
-        LogManager.Instance.I("AppVM", "All notifications cleared");
+        OneSignal.Notifications.ClearAllNotifications();
+        Debug.WriteLine("All notifications cleared");
     }
 
     public async Task SendCustomNotificationAsync(string title, string body)
     {
-        var success = await _repository.SendCustomNotificationAsync(title, body);
-        LogManager.Instance.I(
-            "AppVM",
-            success ? $"Notification sent: {title}" : "Failed to send notification"
-        );
+        var pushId = OneSignal.User.PushSubscription.Id;
+        if (string.IsNullOrEmpty(pushId))
+        {
+            Debug.WriteLine("Failed to send notification");
+            return;
+        }
+        var success = await _apiService.SendCustomNotificationAsync(title, body, pushId);
+        Debug.WriteLine(success ? $"Notification sent: {title}" : "Failed to send notification");
     }
 
     // IAM
     public void SetIamPaused(bool paused)
     {
-        _repository.SetInAppMessagesPaused(paused);
+        OneSignal.InAppMessages.Paused = paused;
         _prefs.IamPaused = paused;
         InAppMessagesPaused = paused;
-        LogManager.Instance.I(
-            "AppVM",
-            paused ? "In-App Messages paused" : "In-App Messages resumed"
-        );
+        Debug.WriteLine(paused ? "In-App Messages paused" : "In-App Messages resumed");
     }
 
     public void SendInAppMessage(InAppMessageType type)
     {
         var triggerValue = type.GetTriggerValue();
-        _repository.AddTrigger("iam_type", triggerValue);
+        OneSignal.InAppMessages.AddTrigger("iam_type", triggerValue);
         UpsertTrigger("iam_type", triggerValue);
-        LogManager.Instance.I("AppVM", $"Sent In-App Message: {type.GetDisplayName()}");
+        Debug.WriteLine($"Sent In-App Message: {type.GetDisplayName()}");
     }
 
     // Location
     public void SetLocationSharedValue(bool shared)
     {
-        _repository.SetLocationShared(shared);
+        OneSignal.Location.IsShared = shared;
         _prefs.LocationShared = shared;
         LocationShared = shared;
-        LogManager.Instance.I(
-            "AppVM",
-            shared ? "Location sharing enabled" : "Location sharing disabled"
-        );
+        Debug.WriteLine(shared ? "Location sharing enabled" : "Location sharing disabled");
     }
 
     [RelayCommand]
     public void PromptLocation()
     {
-        _repository.RequestLocationPermission();
-        LogManager.Instance.I("AppVM", "Location permission requested");
+        OneSignal.Location.RequestPermission();
+        Debug.WriteLine("Location permission requested");
     }
 
     // Live Activities
-    public bool HasApiKey() => _repository.HasApiKey();
+    public bool HasApiKey() => _apiService.HasApiKey();
 
     public void StartLiveActivity()
     {
@@ -488,10 +489,10 @@ public partial class AppViewModel : ObservableObject
             ["estimatedTime"] = currentStatus.EstimatedTime,
         };
 
-        _repository.StartDefaultLiveActivity(activityId, attributes, content);
+        OneSignal.LiveActivities.StartDefault(activityId, attributes, content);
         LiveActivityStatusIndex = 0;
         UpdateLiveActivityButtonText();
-        LogManager.Instance.I("AppVM", $"Started Live Activity: {activityId}");
+        Debug.WriteLine($"Started Live Activity: {activityId}");
     }
 
     public async Task UpdateLiveActivityAsync()
@@ -514,17 +515,17 @@ public partial class AppViewModel : ObservableObject
             ["estimatedTime"] = nextStatus.EstimatedTime,
         };
 
-        var success = await _repository.UpdateLiveActivityAsync(activityId, "update", eventUpdates);
+        var success = await _apiService.UpdateLiveActivityAsync(activityId, "update", eventUpdates);
 
         if (success)
         {
             LiveActivityStatusIndex = nextIndex;
             UpdateLiveActivityButtonText();
-            LogManager.Instance.I("AppVM", $"Updated Live Activity: {activityId}");
+            Debug.WriteLine($"Updated Live Activity: {activityId}");
         }
         else
         {
-            LogManager.Instance.E("AppVM", "Failed to update Live Activity");
+            Debug.WriteLine("Failed to update Live Activity");
         }
 
         IsLiveActivityUpdating = false;
@@ -540,17 +541,17 @@ public partial class AppViewModel : ObservableObject
 
         var eventUpdates = new Dictionary<string, object> { ["message"] = "Ended" };
 
-        var success = await _repository.UpdateLiveActivityAsync(activityId, "end", eventUpdates);
+        var success = await _apiService.UpdateLiveActivityAsync(activityId, "end", eventUpdates);
 
         if (success)
         {
             LiveActivityStatusIndex = 0;
             UpdateLiveActivityButtonText();
-            LogManager.Instance.I("AppVM", $"Ended Live Activity: {activityId}");
+            Debug.WriteLine($"Ended Live Activity: {activityId}");
         }
         else
         {
-            LogManager.Instance.E("AppVM", "Failed to end Live Activity");
+            Debug.WriteLine("Failed to end Live Activity");
         }
 
         IsLiveActivityUpdating = false;
@@ -569,14 +570,14 @@ public partial class AppViewModel : ObservableObject
     // Consent
     public void SetConsentRequired(bool required)
     {
-        _repository.SetConsentRequired(required);
+        OneSignal.ConsentRequired = required;
         _prefs.ConsentRequired = required;
         ConsentRequired = required;
     }
 
     public void SetConsentGiven(bool granted)
     {
-        _repository.SetConsentGiven(granted);
+        OneSignal.ConsentGiven = granted;
         _prefs.PrivacyConsent = granted;
         PrivacyConsentGiven = granted;
     }
@@ -585,11 +586,11 @@ public partial class AppViewModel : ObservableObject
     public void SetPushEnabled(bool enabled)
     {
         if (enabled)
-            _repository.OptInPush();
+            OneSignal.User.PushSubscription.OptIn();
         else
-            _repository.OptOutPush();
+            OneSignal.User.PushSubscription.OptOut();
         IsPushEnabled = enabled;
-        LogManager.Instance.I("AppVM", enabled ? "Push enabled" : "Push disabled");
+        Debug.WriteLine(enabled ? "Push enabled" : "Push disabled");
     }
 
     // Observers
@@ -597,12 +598,10 @@ public partial class AppViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            PushSubscriptionId = _repository.GetPushSubscriptionId() ?? "";
-            IsPushEnabled = _repository.IsPushOptedIn();
-            LogManager.Instance.D(
-                "AppVM",
-                $"Push subscription changed: id={PushSubscriptionId}, optedIn={IsPushEnabled}"
-            );
+            var rawPushId = OneSignal.User.PushSubscription.Id ?? "";
+            PushSubscriptionId = IsE2EMode ? MaskValue(rawPushId) : rawPushId;
+            IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+            Debug.WriteLine($"Push subscription changed: id={rawPushId}, optedIn={IsPushEnabled}");
         });
     }
 
@@ -614,7 +613,7 @@ public partial class AppViewModel : ObservableObject
         MainThread.BeginInvokeOnMainThread(() =>
         {
             HasNotificationPermission = args.Permission;
-            LogManager.Instance.D("AppVM", $"Permission changed: {args.Permission}");
+            Debug.WriteLine($"Permission changed: {args.Permission}");
         });
     }
 
@@ -627,54 +626,79 @@ public partial class AppViewModel : ObservableObject
         {
             var extId = _prefs.ExternalUserId;
             UpdateUserStatus(extId);
-            LogManager.Instance.D("AppVM", $"User changed: externalId={extId}");
+            Debug.WriteLine($"User changed: externalId={extId}");
             await FetchUserDataFromApiAsync();
         });
     }
 
     public async Task FetchUserDataFromApiAsync()
     {
-        var onesignalId = _repository.GetOnesignalId();
-        if (string.IsNullOrEmpty(onesignalId))
-        {
-            IsLoading = false;
-            return;
-        }
+        var requestId = ++_requestSequence;
+        IsLoading = true;
 
         try
         {
-            var userData = await _repository.FetchUserAsync(onesignalId);
-            if (userData != null)
+            var onesignalId = OneSignal.User.OneSignalId;
+            if (string.IsNullOrEmpty(onesignalId))
+                return;
+
+            var userData = await _apiService.FetchUserAsync(onesignalId);
+            if (userData == null)
+                return;
+
+            // Drop the response if a newer fetch has started while we were awaiting.
+            if (_requestSequence != requestId)
+                return;
+
+            MergePairs(AliasesList, userData.Aliases);
+            MergePairs(TagsList, userData.Tags);
+            MergeUnique(EmailsList, userData.Emails);
+            MergeUnique(SmsNumbersList, userData.SmsNumbers);
+
+            if (userData.ExternalId != null)
             {
-                AliasesList.Clear();
-                foreach (var kv in userData.Aliases)
-                    AliasesList.Add(kv);
-
-                TagsList.Clear();
-                foreach (var kv in userData.Tags)
-                    TagsList.Add(kv);
-
-                EmailsList.Clear();
-                foreach (var email in userData.Emails)
-                    EmailsList.Add(email);
-
-                SmsNumbersList.Clear();
-                foreach (var sms in userData.SmsNumbers)
-                    SmsNumbersList.Add(sms);
-
-                if (userData.ExternalId != null)
-                {
-                    UpdateUserStatus(userData.ExternalId);
-                    _prefs.ExternalUserId = userData.ExternalId;
-                }
+                UpdateUserStatus(userData.ExternalId);
+                _prefs.ExternalUserId = userData.ExternalId;
             }
         }
         catch (Exception e)
         {
-            LogManager.Instance.E("AppVM", $"Error fetching user data: {e.Message}");
+            Debug.WriteLine($"Error fetching user data: {e.Message}");
         }
+        finally
+        {
+            if (_requestSequence == requestId)
+                IsLoading = false;
+        }
+    }
 
-        await Task.Delay(100);
-        IsLoading = false;
+    private static void MergePairs(
+        ObservableCollection<KeyValuePair<string, string>> target,
+        IDictionary<string, string> source
+    )
+    {
+        foreach (var kv in source)
+        {
+            var existing = target.FirstOrDefault(p => p.Key == kv.Key);
+            if (existing.Key != null)
+            {
+                var idx = target.IndexOf(existing);
+                if (!string.Equals(existing.Value, kv.Value, StringComparison.Ordinal))
+                    target[idx] = new KeyValuePair<string, string>(kv.Key, kv.Value);
+            }
+            else
+            {
+                target.Add(new KeyValuePair<string, string>(kv.Key, kv.Value));
+            }
+        }
+    }
+
+    private static void MergeUnique(ObservableCollection<string> target, IEnumerable<string> source)
+    {
+        foreach (var item in source)
+        {
+            if (!target.Contains(item))
+                target.Add(item);
+        }
     }
 }

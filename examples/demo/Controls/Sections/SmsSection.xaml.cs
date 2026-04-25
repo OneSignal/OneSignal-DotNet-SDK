@@ -22,6 +22,11 @@ public partial class SmsSection : ContentView
         _viewModel = viewModel;
         _parentPage = parentPage;
         viewModel.SmsNumbersList.CollectionChanged += (s, e) => RebuildList();
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.IsLoading))
+                RebuildList();
+        };
         RebuildList();
     }
 
@@ -32,7 +37,10 @@ public partial class SmsSection : ContentView
 
         if (list == null || list.Count == 0)
         {
-            SmsListContainer.Children.Add(EmptyLabel);
+            if (_viewModel?.IsLoading == true)
+                SmsListContainer.Children.Add(new LoadingState("sms_loading"));
+            else
+                SmsListContainer.Children.Add(EmptyLabel);
             return;
         }
 
@@ -72,6 +80,7 @@ public partial class SmsSection : ContentView
                     Text = sms,
                     FontSize = 14,
                     VerticalOptions = LayoutOptions.Center,
+                    AutomationId = $"sms_value_{sms}",
                 }
             );
 
@@ -83,6 +92,7 @@ public partial class SmsSection : ContentView
                 Padding = new Thickness(8, 0),
                 FontSize = 18,
                 HeightRequest = 40,
+                AutomationId = $"sms_remove_{sms}",
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveSms(captured);
             Grid.SetColumn(deleteBtn, 1);

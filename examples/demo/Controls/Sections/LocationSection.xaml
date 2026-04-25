@@ -5,7 +5,7 @@
   xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.LocationSection"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="location_section">
     <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
       <Label
         Grid.Column="0"
@@ -21,6 +21,7 @@
         BackgroundColor="Transparent"
         Clicked="OnInfoTapped"
         Padding="0"
+        AutomationId="location_info_icon"
       />
     </Grid>
 
@@ -38,7 +39,7 @@
           x:Name="LocationSharedSwitch"
           IsToggled="False"
           Toggled="OnLocationSharedToggled"
-          AutomationId="location_shared_switch"
+          AutomationId="location_shared_toggle"
         />
       </Grid>
     </Border>
@@ -48,6 +49,12 @@
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnPromptLocationClicked"
       AutomationId="prompt_location_button"
+    />
+    <Button
+      Text="CHECK LOCATION SHARED"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnCheckLocationSharedClicked"
+      AutomationId="check_location_button"
     />
   </VerticalStackLayout>
 </ContentView>

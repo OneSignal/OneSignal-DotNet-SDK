@@ -1,0 +1,191 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - rel/**
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to test'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - android
+          - ios
+          - both
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    if: >-
+      github.event_name == 'push' ||
+      github.event.inputs.platform == 'android' ||
+      github.event.inputs.platform == 'both'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install MAUI Android workload
+        run: dotnet workload install maui-android
+
+      - name: Create demo .env
+        working-directory: examples/demo
+        run: |
+          echo "ONESIGNAL_APP_ID=${{ vars.APPIUM_ONESIGNAL_APP_ID }}" > .env
+          echo "ONESIGNAL_API_KEY=${{ secrets.APPIUM_ONESIGNAL_API_KEY }}" >> .env
+          echo "E2E_MODE=true" >> .env
+
+      # RuntimeIdentifier=android-arm64 ships native code only for arm64-v8a,
+      # which is what BrowserStack's modern Android device farm runs. This
+      # roughly halves the APK size (~30MB → ~19MB) versus the default
+      # multi-ABI build.
+      - name: Build release APK
+        working-directory: examples/demo
+        run: |
+          dotnet publish demo.csproj \
+            -f net10.0-android \
+            -c Release \
+            -p:AndroidPackageFormat=apk \
+            -p:RuntimeIdentifier=android-arm64
+
+      - name: Locate APK
+        id: apk
+        working-directory: examples/demo
+        run: |
+          APK=$(ls bin/Release/net10.0-android/android-arm64/*-Signed.apk | head -n1)
+          if [ -z "$APK" ]; then
+            echo "::error::No signed APK produced by dotnet publish"
+            exit 1
+          fi
+          cp "$APK" demo.apk
+          echo "path=examples/demo/demo.apk" >> "$GITHUB_OUTPUT"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-apk
+          path: ${{ steps.apk.outputs.path }}
+          retention-days: 1
+          compression-level: 0
+
+  build-ios:
+    if: >-
+      github.event_name == 'push' ||
+      github.event.inputs.platform == 'ios' ||
+      github.event.inputs.platform == 'both'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install MAUI iOS workload
+        run: dotnet workload install maui-ios
+
+      - name: Create demo .env
+        working-directory: examples/demo
+        run: |
+          echo "ONESIGNAL_APP_ID=${{ vars.APPIUM_ONESIGNAL_APP_ID }}" > .env
+          echo "ONESIGNAL_API_KEY=${{ secrets.APPIUM_ONESIGNAL_API_KEY }}" >> .env
+          echo "E2E_MODE=true" >> .env
+
+      - name: Set up iOS codesigning
+        uses: OneSignal/sdk-shared/.github/actions/setup-ios-demo-codesigning@main
+        with:
+          p12-base64: ${{ secrets.APPIUM_IOS_DEV_CERT_P12_BASE64 }}
+          p12-password: ${{ secrets.APPIUM_IOS_DEV_CERT_PASSWORD }}
+          asc-key-id: ${{ secrets.APPIUM_APP_STORE_CONNECT_KEY_ID }}
+          asc-issuer-id: ${{ secrets.APPIUM_APP_STORE_CONNECT_ISSUER_ID }}
+          asc-private-key: ${{ secrets.APPIUM_APP_STORE_CONNECT_PRIVATE_KEY }}
+
+      # RuntimeIdentifier=ios-arm64 is required for a real device build that
+      # BrowserStack can install.
+      # Do NOT add -p:UseInterpreter=true here. It shrinks the IPA but breaks
+      # the Notification Service Extension (image notifications stop working)
+      # because the interpreter path drops the ObjC class registration for
+      # the NSE binding in OneSignalSDK.DotNet.iOS.
+      - name: Build signed IPA
+        working-directory: examples/demo
+        run: |
+          dotnet publish demo.csproj \
+            -f net10.0-ios \
+            -c Release \
+            -p:RuntimeIdentifier=ios-arm64 \
+            -p:ArchiveOnBuild=true
+
+      - name: Locate IPA
+        id: ipa
+        working-directory: examples/demo
+        run: |
+          IPA=$(ls bin/Release/net10.0-ios/ios-arm64/publish/*.ipa | head -n1)
+          if [ -z "$IPA" ]; then
+            echo "::error::No IPA produced by dotnet publish"
+            exit 1
+          fi
+          cp "$IPA" demo.ipa
+          echo "path=examples/demo/demo.ipa" >> "$GITHUB_OUTPUT"
+
+      - name: Verify aps-environment in IPA
+        working-directory: examples/demo
+        run: |
+          unzip -oq demo.ipa -d /tmp/ipa
+          APP=$(ls -d /tmp/ipa/Payload/*.app | head -n1)
+          codesign -d --entitlements - "$APP" 2>&1 | tee /tmp/entitlements.txt
+          if ! grep -q 'aps-environment' /tmp/entitlements.txt; then
+            echo "::error::Built IPA is missing aps-environment entitlement; push subscription will not work"
+            exit 1
+          fi
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-ipa
+          path: ${{ steps.ipa.outputs.path }}
+          retention-days: 1
+          compression-level: 0
+
+  e2e-android:
+    needs: build-android
+    uses: OneSignal/sdk-shared/.github/workflows/appium-e2e.yml@main
+    secrets: inherit
+    with:
+      platform: android
+      app-artifact: demo-apk
+      app-filename: demo.apk
+      sdk-type: dotnet
+      build-name: dotnet-android-${{ github.ref_name }}-${{ github.run_number }}
+
+  e2e-ios:
+    needs: build-ios
+    uses: OneSignal/sdk-shared/.github/workflows/appium-e2e.yml@main
+    secrets: inherit
+    with:
+      platform: ios
+      app-artifact: demo-ipa
+      app-filename: demo.ipa
+      sdk-type: dotnet
+      build-name: dotnet-ios-${{ github.ref_name }}-${{ github.run_number }}

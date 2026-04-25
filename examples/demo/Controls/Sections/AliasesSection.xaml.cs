@@ -1,6 +1,4 @@
 using System.Collections.Specialized;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
 
@@ -24,6 +22,11 @@ public partial class AliasesSection : ContentView
         _parentPage = parentPage;
 
         viewModel.AliasesList.CollectionChanged += (s, e) => RebuildList();
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.IsLoading))
+                RebuildList();
+        };
         RebuildList();
     }
 
@@ -34,7 +37,10 @@ public partial class AliasesSection : ContentView
 
         if (list == null || list.Count == 0)
         {
-            AliasListContainer.Children.Add(EmptyLabel);
+            if (_viewModel?.IsLoading == true)
+                AliasListContainer.Children.Add(new LoadingState("aliases_loading"));
+            else
+                AliasListContainer.Children.Add(EmptyLabel);
             return;
         }
 
@@ -55,13 +61,21 @@ public partial class AliasesSection : ContentView
             first = false;
 
             var row = new VerticalStackLayout { Padding = new Thickness(12, 4), Spacing = 2 };
-            row.Children.Add(new Label { Text = alias.Key, FontSize = 14 });
+            row.Children.Add(
+                new Label
+                {
+                    Text = alias.Key,
+                    FontSize = 14,
+                    AutomationId = $"aliases_pair_key_{alias.Key}",
+                }
+            );
             row.Children.Add(
                 new Label
                 {
                     Text = alias.Value,
                     FontSize = 12,
                     TextColor = Color.FromArgb("#757575"),
+                    AutomationId = $"aliases_pair_value_{alias.Key}",
                 }
             );
 
@@ -102,7 +116,6 @@ public partial class AliasesSection : ContentView
             return;
 
         _viewModel.AddAlias(new KeyValuePair<string, string>(label, id));
-        await Toast.Make($"Alias added: {label}", ToastDuration.Short).Show();
     }
 
     private async void OnAddMultipleClicked(object? sender, EventArgs e)
@@ -114,7 +127,6 @@ public partial class AliasesSection : ContentView
             return;
 
         _viewModel.AddAliases(pairs);
-        await Toast.Make($"{pairs.Count} alias(es) added", ToastDuration.Short).Show();
     }
 
     private async Task<Dictionary<string, string>?> ShowMultiPairDialog(

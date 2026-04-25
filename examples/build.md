@@ -75,9 +75,9 @@ SDK reference via project reference:
 
 ---
 
-## OneSignal Repository (SDK API Mapping)
+## SDK API Mapping
 
-Use the static `OneSignal` class from `OneSignalSDK.DotNet`:
+Call the static `OneSignal` class from `OneSignalSDK.DotNet` directly inside `AppViewModel`. There is no repository wrapper.
 
 | Operation | SDK Call |
 |---|---|
@@ -178,13 +178,14 @@ AppViewModel extends `ObservableObject` (CommunityToolkit.Mvvm):
 - `[ObservableProperty]` fields generate properties + INotifyPropertyChanged
 - `[RelayCommand]` methods for actions
 - `ObservableCollection<T>` for list state (AliasesList, EmailsList, SmsNumbersList, TagsList, TriggersList)
-- Receives `OneSignalRepository` and `PreferencesService` via constructor injection
+- Receives `PreferencesService` and `OneSignalApiService` via constructor injection
+- Calls `OneSignal.*` static APIs directly (no repository layer)
 
 Register with MAUI DI container:
 ```csharp
 builder.Services.AddSingleton<AppViewModel>();
-builder.Services.AddSingleton<OneSignalRepository>();
 builder.Services.AddSingleton<PreferencesService>();
+builder.Services.AddSingleton<OneSignalApiService>();
 ```
 
 Persistence: `Microsoft.Maui.Storage.Preferences`
@@ -196,8 +197,7 @@ Persistence: `Microsoft.Maui.Storage.Preferences`
 XAML controls in `Controls/`:
 - `SectionCard.xaml` — Frame/Border with title Label, optional info ImageButton, ContentView child (BindableProperty)
 - `ToggleRow.xaml` — Label + description Label + Switch in a Grid with IsToggled two-way binding
-- `LoadingOverlay.xaml` — AbsoluteLayout overlay with centered ActivityIndicator, IsVisible bound to IsLoading
-- `LogView.xaml` — sticky at top, VerticalStackLayout inside ScrollView (not CollectionView), default expanded, Material icons via `mi:MauiIcon` (ExpandLess/ExpandMore for collapse toggle, Delete for clear), auto-scroll via `ScrollView.ScrollToAsync`
+- `LoadingState.xaml` — Inline ActivityIndicator shown by list-bearing sections (Aliases, Emails, SMS, Tags) while `AppViewModel.IsLoading` is true and the list is empty
 
 Button styles defined in `App.xaml` (PrimaryButton style, DestructiveButton style), not separate controls.
 
@@ -223,14 +223,9 @@ Implement in `Resources/Styles/`:
 
 ---
 
-## Log View
+## Logging
 
-- Use `VerticalStackLayout` inside `ScrollView` (100dp container is small, CollectionView is overkill)
-- Material icons via `mi:MauiIcon`: `Delete` for trash, `ExpandLess`/`ExpandMore` for collapse toggle
-- Collapse/expand toggled in code-behind: `CollapseArrow.Icon = MaterialIcons.ExpandLess/ExpandMore`
-- AutomationId on each element (e.g. `AutomationId="log_entry_0_message"`)
-- LogManager singleton uses `INotifyPropertyChanged` or event for reactive updates
-- Console output via `Debug.WriteLine`
+Use `System.Diagnostics.Debug.WriteLine` for debug logging; do not build a custom in-app log viewer.
 
 ---
 
@@ -275,20 +270,16 @@ examples/demo/
 ├── Services/
 │   ├── OneSignalApiService.cs              # REST API client (HttpClient)
 │   ├── PreferencesService.cs               # Preferences wrapper
-│   ├── TooltipHelper.cs                    # Fetches tooltips from remote URL
-│   └── LogManager.cs                       # Singleton logger with INotifyPropertyChanged
-├── Repositories/
-│   └── OneSignalRepository.cs              # Centralized SDK calls
+│   └── TooltipHelper.cs                    # Fetches tooltips from remote URL
 ├── ViewModels/
 │   └── AppViewModel.cs                     # ObservableObject with all UI state
 ├── Pages/
-│   ├── MainPage.xaml / MainPage.xaml.cs    # Main scrollable page (includes LogView)
+│   ├── MainPage.xaml / MainPage.xaml.cs    # Main scrollable page
 │   └── SecondaryPage.xaml / .cs            # "Secondary Activity" page
 ├── Controls/
 │   ├── SectionCard.xaml                    # Card with title and info icon
 │   ├── ToggleRow.xaml                      # Label + Switch
-│   ├── LoadingOverlay.xaml                 # Full-screen loading spinner
-│   ├── LogView.xaml                        # Collapsible log viewer (Appium-ready)
+│   ├── LoadingState.xaml                   # Inline list loading spinner
 │   └── Sections/
 │       ├── AppSection.xaml
 │       ├── PushSection.xaml
@@ -301,7 +292,7 @@ examples/demo/
 │       ├── TagsSection.xaml
 │       ├── OutcomesSection.xaml
 │       ├── TriggersSection.xaml
-│       ├── TrackEventSection.xaml
+│       ├── CustomEventsSection.xaml
 │       └── LocationSection.xaml
 ├── Resources/
 │   ├── Styles/

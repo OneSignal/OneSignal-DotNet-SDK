@@ -8,14 +8,14 @@ using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
 
-public partial class TrackEventSection : ContentView
+public partial class CustomEventsSection : ContentView
 {
     private AppViewModel? _viewModel;
     private Page? _parentPage;
 
     public event EventHandler? InfoTapped;
 
-    public TrackEventSection()
+    public CustomEventsSection()
     {
         InitializeComponent();
     }
@@ -36,7 +36,7 @@ public partial class TrackEventSection : ContentView
             return;
 
         _viewModel.TrackEvent(result.Value.name, result.Value.properties);
-        await Toast.Make($"Event tracked: {result.Value.name}", ToastDuration.Short).Show();
+        await Snackbar.Make($"Event tracked: {result.Value.name}").Show();
     }
 
     private static async Task<(
@@ -44,16 +44,12 @@ public partial class TrackEventSection : ContentView
         Dictionary<string, object>? properties
     )?> ShowTrackEventPopup(Page parentPage)
     {
-        var nameEntry = new Entry
-        {
-            Placeholder = "Event name",
-            AutomationId = "track_event_name_input",
-        };
+        var nameEntry = new Entry { Placeholder = "Event name", AutomationId = "event_name_input" };
 
         var propsEntry = new Entry
         {
             Placeholder = "{\"key\": \"value\"} (optional)",
-            AutomationId = "track_event_props_input",
+            AutomationId = "event_properties_input",
         };
 
         var errorLabel = new Label
@@ -65,7 +61,7 @@ public partial class TrackEventSection : ContentView
         };
 
         var cancelButton = DialogInputHelper.ActionButton("Cancel");
-        var confirmButton = DialogInputHelper.ActionButton("Track", "track_event_confirm_button");
+        var confirmButton = DialogInputHelper.ActionButton("Track", "event_track_button");
 
         (string name, Dictionary<string, object>? properties)? popupResult = null;
 
@@ -82,10 +78,13 @@ public partial class TrackEventSection : ContentView
             {
                 try
                 {
-                    var doc = JsonDocument.Parse(propsText);
+                    using var doc = JsonDocument.Parse(propsText);
+                    if (doc.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("Root must be a JSON object");
+
                     properties = new Dictionary<string, object>();
                     foreach (var prop in doc.RootElement.EnumerateObject())
-                        properties[prop.Name] = prop.Value.GetString() ?? string.Empty;
+                        properties[prop.Name] = JsonElementToObject(prop.Value)!;
                     errorLabel.IsVisible = false;
                 }
                 catch
@@ -137,4 +136,19 @@ public partial class TrackEventSection : ContentView
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
+
+    private static object? JsonElementToObject(JsonElement element) =>
+        element.ValueKind switch
+        {
+            JsonValueKind.String => element.GetString(),
+            JsonValueKind.Number => element.TryGetInt64(out var l) ? l : element.GetDouble(),
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            JsonValueKind.Object => element
+                .EnumerateObject()
+                .ToDictionary(p => p.Name, p => JsonElementToObject(p.Value)!),
+            JsonValueKind.Array => element.EnumerateArray().Select(JsonElementToObject).ToList(),
+            _ => null,
+        };
 }

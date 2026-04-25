@@ -5,7 +5,7 @@
   xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.SendIamSection"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="send_iam_section">
     <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
       <Label
         Grid.Column="0"
@@ -21,6 +21,7 @@
         BackgroundColor="Transparent"
         Clicked="OnInfoTapped"
         Padding="0"
+        AutomationId="send_iam_info_icon"
       />
     </Grid>
 
@@ -51,7 +52,7 @@
           FontAttributes="Bold"
           FontSize="14"
           VerticalOptions="Center"
-          AutomationId="iam_top_banner_button"
+          AutomationId="send_iam_top_banner_button"
         />
       </Grid>
     </Border>
@@ -83,7 +84,7 @@
           FontAttributes="Bold"
           FontSize="14"
           VerticalOptions="Center"
-          AutomationId="iam_bottom_banner_button"
+          AutomationId="send_iam_bottom_banner_button"
         />
       </Grid>
     </Border>
@@ -115,7 +116,7 @@
           FontAttributes="Bold"
           FontSize="14"
           VerticalOptions="Center"
-          AutomationId="iam_center_modal_button"
+          AutomationId="send_iam_center_modal_button"
         />
       </Grid>
     </Border>
@@ -147,7 +148,7 @@
           FontAttributes="Bold"
           FontSize="14"
           VerticalOptions="Center"
-          AutomationId="iam_full_screen_button"
+          AutomationId="send_iam_full_screen_button"
         />
       </Grid>
     </Border>

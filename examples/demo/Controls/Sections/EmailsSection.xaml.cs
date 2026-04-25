@@ -22,6 +22,11 @@ public partial class EmailsSection : ContentView
         _viewModel = viewModel;
         _parentPage = parentPage;
         viewModel.EmailsList.CollectionChanged += (s, e) => RebuildList();
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.IsLoading))
+                RebuildList();
+        };
         RebuildList();
     }
 
@@ -32,7 +37,10 @@ public partial class EmailsSection : ContentView
 
         if (list == null || list.Count == 0)
         {
-            EmailListContainer.Children.Add(EmptyLabel);
+            if (_viewModel?.IsLoading == true)
+                EmailListContainer.Children.Add(new LoadingState("emails_loading"));
+            else
+                EmailListContainer.Children.Add(EmptyLabel);
             return;
         }
 
@@ -72,6 +80,7 @@ public partial class EmailsSection : ContentView
                     Text = email,
                     FontSize = 14,
                     VerticalOptions = LayoutOptions.Center,
+                    AutomationId = $"emails_value_{email}",
                 }
             );
 
@@ -83,6 +92,7 @@ public partial class EmailsSection : ContentView
                 Padding = new Thickness(8, 0),
                 FontSize = 18,
                 HeightRequest = 40,
+                AutomationId = $"emails_remove_{email}",
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveEmail(captured);
             Grid.SetColumn(deleteBtn, 1);

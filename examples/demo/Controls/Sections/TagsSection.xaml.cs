@@ -20,6 +20,11 @@ public partial class TagsSection : ContentView
         _viewModel = viewModel;
         _parentPage = parentPage;
         viewModel.TagsList.CollectionChanged += (s, e) => RebuildList();
+        viewModel.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppViewModel.IsLoading))
+                RebuildList();
+        };
         RebuildList();
     }
 
@@ -32,7 +37,10 @@ public partial class TagsSection : ContentView
 
         if (list == null || list.Count == 0)
         {
-            TagListContainer.Children.Add(EmptyLabel);
+            if (_viewModel?.IsLoading == true)
+                TagListContainer.Children.Add(new LoadingState("tags_loading"));
+            else
+                TagListContainer.Children.Add(EmptyLabel);
             return;
         }
 
@@ -62,13 +70,21 @@ public partial class TagsSection : ContentView
             };
 
             var textStack = new VerticalStackLayout { Spacing = 2 };
-            textStack.Children.Add(new Label { Text = tag.Key, FontSize = 14 });
+            textStack.Children.Add(
+                new Label
+                {
+                    Text = tag.Key,
+                    FontSize = 14,
+                    AutomationId = $"tags_pair_key_{tag.Key}",
+                }
+            );
             textStack.Children.Add(
                 new Label
                 {
                     Text = tag.Value,
                     FontSize = 12,
                     TextColor = Color.FromArgb("#757575"),
+                    AutomationId = $"tags_pair_value_{tag.Key}",
                 }
             );
             row.Children.Add(textStack);
@@ -82,6 +98,7 @@ public partial class TagsSection : ContentView
                 FontSize = 18,
                 HeightRequest = 40,
                 VerticalOptions = LayoutOptions.Center,
+                AutomationId = $"tags_remove_{tag.Key}",
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveTag(captured.Key);
             Grid.SetColumn(deleteBtn, 1);

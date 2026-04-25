@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using OneSignalDemo.Controls;
 using OneSignalDemo.Models;
 using OneSignalDemo.Services;
@@ -15,14 +17,6 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         _viewModel = viewModel;
 
-        // Bind loading overlay
-        _viewModel.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(AppViewModel.IsLoading))
-                LoadingOverlayControl.IsVisible = _viewModel.IsLoading;
-        };
-
-        // Wire up sections
         AppSectionControl.Initialize(_viewModel);
 
         UserSectionControl.Initialize(_viewModel);
@@ -60,8 +54,8 @@ public partial class MainPage : ContentPage
         TriggersSectionControl.Initialize(_viewModel, this);
         TriggersSectionControl.InfoTapped += (s, e) => ShowTooltip("triggers");
 
-        TrackEventSectionControl.Initialize(_viewModel, this);
-        TrackEventSectionControl.InfoTapped += (s, e) => ShowTooltip("trackEvent");
+        CustomEventsSectionControl.Initialize(_viewModel, this);
+        CustomEventsSectionControl.InfoTapped += (s, e) => ShowTooltip("customEvents");
 
         LocationSectionControl.Initialize(_viewModel);
         LocationSectionControl.InfoTapped += (s, e) => ShowTooltip("location");
@@ -89,7 +83,8 @@ public partial class MainPage : ContentPage
             this,
             "Login User",
             "External User Id",
-            "Login"
+            "Login",
+            "login_user_id_input"
         );
 
         if (string.IsNullOrEmpty(userId))
@@ -98,11 +93,13 @@ public partial class MainPage : ContentPage
         }
 
         await _viewModel.LoginUserAsync(userId);
+        await Toast.Make($"Logged in as {userId}", ToastDuration.Short).Show();
     }
 
     private async void OnLogoutRequested(object? sender, EventArgs e)
     {
         await _viewModel.LogoutUserAsync();
+        await Toast.Make("User logged out", ToastDuration.Short).Show();
     }
 
     private async void OnCustomNotificationRequested(object? sender, EventArgs e)
@@ -116,17 +113,17 @@ public partial class MainPage : ContentPage
                 {
                     Key = "title",
                     Placeholder = "Title",
-                    AutomationId = "custom_notif_title_input",
+                    AutomationId = "custom_notification_title_input",
                 },
                 new DialogInputField
                 {
                     Key = "body",
                     Placeholder = "Body",
-                    AutomationId = "custom_notif_body_input",
+                    AutomationId = "custom_notification_body_input",
                 },
             },
             "Send",
-            "custom_notif_send_button"
+            "custom_notification_send_button"
         );
 
         if (

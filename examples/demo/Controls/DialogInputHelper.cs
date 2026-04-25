@@ -54,11 +54,11 @@ public static class DialogInputHelper
                     Key = "value",
                     Placeholder = placeholder,
                     AutomationId = entryAutomationId,
-                    Keyboard = keyboard ?? Keyboard.Default,
+                    Keyboard = keyboard ?? Keyboard.Plain,
                 },
             },
             confirmText,
-            confirmAutomationId
+            confirmAutomationId ?? "singleinput_confirm_button"
         );
         return result != null && result.TryGetValue("value", out var value) ? value : null;
     }
@@ -93,7 +93,7 @@ public static class DialogInputHelper
             title,
             row,
             confirmText,
-            confirmAutomationId,
+            confirmAutomationId ?? "singlepair_confirm_button",
             () =>
                 new Dictionary<string, string>(StringComparer.Ordinal)
                 {
@@ -181,12 +181,18 @@ public static class DialogInputHelper
         return result?.Result;
     }
 
+    // IsTextPredictionEnabled / IsSpellCheckEnabled disabled to drop iOS's
+    // QuickType prediction strip (frees vertical space above the keyboard)
+    // and avoid autocorrect mangling test input like `dotnet_ios`. Mirrors
+    // react-native-onesignal/examples/demo/src/theme.ts > AppInputProps.
     private static Entry BuildEntry(DialogInputField field) =>
         new()
         {
             Placeholder = field.Placeholder,
             AutomationId = field.AutomationId ?? string.Empty,
             Keyboard = field.Keyboard,
+            IsTextPredictionEnabled = false,
+            IsSpellCheckEnabled = false,
         };
 
     internal static Button ActionButton(string text, string? automationId = null) =>

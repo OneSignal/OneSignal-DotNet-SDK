@@ -1,5 +1,4 @@
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
+using MauiIcons.Core;
 using OneSignalDemo.Models;
 using OneSignalDemo.ViewModels;
 
@@ -12,6 +11,17 @@ public partial class SendIamSection : ContentView
 
     public event EventHandler? InfoTapped;
 
+    // Forces the linker to keep MauiIcons.Core so XamlC can resolve the
+    // mi: HTTP-based xmlns at compile time. Without this, XAML compilation
+    // in Release fails with: Cannot resolve type "...:MauiIcon".
+    // See dotnet/maui#32830.
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance",
+        "CA1823:Avoid unused private fields",
+        Justification = "Linker hint"
+    )]
+    private static readonly Type _mauiIconKeepAlive = typeof(MauiIcon);
+
     public SendIamSection()
     {
         InitializeComponent();
@@ -23,25 +33,21 @@ public partial class SendIamSection : ContentView
         _parentPage = parentPage;
     }
 
-    private async void OnTopBannerTapped(object? sender, TappedEventArgs e) =>
-        await SendIam(InAppMessageType.TopBanner);
+    private void OnTopBannerTapped(object? sender, TappedEventArgs e) =>
+        SendIam(InAppMessageType.TopBanner);
 
-    private async void OnBottomBannerTapped(object? sender, TappedEventArgs e) =>
-        await SendIam(InAppMessageType.BottomBanner);
+    private void OnBottomBannerTapped(object? sender, TappedEventArgs e) =>
+        SendIam(InAppMessageType.BottomBanner);
 
-    private async void OnCenterModalTapped(object? sender, TappedEventArgs e) =>
-        await SendIam(InAppMessageType.CenterModal);
+    private void OnCenterModalTapped(object? sender, TappedEventArgs e) =>
+        SendIam(InAppMessageType.CenterModal);
 
-    private async void OnFullScreenTapped(object? sender, TappedEventArgs e) =>
-        await SendIam(InAppMessageType.FullScreen);
+    private void OnFullScreenTapped(object? sender, TappedEventArgs e) =>
+        SendIam(InAppMessageType.FullScreen);
 
-    private async Task SendIam(InAppMessageType type)
+    private void SendIam(InAppMessageType type)
     {
         _viewModel?.SendInAppMessage(type);
-        if (_parentPage != null)
-            await Toast
-                .Make($"Sent In-App Message: {type.GetDisplayName()}", ToastDuration.Short)
-                .Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

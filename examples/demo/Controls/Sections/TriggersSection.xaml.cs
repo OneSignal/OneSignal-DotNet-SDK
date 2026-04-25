@@ -64,13 +64,21 @@ public partial class TriggersSection : ContentView
             };
 
             var textStack = new VerticalStackLayout { Spacing = 2 };
-            textStack.Children.Add(new Label { Text = trigger.Key, FontSize = 14 });
+            textStack.Children.Add(
+                new Label
+                {
+                    Text = trigger.Key,
+                    FontSize = 14,
+                    AutomationId = $"triggers_pair_key_{trigger.Key}",
+                }
+            );
             textStack.Children.Add(
                 new Label
                 {
                     Text = trigger.Value,
                     FontSize = 12,
                     TextColor = Color.FromArgb("#757575"),
+                    AutomationId = $"triggers_pair_value_{trigger.Key}",
                 }
             );
             row.Children.Add(textStack);
@@ -84,6 +92,7 @@ public partial class TriggersSection : ContentView
                 FontSize = 18,
                 HeightRequest = 40,
                 VerticalOptions = LayoutOptions.Center,
+                AutomationId = $"triggers_remove_{trigger.Key}",
             };
             deleteBtn.Clicked += (s, e) => _viewModel?.RemoveTrigger(captured.Key);
             Grid.SetColumn(deleteBtn, 1);

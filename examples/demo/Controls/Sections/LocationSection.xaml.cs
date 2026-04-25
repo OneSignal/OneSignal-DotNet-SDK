@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -42,6 +44,14 @@ public partial class LocationSection : ContentView
     private void OnPromptLocationClicked(object? sender, EventArgs e)
     {
         _viewModel?.PromptLocation();
+    }
+
+    private async void OnCheckLocationSharedClicked(object? sender, EventArgs e)
+    {
+        if (_viewModel == null)
+            return;
+        var shared = _viewModel.LocationShared;
+        await Snackbar.Make($"Location shared: {shared.ToString().ToLower()}").Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

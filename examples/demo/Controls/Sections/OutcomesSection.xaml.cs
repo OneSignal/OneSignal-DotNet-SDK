@@ -36,9 +36,20 @@ public partial class OutcomesSection : ContentView
             Content = "Normal Outcome",
             GroupName = group,
             IsChecked = true,
+            AutomationId = "outcome_type_normal_radio",
         };
-        var radioUnique = new RadioButton { Content = "Unique Outcome", GroupName = group };
-        var radioWithValue = new RadioButton { Content = "Outcome with Value", GroupName = group };
+        var radioUnique = new RadioButton
+        {
+            Content = "Unique Outcome",
+            GroupName = group,
+            AutomationId = "outcome_type_unique_radio",
+        };
+        var radioWithValue = new RadioButton
+        {
+            Content = "Outcome with Value",
+            GroupName = group,
+            AutomationId = "outcome_type_value_radio",
+        };
 
         var nameEntry = new Entry
         {
@@ -70,7 +81,7 @@ public partial class OutcomesSection : ContentView
         };
 
         var cancelButton = DialogInputHelper.ActionButton("Cancel");
-        var sendButton = DialogInputHelper.ActionButton("Send");
+        var sendButton = DialogInputHelper.ActionButton("Send", "outcome_send_button");
 
         string? outcomeType = null;
         string? name = null;
@@ -119,22 +130,26 @@ public partial class OutcomesSection : ContentView
         if (string.IsNullOrEmpty(outcomeType) || string.IsNullOrEmpty(name))
             return;
 
+        string toastMessage;
         if (outcomeType == "Outcome with Value")
         {
             if (!float.TryParse(valueStr, out float val))
                 return;
             _viewModel.SendOutcomeWithValue(name, val);
+            toastMessage = $"Outcome sent: {name} = {val}";
         }
         else if (outcomeType == "Unique Outcome")
         {
             _viewModel.SendUniqueOutcome(name);
+            toastMessage = $"Unique outcome sent: {name}";
         }
         else
         {
             _viewModel.SendOutcome(name);
+            toastMessage = $"Outcome sent: {name}";
         }
 
-        await Toast.Make($"Outcome sent: {name}", ToastDuration.Short).Show();
+        await Snackbar.Make(toastMessage).Show();
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

@@ -5,7 +5,7 @@
   x:Class="OneSignalDemo.Controls.Sections.AppSection"
   x:Name="root"
 >
-  <VerticalStackLayout Spacing="8">
+  <VerticalStackLayout Spacing="8" AutomationId="app_section">
     <!-- Section header -->
     <Label Text="APP" Style="{StaticResource SectionHeaderStyle}" Padding="4,0,0,0" />
 
@@ -27,7 +27,7 @@
           HorizontalOptions="End"
           VerticalOptions="Center"
           LineBreakMode="MiddleTruncation"
-          AutomationId="app_id_label"
+          AutomationId="app_id_value"
         />
       </Grid>
     </Border>
@@ -73,7 +73,7 @@
             x:Name="ConsentRequiredSwitch"
             IsToggled="False"
             Toggled="OnConsentRequiredToggled"
-            AutomationId="consent_required_switch"
+            AutomationId="consent_required_toggle"
           />
         </Grid>
 
@@ -99,7 +99,7 @@
             x:Name="PrivacyConsentSwitch"
             IsToggled="False"
             Toggled="OnPrivacyConsentToggled"
-            AutomationId="privacy_consent_switch"
+            AutomationId="privacy_consent_toggle"
           />
         </Grid>
       </VerticalStackLayout>
