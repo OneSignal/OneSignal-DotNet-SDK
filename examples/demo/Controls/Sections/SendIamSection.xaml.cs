@@ -15,7 +15,11 @@ public partial class SendIamSection : ContentView
     // mi: HTTP-based xmlns at compile time. Without this, XAML compilation
     // in Release fails with: Cannot resolve type "...:MauiIcon".
     // See dotnet/maui#32830.
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1823:Avoid unused private fields", Justification = "Linker hint")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance",
+        "CA1823:Avoid unused private fields",
+        Justification = "Linker hint"
+    )]
     private static readonly Type _mauiIconKeepAlive = typeof(MauiIcon);
 
     public SendIamSection()

@@ -102,7 +102,21 @@ public static class ToNativeConversion
         var javaMap = new Dictionary<string, Java.Lang.Object>();
         foreach (var kvp in dict)
         {
-            javaMap[kvp.Key] = ToJavaObject(kvp.Value)!;
+            if (kvp.Value == null)
+            {
+                javaMap[kvp.Key] = null!;
+                continue;
+            }
+
+            var javaValue = ToJavaObject(kvp.Value);
+            if (javaValue == null)
+                // ToJavaObject returns null for types it doesn't know how to
+                // marshal (e.g. a POCO or DateTime in a tags dict). Drop the
+                // entry silently to mirror the iOS path; the caller will
+                // notice the missing value in OneSignal and fix the input.
+                continue;
+
+            javaMap[kvp.Key] = javaValue;
         }
         return javaMap;
     }
@@ -115,7 +129,18 @@ public static class ToNativeConversion
         var javaMap = new Java.Util.HashMap();
         foreach (var kvp in dict)
         {
-            javaMap.Put(kvp.Key, ToJavaObject(kvp.Value));
+            if (kvp.Value == null)
+            {
+                javaMap.Put(kvp.Key, null);
+                continue;
+            }
+
+            var javaValue = ToJavaObject(kvp.Value);
+            if (javaValue == null)
+                // Unsupported value type - skip silently (see DictToJavaMap).
+                continue;
+
+            javaMap.Put(kvp.Key, javaValue);
         }
         return javaMap;
     }
@@ -128,7 +153,20 @@ public static class ToNativeConversion
         var javaList = new Java.Util.ArrayList();
         foreach (var item in list)
         {
-            javaList.Add(ToJavaObject(item));
+            if (item == null)
+            {
+                javaList.Add(null);
+                continue;
+            }
+
+            var javaValue = ToJavaObject(item);
+            if (javaValue == null)
+                // Unsupported item type - skip silently (see DictToJavaMap).
+                // Index alignment with the source list isn't preserved; the
+                // caller is expected to use supported types throughout.
+                continue;
+
+            javaList.Add(javaValue);
         }
         return javaList;
     }
