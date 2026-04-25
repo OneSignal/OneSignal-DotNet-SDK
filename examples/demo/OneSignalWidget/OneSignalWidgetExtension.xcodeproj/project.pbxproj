@@ -18,14 +18,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0990B3A559DCF63946A198BC /* OneSignalOSCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OneSignalOSCore.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOSCore.xcframework; sourceTree = "<group>"; };
-		0F45C15B6FA051293A7CD000 /* OneSignalWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = OneSignalWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		77A93F1BF016FCBA32413684 /* OneSignalUser.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OneSignalUser.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalUser.xcframework; sourceTree = "<group>"; };
-		AA17FFCB697DE78EA69829A7 /* OneSignalNotifications.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OneSignalNotifications.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalNotifications.xcframework; sourceTree = "<group>"; };
-		AE08DE83803A845C4F626579 /* OneSignalCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OneSignalCore.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalCore.xcframework; sourceTree = "<group>"; };
-		DD7BA44677F9705E19E063A6 /* OneSignalLiveActivities.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OneSignalLiveActivities.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalLiveActivities.xcframework; sourceTree = "<group>"; };
-		F1E9FA148D5672F901482FBD /* OneSignalOutcomes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OneSignalOutcomes.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOutcomes.xcframework; sourceTree = "<group>"; };
-		"TEMP_7C198AA1-1214-4D46-A414-24DABBD64594" /* .gitignore */ = {isa = PBXFileReference; path = .gitignore; sourceTree = "<group>"; };
+		0990B3A559DCF63946A198BC /* OneSignalOSCore.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:J3J28YJX9L:OneSignal, Inc."; lastKnownFileType = wrapper.xcframework; name = OneSignalOSCore.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOSCore.xcframework; sourceTree = "<group>"; };
+		0F45C15B6FA051293A7CD000 /* OneSignalWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		77A93F1BF016FCBA32413684 /* OneSignalUser.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:J3J28YJX9L:OneSignal, Inc."; lastKnownFileType = wrapper.xcframework; name = OneSignalUser.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalUser.xcframework; sourceTree = "<group>"; };
+		AA17FFCB697DE78EA69829A7 /* OneSignalNotifications.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:J3J28YJX9L:OneSignal, Inc."; lastKnownFileType = wrapper.xcframework; name = OneSignalNotifications.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalNotifications.xcframework; sourceTree = "<group>"; };
+		AE08DE83803A845C4F626579 /* OneSignalCore.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:J3J28YJX9L:OneSignal, Inc."; lastKnownFileType = wrapper.xcframework; name = OneSignalCore.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalCore.xcframework; sourceTree = "<group>"; };
+		DD7BA44677F9705E19E063A6 /* OneSignalLiveActivities.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:J3J28YJX9L:OneSignal, Inc."; lastKnownFileType = wrapper.xcframework; name = OneSignalLiveActivities.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalLiveActivities.xcframework; sourceTree = "<group>"; };
+		F1E9FA148D5672F901482FBD /* OneSignalOutcomes.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:J3J28YJX9L:OneSignal, Inc."; lastKnownFileType = wrapper.xcframework; name = OneSignalOutcomes.xcframework; path = ../../../OneSignalSDK.DotNet.iOS.Binding/OneSignalOutcomes.xcframework; sourceTree = "<group>"; };
 		"TEMP_C79BC5C1-5B77-4677-B747-EA9EE6D63915" /* OneSignalWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSignalWidgetLiveActivity.swift; sourceTree = "<group>"; };
 		"TEMP_D521C8DE-A5D5-420E-81A2-89951DD3020B" /* OneSignalWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSignalWidgetBundle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,23 +67,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E82F35152F9C40EF0013F400 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				"TEMP_D521C8DE-A5D5-420E-81A2-89951DD3020B" /* OneSignalWidgetBundle.swift */,
+				"TEMP_C79BC5C1-5B77-4677-B747-EA9EE6D63915" /* OneSignalWidgetLiveActivity.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		EA01659609EE15D236F3FA85 = {
 			isa = PBXGroup;
 			children = (
 				7B2D0A65EE93D40276F40BE4 /* Frameworks */,
 				3F034B7165E040C1076A9EB0 /* Products */,
+				E82F35152F9C40EF0013F400 /* Recovered References */,
 			);
-			sourceTree = "<group>";
-		};
-		"TEMP_536C3A95-D020-4293-9477-AD5A980413B3" /* . */ = {
-			isa = PBXGroup;
-			children = (
-				"TEMP_D521C8DE-A5D5-420E-81A2-89951DD3020B" /* OneSignalWidgetBundle.swift */,
-				"TEMP_7C198AA1-1214-4D46-A414-24DABBD64594" /* .gitignore */,
-				"TEMP_C79BC5C1-5B77-4677-B747-EA9EE6D63915" /* OneSignalWidgetLiveActivity.swift */,
-			);
-			name = .;
-			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,6 +285,7 @@
 		A9BD0B97CB422669E0CEB1AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 99SW8E36CT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -301,6 +300,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.onesignal.example.LA;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Appium Demo - Live Activity";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -310,6 +310,7 @@
 		CA9BA50AEAECC58F96AE9952 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 99SW8E36CT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,6 +325,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.onesignal.example.LA;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Appium Demo - Live Activity";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

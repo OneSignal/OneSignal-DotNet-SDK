@@ -1,3 +1,4 @@
+using MauiIcons.Core;
 using OneSignalDemo.Models;
 using OneSignalDemo.ViewModels;
 
@@ -9,6 +10,13 @@ public partial class SendIamSection : ContentView
     private Page? _parentPage;
 
     public event EventHandler? InfoTapped;
+
+    // Forces the linker to keep MauiIcons.Core so XamlC can resolve the
+    // mi: HTTP-based xmlns at compile time. Without this, XAML compilation
+    // in Release fails with: Cannot resolve type "...:MauiIcon".
+    // See dotnet/maui#32830.
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1823:Avoid unused private fields", Justification = "Linker hint")]
+    private static readonly Type _mauiIconKeepAlive = typeof(MauiIcon);
 
     public SendIamSection()
     {
