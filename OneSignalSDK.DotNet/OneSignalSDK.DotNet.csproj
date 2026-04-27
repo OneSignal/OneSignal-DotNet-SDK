@@ -1,6 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios;netstandard2.0</TargetFrameworks>
+    <!--
+      iOS TFM only on macOS hosts. NuGet restore walks every declared
+      TargetFramework of every transitively referenced project, and the iOS
+      TFM pulls in OneSignalSDK.DotNet.iOS{,.Binding}.csproj which require
+      the iOS workload. The iOS workload (`maui-ios`) cannot be installed on
+      Linux ("Workload ID maui-ios isn't supported on this platform"), so
+      consumers on Linux/Windows that only build the android TFM would
+      otherwise fail at restore with NETSDK1178 looking for Microsoft.iOS.Sdk.
+      NuGet packing for release runs on macOS, so the published package still
+      ships all four TFMs.
+    -->
+    <TargetFrameworks>net10.0;net10.0-android;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>10.0</LangVersion>

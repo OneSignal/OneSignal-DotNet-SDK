@@ -1,6 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+    <!--
+      iOS targets only on macOS hosts. Linux/Windows CI runners (e.g. the
+      Android build job) don't have the iOS workload installed, and NuGet
+      restore evaluates every declared TargetFramework, which would otherwise
+      pull in NotificationServiceExtension.csproj (net10.0-ios) and fail with
+      NETSDK1178 looking for Microsoft.iOS.Sdk.
+    -->
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>OneSignalDemo</RootNamespace>
     <UseMaui>true</UseMaui>

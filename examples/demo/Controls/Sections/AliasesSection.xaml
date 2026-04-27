@@ -38,13 +38,13 @@
     </Border>
 
     <Button
-      Text="ADD"
+      Text="ADD ALIAS"
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnAddClicked"
       AutomationId="add_alias_button"
     />
     <Button
-      Text="ADD MULTIPLE"
+      Text="ADD MULTIPLE ALIASES"
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnAddMultipleClicked"
       AutomationId="add_multiple_aliases_button"

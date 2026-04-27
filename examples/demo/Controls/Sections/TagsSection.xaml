@@ -38,20 +38,20 @@
     </Border>
 
     <Button
-      Text="ADD"
+      Text="ADD TAG"
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnAddClicked"
       AutomationId="add_tag_button"
     />
     <Button
-      Text="ADD MULTIPLE"
+      Text="ADD MULTIPLE TAGS"
       Style="{StaticResource PrimaryButtonStyle}"
       Clicked="OnAddMultipleClicked"
       AutomationId="add_multiple_tags_button"
     />
     <Button
       x:Name="RemoveSelectedButton"
-      Text="REMOVE SELECTED"
+      Text="REMOVE TAGS"
       Style="{StaticResource PrimaryButtonStyle}"
       IsVisible="False"
       Clicked="OnRemoveSelectedClicked"

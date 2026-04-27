@@ -45,6 +45,10 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      # Only maui-android is installable on Linux; maui-ios fails with
+      # "Workload ID maui-ios isn't supported on this platform". The iOS TFM
+      # is gated on macOS in OneSignalSDK.DotNet.csproj and demo.csproj, so
+      # restore won't try to walk it here.
       - name: Install MAUI Android workload
         run: dotnet workload install maui-android
 
@@ -81,7 +85,7 @@ jobs:
           echo "path=examples/demo/demo.apk" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: demo-apk
           path: ${{ steps.apk.outputs.path }}
@@ -103,8 +107,23 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Install MAUI iOS workload
-        run: dotnet workload install maui-ios
+      # The .NET 10 iOS workload (Microsoft.iOS.Sdk.net10.0_26.2) requires
+      # Xcode 26.3+. macOS runners default to an older Xcode (16.4 at the
+      # time of writing), which fails with "This version of .NET for iOS
+      # requires Xcode 26.3". latest-stable picks the newest installed Xcode
+      # and avoids hardcoding a version that may roll forward.
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      # Both workloads are required even though only the iOS TFM is built,
+      # because NuGet restore walks every declared TargetFramework of the
+      # multi-targeted OneSignalSDK.DotNet.csproj, and its android TFM
+      # follows references into the android-only OneSignalSDK.DotNet.Android*
+      # projects which need the android workload.
+      - name: Install MAUI workloads
+        run: dotnet workload install maui-android maui-ios
 
       - name: Create demo .env
         working-directory: examples/demo
@@ -161,7 +180,7 @@ jobs:
           fi
 
       - name: Upload IPA
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: demo-ipa
           path: ${{ steps.ipa.outputs.path }}
