@@ -22,8 +22,10 @@
             </group>
             <group targetFramework="net10.0-android21.0">
                 <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.9.23.3" />
-                <dependency id="Xamarin.KotlinX.Coroutines.Core" version="1.6.4.2" />
-                <dependency id="Xamarin.KotlinX.Coroutines.Android" version="1.6.4.2" />
+                <dependency id="Xamarin.KotlinX.Coroutines.Core" version="1.7.3.3" />
+                <dependency id="Xamarin.KotlinX.Coroutines.Android" version="1.7.3.3" />
+                <!-- Required by FeatureFlagsJsonParser in native core 5.8.0+ -->
+                <dependency id="Xamarin.KotlinX.Serialization.Json" version="1.7.3.5" />
 
                 <dependency id="Xamarin.AndroidX.CardView" version="1.0.0.16" />
                 <dependency id="Xamarin.AndroidX.Legacy.Support.V4" version="1.0.0.14" />
@@ -31,6 +33,10 @@
                 <dependency id="Xamarin.AndroidX.AppCompat" version="1.4.2.1" />
                 <dependency id="Xamarin.AndroidX.Work.Runtime" version="2.7.1.5" />
                 <dependency id="Xamarin.AndroidX.Work.Work.Runtime.Ktx" version="2.7.1.5" />
+                <!-- Required by FeatureFlagsRefreshService in native core 5.8.0+ -->
+                <dependency id="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" version="2.6.2.3" />
+                <dependency id="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" version="2.6.2.3" />
+                <dependency id="Xamarin.AndroidX.Activity.Ktx" version="1.7.2.2" />
 
                 <dependency id="Xamarin.Firebase.Messaging" version="123.0.8" />
                 <!-- Dagger is required for FCM, should be a "transitive dependency" but is not due to this bug:
