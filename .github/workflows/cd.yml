@@ -6,6 +6,7 @@ name: Publish to Github & NuGet
 permissions:
   id-token: write # Required for OIDC
   contents: write
+  pull-requests: read # Required by called github-release.yml
 
 on:
   workflow_dispatch:
