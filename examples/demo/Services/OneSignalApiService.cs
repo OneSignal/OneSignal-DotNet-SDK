@@ -6,6 +6,8 @@ namespace OneSignalDemo.Services;
 
 public class OneSignalApiService
 {
+    private const string DefaultAndroidChannelId = "b3b015d9-c050-4042-8548-dcc34aa44aa4";
+
     private string _appId = "";
 
     public void SetAppId(string appId) => _appId = appId;
@@ -19,6 +21,12 @@ public class OneSignalApiService
     }
 
     private string GetApiKey() => DotEnv.Get("ONESIGNAL_API_KEY");
+
+    private static string GetAndroidChannelId()
+    {
+        var value = DotEnv.Get("ONESIGNAL_ANDROID_CHANNEL_ID")?.Trim();
+        return string.IsNullOrEmpty(value) ? DefaultAndroidChannelId : value;
+    }
 
     public async Task<bool> SendNotificationAsync(NotificationType type, string subscriptionId)
     {
@@ -55,7 +63,7 @@ public class OneSignalApiService
                     extra = new Dictionary<string, object>
                     {
                         ["ios_sound"] = "vine_boom.wav",
-                        ["android_channel_id"] = "b3b015d9-c050-4042-8548-dcc34aa44aa4",
+                        ["android_channel_id"] = GetAndroidChannelId(),
                     };
                     break;
                 default:
@@ -111,12 +119,61 @@ public class OneSignalApiService
         }
 
         var json = JsonSerializer.Serialize(payload);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync(
-            "https://onesignal.com/api/v1/notifications",
-            content
-        );
-        return response.IsSuccessStatusCode;
+
+        // Retry once on `invalid_player_ids` to absorb the brief race where the
+        // subscription has been created locally but is not yet visible to the
+        // /notifications endpoint.
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(
+                "https://onesignal.com/api/v1/notifications",
+                content
+            );
+
+            if (!response.IsSuccessStatusCode)
+                return false;
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+            if (HasInvalidPlayerIds(responseJson))
+            {
+                if (attempt == 0)
+                {
+                    await Task.Delay(3000);
+                    continue;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool HasInvalidPlayerIds(string responseJson)
+    {
+        if (string.IsNullOrWhiteSpace(responseJson))
+            return false;
+        try
+        {
+            using var doc = JsonDocument.Parse(responseJson);
+            if (
+                doc.RootElement.ValueKind == JsonValueKind.Object
+                && doc.RootElement.TryGetProperty("errors", out var errors)
+                && errors.ValueKind == JsonValueKind.Object
+                && errors.TryGetProperty("invalid_player_ids", out var invalidIds)
+                && invalidIds.ValueKind == JsonValueKind.Array
+            )
+            {
+                return invalidIds.GetArrayLength() > 0;
+            }
+        }
+        catch
+        {
+            // Ignore malformed bodies; treat as success since status was 2xx.
+        }
+        return false;
     }
 
     public async Task<UserData?> FetchUserAsync(string onesignalId)
