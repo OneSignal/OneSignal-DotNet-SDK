@@ -37,6 +37,9 @@ public partial class AppViewModel : ObservableObject
     [ObservableProperty]
     private string _loginButtonText = "LOGIN USER";
 
+    [ObservableProperty]
+    private string _oneSignalId = "—";
+
     // Push section
     [ObservableProperty]
     private string _pushSubscriptionId = "—";
@@ -105,6 +108,9 @@ public partial class AppViewModel : ObservableObject
     private static string FormatPushId(string? value, bool hasNotificationPermission) =>
         hasNotificationPermission && !string.IsNullOrEmpty(value) ? value : "—";
 
+    private static string FormatId(string? value) =>
+        string.IsNullOrEmpty(value) ? "—" : value;
+
     private static string FormatToken(string? value) =>
         string.IsNullOrEmpty(value) ? "null" : $"{value[..Math.Min(8, value.Length)]}...";
 
@@ -124,6 +130,7 @@ public partial class AppViewModel : ObservableObject
         IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
 
         var onesignalId = OneSignal.User.OneSignalId;
+        OneSignalId = FormatId(onesignalId);
         if (!string.IsNullOrEmpty(onesignalId))
         {
             await FetchUserDataFromApiAsync();
@@ -628,6 +635,7 @@ public partial class AppViewModel : ObservableObject
         {
             var extId = _prefs.ExternalUserId;
             UpdateUserStatus(extId);
+            OneSignalId = FormatId(OneSignal.User.OneSignalId);
             Debug.WriteLine($"User changed: externalId={extId}");
             await FetchUserDataFromApiAsync();
         });
