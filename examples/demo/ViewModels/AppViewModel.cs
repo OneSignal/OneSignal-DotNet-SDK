@@ -92,9 +92,6 @@ public partial class AppViewModel : ObservableObject
     public ObservableCollection<KeyValuePair<string, string>> TagsList { get; } = new();
     public ObservableCollection<KeyValuePair<string, string>> TriggersList { get; } = new();
 
-    public static bool IsE2EMode =>
-        string.Equals(DotEnv.Get("E2E_MODE"), "true", StringComparison.OrdinalIgnoreCase);
-
     public AppViewModel(PreferencesService prefs, OneSignalApiService apiService)
     {
         _prefs = prefs;
@@ -105,19 +102,15 @@ public partial class AppViewModel : ObservableObject
         OneSignal.User.Changed += OnUserChanged;
     }
 
-    private static string MaskValue(string value) =>
-        IsE2EMode && value != "—" ? new string('\u2022', value.Length) : value;
-
-    private static string MaskPushId(string? value, bool hasNotificationPermission) =>
-        hasNotificationPermission ? MaskValue(string.IsNullOrEmpty(value) ? "—" : value) : "—";
+    private static string FormatPushId(string? value, bool hasNotificationPermission) =>
+        hasNotificationPermission && !string.IsNullOrEmpty(value) ? value : "—";
 
     private static string FormatToken(string? value) =>
         string.IsNullOrEmpty(value) ? "null" : $"{value[..Math.Min(8, value.Length)]}...";
 
     public async Task LoadInitialStateAsync()
     {
-        var rawAppId = _apiService.GetAppId();
-        AppId = MaskValue(rawAppId);
+        AppId = _apiService.GetAppId();
         ConsentRequired = _prefs.ConsentRequired;
         PrivacyConsentGiven = _prefs.PrivacyConsent;
         InAppMessagesPaused = OneSignal.InAppMessages.Paused;
@@ -127,8 +120,7 @@ public partial class AppViewModel : ObservableObject
         var extId = OneSignal.User.ExternalId ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
 
-        var rawPushId = OneSignal.User.PushSubscription.Id;
-        PushSubscriptionId = MaskPushId(rawPushId, HasNotificationPermission);
+        PushSubscriptionId = FormatPushId(OneSignal.User.PushSubscription.Id, HasNotificationPermission);
         IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
 
         var onesignalId = OneSignal.User.OneSignalId;
@@ -606,7 +598,7 @@ public partial class AppViewModel : ObservableObject
         {
             var previous = args.State.Previous;
             var current = args.State.Current;
-            PushSubscriptionId = MaskPushId(current.Id, HasNotificationPermission);
+            PushSubscriptionId = FormatPushId(current.Id, HasNotificationPermission);
             IsPushEnabled = current.OptedIn;
             Debug.WriteLine(
                 $"Push subscription changed: id={previous.Id} -> {current.Id}, optedIn={previous.OptedIn} -> {current.OptedIn}, token={FormatToken(previous.Token)} -> {FormatToken(current.Token)}"
@@ -622,7 +614,7 @@ public partial class AppViewModel : ObservableObject
         MainThread.BeginInvokeOnMainThread(() =>
         {
             HasNotificationPermission = args.Permission;
-            PushSubscriptionId = MaskPushId(OneSignal.User.PushSubscription.Id, HasNotificationPermission);
+            PushSubscriptionId = FormatPushId(OneSignal.User.PushSubscription.Id, HasNotificationPermission);
             Debug.WriteLine($"Permission changed: {args.Permission}");
         });
     }

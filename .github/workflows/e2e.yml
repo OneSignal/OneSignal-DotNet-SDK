@@ -57,7 +57,6 @@ jobs:
         run: |
           echo "ONESIGNAL_APP_ID=${{ vars.APPIUM_ONESIGNAL_APP_ID }}" > .env
           echo "ONESIGNAL_API_KEY=${{ secrets.APPIUM_ONESIGNAL_API_KEY }}" >> .env
-          echo "E2E_MODE=true" >> .env
 
       # RuntimeIdentifier=android-arm64 ships native code only for arm64-v8a,
       # which is what BrowserStack's modern Android device farm runs. This
@@ -130,7 +129,6 @@ jobs:
         run: |
           echo "ONESIGNAL_APP_ID=${{ vars.APPIUM_ONESIGNAL_APP_ID }}" > .env
           echo "ONESIGNAL_API_KEY=${{ secrets.APPIUM_ONESIGNAL_API_KEY }}" >> .env
-          echo "E2E_MODE=true" >> .env
 
       - name: Set up iOS codesigning
         uses: OneSignal/sdk-shared/.github/actions/setup-ios-demo-codesigning@main
