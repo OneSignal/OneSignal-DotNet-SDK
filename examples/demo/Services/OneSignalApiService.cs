@@ -120,26 +120,28 @@ public class OneSignalApiService
 
         var json = JsonSerializer.Serialize(payload);
 
-        // Retry once on `invalid_player_ids` to absorb the brief race where the
+        const int maxAttempts = 3;
+
+        // Retry on `invalid_player_ids` to absorb the brief race where the
         // subscription has been created locally but is not yet visible to the
         // /notifications endpoint.
-        for (var attempt = 0; attempt < 2; attempt++)
+        for (var attempt = 1; attempt <= maxAttempts; attempt++)
         {
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(
                 "https://onesignal.com/api/v1/notifications",
                 content
             );
+            var responseJson = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
                 return false;
 
-            var responseJson = await response.Content.ReadAsStringAsync();
             if (HasInvalidPlayerIds(responseJson))
             {
-                if (attempt == 0)
+                if (attempt < maxAttempts)
                 {
-                    await Task.Delay(3000);
+                    await Task.Delay(3000 * attempt);
                     continue;
                 }
                 return false;
