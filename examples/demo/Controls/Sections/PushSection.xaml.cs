@@ -24,8 +24,7 @@ public partial class PushSection : ContentView
         {
             if (
                 e.PropertyName
-                is nameof(AppViewModel.OneSignalId)
-                    or nameof(AppViewModel.PushSubscriptionId)
+                is nameof(AppViewModel.PushSubscriptionId)
                     or nameof(AppViewModel.IsPushEnabled)
                     or nameof(AppViewModel.HasNotificationPermission)
             )
@@ -39,7 +38,6 @@ public partial class PushSection : ContentView
     {
         if (_viewModel == null)
             return;
-        OneSignalIdLabel.Text = _viewModel.OneSignalId;
         PushIdLabel.Text = _viewModel.PushSubscriptionId;
 
         _suppressToggle = true;

@@ -76,3 +76,26 @@ The app ships with a placeholder OneSignal App ID (`77e32082-ea27-42e3-a898-c72e
 ```csharp
 private const string AppId = "<your-app-id>";
 ```
+
+## Troubleshooting
+
+### iOS: "requires Xcode X.Y" build error
+
+If `dotnet build -f net10.0-ios` aborts with:
+
+```
+error : This version of .NET for iOS (X.Y.NNNNN) requires Xcode X.Y. The current version of Xcode is Z.Z.
+```
+
+your active Xcode and the installed `Microsoft.iOS.Sdk.net10.0_X.Y` workload pack are from different release bands. Each pack is bound to the iOS SDK that ships inside a specific Xcode (Xcode 26.3 also ships the iOS 26.2 SDK, so the `_26.2` pack accepts either). Two ways out:
+
+- **Workload is older than your Xcode** (e.g. workload `_26.2` + Xcode 26.5): bump the workload set so it picks up the newest iOS SDK pack.
+  ```sh
+  dotnet workload update
+  ```
+- **Xcode is older than the workload, or you keep multiple Xcodes around** (e.g. workload `_26.4` + Xcode 26.3): side-install a matching Xcode under `/Applications/Xcode_<version>.app` and point only this build at it via `DEVELOPER_DIR`. Your global `xcode-select -p` stays untouched, so simulators booted against the default Xcode keep working.
+  ```sh
+  DEVELOPER_DIR="/Applications/Xcode_26.4.app/Contents/Developer" ./run-ios.sh
+  ```
+
+The repo's CI pins `runs-on: macos-26` for the same reason: it's the GitHub-hosted runner that currently ships an Xcode (26.4.1) compatible with the latest .NET 10 iOS workload. See [aka.ms/xcode-requirement](https://aka.ms/xcode-requirement) for the current compatibility matrix.
