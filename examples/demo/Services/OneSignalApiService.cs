@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using OneSignalDemo.Models;
@@ -120,43 +121,60 @@ public class OneSignalApiService
 
         var json = JsonSerializer.Serialize(payload);
 
-        const int maxAttempts = 3;
+        const int maxAttempts = 5;
 
         // Retry on `invalid_player_ids` to absorb the brief race where the
         // subscription has been created locally but is not yet visible to the
         // /notifications endpoint.
         for (var attempt = 1; attempt <= maxAttempts; attempt++)
         {
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(
-                "https://onesignal.com/api/v1/notifications",
-                content
-            );
-            var responseJson = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
-                return false;
-
-            if (HasInvalidPlayerIds(responseJson))
+            try
             {
-                if (attempt < maxAttempts)
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(
+                    "https://onesignal.com/api/v1/notifications",
+                    content
+                );
+                var responseJson = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
                 {
-                    await Task.Delay(3000 * attempt);
-                    continue;
+                    Debug.WriteLine($"Send notification failed: {responseJson}");
+                    return false;
                 }
+
+                var invalidIds = GetInvalidPlayerIds(responseJson);
+                if (invalidIds.Count > 0)
+                {
+                    if (attempt < maxAttempts)
+                    {
+                        var delayMs = 2000 * (1 << (attempt - 1));
+                        await Task.Delay(delayMs);
+                        continue;
+                    }
+                    Debug.WriteLine(
+                        $"Send notification failed: invalid_player_ids [{string.Join(", ", invalidIds)}]"
+                    );
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine($"Send notification error: {err}");
                 return false;
             }
-
-            return true;
         }
 
         return false;
     }
 
-    private static bool HasInvalidPlayerIds(string responseJson)
+    private static List<string> GetInvalidPlayerIds(string responseJson)
     {
+        var result = new List<string>();
         if (string.IsNullOrWhiteSpace(responseJson))
-            return false;
+            return result;
         try
         {
             using var doc = JsonDocument.Parse(responseJson);
@@ -168,14 +186,22 @@ public class OneSignalApiService
                 && invalidIds.ValueKind == JsonValueKind.Array
             )
             {
-                return invalidIds.GetArrayLength() > 0;
+                foreach (var id in invalidIds.EnumerateArray())
+                {
+                    if (id.ValueKind == JsonValueKind.String)
+                    {
+                        var s = id.GetString();
+                        if (!string.IsNullOrEmpty(s))
+                            result.Add(s);
+                    }
+                }
             }
         }
         catch
         {
             // Ignore malformed bodies; treat as success since status was 2xx.
         }
-        return false;
+        return result;
     }
 
     public async Task<UserData?> FetchUserAsync(string onesignalId)
