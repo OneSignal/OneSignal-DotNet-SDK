@@ -108,8 +108,7 @@ public partial class AppViewModel : ObservableObject
     private static string FormatPushId(string? value, bool hasNotificationPermission) =>
         hasNotificationPermission && !string.IsNullOrEmpty(value) ? value : "—";
 
-    private static string FormatId(string? value) =>
-        string.IsNullOrEmpty(value) ? "—" : value;
+    private static string FormatId(string? value) => string.IsNullOrEmpty(value) ? "—" : value;
 
     private static string FormatToken(string? value) =>
         string.IsNullOrEmpty(value) ? "null" : $"{value[..Math.Min(8, value.Length)]}...";
@@ -126,7 +125,10 @@ public partial class AppViewModel : ObservableObject
         var extId = OneSignal.User.ExternalId ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
 
-        PushSubscriptionId = FormatPushId(OneSignal.User.PushSubscription.Id, HasNotificationPermission);
+        PushSubscriptionId = FormatPushId(
+            OneSignal.User.PushSubscription.Id,
+            HasNotificationPermission
+        );
         IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
 
         var onesignalId = OneSignal.User.OneSignalId;
@@ -621,7 +623,10 @@ public partial class AppViewModel : ObservableObject
         MainThread.BeginInvokeOnMainThread(() =>
         {
             HasNotificationPermission = args.Permission;
-            PushSubscriptionId = FormatPushId(OneSignal.User.PushSubscription.Id, HasNotificationPermission);
+            PushSubscriptionId = FormatPushId(
+                OneSignal.User.PushSubscription.Id,
+                HasNotificationPermission
+            );
             Debug.WriteLine($"Permission changed: {args.Permission}");
         });
     }
@@ -633,10 +638,28 @@ public partial class AppViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            var extId = _prefs.ExternalUserId;
-            UpdateUserStatus(extId);
-            OneSignalId = FormatId(OneSignal.User.OneSignalId);
-            Debug.WriteLine($"User changed: externalId={extId}");
+            // IUserState surfaces empty strings (not null) when an ID has not
+            // been assigned yet, so normalize to null for logging parity with
+            // the TS demo's `onesignalId=null, externalId=null` format.
+            var nextOneSignalId = string.IsNullOrEmpty(args.State.Current.OneSignalId)
+                ? null
+                : args.State.Current.OneSignalId;
+            var nextExternalId = string.IsNullOrEmpty(args.State.Current.ExternalId)
+                ? null
+                : args.State.Current.ExternalId;
+
+            Debug.WriteLine(
+                $"User changed: onesignalId={nextOneSignalId ?? "null"}, externalId={nextExternalId ?? "null"}"
+            );
+
+            OneSignalId = FormatId(nextOneSignalId);
+            UpdateUserStatus(nextExternalId ?? _prefs.ExternalUserId);
+
+            // Skip the API fetch until the backend has assigned a OneSignal ID;
+            // /users/by/onesignal_id/ would 404 otherwise.
+            if (nextOneSignalId == null)
+                return;
+
             await FetchUserDataFromApiAsync();
         });
     }
