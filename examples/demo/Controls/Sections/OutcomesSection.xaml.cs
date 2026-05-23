@@ -1,6 +1,4 @@
 using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
@@ -149,7 +147,7 @@ public partial class OutcomesSection : ContentView
             toastMessage = $"Outcome sent: {name}";
         }
 
-        await Snackbar.Make(toastMessage).Show();
+        await DemoSnackbar.Show(toastMessage);
     }
 
     private void OnInfoTapped(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);

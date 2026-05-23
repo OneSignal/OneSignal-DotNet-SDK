@@ -1,3 +1,4 @@
+using OneSignalDemo.Controls;
 using OneSignalDemo.Models;
 using OneSignalDemo.ViewModels;
 
@@ -6,18 +7,19 @@ namespace OneSignalDemo.Controls.Sections;
 public partial class SendPushSection : ContentView
 {
     private AppViewModel? _viewModel;
+    private Page? _parentPage;
 
     public event EventHandler? InfoTapped;
-    public event EventHandler? CustomNotificationRequested;
 
     public SendPushSection()
     {
         InitializeComponent();
     }
 
-    public void Initialize(AppViewModel viewModel)
+    public void Initialize(AppViewModel viewModel, Page parentPage)
     {
         _viewModel = viewModel;
+        _parentPage = parentPage;
     }
 
     private async void OnSimpleClicked(object? sender, EventArgs e)
@@ -41,9 +43,42 @@ public partial class SendPushSection : ContentView
         await _viewModel.SendNotificationAsync(NotificationType.WithSound);
     }
 
-    private void OnCustomClicked(object? sender, EventArgs e)
+    private async void OnCustomClicked(object? sender, EventArgs e)
     {
-        CustomNotificationRequested?.Invoke(this, e);
+        if (_parentPage == null || _viewModel == null)
+            return;
+
+        var form = await DialogInputHelper.ShowForm(
+            _parentPage,
+            "Custom Notification",
+            new[]
+            {
+                new DialogInputField
+                {
+                    Key = "title",
+                    Placeholder = "Title",
+                    AutomationId = "custom_notification_title_input",
+                },
+                new DialogInputField
+                {
+                    Key = "body",
+                    Placeholder = "Body",
+                    AutomationId = "custom_notification_body_input",
+                },
+            },
+            "Send",
+            "custom_notification_send_button"
+        );
+
+        if (
+            form == null
+            || !form.TryGetValue("title", out var title)
+            || string.IsNullOrEmpty(title)
+        )
+            return;
+
+        form.TryGetValue("body", out var body);
+        await _viewModel.SendCustomNotificationAsync(title, body ?? string.Empty);
     }
 
     private void OnClearAllClicked(object? sender, EventArgs e)

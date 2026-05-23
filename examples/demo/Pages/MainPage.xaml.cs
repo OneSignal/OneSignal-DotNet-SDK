@@ -1,7 +1,4 @@
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using OneSignalDemo.Controls;
-using OneSignalDemo.Models;
 using OneSignalDemo.Services;
 using OneSignalDemo.ViewModels;
 
@@ -19,16 +16,13 @@ public partial class MainPage : ContentPage
 
         AppSectionControl.Initialize(_viewModel);
 
-        UserSectionControl.Initialize(_viewModel);
-        UserSectionControl.LoginRequested += OnLoginRequested;
-        UserSectionControl.LogoutRequested += OnLogoutRequested;
+        UserSectionControl.Initialize(_viewModel, this);
 
         PushSectionControl.Initialize(_viewModel);
         PushSectionControl.InfoTapped += (s, e) => ShowTooltip("push");
 
-        SendPushSectionControl.Initialize(_viewModel);
+        SendPushSectionControl.Initialize(_viewModel, this);
         SendPushSectionControl.InfoTapped += (s, e) => ShowTooltip("sendPushNotification");
-        SendPushSectionControl.CustomNotificationRequested += OnCustomNotificationRequested;
 
         InAppSectionControl.Initialize(_viewModel);
         InAppSectionControl.InfoTapped += (s, e) => ShowTooltip("inAppMessaging");
@@ -75,66 +69,6 @@ public partial class MainPage : ContentPage
         _initialLoadDone = true;
         await _viewModel.LoadInitialStateAsync();
         await _viewModel.PromptPushAsync();
-    }
-
-    private async void OnLoginRequested(object? sender, EventArgs e)
-    {
-        var userId = await DialogInputHelper.ShowSingleInput(
-            this,
-            "Login User",
-            "External User Id",
-            "Login",
-            "login_user_id_input"
-        );
-
-        if (string.IsNullOrEmpty(userId))
-        {
-            return;
-        }
-
-        await _viewModel.LoginUserAsync(userId);
-        await Toast.Make($"Logged in as {userId}", ToastDuration.Short).Show();
-    }
-
-    private async void OnLogoutRequested(object? sender, EventArgs e)
-    {
-        await _viewModel.LogoutUserAsync();
-        await Toast.Make("User logged out", ToastDuration.Short).Show();
-    }
-
-    private async void OnCustomNotificationRequested(object? sender, EventArgs e)
-    {
-        var form = await DialogInputHelper.ShowForm(
-            this,
-            "Custom Notification",
-            new[]
-            {
-                new DialogInputField
-                {
-                    Key = "title",
-                    Placeholder = "Title",
-                    AutomationId = "custom_notification_title_input",
-                },
-                new DialogInputField
-                {
-                    Key = "body",
-                    Placeholder = "Body",
-                    AutomationId = "custom_notification_body_input",
-                },
-            },
-            "Send",
-            "custom_notification_send_button"
-        );
-
-        if (
-            form == null
-            || !form.TryGetValue("title", out var title)
-            || string.IsNullOrEmpty(title)
-        )
-            return;
-
-        form.TryGetValue("body", out var body);
-        await _viewModel.SendCustomNotificationAsync(title, body ?? string.Empty);
     }
 
     private async void ShowTooltip(string key)

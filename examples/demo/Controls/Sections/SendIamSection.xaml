@@ -2,155 +2,35 @@
 <ContentView
   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-  xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+  xmlns:controls="clr-namespace:OneSignalDemo.Controls"
   x:Class="OneSignalDemo.Controls.Sections.SendIamSection"
 >
   <VerticalStackLayout Spacing="8" AutomationId="send_iam_section">
-    <Grid ColumnDefinitions="*,Auto" Padding="4,0,0,0">
-      <Label
-        Grid.Column="0"
-        Text="SEND IN-APP MESSAGE"
-        Style="{StaticResource SectionHeaderStyle}"
-        VerticalOptions="Center"
-      />
-      <ImageButton
-        Grid.Column="1"
-        Source="{mi:Material Icon=InfoOutline, IconSize=18, IconColor=#9E9E9E}"
-        WidthRequest="18"
-        HeightRequest="18"
-        BackgroundColor="Transparent"
-        Clicked="OnInfoTapped"
-        Padding="0"
-        AutomationId="send_iam_info_icon"
-      />
-    </Grid>
+    <controls:SectionHeader Title="SEND IN-APP MESSAGE" SectionKey="send_iam" InfoTapped="OnInfoTapped" />
 
-    <!-- TOP BANNER -->
-    <Border
-      BackgroundColor="{StaticResource OneSignalRed}"
-      StrokeShape="RoundRectangle 8"
-      StrokeThickness="0"
-      Padding="12"
-      HeightRequest="48"
-    >
-      <Grid ColumnDefinitions="Auto,*">
-        <Grid.GestureRecognizers>
-          <TapGestureRecognizer Tapped="OnTopBannerTapped" />
-        </Grid.GestureRecognizers>
-        <mi:MauiIcon
-          Grid.Column="0"
-          Icon="{mi:Material Icon=VerticalAlignTop}"
-          IconColor="White"
-          IconSize="18"
-          VerticalOptions="Center"
-          Margin="0,0,8,0"
-        />
-        <Label
-          Grid.Column="1"
-          Text="TOP BANNER"
-          TextColor="White"
-          FontAttributes="Bold"
-          FontSize="14"
-          VerticalOptions="Center"
-          AutomationId="send_iam_top_banner_button"
-        />
-      </Grid>
-    </Border>
-
-    <!-- BOTTOM BANNER -->
-    <Border
-      BackgroundColor="{StaticResource OneSignalRed}"
-      StrokeShape="RoundRectangle 8"
-      StrokeThickness="0"
-      Padding="12"
-      HeightRequest="48"
-    >
-      <Grid ColumnDefinitions="Auto,*">
-        <Grid.GestureRecognizers>
-          <TapGestureRecognizer Tapped="OnBottomBannerTapped" />
-        </Grid.GestureRecognizers>
-        <mi:MauiIcon
-          Grid.Column="0"
-          Icon="{mi:Material Icon=VerticalAlignBottom}"
-          IconColor="White"
-          IconSize="18"
-          VerticalOptions="Center"
-          Margin="0,0,8,0"
-        />
-        <Label
-          Grid.Column="1"
-          Text="BOTTOM BANNER"
-          TextColor="White"
-          FontAttributes="Bold"
-          FontSize="14"
-          VerticalOptions="Center"
-          AutomationId="send_iam_bottom_banner_button"
-        />
-      </Grid>
-    </Border>
-
-    <!-- CENTER MODAL -->
-    <Border
-      BackgroundColor="{StaticResource OneSignalRed}"
-      StrokeShape="RoundRectangle 8"
-      StrokeThickness="0"
-      Padding="12"
-      HeightRequest="48"
-    >
-      <Grid ColumnDefinitions="Auto,*">
-        <Grid.GestureRecognizers>
-          <TapGestureRecognizer Tapped="OnCenterModalTapped" />
-        </Grid.GestureRecognizers>
-        <mi:MauiIcon
-          Grid.Column="0"
-          Icon="{mi:Material Icon=CropSquare}"
-          IconColor="White"
-          IconSize="18"
-          VerticalOptions="Center"
-          Margin="0,0,8,0"
-        />
-        <Label
-          Grid.Column="1"
-          Text="CENTER MODAL"
-          TextColor="White"
-          FontAttributes="Bold"
-          FontSize="14"
-          VerticalOptions="Center"
-          AutomationId="send_iam_center_modal_button"
-        />
-      </Grid>
-    </Border>
-
-    <!-- FULL SCREEN -->
-    <Border
-      BackgroundColor="{StaticResource OneSignalRed}"
-      StrokeShape="RoundRectangle 8"
-      StrokeThickness="0"
-      Padding="12"
-      HeightRequest="48"
-    >
-      <Grid ColumnDefinitions="Auto,*">
-        <Grid.GestureRecognizers>
-          <TapGestureRecognizer Tapped="OnFullScreenTapped" />
-        </Grid.GestureRecognizers>
-        <mi:MauiIcon
-          Grid.Column="0"
-          Icon="{mi:Material Icon=Fullscreen}"
-          IconColor="White"
-          IconSize="18"
-          VerticalOptions="Center"
-          Margin="0,0,8,0"
-        />
-        <Label
-          Grid.Column="1"
-          Text="FULL SCREEN"
-          TextColor="White"
-          FontAttributes="Bold"
-          FontSize="14"
-          VerticalOptions="Center"
-          AutomationId="send_iam_full_screen_button"
-        />
-      </Grid>
-    </Border>
+    <Button
+      Text="TOP BANNER"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnTopBannerTapped"
+      AutomationId="send_iam_top_banner_button"
+    />
+    <Button
+      Text="BOTTOM BANNER"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnBottomBannerTapped"
+      AutomationId="send_iam_bottom_banner_button"
+    />
+    <Button
+      Text="CENTER MODAL"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnCenterModalTapped"
+      AutomationId="send_iam_center_modal_button"
+    />
+    <Button
+      Text="FULL SCREEN"
+      Style="{StaticResource PrimaryButtonStyle}"
+      Clicked="OnFullScreenTapped"
+      AutomationId="send_iam_full_screen_button"
+    />
   </VerticalStackLayout>
 </ContentView>

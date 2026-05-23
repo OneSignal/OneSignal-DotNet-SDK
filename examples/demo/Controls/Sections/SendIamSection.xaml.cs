@@ -33,16 +33,16 @@ public partial class SendIamSection : ContentView
         _parentPage = parentPage;
     }
 
-    private void OnTopBannerTapped(object? sender, TappedEventArgs e) =>
+    private void OnTopBannerTapped(object? sender, EventArgs e) =>
         SendIam(InAppMessageType.TopBanner);
 
-    private void OnBottomBannerTapped(object? sender, TappedEventArgs e) =>
+    private void OnBottomBannerTapped(object? sender, EventArgs e) =>
         SendIam(InAppMessageType.BottomBanner);
 
-    private void OnCenterModalTapped(object? sender, TappedEventArgs e) =>
+    private void OnCenterModalTapped(object? sender, EventArgs e) =>
         SendIam(InAppMessageType.CenterModal);
 
-    private void OnFullScreenTapped(object? sender, TappedEventArgs e) =>
+    private void OnFullScreenTapped(object? sender, EventArgs e) =>
         SendIam(InAppMessageType.FullScreen);
 
     private void SendIam(InAppMessageType type)

@@ -1,3 +1,4 @@
+using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
 
 namespace OneSignalDemo.Controls.Sections;
@@ -5,18 +6,17 @@ namespace OneSignalDemo.Controls.Sections;
 public partial class UserSection : ContentView
 {
     private AppViewModel? _viewModel;
-
-    public event EventHandler? LoginRequested;
-    public event EventHandler? LogoutRequested;
+    private Page? _parentPage;
 
     public UserSection()
     {
         InitializeComponent();
     }
 
-    public void Initialize(AppViewModel viewModel)
+    public void Initialize(AppViewModel viewModel, Page parentPage)
     {
         _viewModel = viewModel;
+        _parentPage = parentPage;
         UpdateUserDisplay(viewModel);
 
         viewModel.PropertyChanged += (s, e) =>
@@ -44,13 +44,30 @@ public partial class UserSection : ContentView
         LogoutButton.IsVisible = vm.IsLoggedIn;
     }
 
-    private void OnLoginClicked(object? sender, EventArgs e)
+    private async void OnLoginClicked(object? sender, EventArgs e)
     {
-        LoginRequested?.Invoke(this, e);
+        if (_parentPage == null || _viewModel == null)
+            return;
+
+        var userId = await DialogInputHelper.ShowSingleInput(
+            _parentPage,
+            "Login User",
+            "External User Id",
+            "Login",
+            "login_user_id_input"
+        );
+
+        if (string.IsNullOrEmpty(userId))
+            return;
+
+        await _viewModel.LoginUserAsync(userId);
     }
 
-    private void OnLogoutClicked(object? sender, EventArgs e)
+    private async void OnLogoutClicked(object? sender, EventArgs e)
     {
-        LogoutRequested?.Invoke(this, e);
+        if (_viewModel == null)
+            return;
+
+        await _viewModel.LogoutUserAsync();
     }
 }

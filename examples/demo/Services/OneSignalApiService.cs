@@ -123,9 +123,14 @@ public class OneSignalApiService
 
         const int maxAttempts = 5;
 
-        // Retry on `invalid_player_ids` to absorb the brief race where the
-        // subscription has been created locally but is not yet visible to the
-        // /notifications endpoint.
+        // Retry while the OneSignal backend hasn't yet indexed the freshly
+        // created subscription. The /notifications endpoint reports this race
+        // in a few different shapes, all of which return HTTP 200:
+        //   {"id":"...","recipients":0}                       (user just switched, push token not yet attached)
+        //   {"id":"...","errors":{"invalid_player_ids":[...]}}
+        //   {"id":"","errors":["All included players are not subscribed"]}
+        //   {"id":"","errors":[...]}
+        // Treat any 200 response with no real id, populated errors, or recipients=0 as transient.
         for (var attempt = 1; attempt <= maxAttempts; attempt++)
         {
             try
@@ -143,8 +148,7 @@ public class OneSignalApiService
                     return false;
                 }
 
-                var invalidIds = GetInvalidPlayerIds(responseJson);
-                if (invalidIds.Count > 0)
+                if (IsTransientSendFailure(responseJson))
                 {
                     if (attempt < maxAttempts)
                     {
@@ -152,9 +156,7 @@ public class OneSignalApiService
                         await Task.Delay(delayMs);
                         continue;
                     }
-                    Debug.WriteLine(
-                        $"Send notification failed: invalid_player_ids [{string.Join(", ", invalidIds)}]"
-                    );
+                    Debug.WriteLine($"Send notification failed: {responseJson}");
                     return false;
                 }
 
@@ -170,38 +172,57 @@ public class OneSignalApiService
         return false;
     }
 
-    private static List<string> GetInvalidPlayerIds(string responseJson)
+    private static bool IsTransientSendFailure(string responseJson)
     {
-        var result = new List<string>();
         if (string.IsNullOrWhiteSpace(responseJson))
-            return result;
+            return false;
         try
         {
             using var doc = JsonDocument.Parse(responseJson);
-            if (
-                doc.RootElement.ValueKind == JsonValueKind.Object
-                && doc.RootElement.TryGetProperty("errors", out var errors)
-                && errors.ValueKind == JsonValueKind.Object
-                && errors.TryGetProperty("invalid_player_ids", out var invalidIds)
-                && invalidIds.ValueKind == JsonValueKind.Array
-            )
+            if (doc.RootElement.ValueKind != JsonValueKind.Object)
+                return false;
+
+            var hasErrors = false;
+            if (doc.RootElement.TryGetProperty("errors", out var errors))
             {
-                foreach (var id in invalidIds.EnumerateArray())
+                if (errors.ValueKind == JsonValueKind.Array)
                 {
-                    if (id.ValueKind == JsonValueKind.String)
-                    {
-                        var s = id.GetString();
-                        if (!string.IsNullOrEmpty(s))
-                            result.Add(s);
-                    }
+                    hasErrors = errors.GetArrayLength() > 0;
+                }
+                else if (errors.ValueKind == JsonValueKind.Object)
+                {
+                    var props = errors.EnumerateObject();
+                    hasErrors = props.MoveNext();
                 }
             }
+
+            var missingId = true;
+            if (
+                doc.RootElement.TryGetProperty("id", out var id)
+                && id.ValueKind == JsonValueKind.String
+                && !string.IsNullOrEmpty(id.GetString())
+            )
+            {
+                missingId = false;
+            }
+
+            var zeroRecipients = false;
+            if (
+                doc.RootElement.TryGetProperty("recipients", out var recipients)
+                && recipients.ValueKind == JsonValueKind.Number
+                && recipients.TryGetInt64(out var recipientsCount)
+                && recipientsCount == 0
+            )
+            {
+                zeroRecipients = true;
+            }
+
+            return hasErrors || missingId || zeroRecipients;
         }
         catch
         {
-            // Ignore malformed bodies; treat as success since status was 2xx.
+            return false;
         }
-        return result;
     }
 
     public async Task<UserData?> FetchUserAsync(string onesignalId)

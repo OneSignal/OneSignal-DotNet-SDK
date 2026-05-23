@@ -1,7 +1,5 @@
 using System.Text.Json;
 using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using OneSignalDemo.Controls;
 using OneSignalDemo.ViewModels;
@@ -36,7 +34,7 @@ public partial class CustomEventsSection : ContentView
             return;
 
         _viewModel.TrackEvent(result.Value.name, result.Value.properties);
-        await Snackbar.Make($"Event tracked: {result.Value.name}").Show();
+        await DemoSnackbar.Show($"Event tracked: {result.Value.name}");
     }
 
     private static async Task<(
