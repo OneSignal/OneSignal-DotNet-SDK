@@ -6,7 +6,11 @@
   x:Class="OneSignalDemo.Controls.Sections.SendPushSection"
 >
   <VerticalStackLayout Spacing="8" AutomationId="send_push_section">
-    <controls:SectionHeader Title="SEND PUSH NOTIFICATION" SectionKey="send_push" InfoTapped="OnInfoTapped" />
+    <controls:SectionHeader
+      Title="SEND PUSH NOTIFICATION"
+      SectionKey="send_push"
+      InfoTapped="OnInfoTapped"
+    />
 
     <Button
       Text="SIMPLE"

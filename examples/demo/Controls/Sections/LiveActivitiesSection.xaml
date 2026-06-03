@@ -6,7 +6,11 @@
   x:Class="OneSignalDemo.Controls.Sections.LiveActivitiesSection"
 >
   <VerticalStackLayout Spacing="8" AutomationId="live_activities_section">
-    <controls:SectionHeader Title="LIVE ACTIVITIES" SectionKey="live_activities" InfoTapped="OnInfoTapped" />
+    <controls:SectionHeader
+      Title="LIVE ACTIVITIES"
+      SectionKey="live_activities"
+      InfoTapped="OnInfoTapped"
+    />
 
     <!-- Input card -->
     <Border Style="{StaticResource CardBorderStyle}">
