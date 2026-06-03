@@ -6,7 +6,11 @@
   x:Class="OneSignalDemo.Controls.Sections.CustomEventsSection"
 >
   <VerticalStackLayout Spacing="8" AutomationId="custom_events_section">
-    <controls:SectionHeader Title="CUSTOM EVENTS" SectionKey="custom_events" InfoTapped="OnInfoTapped" />
+    <controls:SectionHeader
+      Title="CUSTOM EVENTS"
+      SectionKey="custom_events"
+      InfoTapped="OnInfoTapped"
+    />
 
     <Button
       Text="TRACK EVENT"

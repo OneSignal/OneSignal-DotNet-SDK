@@ -48,6 +48,5 @@ public partial class SectionHeader : ContentView
         }
     }
 
-    private void OnInfoTappedInternal(object? sender, EventArgs e) =>
-        InfoTapped?.Invoke(this, e);
+    private void OnInfoTappedInternal(object? sender, EventArgs e) => InfoTapped?.Invoke(this, e);
 }

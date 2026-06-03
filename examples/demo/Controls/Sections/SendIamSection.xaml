@@ -6,7 +6,11 @@
   x:Class="OneSignalDemo.Controls.Sections.SendIamSection"
 >
   <VerticalStackLayout Spacing="8" AutomationId="send_iam_section">
-    <controls:SectionHeader Title="SEND IN-APP MESSAGE" SectionKey="send_iam" InfoTapped="OnInfoTapped" />
+    <controls:SectionHeader
+      Title="SEND IN-APP MESSAGE"
+      SectionKey="send_iam"
+      InfoTapped="OnInfoTapped"
+    />
 
     <Button
       Text="TOP BANNER"
