@@ -6,15 +6,51 @@ namespace OneSignalSDK.DotNet.Android;
 
 public class AndroidLocationManager : ILocationManager
 {
+    private const string LocationModuleNotAvailable =
+        "OneSignal location module is not available. Add the location dependency to use OneSignal.Location.";
+
     public bool IsShared
     {
-        get => OneSignalNative.Location.Shared;
-        set => OneSignalNative.Location.Shared = value;
+        get
+        {
+            try
+            {
+                return OneSignalNative.Location.Shared;
+            }
+            catch (Exception exception)
+            {
+                LogLocationModuleNotAvailable(exception);
+                return false;
+            }
+        }
+        set
+        {
+            try
+            {
+                OneSignalNative.Location.Shared = value;
+            }
+            catch (Exception exception)
+            {
+                LogLocationModuleNotAvailable(exception);
+            }
+        }
     }
 
     public void RequestPermission()
     {
-        var consumer = new AndroidBoolConsumer();
-        OneSignalNative.Location.RequestPermission(Com.OneSignal.Android.Continue.With(consumer));
+        try
+        {
+            var consumer = new AndroidBoolConsumer();
+            OneSignalNative.Location.RequestPermission(Com.OneSignal.Android.Continue.With(consumer));
+        }
+        catch (Exception exception)
+        {
+            LogLocationModuleNotAvailable(exception);
+        }
+    }
+
+    private static void LogLocationModuleNotAvailable(Exception exception)
+    {
+        System.Diagnostics.Debug.WriteLine($"{LocationModuleNotAvailable} {exception}");
     }
 }

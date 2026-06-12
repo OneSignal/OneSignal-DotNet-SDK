@@ -6,14 +6,50 @@ namespace OneSignalSDK.DotNet.iOS;
 
 public class iOSLocationManager : ILocationManager
 {
+    private const string LocationModuleNotAvailable =
+        "OneSignal location module is not available. Add the location dependency to use OneSignal.Location.";
+
     public bool IsShared
     {
-        get => OneSignalNative.Location.IsShared;
-        set => OneSignalNative.Location.SetShared(value);
+        get
+        {
+            try
+            {
+                return OneSignalNative.Location.IsShared;
+            }
+            catch (Exception exception)
+            {
+                LogLocationModuleNotAvailable(exception);
+                return false;
+            }
+        }
+        set
+        {
+            try
+            {
+                OneSignalNative.Location.SetShared(value);
+            }
+            catch (Exception exception)
+            {
+                LogLocationModuleNotAvailable(exception);
+            }
+        }
     }
 
     public void RequestPermission()
     {
-        OneSignalNative.Location.RequestPermission();
+        try
+        {
+            OneSignalNative.Location.RequestPermission();
+        }
+        catch (Exception exception)
+        {
+            LogLocationModuleNotAvailable(exception);
+        }
+    }
+
+    private static void LogLocationModuleNotAvailable(Exception exception)
+    {
+        System.Diagnostics.Debug.WriteLine($"{LocationModuleNotAvailable} {exception}");
     }
 }

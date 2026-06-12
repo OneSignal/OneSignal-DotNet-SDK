@@ -99,5 +99,8 @@
         <!-- This is a .target files that gets used by project that consumes the NuGet package.
              This copies out the OneSignal.xcframework from the resources folder and adds a NativeReference to it in the app project. -->
         <file src="OneSignalSDK.DotNet.iOS.Binding\OneSignalSDK.DotNet.targets" target="build\net10.0-ios12.2\" />
+
+        <!-- Removes optional Android location assets when OneSignalDisableLocation=true. -->
+        <file src="OneSignalSDK.DotNet\OneSignalSDK.DotNet.Android.targets" target="build\net10.0-android21.0\OneSignalSDK.DotNet.targets" />
     </files>    
 </package>

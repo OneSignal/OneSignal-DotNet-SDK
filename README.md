@@ -35,6 +35,20 @@ Xamarin projects: See the [Setup Documentation](https://documentation.onesignal.
 
 See OneSignal's [.NET SDK API](https://documentation.onesignal.com/docs/net-client-sdk) page for a list of all available methods.
 
+#### Disable Location Module
+
+By default, `OneSignalSDK.DotNet` includes OneSignal's native location module so `OneSignal.Location` works without extra setup. If your app does not use location features, you can exclude the native location module from iOS and Android builds with an MSBuild property in your app project:
+
+```xml
+<PropertyGroup>
+  <OneSignalDisableLocation>true</OneSignalDisableLocation>
+</PropertyGroup>
+```
+
+When disabled, `OneSignal.Location.RequestPermission()` and `OneSignal.Location.IsShared = value` no-op on native builds without the location module, and `OneSignal.Location.IsShared` returns `false`.
+
+This is an MSBuild-only setting; Gradle properties are not supported for disabling the .NET SDK location module.
+
 #### Change Log
 
 See this repository's [release tags](https://github.com/OneSignal/OneSignal-DotNet-SDK/releases) for a complete change log of every released version.
