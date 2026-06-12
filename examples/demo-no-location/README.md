@@ -11,8 +11,8 @@ cp .env.example .env
 Then run from this directory:
 
 ```sh
-dotnet build -f net10.0-ios -t:Run
-dotnet build -f net10.0-android -t:Run
+./run-ios.sh
+./run-android.sh
 ```
 
 The project disables location with:
