@@ -1,31 +1,23 @@
 ﻿<metadata>
   <attr path="/api/package[@name='com.onesignal']" name="managedName">Com.OneSignal.Android</attr>
   <attr path="/api/package[@name='com.onesignal.common']" name="managedName"
-    >Com.OneSignal.Android.Common</attr
-  >
+    >Com.OneSignal.Android.Common</attr>
   <attr path="/api/package[@name='com.onesignal.debug']" name="managedName"
-    >Com.OneSignal.Android.Debug</attr
-  >
+    >Com.OneSignal.Android.Debug</attr>
   <attr path="/api/package[@name='com.onesignal.inAppMessages']" name="managedName"
-    >Com.OneSignal.Android.InAppMessages</attr
-  >
+    >Com.OneSignal.Android.InAppMessages</attr>
   <attr path="/api/package[@name='com.onesignal.location']" name="managedName"
-    >Com.OneSignal.Android.Location</attr
-  >
+    >Com.OneSignal.Android.Location</attr>
   <attr path="/api/package[@name='com.onesignal.notifications']" name="managedName"
-    >Com.OneSignal.Android.Notifications</attr
-  >
+    >Com.OneSignal.Android.Notifications</attr>
   <attr path="/api/package[@name='com.onesignal.session']" name="managedName"
-    >Com.OneSignal.Android.Session</attr
-  >
+    >Com.OneSignal.Android.Session</attr>
   <attr path="/api/package[@name='com.onesignal.user']" name="managedName"
     >Com.OneSignal.Android.User</attr>
   <attr path="/api/package[@name='com.onesignal.user.subscriptions']" name="managedName"
-    >Com.OneSignal.Android.User.Subscriptions</attr
-  >
+    >Com.OneSignal.Android.User.Subscriptions</attr>
   <attr path="/api/package[@name='com.onesignal.user.state']" name="managedName"
-    >Com.OneSignal.Android.User.State</attr
-  >
+    >Com.OneSignal.Android.User.State</attr>
 
   <remove-node path="/api/package[starts-with(@name, 'com.onesignal.common.events')]" />
   <remove-node path="/api/package[starts-with(@name, 'com.onesignal.common.exceptions')]" />
