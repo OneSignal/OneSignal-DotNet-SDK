@@ -71,11 +71,13 @@ dotnet build -f net10.0-ios -t:Run -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey
 
 ## Configuration
 
-The app ships with a placeholder OneSignal App ID (`77e32082-ea27-42e3-a898-c72e141824ef`). To test with your own account, update the constant in `MauiProgram.cs` and rebuild:
+The real `.env` file is intentionally gitignored. Copy `.env.example` to `.env` and set your OneSignal app ID:
 
-```csharp
-private const string AppId = "<your-app-id>";
+```sh
+cp .env.example .env
 ```
+
+If `ONESIGNAL_APP_ID` is empty or still set to the placeholder, the app falls back to the default demo app ID in `MauiProgram.cs`.
 
 ## Troubleshooting
 

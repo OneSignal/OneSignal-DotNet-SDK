@@ -2,7 +2,7 @@
 
 This lightweight MAUI example uses the package id `com.onesignal.example` on iOS and Android, enables APNs for iOS, and builds with the native OneSignal location module disabled.
 
-Copy `.env.example` to `.env` and set your OneSignal app ID:
+The real `.env` file is intentionally gitignored. Copy `.env.example` to `.env` and set your OneSignal app ID:
 
 ```sh
 cp .env.example .env
