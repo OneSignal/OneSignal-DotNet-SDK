@@ -51,6 +51,6 @@ public class AndroidLocationManager : ILocationManager
 
     private static void LogLocationModuleNotAvailable(Exception exception)
     {
-        System.Diagnostics.Debug.WriteLine($"{LocationModuleNotAvailable} {exception}");
+        global::Android.Util.Log.Error("OneSignal", $"{LocationModuleNotAvailable} {exception}");
     }
 }
