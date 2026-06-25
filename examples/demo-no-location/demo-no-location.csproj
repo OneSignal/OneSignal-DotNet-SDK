@@ -2,8 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0-android</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))"
-      >$(TargetFrameworks);net10.0-ios</TargetFrameworks
-    >
+      >$(TargetFrameworks);net10.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>OneSignalDemoNoLocation</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -20,12 +19,10 @@
 
     <SupportedOSPlatformVersion
       Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
-      >14.2</SupportedOSPlatformVersion
-    >
+      >14.2</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion
       Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
-      >26.0</SupportedOSPlatformVersion
-    >
+      >26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,5 +53,4 @@
     <CodesignTeamId>99SW8E36CT</CodesignTeamId>
     <CodesignProvision>Appium Demo - Main</CodesignProvision>
   </PropertyGroup>
-
 </Project>

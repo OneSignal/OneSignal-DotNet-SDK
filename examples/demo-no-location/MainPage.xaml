@@ -29,12 +29,7 @@
       Padding="16,14"
       Spacing="2"
     >
-      <Label
-        Text="OneSignal"
-        TextColor="White"
-        FontSize="22"
-        FontAttributes="Bold"
-      />
+      <Label Text="OneSignal" TextColor="White" FontSize="22" FontAttributes="Bold" />
       <Label Text="No-Location Demo" TextColor="White" FontSize="14" />
     </VerticalStackLayout>
 
@@ -45,11 +40,7 @@
           <Border Style="{StaticResource CardBorderStyle}">
             <Grid Padding="12" ColumnDefinitions="Auto,*" ColumnSpacing="8">
               <Label Text="App ID" Style="{StaticResource LabelStyle}" />
-              <Label
-                x:Name="AppIdLabel"
-                Grid.Column="1"
-                Style="{StaticResource ValueStyle}"
-              />
+              <Label x:Name="AppIdLabel" Grid.Column="1" Style="{StaticResource ValueStyle}" />
             </Grid>
           </Border>
         </VerticalStackLayout>
@@ -71,11 +62,7 @@
 
               <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                 <Label Text="Push ID" Style="{StaticResource LabelStyle}" />
-                <Label
-                  x:Name="PushIdLabel"
-                  Grid.Column="1"
-                  Style="{StaticResource ValueStyle}"
-                />
+                <Label x:Name="PushIdLabel" Grid.Column="1" Style="{StaticResource ValueStyle}" />
               </Grid>
 
               <Button

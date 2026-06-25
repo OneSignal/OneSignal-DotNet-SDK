@@ -41,7 +41,9 @@ public class AndroidLocationManager : ILocationManager
         try
         {
             var consumer = new AndroidBoolConsumer();
-            OneSignalNative.Location.RequestPermission(Com.OneSignal.Android.Continue.With(consumer));
+            OneSignalNative.Location.RequestPermission(
+                Com.OneSignal.Android.Continue.With(consumer)
+            );
         }
         catch (Exception exception)
         {

@@ -126,7 +126,8 @@ public partial class MainPage : ContentPage
         try
         {
             OneSignal.Location.RequestPermission();
-            LocationStatusLabel.Text = "Location request completed without linking the location module.";
+            LocationStatusLabel.Text =
+                "Location request completed without linking the location module.";
         }
         catch (Exception exception)
         {
@@ -143,10 +144,7 @@ public partial class MainPage : ContentPage
         {
             ["app_id"] = _appId,
             ["include_subscription_ids"] = new[] { pushSubscriptionId },
-            ["headings"] = new Dictionary<string, string>
-            {
-                ["en"] = "OneSignal No-Location Demo",
-            },
+            ["headings"] = new Dictionary<string, string> { ["en"] = "OneSignal No-Location Demo" },
             ["contents"] = new Dictionary<string, string>
             {
                 ["en"] = "This test push was sent without linking the location module.",
@@ -176,7 +174,8 @@ public partial class MainPage : ContentPage
         spinner.IsVisible = busy;
     }
 
-    private static string FormatValue(string value) => string.IsNullOrWhiteSpace(value) ? "-" : value;
+    private static string FormatValue(string value) =>
+        string.IsNullOrWhiteSpace(value) ? "-" : value;
 
     private static bool IsPlaceholder(string value) =>
         value.Trim().StartsWith("YOUR-", StringComparison.OrdinalIgnoreCase);
@@ -185,9 +184,7 @@ public partial class MainPage : ContentPage
     private static Thickness GetWindowSafeAreaInsets()
     {
         var window = UIApplication
-            .SharedApplication
-            .ConnectedScenes
-            .OfType<UIWindowScene>()
+            .SharedApplication.ConnectedScenes.OfType<UIWindowScene>()
             .SelectMany(scene => scene.Windows)
             .FirstOrDefault(window => window.IsKeyWindow);
 
