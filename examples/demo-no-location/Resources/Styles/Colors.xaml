@@ -4,6 +4,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 >
   <Color x:Key="OsPrimary">#E54B4D</Color>
+  <Color x:Key="OsPrimaryPressed">#C33F41</Color>
+  <Color x:Key="OsPrimaryTint">#1AE54B4D</Color>
   <Color x:Key="OsGrey700">#616161</Color>
   <Color x:Key="OsGrey600">#757575</Color>
   <Color x:Key="OsGrey400">#BDBDBD</Color>
