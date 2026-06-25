@@ -56,4 +56,5 @@
     <CodesignTeamId>99SW8E36CT</CodesignTeamId>
     <CodesignProvision>Appium Demo - Main</CodesignProvision>
   </PropertyGroup>
+
 </Project>

@@ -21,4 +21,11 @@ The project disables location with:
 <OneSignalDisableLocation>true</OneSignalDisableLocation>
 ```
 
+`run-ios.sh` clears stale local iOS outputs if an old app bundle still contains or links `OneSignalLocation.framework`. If you run from an IDE and still see stale simulator state, clear local outputs once and reinstall the simulator app:
+
+```sh
+rm -rf bin obj
+xcrun simctl uninstall booted com.onesignal.example
+```
+
 The app initializes OneSignal, requests notification permission only when you tap the button, sends a test push to the current push subscription, and includes a location test button that exercises the no-location path.
