@@ -2,6 +2,7 @@
 set -e
 
 PROJECT_FILE="$1"
+shift || true
 
 if [ -z "$PROJECT_FILE" ]; then
   echo "Usage: $0 <project-file>"
@@ -43,4 +44,4 @@ else
   selected="${devices[$idx]}"
 fi
 
-dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run -p:AdbTarget="-s $selected"
+dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run -p:AdbTarget="-s $selected" "$@"

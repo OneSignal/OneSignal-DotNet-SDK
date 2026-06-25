@@ -15,4 +15,4 @@ for app_bundle in "$SCRIPT_DIR"/bin/Debug/net10.0-ios/iossimulator-*/demo-no-loc
   fi
 done
 
-"$SCRIPT_DIR/../run-ios.sh" "$SCRIPT_DIR/demo-no-location.csproj"
+"$SCRIPT_DIR/../run-ios.sh" "$SCRIPT_DIR/demo-no-location.csproj" -p:OneSignalDisableLocation=true

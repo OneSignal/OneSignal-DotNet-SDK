@@ -126,7 +126,7 @@ public partial class MainPage : ContentPage
         try
         {
             OneSignal.Location.RequestPermission();
-            LocationStatusLabel.Text = $"Location request completed. IsShared={OneSignal.Location.IsShared}";
+            LocationStatusLabel.Text = "Location request completed without linking the location module.";
         }
         catch (Exception exception)
         {

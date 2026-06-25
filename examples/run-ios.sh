@@ -2,6 +2,7 @@
 set -e
 
 PROJECT_FILE="$1"
+shift || true
 
 if [ -z "$PROJECT_FILE" ]; then
   echo "Usage: $0 <project-file>"
@@ -48,4 +49,4 @@ else
   selected="${udids[$idx]}"
 fi
 
-dotnet build "$PROJECT_FILE" -f net10.0-ios -t:Build,Run -p:_DeviceName=":v2:udid=$selected"
+dotnet build "$PROJECT_FILE" -f net10.0-ios -t:Build,Run -p:_DeviceName=":v2:udid=$selected" "$@"
