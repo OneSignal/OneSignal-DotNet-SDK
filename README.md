@@ -47,6 +47,15 @@ By default, `OneSignalSDK.DotNet` includes OneSignal's native location module so
 
 When disabled, `OneSignal.Location.RequestPermission()` and `OneSignal.Location.IsShared = value` no-op on native builds without the location module, and `OneSignal.Location.IsShared` returns `false`.
 
+For regular development, make sure the property is set for the app build that consumes the SDK. If you are building from source with project references or scripts, pass the property to the `dotnet build` command so it applies to the referenced SDK projects too:
+
+```sh
+dotnet build -f net10.0-ios -p:OneSignalDisableLocation=true
+dotnet build -f net10.0-android -p:OneSignalDisableLocation=true
+```
+
+In CI, include the `OneSignalDisableLocation` value in build cache keys, or clean build outputs when toggling it. This avoids restoring stale iOS app bundles, Android intermediates, or `bin`/`obj` outputs that were produced with the location module enabled.
+
 This is an MSBuild-only setting; Gradle properties are not supported for disabling the .NET SDK location module.
 
 #### Change Log
