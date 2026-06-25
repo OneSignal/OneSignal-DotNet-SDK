@@ -98,7 +98,7 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        SetBusy(SendNotificationButton, SendNotificationSpinner, true);
+        SendNotificationButton.IsEnabled = false;
         try
         {
             var response = await SendTestNotificationAsync(pushSubscriptionId);
@@ -117,7 +117,7 @@ public partial class MainPage : ContentPage
         }
         finally
         {
-            SetBusy(SendNotificationButton, SendNotificationSpinner, false);
+            SendNotificationButton.IsEnabled = true;
         }
     }
 

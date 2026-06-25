@@ -96,11 +96,6 @@
                 Style="{StaticResource PrimaryButtonStyle}"
                 Clicked="OnSendNotificationClicked"
               />
-              <ActivityIndicator
-                x:Name="SendNotificationSpinner"
-                IsVisible="False"
-                Color="{StaticResource OsPrimary}"
-              />
             </VerticalStackLayout>
           </Border>
         </VerticalStackLayout>
