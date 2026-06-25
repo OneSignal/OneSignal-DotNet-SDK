@@ -3,6 +3,9 @@ using System.Text.Json;
 using OneSignalSDK.DotNet;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.User.Subscriptions;
+#if IOS
+using UIKit;
+#endif
 
 namespace OneSignalDemoNoLocation;
 
@@ -19,6 +22,17 @@ public partial class MainPage : ContentPage
 
         OneSignal.Notifications.PermissionChanged += OnPermissionChanged;
         OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
+    }
+
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+
+#if IOS
+        var safeArea = GetWindowSafeAreaInsets();
+        TopSafeArea.HeightRequest = safeArea.Top;
+        ContentStack.Padding = new Thickness(16, 16, 16, safeArea.Bottom + 16);
+#endif
     }
 
     protected override void OnAppearing()
@@ -166,4 +180,19 @@ public partial class MainPage : ContentPage
 
     private static bool IsPlaceholder(string value) =>
         value.Trim().StartsWith("YOUR-", StringComparison.OrdinalIgnoreCase);
+
+#if IOS
+    private static Thickness GetWindowSafeAreaInsets()
+    {
+        var window = UIApplication
+            .SharedApplication
+            .ConnectedScenes
+            .OfType<UIWindowScene>()
+            .SelectMany(scene => scene.Windows)
+            .FirstOrDefault(window => window.IsKeyWindow);
+
+        var insets = window?.SafeAreaInsets ?? UIEdgeInsets.Zero;
+        return new Thickness(insets.Left, insets.Top, insets.Right, insets.Bottom);
+    }
+#endif
 }

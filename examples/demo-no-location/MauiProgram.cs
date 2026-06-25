@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui;
 using OneSignalSDK.DotNet;
 using OsLogLevel = OneSignalSDK.DotNet.Core.Debug.LogLevel;
 
@@ -11,7 +12,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
 
-        builder.UseMauiApp<App>();
+        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
 
         DotEnv.Load();
 
