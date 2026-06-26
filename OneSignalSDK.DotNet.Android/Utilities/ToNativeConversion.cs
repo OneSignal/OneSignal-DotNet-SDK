@@ -3,8 +3,6 @@ using OneSignalSDK.DotNet.Core.Debug;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
 
-#pragma warning disable CA1422 // Java.Lang boxed types remain required for HashMap/ArrayList interop on minSdk 21.
-
 /// <summary>
 /// Translation functions when translating from .NET SDK class types to their respective native SDK class types.
 /// </summary>
@@ -33,6 +31,7 @@ public static class ToNativeConversion
         }
     }
 
+#pragma warning disable CA1422 // Java.Lang boxed types remain required for primitive interop on minSdk 21.
     public static Java.Lang.Object? ToJavaObject(object? value)
     {
         if (value == null)
@@ -93,6 +92,7 @@ public static class ToNativeConversion
 
         return null;
     }
+#pragma warning restore CA1422
 
     public static IDictionary<string, Java.Lang.Object>? DictToJavaMap(
         IDictionary<string, object>? dict
@@ -173,5 +173,3 @@ public static class ToNativeConversion
         return javaList;
     }
 }
-
-#pragma warning restore CA1422
