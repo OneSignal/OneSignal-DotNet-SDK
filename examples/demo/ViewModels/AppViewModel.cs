@@ -638,9 +638,6 @@ public partial class AppViewModel : ObservableObject
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            // IUserState surfaces empty strings (not null) when an ID has not
-            // been assigned yet, so normalize to null for logging parity with
-            // the TS demo's `onesignalId=null, externalId=null` format.
             var nextOneSignalId = string.IsNullOrEmpty(args.State.Current.OneSignalId)
                 ? null
                 : args.State.Current.OneSignalId;

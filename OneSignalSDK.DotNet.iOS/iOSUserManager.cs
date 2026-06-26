@@ -27,9 +27,9 @@ namespace OneSignalSDK.DotNet.iOS
             ((iOSPushSubscription)PushSubscription).Initialize();
         }
 
-        public string OneSignalId => OneSignalNative.User.OnesignalId ?? string.Empty;
+        public string? OneSignalId => OneSignalNative.User.OnesignalId;
 
-        public string ExternalId => OneSignalNative.User.ExternalId ?? string.Empty;
+        public string? ExternalId => OneSignalNative.User.ExternalId;
         public event EventHandler<UserStateChangedEventArgs>? Changed;
 
         public void AddAlias(string label, string id) =>
@@ -75,14 +75,14 @@ namespace OneSignalSDK.DotNet.iOS
 
         private sealed class InternalUserState : IUserState
         {
-            public string OneSignalId { get; }
+            public string? OneSignalId { get; }
 
-            public string ExternalId { get; }
+            public string? ExternalId { get; }
 
             public InternalUserState(string? onesignalId, string? externalId)
             {
-                OneSignalId = onesignalId ?? string.Empty;
-                ExternalId = externalId ?? string.Empty;
+                OneSignalId = onesignalId;
+                ExternalId = externalId;
             }
         }
 
@@ -109,12 +109,11 @@ namespace OneSignalSDK.DotNet.iOS
 
     public class iOSPushSubscription : IPushSubscription
     {
-        public string Token =>
-            OneSignalNative.User.PushSubscription.Token ?? string.Empty;
+        public string? Token => OneSignalNative.User.PushSubscription.Token;
 
         public bool OptedIn => OneSignalNative.User.PushSubscription.OptedIn;
 
-        public string Id => OneSignalNative.User.PushSubscription.Id ?? string.Empty;
+        public string? Id => OneSignalNative.User.PushSubscription.Id;
 
         public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
@@ -138,17 +137,17 @@ namespace OneSignalSDK.DotNet.iOS
 
         private sealed class InternalPushSubscriptionState : IPushSubscriptionState
         {
-            public string Id { get; }
+            public string? Id { get; }
 
-            public string Token { get; }
+            public string? Token { get; }
 
             public bool OptedIn { get; }
 
             public InternalPushSubscriptionState(string? token, bool optedIn, string? id)
             {
-                Token = token ?? string.Empty;
+                Token = token;
                 OptedIn = optedIn;
-                Id = id ?? string.Empty;
+                Id = id;
             }
         }
 

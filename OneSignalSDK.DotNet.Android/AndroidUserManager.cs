@@ -25,9 +25,23 @@ namespace OneSignalSDK.DotNet.Android
             ((AndroidPushSubscription)PushSubscription).Initialize();
         }
 
-        public string OneSignalId => OneSignalNative.User.OnesignalId ?? string.Empty;
+        public string? OneSignalId
+        {
+            get
+            {
+                string? id = OneSignalNative.User.OnesignalId;
+                return string.IsNullOrEmpty(id) ? null : id;
+            }
+        }
 
-        public string ExternalId => OneSignalNative.User.ExternalId ?? string.Empty;
+        public string? ExternalId
+        {
+            get
+            {
+                string? id = OneSignalNative.User.ExternalId;
+                return string.IsNullOrEmpty(id) ? null : id;
+            }
+        }
 
         public event EventHandler<UserStateChangedEventArgs>? Changed;
 
@@ -70,14 +84,14 @@ namespace OneSignalSDK.DotNet.Android
 
         private sealed class InternalUserState : IUserState
         {
-            public string OneSignalId { get; }
+            public string? OneSignalId { get; }
 
-            public string ExternalId { get; }
+            public string? ExternalId { get; }
 
             public InternalUserState(string? onesignalId, string? externalId)
             {
-                OneSignalId = onesignalId ?? string.Empty;
-                ExternalId = externalId ?? string.Empty;
+                OneSignalId = onesignalId;
+                ExternalId = externalId;
             }
         }
 
@@ -106,11 +120,11 @@ namespace OneSignalSDK.DotNet.Android
 
     public class AndroidPushSubscription : IPushSubscription
     {
-        public string Token => OneSignalNative.User.PushSubscription.Token ?? string.Empty;
+        public string? Token => OneSignalNative.User.PushSubscription.Token;
 
         public bool OptedIn => OneSignalNative.User.PushSubscription.OptedIn;
 
-        public string Id => OneSignalNative.User.PushSubscription.Id ?? string.Empty;
+        public string? Id => OneSignalNative.User.PushSubscription.Id;
 
         public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
@@ -134,17 +148,17 @@ namespace OneSignalSDK.DotNet.Android
 
         private sealed class InternalPushSubscriptionState : IPushSubscriptionState
         {
-            public string Id { get; }
+            public string? Id { get; }
 
-            public string Token { get; }
+            public string? Token { get; }
 
             public bool OptedIn { get; }
 
             public InternalPushSubscriptionState(string? token, bool optedIn, string? id)
             {
-                Token = token ?? string.Empty;
+                Token = token;
                 OptedIn = optedIn;
-                Id = id ?? string.Empty;
+                Id = id;
             }
         }
 

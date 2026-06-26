@@ -174,7 +174,7 @@ public partial class MainPage : ContentPage
         spinner.IsVisible = busy;
     }
 
-    private static string FormatValue(string value) =>
+    private static string FormatValue(string? value) =>
         string.IsNullOrWhiteSpace(value) ? "-" : value;
 
     private static bool IsPlaceholder(string value) =>
