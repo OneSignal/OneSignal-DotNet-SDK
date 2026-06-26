@@ -75,10 +75,7 @@ namespace OneSignalSDK.DotNet.Android
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
-            OneSignalNative.User.TrackEvent(
-                name,
-                ToNativeConversion.DictToJavaMap(properties)!
-            );
+            OneSignalNative.User.TrackEvent(name, ToNativeConversion.DictToJavaMap(properties)!);
         }
 
         private sealed class InternalUserState : IUserState

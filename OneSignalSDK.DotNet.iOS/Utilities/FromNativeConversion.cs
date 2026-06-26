@@ -45,8 +45,7 @@ public static class FromNativeConversion
         Dictionary<string, object> additionalDataXam = new Dictionary<string, object>();
         if (notification.AdditionalData != null)
         {
-            additionalDataXam =
-                NSDictToPureDict(notification.AdditionalData) ?? additionalDataXam;
+            additionalDataXam = NSDictToPureDict(notification.AdditionalData) ?? additionalDataXam;
         }
 
         List<ActionButton> actionButtonsXam = new List<ActionButton>();

@@ -22,7 +22,7 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
             return Parser.Parse(json);
         }
 
-        #nullable disable
+#nullable disable
         sealed class Parser : IDisposable
         {
             const string WORD_BREAK = "{}[],:\"";
@@ -363,7 +363,8 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
                 }
             }
         }
-        #nullable restore
+
+#nullable restore
 
         /// <summary>
         /// Converts a IDictionary / IList object or a simple type (string, int, etc.) into a JSON string
@@ -375,7 +376,7 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
             return Serializer.Serialize(obj);
         }
 
-        #nullable disable
+#nullable disable
         sealed class Serializer
         {
             StringBuilder builder;
@@ -555,6 +556,6 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
                 }
             }
         }
-        #nullable restore
+#nullable restore
     }
 }
