@@ -19,7 +19,7 @@ public static class FromNativeConversion
         if (jsonString == null)
             return null;
 
-        return Json.Deserialize(jsonString) as Dictionary<string, string>;
+        return DeserializeStringDictionary(jsonString);
     }
 
     public static Dictionary<string, object>? NSDictToPureDict(NSDictionary nsDict)
