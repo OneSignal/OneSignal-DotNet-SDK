@@ -37,7 +37,7 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
         OneSignalNative.InAppMessages.AddTrigger(key, value);
 
     public void AddTriggers(IDictionary<string, string> triggers) =>
-        OneSignalNative.InAppMessages.AddTriggers(NativeConversion.DictToNSDict(triggers));
+        OneSignalNative.InAppMessages.AddTriggers(NativeConversion.DictToNSDict(triggers)!);
 
     public void ClearTriggers() => OneSignalNative.InAppMessages.ClearTriggers();
 

@@ -10,10 +10,10 @@ namespace OneSignalSDK.DotNet.iOS.Utilities;
 /// </summary>
 public static class NativeConversion
 {
-    public static NSDictionary<NSString, NSObject> DictToNSDict(IDictionary<string, object> dict)
+    public static NSDictionary<NSString, NSObject>? DictToNSDict(IDictionary<string, object>? dict)
     {
         if (dict == null)
-            return new NSDictionary<NSString, NSObject>();
+            return null;
 
         var keys = new NSString[dict.Count];
         var values = new NSObject[dict.Count];
@@ -29,10 +29,10 @@ public static class NativeConversion
         return new NSDictionary<NSString, NSObject>(keys, values);
     }
 
-    public static NSDictionary<NSString, NSString> DictToNSDict(IDictionary<string, string> dict)
+    public static NSDictionary<NSString, NSString>? DictToNSDict(IDictionary<string, string>? dict)
     {
         if (dict == null)
-            return new NSDictionary<NSString, NSString>();
+            return null;
 
         var keys = new NSString[dict.Count];
         var values = new NSString[dict.Count];
@@ -47,10 +47,10 @@ public static class NativeConversion
         return new NSDictionary<NSString, NSString>(keys, values);
     }
 
-    public static NSObject ListToNSObject(IList<object> list)
+    public static NSObject? ListToNSObject(IList<object>? list)
     {
         if (list == null)
-            return new NSMutableArray<NSObject>();
+            return null;
 
         var result = new NSMutableArray<NSObject>();
         foreach (var item in list)
@@ -61,7 +61,7 @@ public static class NativeConversion
         return result;
     }
 
-    public static NSObject ObjectToNSObject(object obj)
+    public static NSObject? ObjectToNSObject(object? obj)
     {
         if (obj == null)
             return NSNull.Null;

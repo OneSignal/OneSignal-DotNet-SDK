@@ -71,8 +71,7 @@ namespace OneSignalSDK.DotNet.Android
 
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
 
-        public IDictionary<string, string> GetTags() =>
-            OneSignalNative.User.Tags ?? new Dictionary<string, string>();
+        public IDictionary<string, string>? GetTags() => OneSignalNative.User.Tags;
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {

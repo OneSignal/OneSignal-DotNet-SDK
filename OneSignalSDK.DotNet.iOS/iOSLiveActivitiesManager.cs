@@ -105,8 +105,8 @@ namespace OneSignalSDK.DotNet.iOS
 
             OneSignalLiveActivityNative.StartDefault(
                 activityId,
-                NativeConversion.DictToNSDict(attributes),
-                NativeConversion.DictToNSDict(content)
+                NativeConversion.DictToNSDict(attributes)!,
+                NativeConversion.DictToNSDict(content)!
             );
         }
     }

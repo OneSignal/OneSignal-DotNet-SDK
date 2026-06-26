@@ -148,7 +148,7 @@ namespace OneSignalSDK.DotNet.Core.User
         /// <summary>
         /// Get the dictionary of data tags for the current user.
         /// </summary>
-        IDictionary<string, string> GetTags();
+        IDictionary<string, string>? GetTags();
 
         /// <summary>
         /// Track a custom event with the provided name and optional properties.

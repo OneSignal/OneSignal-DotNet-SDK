@@ -37,7 +37,7 @@ public static class FromNativeConversion
         if (jsonString == null)
             return null;
 
-        return Json.Deserialize(jsonString) as Dictionary<string, string>;
+        return DeserializeStringDictionary(jsonString);
     }
 
     public static Notification ToNotification(OneSignaliOS.OSNotification notification)
@@ -128,5 +128,19 @@ public static class FromNativeConversion
 
         NSString? jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
         return jsonNSString?.ToString();
+    }
+
+    private static Dictionary<string, string>? DeserializeStringDictionary(string jsonString)
+    {
+        if (Json.Deserialize(jsonString) is not Dictionary<string, object> parsed)
+            return null;
+
+        var result = new Dictionary<string, string>();
+        foreach (var entry in parsed)
+        {
+            result[entry.Key] = entry.Value?.ToString() ?? string.Empty;
+        }
+
+        return result;
     }
 }

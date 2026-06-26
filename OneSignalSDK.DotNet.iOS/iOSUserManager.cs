@@ -36,7 +36,7 @@ namespace OneSignalSDK.DotNet.iOS
             OneSignalNative.User.AddAliasWithLabel(label, id);
 
         public void AddAliases(IDictionary<string, string> aliases) =>
-            OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
+            OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases)!);
 
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
 
@@ -55,15 +55,14 @@ namespace OneSignalSDK.DotNet.iOS
             OneSignalNative.User.AddTagWithKey(key, value);
 
         public void AddTags(IDictionary<string, string> tags) =>
-            OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags));
+            OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags)!);
 
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
 
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
 
-        public IDictionary<string, string> GetTags() =>
-            FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags())
-            ?? new Dictionary<string, string>();
+        public IDictionary<string, string>? GetTags() =>
+            FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
