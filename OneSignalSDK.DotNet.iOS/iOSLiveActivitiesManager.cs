@@ -44,7 +44,7 @@ namespace OneSignalSDK.DotNet.iOS
                 return;
             }
 
-            NSError error;
+            NSError? error;
             OneSignalLiveActivityNative.RemovePushToStartToken(activityType, out error);
 
             if (error != null)
@@ -61,7 +61,7 @@ namespace OneSignalSDK.DotNet.iOS
                 return;
             }
 
-            NSError error;
+            NSError? error;
             OneSignalLiveActivityNative.SetPushToStartToken(activityType, token, out error);
 
             if (error != null)
@@ -70,7 +70,7 @@ namespace OneSignalSDK.DotNet.iOS
             }
         }
 
-        public void SetupDefault(LiveActivitySetupOptions options = null)
+        public void SetupDefault(LiveActivitySetupOptions? options = null)
         {
             if (!UIDevice.CurrentDevice.CheckSystemVersion(16, 1))
             {
@@ -78,7 +78,7 @@ namespace OneSignalSDK.DotNet.iOS
                 return;
             }
 
-            LiveActivitySetupOptionsNative nativeOptions = null;
+            LiveActivitySetupOptionsNative? nativeOptions = null;
 
             if (options != null)
             {
@@ -105,8 +105,8 @@ namespace OneSignalSDK.DotNet.iOS
 
             OneSignalLiveActivityNative.StartDefault(
                 activityId,
-                NativeConversion.DictToNSDict(attributes),
-                NativeConversion.DictToNSDict(content)
+                NativeConversion.DictToNSDict(attributes)!,
+                NativeConversion.DictToNSDict(content)!
             );
         }
     }

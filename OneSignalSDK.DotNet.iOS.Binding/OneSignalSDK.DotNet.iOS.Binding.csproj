@@ -12,6 +12,7 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>OneSignalSDK.DotNet.iOS.Binding</AssemblyName>
     <NoBindingEmbedding>true</NoBindingEmbedding>
+    <NoWarn>$(NoWarn);CS0114</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

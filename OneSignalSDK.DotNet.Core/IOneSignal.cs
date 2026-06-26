@@ -102,7 +102,7 @@ namespace OneSignalSDK.DotNet.Core
         /// login operation.Required when identity verification has been enabled.  See
         /// <a href="https://documentation.onesignal.com/docs/identity-verification">Identity Verification | OneSignal</a>
         /// </param>
-        void Login(String externalId, String jwtBearerToken = null);
+        void Login(String externalId, String? jwtBearerToken = null);
 
         /// <summary>
         /// Logout the user previously logged in via <see cref="Login(string, string?)"/>. The

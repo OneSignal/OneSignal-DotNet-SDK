@@ -31,6 +31,7 @@ public static class ToNativeConversion
         }
     }
 
+#pragma warning disable CA1422 // Java.Lang boxed types remain required for primitive interop on minSdk 21.
     public static Java.Lang.Object? ToJavaObject(object? value)
     {
         if (value == null)
@@ -91,6 +92,7 @@ public static class ToNativeConversion
 
         return null;
     }
+#pragma warning restore CA1422
 
     public static IDictionary<string, Java.Lang.Object>? DictToJavaMap(
         IDictionary<string, object>? dict

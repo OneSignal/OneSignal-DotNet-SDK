@@ -13,17 +13,17 @@ namespace OneSignalSDK.DotNet.Core.User.Subscriptions
         event EventHandler<PushSubscriptionChangedEventArgs> Changed;
 
         /// <summary>
-        /// The unique identifier for this subscription. This will be an empty string
+        /// The unique identifier for this subscription. This will be null
         /// until the subscription has been successfully created on the backend and
         /// assigned an ID.
         /// </summary>
-        string Id { get; }
+        string? Id { get; }
 
         /// <summary>
-        /// The token which identifies the device/app that notifications are to be sent. May
-        /// be an empty string, indicating the push token has not yet been retrieved.
+        /// The token which identifies the device/app that notifications are to be sent. May be
+        /// null, indicating the push token has not yet been retrieved.
         /// </summary>
-        string Token { get; }
+        string? Token { get; }
 
         /// <summary>
         /// Whether the user of this subscription is opted-in to received notifications. When true,

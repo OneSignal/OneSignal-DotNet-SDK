@@ -18,7 +18,7 @@ namespace OneSignalSDK.DotNet.iOS
 
         public IPushSubscription PushSubscription { get; } = new iOSPushSubscription();
 
-        private InternalUserChangedHandler _userChangedHandler;
+        private InternalUserChangedHandler? _userChangedHandler;
 
         public void Initialize()
         {
@@ -27,22 +27,16 @@ namespace OneSignalSDK.DotNet.iOS
             ((iOSPushSubscription)PushSubscription).Initialize();
         }
 
-        public string OneSignalId
-        {
-            get => OneSignalNative.User.OnesignalId;
-        }
+        public string? OneSignalId => OneSignalNative.User.OnesignalId;
 
-        public string ExternalId
-        {
-            get => OneSignalNative.User.ExternalId;
-        }
+        public string? ExternalId => OneSignalNative.User.ExternalId;
         public event EventHandler<UserStateChangedEventArgs>? Changed;
 
         public void AddAlias(string label, string id) =>
             OneSignalNative.User.AddAliasWithLabel(label, id);
 
         public void AddAliases(IDictionary<string, string> aliases) =>
-            OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases));
+            OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases)!);
 
         public void RemoveAlias(string label) => OneSignalNative.User.RemoveAlias(label);
 
@@ -61,13 +55,13 @@ namespace OneSignalSDK.DotNet.iOS
             OneSignalNative.User.AddTagWithKey(key, value);
 
         public void AddTags(IDictionary<string, string> tags) =>
-            OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags));
+            OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags)!);
 
         public void RemoveTag(string key) => OneSignalNative.User.RemoveTag(key);
 
         public void RemoveTags(params string[] keys) => OneSignalNative.User.RemoveTags(keys);
 
-        public IDictionary<string, string> GetTags() =>
+        public IDictionary<string, string>? GetTags() =>
             FromNativeConversion.NSDictToPureStringDict(OneSignalNative.User.GetTags());
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
@@ -80,11 +74,11 @@ namespace OneSignalSDK.DotNet.iOS
 
         private sealed class InternalUserState : IUserState
         {
-            public string OneSignalId { get; }
+            public string? OneSignalId { get; }
 
-            public string ExternalId { get; }
+            public string? ExternalId { get; }
 
-            public InternalUserState(string onesignalId, string externalId)
+            public InternalUserState(string? onesignalId, string? externalId)
             {
                 OneSignalId = onesignalId;
                 ExternalId = externalId;
@@ -114,11 +108,11 @@ namespace OneSignalSDK.DotNet.iOS
 
     public class iOSPushSubscription : IPushSubscription
     {
-        public string Token => OneSignalNative.User.PushSubscription.Token;
+        public string? Token => OneSignalNative.User.PushSubscription.Token;
 
         public bool OptedIn => OneSignalNative.User.PushSubscription.OptedIn;
 
-        public string Id => OneSignalNative.User.PushSubscription.Id;
+        public string? Id => OneSignalNative.User.PushSubscription.Id;
 
         public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
@@ -142,13 +136,13 @@ namespace OneSignalSDK.DotNet.iOS
 
         private sealed class InternalPushSubscriptionState : IPushSubscriptionState
         {
-            public string Id { get; }
+            public string? Id { get; }
 
-            public string Token { get; }
+            public string? Token { get; }
 
             public bool OptedIn { get; }
 
-            public InternalPushSubscriptionState(string token, bool optedIn, string id)
+            public InternalPushSubscriptionState(string? token, bool optedIn, string? id)
             {
                 Token = token;
                 OptedIn = optedIn;

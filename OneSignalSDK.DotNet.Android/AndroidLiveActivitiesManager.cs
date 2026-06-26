@@ -31,7 +31,7 @@ public class AndroidLiveActivitiesManager : ILiveActivitiesManager
         Console.WriteLine("OneSignal: SetPushToStartToken is available on iOS only");
     }
 
-    public void SetupDefault(LiveActivitySetupOptions options = null)
+    public void SetupDefault(LiveActivitySetupOptions? options = null)
     {
         Console.WriteLine("OneSignal: SetupDefault is available on iOS only");
     }

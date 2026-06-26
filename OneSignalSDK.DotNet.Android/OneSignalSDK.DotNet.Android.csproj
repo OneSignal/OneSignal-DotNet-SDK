@@ -8,6 +8,7 @@
     <OutputType>Library</OutputType>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <RootNamespace>OneSignalSDK.DotNet.Android</RootNamespace>
     <AssemblyName>OneSignalSDK.DotNet.Android</AssemblyName>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>

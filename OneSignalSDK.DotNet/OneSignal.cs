@@ -123,7 +123,7 @@ namespace OneSignalSDK.DotNet
         /// login operation.Required when identity verification has been enabled.  See
         /// <a href="https://documentation.onesignal.com/docs/identity-verification">Identity Verification | OneSignal</a>
         /// </param>
-        public static void Login(String externalId, String jwtBearerToken = null)
+        public static void Login(String externalId, String? jwtBearerToken = null)
         {
             OneSignal.Default.Login(externalId, jwtBearerToken);
         }

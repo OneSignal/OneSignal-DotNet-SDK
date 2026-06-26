@@ -8,11 +8,12 @@
     <!--
       Must match (or be lower than) the host app's MinimumOSVersion. Without
       this, MSBuild defaults to the current iOS SDK (e.g. 26.2), which is
-      higher than the main app's 14.2, and iOS refuses to bind the extension
+      higher than the main app's minimum OS version, and iOS refuses to bind the extension
       ("No service extension record found for app" / UNErrorDomain 1904),
       silently dropping mutable-content pushes — i.e. no image attachments.
     -->
-    <SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <!--

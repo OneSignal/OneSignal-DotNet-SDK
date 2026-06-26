@@ -35,7 +35,7 @@ namespace OneSignalSDK.DotNet.Core.LiveActivities
         /// Only applies to iOS.
         /// </summary>
         /// <param name="options">An optional structure to provide for more granular setup options.</param>
-        void SetupDefault(LiveActivitySetupOptions options = null);
+        void SetupDefault(LiveActivitySetupOptions? options = null);
 
         /// <summary>
         /// Start a new LiveActivity that is modelled by the default`DefaultLiveActivityAttributes`

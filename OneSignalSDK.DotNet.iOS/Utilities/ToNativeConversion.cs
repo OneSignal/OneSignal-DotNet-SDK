@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Foundation;
-using HomeKit;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Internal.Utilities;
 
@@ -11,7 +10,7 @@ namespace OneSignalSDK.DotNet.iOS.Utilities;
 /// </summary>
 public static class NativeConversion
 {
-    public static NSDictionary<NSString, NSObject> DictToNSDict(IDictionary<string, object> dict)
+    public static NSDictionary<NSString, NSObject>? DictToNSDict(IDictionary<string, object>? dict)
     {
         if (dict == null)
             return null;
@@ -22,17 +21,15 @@ public static class NativeConversion
 
         foreach (var entry in dict)
         {
-            keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
-            values[index] = ObjectToNSObject(entry.Value);
+            keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8)!;
+            values[index] = ObjectToNSObject(entry.Value)!;
             index++;
         }
 
-        var result = new NSDictionary<NSString, NSObject>(keys, values);
-
-        return result;
+        return new NSDictionary<NSString, NSObject>(keys, values);
     }
 
-    public static NSDictionary<NSString, NSString> DictToNSDict(IDictionary<string, string> dict)
+    public static NSDictionary<NSString, NSString>? DictToNSDict(IDictionary<string, string>? dict)
     {
         if (dict == null)
             return null;
@@ -42,17 +39,15 @@ public static class NativeConversion
         var index = 0;
         foreach (var entry in dict)
         {
-            keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8);
-            values[index] = NSString.FromData(entry.Value, NSStringEncoding.UTF8);
+            keys[index] = NSString.FromData(entry.Key, NSStringEncoding.UTF8)!;
+            values[index] = NSString.FromData(entry.Value, NSStringEncoding.UTF8)!;
             index++;
         }
 
-        var result = new NSDictionary<NSString, NSString>(keys, values);
-
-        return result;
+        return new NSDictionary<NSString, NSString>(keys, values);
     }
 
-    public static NSObject ListToNSObject(IList<object> list)
+    public static NSObject? ListToNSObject(IList<object>? list)
     {
         if (list == null)
             return null;
@@ -60,13 +55,13 @@ public static class NativeConversion
         var result = new NSMutableArray<NSObject>();
         foreach (var item in list)
         {
-            result.Add(ObjectToNSObject(item));
+            result.Add(ObjectToNSObject(item)!);
         }
 
         return result;
     }
 
-    public static NSObject ObjectToNSObject(object obj)
+    public static NSObject? ObjectToNSObject(object? obj)
     {
         if (obj == null)
             return NSNull.Null;
@@ -81,11 +76,11 @@ public static class NativeConversion
         }
         else if (obj is String stringItem)
         {
-            return NSString.FromData(stringItem, NSStringEncoding.UTF8);
+            return NSString.FromData(stringItem, NSStringEncoding.UTF8)!;
         }
         else
         {
-            return NSObject.FromObject(obj);
+            return NSObject.FromObject(obj)!;
         }
     }
 }

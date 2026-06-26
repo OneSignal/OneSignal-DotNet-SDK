@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json;
 using Foundation;
-using HomeKit;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.InAppMessages;
 using OneSignalSDK.DotNet.Core.Internal.Utilities;
@@ -15,37 +13,31 @@ namespace OneSignalSDK.DotNet.iOS.Utilities;
 /// </summary>
 public static class FromNativeConversion
 {
-    public static Dictionary<string, string> NSObjectToPureDict(NSObject nSObject)
+    public static Dictionary<string, string>? NSObjectToPureDict(NSObject nSObject)
     {
-        if (nSObject == null)
+        var jsonString = SerializeToJsonString(nSObject);
+        if (jsonString == null)
             return null;
-        NSError error;
-        NSData jsonData = NSJsonSerialization.Serialize(nSObject, 0, out error);
-        NSString jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
-        string jsonString = jsonNSString.ToString();
-        return Json.Deserialize(jsonString) as Dictionary<string, string>;
+
+        return DeserializeStringDictionary(jsonString);
     }
 
-    public static Dictionary<string, object> NSDictToPureDict(NSDictionary nsDict)
+    public static Dictionary<string, object>? NSDictToPureDict(NSDictionary nsDict)
     {
-        if (nsDict == null)
+        var jsonString = SerializeToJsonString(nsDict);
+        if (jsonString == null)
             return null;
-        NSError error;
-        NSData jsonData = NSJsonSerialization.Serialize(nsDict, 0, out error);
-        NSString jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
-        string jsonString = jsonNSString.ToString();
+
         return Json.Deserialize(jsonString) as Dictionary<string, object>;
     }
 
-    public static Dictionary<string, string> NSDictToPureStringDict(NSDictionary nsDict)
+    public static Dictionary<string, string>? NSDictToPureStringDict(NSDictionary? nsDict)
     {
-        if (nsDict == null)
+        var jsonString = SerializeToJsonString(nsDict);
+        if (jsonString == null)
             return null;
-        NSError error;
-        NSData jsonData = NSJsonSerialization.Serialize(nsDict, 0, out error);
-        NSString jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
-        string jsonString = jsonNSString.ToString();
-        return JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
+
+        return DeserializeStringDictionary(jsonString);
     }
 
     public static Notification ToNotification(OneSignaliOS.OSNotification notification)
@@ -53,7 +45,7 @@ public static class FromNativeConversion
         Dictionary<string, object> additionalDataXam = new Dictionary<string, object>();
         if (notification.AdditionalData != null)
         {
-            additionalDataXam = NSDictToPureDict(notification.AdditionalData);
+            additionalDataXam = NSDictToPureDict(notification.AdditionalData) ?? additionalDataXam;
         }
 
         List<ActionButton> actionButtonsXam = new List<ActionButton>();
@@ -61,7 +53,7 @@ public static class FromNativeConversion
         {
             foreach (NSObject actionButton in notification.ActionButtons)
             {
-                Dictionary<string, string> actionButtonXam = NSObjectToPureDict(actionButton);
+                Dictionary<string, string>? actionButtonXam = NSObjectToPureDict(actionButton);
                 if (actionButtonXam != null)
                 {
                     actionButtonsXam.Add(
@@ -122,5 +114,32 @@ public static class FromNativeConversion
     public static InAppMessage ToInAppMessage(OneSignaliOS.OSInAppMessage inAppMessage)
     {
         return new InAppMessage(messageId: inAppMessage.MessageId);
+    }
+
+    private static string? SerializeToJsonString(NSObject? nSObject)
+    {
+        if (nSObject == null)
+            return null;
+
+        NSData jsonData = NSJsonSerialization.Serialize(nSObject, 0, out _);
+        if (jsonData == null)
+            return null;
+
+        NSString? jsonNSString = NSString.FromData(jsonData, NSStringEncoding.UTF8);
+        return jsonNSString?.ToString();
+    }
+
+    private static Dictionary<string, string>? DeserializeStringDictionary(string jsonString)
+    {
+        if (Json.Deserialize(jsonString) is not Dictionary<string, object> parsed)
+            return null;
+
+        var result = new Dictionary<string, string>();
+        foreach (var entry in parsed)
+        {
+            result[entry.Key] = entry.Value?.ToString() ?? string.Empty;
+        }
+
+        return result;
     }
 }

@@ -8,6 +8,7 @@
     <ImplicitUsings>true</ImplicitUsings>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <SupportedOSPlatformVersion>12.2</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
     <RootNamespace>OneSignalSDK.DotNet.iOS</RootNamespace>
     <AssemblyName>OneSignalSDK.DotNet.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>

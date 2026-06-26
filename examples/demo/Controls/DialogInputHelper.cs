@@ -205,7 +205,6 @@ public static class DialogInputHelper
             FontSize = 14,
             BorderWidth = 0,
             BorderColor = Colors.Transparent,
-            Shadow = null,
             Padding = new Thickness(12, 8),
             AutomationId = automationId ?? string.Empty,
         };

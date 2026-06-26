@@ -57,7 +57,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception exception)
         {
-            await DisplayAlert("Permission Request Failed", exception.Message, "OK");
+            await DisplayAlertAsync("Permission Request Failed", exception.Message, "OK");
         }
         finally
         {
@@ -69,7 +69,7 @@ public partial class MainPage : ContentPage
     {
         if (IsPlaceholder(_appId))
         {
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "Configure OneSignal",
                 "Set ONESIGNAL_APP_ID in .env before sending a test push.",
                 "OK"
@@ -79,7 +79,7 @@ public partial class MainPage : ContentPage
 
         if (!OneSignal.Notifications.Permission)
         {
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "Notifications Disabled",
                 "Request notification permission before sending a test push.",
                 "OK"
@@ -90,7 +90,7 @@ public partial class MainPage : ContentPage
         var pushSubscriptionId = OneSignal.User.PushSubscription.Id;
         if (string.IsNullOrWhiteSpace(pushSubscriptionId))
         {
-            await DisplayAlert(
+            await DisplayAlertAsync(
                 "No Push Subscription",
                 "Allow notifications, then wait for a push ID.",
                 "OK"
@@ -104,16 +104,16 @@ public partial class MainPage : ContentPage
             var response = await SendTestNotificationAsync(pushSubscriptionId);
             if (response.IsSuccessStatusCode)
             {
-                await DisplayAlert("Sent", "Test notification requested.", "OK");
+                await DisplayAlertAsync("Sent", "Test notification requested.", "OK");
                 return;
             }
 
             var message = await response.Content.ReadAsStringAsync();
-            await DisplayAlert("Send Failed", message, "OK");
+            await DisplayAlertAsync("Send Failed", message, "OK");
         }
         catch (Exception exception)
         {
-            await DisplayAlert("Send Failed", exception.Message, "OK");
+            await DisplayAlertAsync("Send Failed", exception.Message, "OK");
         }
         finally
         {
@@ -174,7 +174,7 @@ public partial class MainPage : ContentPage
         spinner.IsVisible = busy;
     }
 
-    private static string FormatValue(string value) =>
+    private static string FormatValue(string? value) =>
         string.IsNullOrWhiteSpace(value) ? "-" : value;
 
     private static bool IsPlaceholder(string value) =>
