@@ -1,4 +1,5 @@
-﻿using OneSignalSDK.DotNet.Core;
+﻿using System.Runtime.CompilerServices;
+using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Location;
 using OneSignalNative = Com.OneSignal.iOS.OneSignal;
 
@@ -7,7 +8,7 @@ namespace OneSignalSDK.DotNet.iOS;
 public class iOSLocationManager : ILocationManager
 {
     private const string LocationModuleNotAvailable =
-        "OneSignal location module is not available. Add the location dependency to use OneSignal.Location.";
+        "OneSignal location call failed. The location module may not be available; add the location dependency to use OneSignal.Location.";
 
     public bool IsShared
     {
@@ -15,7 +16,7 @@ public class iOSLocationManager : ILocationManager
         {
             try
             {
-                return OneSignalNative.Location.IsShared;
+                return GetShared();
             }
             catch (Exception exception)
             {
@@ -27,7 +28,7 @@ public class iOSLocationManager : ILocationManager
         {
             try
             {
-                OneSignalNative.Location.SetShared(value);
+                SetShared(value);
             }
             catch (Exception exception)
             {
@@ -40,7 +41,7 @@ public class iOSLocationManager : ILocationManager
     {
         try
         {
-            OneSignalNative.Location.RequestPermission();
+            RequestNativePermission();
         }
         catch (Exception exception)
         {
@@ -50,6 +51,15 @@ public class iOSLocationManager : ILocationManager
 
     private static void LogLocationModuleNotAvailable(Exception exception)
     {
-        System.Diagnostics.Debug.WriteLine($"{LocationModuleNotAvailable} {exception}");
+        Console.Error.WriteLine($"{LocationModuleNotAvailable} {exception}");
     }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static bool GetShared() => OneSignalNative.Location.IsShared;
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void SetShared(bool shared) => OneSignalNative.Location.SetShared(shared);
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void RequestNativePermission() => OneSignalNative.Location.RequestPermission();
 }
