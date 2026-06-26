@@ -16,14 +16,12 @@ namespace OneSignalSDK.DotNet.Android;
 public class AndroidOneSignal : IOneSignal
 {
     /** Retain binding assembly references so optional module DLLs are copied to output. */
-#pragma warning disable CS0169
     private static readonly Type[] BindingRetentionTypes =
     {
         typeof(Com.OneSignal.Android.InAppMessages.IInAppMessagesManager),
         typeof(Com.OneSignal.Android.Notifications.INotificationsManager),
         typeof(Com.OneSignal.Android.Location.ILocationManager),
     };
-#pragma warning restore CS0169
 
     public IUserManager User { get; } = new AndroidUserManager();
 
