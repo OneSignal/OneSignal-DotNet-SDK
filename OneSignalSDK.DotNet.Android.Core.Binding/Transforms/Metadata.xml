@@ -28,9 +28,4 @@
   <remove-node path="/api/package[starts-with(@name, 'com.onesignal.internal')]" />
   <remove-node path="/api/package[starts-with(@name, 'com.onesignal.core')]" />
   <remove-node path="/api/package[starts-with(@name, 'com.onesignal.debug.internal')]" />
-  <remove-node path="/api/package[starts-with(@name, 'com.onesignal.inAppMessages.internal')]" />
-  <remove-node path="/api/package[starts-with(@name, 'com.onesignal.location.internal')]" />
-  <remove-node path="/api/package[starts-with(@name, 'com.onesignal.notifications.internal')]" />
-  <remove-node path="/api/package[starts-with(@name, 'com.onesignal.session.internal')]" />
-  <remove-node path="/api/package[starts-with(@name, 'com.onesignal.user.internal')]" />
 </metadata>
