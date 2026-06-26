@@ -7,11 +7,11 @@ namespace OneSignalSDK.DotNet.Core.Notifications
     /// </summary>
     public class NotificationClickResult
     {
-        public string ActionId { get; }
+        public string? ActionId { get; }
 
-        public string Url { get; }
+        public string? Url { get; }
 
-        public NotificationClickResult(string actionId, string url)
+        public NotificationClickResult(string? actionId, string? url)
         {
             ActionId = actionId;
             Url = url;

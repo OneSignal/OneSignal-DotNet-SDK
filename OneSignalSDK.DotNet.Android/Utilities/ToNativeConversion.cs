@@ -3,6 +3,8 @@ using OneSignalSDK.DotNet.Core.Debug;
 
 namespace OneSignalSDK.DotNet.Android.Utilities;
 
+#pragma warning disable CA1422 // Java.Lang boxed types remain required for HashMap/ArrayList interop on minSdk 21.
+
 /// <summary>
 /// Translation functions when translating from .NET SDK class types to their respective native SDK class types.
 /// </summary>
@@ -171,3 +173,5 @@ public static class ToNativeConversion
         return javaList;
     }
 }
+
+#pragma warning restore CA1422

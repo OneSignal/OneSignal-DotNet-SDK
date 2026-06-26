@@ -12,12 +12,12 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
         /// <summary>
         /// An optional action id defined for the action element
         /// </summary>
-        public string ActionId { get; }
+        public string? ActionId { get; }
 
         /// <summary>
         /// An optional URL that opens when the action takes place
         /// </summary>
-        public string Url { get; }
+        public string? Url { get; }
 
         /// <summary>
         /// Optional where the url will be launched
@@ -30,8 +30,8 @@ namespace OneSignalSDK.DotNet.Core.InAppMessages
         public bool ClosingMessage { get; }
 
         public InAppMessageClickResult(
-            string actionId,
-            string url,
+            string? actionId,
+            string? url,
             InAppMessageActionUrlType urlTarget,
             bool closingMessage
         )

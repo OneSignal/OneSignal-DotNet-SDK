@@ -8,7 +8,7 @@ namespace OneSignalSDK.DotNet.Core.Internal.Utilities
     {
         public static string Type = "dotnet";
 
-        public static string Version
+        public static string? Version
         {
             get
             {

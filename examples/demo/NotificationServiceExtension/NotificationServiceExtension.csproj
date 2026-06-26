@@ -12,7 +12,8 @@
       ("No service extension record found for app" / UNErrorDomain 1904),
       silently dropping mutable-content pushes — i.e. no image attachments.
     -->
-    <SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <!--

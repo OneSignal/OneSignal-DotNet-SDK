@@ -22,9 +22,9 @@ public class iOSNotificationsManager : INotificationsManager
 
     public void Initialize()
     {
-        var _notificationsPermissionObserver = new InternalNotificationsPermissionObserver(this);
-        var _notificationsClickListener = new InternalNotificationsClickListener(this);
-        var _notificationsLifecycleListener = new InternalNotificationsLifecycleListener(this);
+        _notificationsPermissionObserver = new InternalNotificationsPermissionObserver(this);
+        _notificationsClickListener = new InternalNotificationsClickListener(this);
+        _notificationsLifecycleListener = new InternalNotificationsLifecycleListener(this);
 
         OneSignalNative.Notifications.AddPermissionObserver(_notificationsPermissionObserver);
         OneSignalNative.Notifications.AddForegroundLifecycleListener(
@@ -143,9 +143,9 @@ public class iOSNotificationsManager : INotificationsManager
             Dictionary<string, object> additionalDataXam = new Dictionary<string, object>();
             if (notification.AdditionalData != null)
             {
-                additionalDataXam = FromNativeConversion.NSDictToPureDict(
-                    notification.AdditionalData
-                );
+                additionalDataXam =
+                    FromNativeConversion.NSDictToPureDict(notification.AdditionalData)
+                    ?? additionalDataXam;
             }
 
             List<ActionButton> actionButtonsXam = new List<ActionButton>();
@@ -153,7 +153,7 @@ public class iOSNotificationsManager : INotificationsManager
             {
                 foreach (NSObject actionButton in notification.ActionButtons)
                 {
-                    Dictionary<string, string> actionButtonXam =
+                    Dictionary<string, string>? actionButtonXam =
                         FromNativeConversion.NSObjectToPureDict(actionButton);
                     if (actionButtonXam != null)
                     {
@@ -197,38 +197,38 @@ public class iOSNotificationsManager : INotificationsManager
 
         public iOSDisplayableNotification(
             Com.OneSignal.iOS.OSDisplayableNotification displayableNotification,
-            string title,
-            string body,
-            string sound,
-            string launchUrl,
+            string? title,
+            string? body,
+            string? sound,
+            string? launchUrl,
             IList<ActionButton> actionButtons,
             IDictionary<string, object> additionalData,
-            string notificationId,
-            IList<Notification> groupedNotifications = null,
-            BackgroundImageLayout backgroundImageLayout = null,
-            string templateId = null,
-            string templateName = null,
-            string groupKey = null,
-            string groupMessage = null,
-            string ledColor = null,
+            string? notificationId,
+            IList<Notification>? groupedNotifications = null,
+            BackgroundImageLayout? backgroundImageLayout = null,
+            string? templateId = null,
+            string? templateName = null,
+            string? groupKey = null,
+            string? groupMessage = null,
+            string? ledColor = null,
             int? priority = null,
-            string smallIcon = null,
-            string largeIcon = null,
-            string bigPicture = null,
-            string collapseId = null,
-            string fromProjectNumber = null,
-            string smallIconAccentColor = null,
+            string? smallIcon = null,
+            string? largeIcon = null,
+            string? bigPicture = null,
+            string? collapseId = null,
+            string? fromProjectNumber = null,
+            string? smallIconAccentColor = null,
             int? lockScreenVisibility = null,
             int? androidNotificationId = null,
             int? badge = null,
             int? badgeIncrement = null,
-            string category = null,
-            string threadId = null,
-            string subtitle = null,
+            string? category = null,
+            string? threadId = null,
+            string? subtitle = null,
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string interruptionLevel = null
+            string? interruptionLevel = null
         )
             : base(
                 title,
