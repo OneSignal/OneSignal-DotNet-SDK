@@ -8,7 +8,7 @@ namespace OneSignalSDK.DotNet.Android;
 public class AndroidLocationManager : ILocationManager
 {
     private const string LocationModuleNotAvailable =
-        "OneSignal location call failed. The location module may not be available; add the location dependency to use OneSignal.Location.";
+        "OneSignal.Location call failed. The location module may not be included in this build.";
 
     public bool IsShared
     {
