@@ -22,6 +22,10 @@
       >26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <MauiAsset Include=".env" Condition="Exists('.env')" LogicalName="appenv" />
+  </ItemGroup>
+
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
     <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>

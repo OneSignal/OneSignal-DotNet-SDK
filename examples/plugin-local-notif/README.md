@@ -30,6 +30,7 @@ installs its own delegate that only implements the normal Apple selectors.
 From this directory, run iOS:
 
 ```sh
+cp .env.example .env
 ./run-ios.sh
 ```
 
@@ -51,8 +52,9 @@ devices.
 5. If the notification is delivered, tap it from Notification Center.
 6. Watch device logs for the `onesignalUserNotificationCenter:*` selector crash.
 
-The bundled app ID matches the main demo app's default ID. To test against a
-different OneSignal app, update `OneSignalAppId` in `MauiProgram.cs`.
+The bundled app ID matches the main demo app's default ID when
+`ONESIGNAL_APP_ID` is missing or still set to the placeholder. To test against a
+different OneSignal app, set `ONESIGNAL_APP_ID` in `.env`.
 
 ## Notes
 
