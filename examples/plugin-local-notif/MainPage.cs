@@ -1,7 +1,10 @@
 using OneSignalSDK.DotNet;
+using OneSignalSDK.DotNet.Core.Notifications;
+using OneSignalSDK.DotNet.Core.User;
+using OneSignalSDK.DotNet.Core.User.Subscriptions;
 using Plugin.LocalNotification;
-using Plugin.LocalNotification.Core.Models.AndroidOption;
 using Plugin.LocalNotification.Core.Models;
+using Plugin.LocalNotification.Core.Models.AndroidOption;
 
 namespace PluginLocalNotifDemo;
 
@@ -10,6 +13,7 @@ public class MainPage : ContentPage
     private int _nextNotificationId = 132;
     private readonly Label _statusLabel;
     private readonly Label _permissionLabel;
+    private readonly Label _pushInfoLabel;
 
     public MainPage()
     {
@@ -23,6 +27,15 @@ public class MainPage : ContentPage
         };
 
         _permissionLabel = new Label { TextColor = Colors.DimGray };
+        _pushInfoLabel = new Label
+        {
+            TextColor = Colors.DimGray,
+            LineBreakMode = LineBreakMode.WordWrap,
+        };
+
+        OneSignal.Notifications.PermissionChanged += OnPermissionChanged;
+        OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
+        OneSignal.User.Changed += OnUserChanged;
 
         var requestOneSignalPermissionButton = new Button
         {
@@ -34,6 +47,7 @@ public class MainPage : ContentPage
             var granted = await OneSignal.Notifications.RequestPermissionAsync(true);
             SetStatus($"OneSignal permission granted: {granted}");
             RefreshPermissionLabel();
+            RefreshPushInfoLabel();
         };
 
         var requestLocalPermissionButton = new Button
@@ -84,6 +98,13 @@ public class MainPage : ContentPage
             SetStatus("Cleared delivered notifications through OneSignal.");
         };
 
+        var refreshPushInfoButton = new Button
+        {
+            Text = "Refresh Push Info",
+            AutomationId = "refresh_push_info_button",
+        };
+        refreshPushInfoButton.Clicked += (s, e) => RefreshPushInfoLabel();
+
         Content = new ScrollView
         {
             Content = new VerticalStackLayout
@@ -107,27 +128,60 @@ public class MainPage : ContentPage
                         TextColor = Colors.DimGray,
                     },
                     _permissionLabel,
+                    _pushInfoLabel,
                     requestOneSignalPermissionButton,
                     requestLocalPermissionButton,
                     showLocalNotificationButton,
                     clearButton,
+                    refreshPushInfoButton,
                     _statusLabel,
                 },
             },
         };
 
         RefreshPermissionLabel();
+        RefreshPushInfoLabel();
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
         RefreshPermissionLabel();
+        RefreshPushInfoLabel();
     }
 
     private void RefreshPermissionLabel()
     {
         _permissionLabel.Text = $"OneSignal permission: {OneSignal.Notifications.Permission}";
+    }
+
+    private void RefreshPushInfoLabel()
+    {
+        var pushSubscription = OneSignal.User.PushSubscription;
+        _pushInfoLabel.Text =
+            $"OneSignal ID: {FormatValue(OneSignal.User.OneSignalId)}\n"
+            + $"Push subscription ID: {FormatValue(pushSubscription.Id)}\n"
+            + $"Push opted in: {pushSubscription.OptedIn}\n"
+            + $"Push token: {FormatValue(pushSubscription.Token)}";
+    }
+
+    private void OnPermissionChanged(object? sender, NotificationPermissionChangedEventArgs args)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            RefreshPermissionLabel();
+            RefreshPushInfoLabel();
+        });
+    }
+
+    private void OnPushSubscriptionChanged(object? sender, PushSubscriptionChangedEventArgs args)
+    {
+        MainThread.BeginInvokeOnMainThread(RefreshPushInfoLabel);
+    }
+
+    private void OnUserChanged(object? sender, UserStateChangedEventArgs args)
+    {
+        MainThread.BeginInvokeOnMainThread(RefreshPushInfoLabel);
     }
 
     private void SetStatus(string message)
@@ -138,4 +192,7 @@ public class MainPage : ContentPage
             System.Diagnostics.Debug.WriteLine(message);
         });
     }
+
+    private static string FormatValue(string? value) =>
+        string.IsNullOrWhiteSpace(value) ? "-" : value;
 }
