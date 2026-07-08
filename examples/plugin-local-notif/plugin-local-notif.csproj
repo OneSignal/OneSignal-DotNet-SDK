@@ -11,7 +11,7 @@
     <Nullable>enable</Nullable>
 
     <ApplicationTitle>OneSignal LocalNotification Repro</ApplicationTitle>
-    <ApplicationId>com.onesignal.pluginlocalnotif</ApplicationId>
+    <ApplicationId>com.onesignal.example</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion
