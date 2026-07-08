@@ -1,6 +1,6 @@
 # OneSignal + Plugin.LocalNotification Repro
 
-Minimal .NET MAUI iOS app for investigating
+Minimal .NET MAUI app for investigating the iOS interaction reported in
 [GitHub issue #132](https://github.com/OneSignal/OneSignal-DotNet-SDK/issues/132).
 
 ## What This Reproduces
@@ -27,17 +27,20 @@ installs its own delegate that only implements the normal Apple selectors.
 
 ## Run
 
-From this directory:
+From this directory, run iOS:
 
 ```sh
-dotnet build -f net10.0-ios -t:Run
+./run-ios.sh
 ```
 
-To target a specific simulator:
+Or run Android:
 
 ```sh
-dotnet build -f net10.0-ios -t:Build,Run -p:_DeviceName=:v2:udid=<simulator-udid>
+./run-android.sh
 ```
+
+The shared scripts select from currently booted simulators or connected Android
+devices.
 
 ## Repro Steps
 
