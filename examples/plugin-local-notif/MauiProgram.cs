@@ -12,7 +12,18 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
 
-        builder.UseMauiApp<App>().UseLocalNotification();
+        builder.UseMauiApp<App>()
+            .UseLocalNotification(options =>
+            {
+#if IOS
+                options.AddiOS(ios =>
+                {
+                    ios.SetCustomUserNotificationCenterDelegate(
+                        new OneSignalCompatibleNotificationDelegate()
+                    );
+                });
+#endif
+            });
 
         var app = builder.Build();
 

@@ -23,7 +23,9 @@ onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler:
 
 Both failures point at the same interaction: OneSignal's native iOS SDK swizzles
 `UNUserNotificationCenterDelegate` methods, while `Plugin.LocalNotification`
-installs its own delegate that only implements the normal Apple selectors.
+installs its own delegate that only implements the normal Apple selectors. This
+sample registers a small iOS delegate shim so the OneSignal-prefixed selectors
+can be marshalled back to Plugin.LocalNotification's normal handlers.
 
 ## Run
 
@@ -50,7 +52,15 @@ devices.
 3. Tap `Request LocalNotification Permission`.
 4. Tap `Show Local Notification` while the app is foregrounded.
 5. If the notification is delivered, tap it from Notification Center.
-6. Watch device logs for the `onesignalUserNotificationCenter:*` selector crash.
+6. Send a OneSignal push while the app is foregrounded, then send another while
+   the app is backgrounded and tap it from Notification Center.
+7. Watch device logs to confirm the `onesignalUserNotificationCenter:*` selector
+   paths no longer crash.
+
+To reproduce the original issue #132 crash, remove the
+`OneSignalCompatibleNotificationDelegate` registration from `MauiProgram.cs` and
+delete `Platforms/iOS/OneSignalCompatibleNotificationDelegate.cs`, then repeat
+the iOS push steps.
 
 The bundled app ID matches the main demo app's default ID when
 `ONESIGNAL_APP_ID` is missing or still set to the placeholder. To test against a
@@ -61,5 +71,5 @@ different OneSignal app, set `ONESIGNAL_APP_ID` in `.env`.
 The native OneSignal iOS SDK now documents disabling swizzling via
 `OneSignal_disable_swizzling` and manually forwarding notification delegate
 methods. This .NET binding currently does not expose the newer manual forwarding
-APIs, so this sample keeps swizzling enabled and demonstrates the reported
-interaction directly.
+APIs, so this sample keeps swizzling enabled and uses the delegate shim as a
+local compatibility workaround.
