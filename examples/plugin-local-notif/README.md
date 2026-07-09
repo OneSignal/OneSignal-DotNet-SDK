@@ -24,8 +24,9 @@ onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler:
 Both failures point at the same interaction: OneSignal's native iOS SDK swizzles
 `UNUserNotificationCenterDelegate` methods, while `Plugin.LocalNotification`
 installs its own delegate that only implements the normal Apple selectors. This
-sample registers a small iOS delegate shim so the OneSignal-prefixed selectors
-can be marshalled back to Plugin.LocalNotification's normal handlers.
+sample registers a small iOS delegate shim that exports the OneSignal-prefixed
+selectors and overrides the plugin's normal handlers. Remote pushes are shown as
+foreground banners; local notifications keep the plugin's behavior.
 
 ## Run
 
@@ -73,3 +74,9 @@ The native OneSignal iOS SDK now documents disabling swizzling via
 methods. This .NET binding currently does not expose the newer manual forwarding
 APIs, so this sample keeps swizzling enabled and uses the delegate shim as a
 local compatibility workaround.
+
+Because OneSignal's swizzle exchanges implementations on the shim class, the
+normal delegate callbacks bypass OneSignal's own notification processing. With
+this workaround, OneSignal iOS foreground lifecycle events (`WillDisplay`,
+`Clicked`) may not fire; the durable fix is exposing the manual forwarding APIs
+in the binding.

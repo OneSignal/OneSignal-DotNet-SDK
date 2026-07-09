@@ -187,10 +187,9 @@ public class MainPage : ContentPage
     {
         var pushSubscription = OneSignal.User.PushSubscription;
         _pushInfoLabel.Text =
-            $"OneSignal ID: {FormatValue(OneSignal.User.OneSignalId)}\n"
-            + $"Push subscription ID: {FormatValue(pushSubscription.Id)}\n"
-            + $"Push opted in: {pushSubscription.OptedIn}\n"
-            + $"Push token: {FormatValue(pushSubscription.Token)}";
+            $"OneSignal ID:\n{FormatValue(OneSignal.User.OneSignalId)}\n"
+            + $"Push subscription ID:\n{FormatValue(pushSubscription.Id)}\n"
+            + $"Push opted in: {pushSubscription.OptedIn}";
     }
 
     private void OnPermissionChanged(object? sender, NotificationPermissionChangedEventArgs args)
