@@ -58,6 +58,17 @@ jobs:
           echo "ONESIGNAL_APP_ID=${{ vars.APPIUM_ONESIGNAL_APP_ID }}" > .env
           echo "ONESIGNAL_API_KEY=${{ secrets.APPIUM_ONESIGNAL_API_KEY }}" >> .env
 
+      - name: Resolve OneSignal Android SDK version
+        id: android-sdk-version
+        run: |
+          VERSION=$(jq -r .android versions.json)
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for OneSignal Android SDK on Maven Central
+        uses: OneSignal/sdk-shared/.github/actions/wait-for-maven-artifact@main
+        with:
+          version: ${{ steps.android-sdk-version.outputs.version }}
+
       # RuntimeIdentifier=android-arm64 ships native code only for arm64-v8a,
       # which is what BrowserStack's modern Android device farm runs. This
       # roughly halves the APK size (~30MB → ~19MB) versus the default
