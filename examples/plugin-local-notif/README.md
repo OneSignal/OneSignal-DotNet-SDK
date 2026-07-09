@@ -33,6 +33,7 @@ From this directory, run iOS:
 
 ```sh
 cp .env.example .env
+# Set ONESIGNAL_APP_ID in .env before launching.
 ./run-ios.sh
 ```
 
@@ -62,9 +63,8 @@ To reproduce the original issue #132 crash, remove the
 delete `Platforms/iOS/OneSignalCompatibleNotificationDelegate.cs`, then repeat
 the iOS push steps.
 
-The bundled app ID matches the main demo app's default ID when
-`ONESIGNAL_APP_ID` is missing or still set to the placeholder. To test against a
-different OneSignal app, set `ONESIGNAL_APP_ID` in `.env`.
+Set `ONESIGNAL_APP_ID` in `.env` before running the sample. The app does not
+fall back to a built-in OneSignal app id.
 
 ## Notes
 
