@@ -73,7 +73,8 @@ public class MainPage : ContentPage
             {
                 NotificationId = _nextNotificationId++,
                 Title = "Local notification repro",
-                Description = "Foreground display/tap exercises the iOS notification delegate path.",
+                Description =
+                    "Foreground display/tap exercises the iOS notification delegate path.",
                 Android = new AndroidOptions
                 {
                     IconSmallName = new AndroidIcon("ic_stat_local_notification", "drawable"),
