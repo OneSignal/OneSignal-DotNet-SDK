@@ -36,6 +36,8 @@
     <array>
         <string>remote-notification</string>
     </array>
+    <key>OneSignal_disable_swizzling</key>
+    <true/>
     <key>aps-environment</key>
     <string>development</string>
 </dict>

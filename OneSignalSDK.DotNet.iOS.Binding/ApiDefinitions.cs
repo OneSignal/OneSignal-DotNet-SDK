@@ -8,6 +8,15 @@ using WebKit;
 
 namespace Com.OneSignal.iOS
 {
+    [Internal]
+    [BaseType(typeof(NSObject))]
+    interface OneSignalCoreHelper
+    {
+        [Static]
+        [Export("isOneSignalPayload:")]
+        bool IsOneSignalPayload(NSDictionary payload);
+    }
+
     // @interface OSNotification : NSObject
     [BaseType(typeof(NSObject))]
     interface OSNotification
@@ -344,6 +353,30 @@ namespace Com.OneSignal.iOS
         //[Static, Abstract]
         [Export("clearAll")]
         void ClearAll();
+
+        [Export("didRegisterForRemoteNotificationsWithDeviceToken:")]
+        void DidRegisterForRemoteNotifications(NSData deviceToken);
+
+        [Export("didFailToRegisterForRemoteNotificationsWithError:")]
+        void DidFailToRegisterForRemoteNotifications(NSError error);
+
+        [Export("didReceiveRemoteNotification:completionHandler:")]
+        void DidReceiveRemoteNotification(
+            NSDictionary userInfo,
+            Action<UIBackgroundFetchResult> completionHandler
+        );
+
+        [Export("willPresentNotificationWithPayload:completion:")]
+        void WillPresentNotification(
+            NSDictionary payload,
+            OSNotificationDisplayResponse completion
+        );
+
+        [Export("didReceiveNotificationResponse:")]
+        void DidReceiveNotificationResponse(UNNotificationResponse response);
+
+        [Export("setBadgeCount:")]
+        void SetBadgeCount(nint badgeCount);
     }
 
     // @interface OSPushSubscriptionChangedState : NSObject
