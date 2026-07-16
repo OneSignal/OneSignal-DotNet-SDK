@@ -9,17 +9,9 @@ namespace PluginLocalNotifDemo;
 
 public static class MauiProgram
 {
-    private const string DefaultAppId = "77e32082-ea27-42e3-a898-c72e141824ef";
-
     public static MauiApp CreateMauiApp()
     {
         DotEnv.Load();
-
-        var envAppId = DotEnv.Get("ONESIGNAL_APP_ID");
-        var appId =
-            string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
-                ? DefaultAppId
-                : envAppId.Trim();
 
         var builder = MauiApp.CreateBuilder();
 
@@ -33,8 +25,7 @@ public static class MauiProgram
                 ios.FinishedLaunching(
                     (_, _) =>
                     {
-                        OneSignalNotificationDelegate.Install();
-                        InitializeOneSignal(appId);
+                        InitializeOneSignal(installNotificationDelegate: true);
                         return true;
                     }
                 );
@@ -51,14 +42,29 @@ public static class MauiProgram
             System.Diagnostics.Debug.WriteLine("OneSignal notification clicked");
 
 #if !IOS
-        InitializeOneSignal(appId);
+        InitializeOneSignal();
 #endif
 
         return app;
     }
 
-    private static void InitializeOneSignal(string appId)
+    private static void InitializeOneSignal(bool installNotificationDelegate = false)
     {
-        OneSignal.Initialize(appId);
+        if (!DotEnv.HasOneSignalAppId)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                "Set ONESIGNAL_APP_ID in .env to initialize OneSignal."
+            );
+            return;
+        }
+
+#if IOS
+        if (installNotificationDelegate)
+        {
+            OneSignalNotificationDelegate.Install();
+        }
+#endif
+
+        OneSignal.Initialize(DotEnv.OneSignalAppId);
     }
 }

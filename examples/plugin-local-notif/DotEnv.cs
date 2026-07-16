@@ -2,8 +2,13 @@ namespace PluginLocalNotifDemo;
 
 public static class DotEnv
 {
+    private const string OneSignalAppIdPlaceholder = "your-onesignal-app-id";
     private static readonly Dictionary<string, string> Values = new();
     private static bool _loaded;
+
+    public static string OneSignalAppId => Get("ONESIGNAL_APP_ID").Trim();
+    public static bool HasOneSignalAppId =>
+        !string.IsNullOrWhiteSpace(OneSignalAppId) && OneSignalAppId != OneSignalAppIdPlaceholder;
 
     public static void Load()
     {

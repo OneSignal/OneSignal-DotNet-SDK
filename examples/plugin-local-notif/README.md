@@ -12,6 +12,7 @@ From this directory, run iOS:
 
 ```sh
 cp .env.example .env
+# Set ONESIGNAL_APP_ID in .env before launching.
 ./run-ios.sh
 ```
 
@@ -55,10 +56,11 @@ initialize OneSignal last.
 
 On iOS, verify local foreground display and tap, OneSignal foreground
 `WillDisplay` and banner presentation, background and silent delivery,
-OneSignal `Clicked`, and APNs token registration. No
+OneSignal `Clicked`, and APNs token registration. The
+`Show OneSignal Notification` button sends a push to the displayed subscription
+ID so these paths can be tested without opening the OneSignal dashboard. No
 `onesignalUserNotificationCenter:*` or
 `oneSignalDidRegisterForRemoteNotifications:*` registrar crash should occur.
 
-The bundled app ID matches the main demo app's default ID when
-`ONESIGNAL_APP_ID` is missing or still set to the placeholder. Set
-`ONESIGNAL_APP_ID` in `.env` to use a different OneSignal app.
+Set `ONESIGNAL_APP_ID` in `.env` before running the sample. The app does not
+fall back to a built-in OneSignal app ID.

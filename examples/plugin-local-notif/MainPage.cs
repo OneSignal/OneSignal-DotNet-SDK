@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using OneSignalSDK.DotNet;
 using OneSignalSDK.DotNet.Core.Notifications;
 using OneSignalSDK.DotNet.Core.User;
@@ -88,6 +90,24 @@ public class MainPage : ContentPage
             );
         };
 
+        var showOneSignalNotificationButton = new Button
+        {
+            Text = "Show OneSignal Notification",
+            AutomationId = "show_onesignal_notification_button",
+        };
+        showOneSignalNotificationButton.Clicked += async (s, e) =>
+        {
+            showOneSignalNotificationButton.IsEnabled = false;
+            try
+            {
+                await SendSimpleOneSignalNotificationAsync();
+            }
+            finally
+            {
+                showOneSignalNotificationButton.IsEnabled = true;
+            }
+        };
+
         var clearButton = new Button
         {
             Text = "Clear Delivered Notifications",
@@ -133,6 +153,7 @@ public class MainPage : ContentPage
                     requestOneSignalPermissionButton,
                     requestLocalPermissionButton,
                     showLocalNotificationButton,
+                    showOneSignalNotificationButton,
                     clearButton,
                     refreshPushInfoButton,
                     _statusLabel,
@@ -160,10 +181,9 @@ public class MainPage : ContentPage
     {
         var pushSubscription = OneSignal.User.PushSubscription;
         _pushInfoLabel.Text =
-            $"OneSignal ID: {FormatValue(OneSignal.User.OneSignalId)}\n"
-            + $"Push subscription ID: {FormatValue(pushSubscription.Id)}\n"
-            + $"Push opted in: {pushSubscription.OptedIn}\n"
-            + $"Push token: {FormatValue(pushSubscription.Token)}";
+            $"OneSignal ID:\n{FormatValue(OneSignal.User.OneSignalId)}\n"
+            + $"Push subscription ID:\n{FormatValue(pushSubscription.Id)}\n"
+            + $"Push opted in: {pushSubscription.OptedIn}";
     }
 
     private void OnPermissionChanged(object? sender, NotificationPermissionChangedEventArgs args)
@@ -183,6 +203,51 @@ public class MainPage : ContentPage
     private void OnUserChanged(object? sender, UserStateChangedEventArgs args)
     {
         MainThread.BeginInvokeOnMainThread(RefreshPushInfoLabel);
+    }
+
+    private async Task SendSimpleOneSignalNotificationAsync()
+    {
+        if (!DotEnv.HasOneSignalAppId)
+        {
+            SetStatus("Set ONESIGNAL_APP_ID in .env before sending a OneSignal notification.");
+            return;
+        }
+
+        var pushSubscriptionId = OneSignal.User.PushSubscription.Id;
+        if (string.IsNullOrWhiteSpace(pushSubscriptionId))
+        {
+            SetStatus(
+                "No OneSignal push subscription ID yet. Refresh after permission is granted."
+            );
+            return;
+        }
+
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Accept", "application/vnd.onesignal.v1+json");
+
+        var payload = new Dictionary<string, object>
+        {
+            ["app_id"] = DotEnv.OneSignalAppId,
+            ["headings"] = new Dictionary<string, string> { ["en"] = "Simple Notification" },
+            ["contents"] = new Dictionary<string, string>
+            {
+                ["en"] = "This is a simple push notification",
+            },
+            ["include_subscription_ids"] = new[] { pushSubscriptionId },
+        };
+
+        var json = JsonSerializer.Serialize(payload);
+        var response = await client.PostAsync(
+            "https://onesignal.com/api/v1/notifications",
+            new StringContent(json, Encoding.UTF8, "application/json")
+        );
+        var responseJson = await response.Content.ReadAsStringAsync();
+
+        SetStatus(
+            response.IsSuccessStatusCode
+                ? $"OneSignal notification requested: {responseJson}"
+                : $"OneSignal notification failed: {responseJson}"
+        );
     }
 
     private void SetStatus(string message)
