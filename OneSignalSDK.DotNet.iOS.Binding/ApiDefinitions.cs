@@ -8,6 +8,7 @@ using WebKit;
 
 namespace Com.OneSignal.iOS
 {
+    [Internal]
     [BaseType(typeof(NSObject))]
     interface OneSignalCoreHelper
     {
@@ -18,6 +19,7 @@ namespace Com.OneSignal.iOS
 
     [Protocol]
     [Model]
+    [Internal]
     [BaseType(typeof(NSObject))]
     interface OneSignalNotificationCenterDelegateProxy
     {

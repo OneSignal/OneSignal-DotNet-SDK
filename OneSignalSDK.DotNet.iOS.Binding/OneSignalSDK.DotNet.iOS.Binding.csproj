@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <InternalsVisibleTo Include="OneSignalSDK.DotNet.iOS" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />

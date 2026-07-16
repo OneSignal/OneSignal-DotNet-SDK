@@ -57,6 +57,8 @@ internal sealed class iOSNotificationCenterDelegateProxy
     {
         if (OneSignalCoreHelper.IsOneSignalPayload(notification.Request.Content.UserInfo))
         {
+            // OneSignal's native IMP owns the real completion for its payloads.
+            // Let the inner delegate observe the notification without completing it twice.
             _innerDelegate.WillPresentNotification(center, notification, _ => { });
             return;
         }

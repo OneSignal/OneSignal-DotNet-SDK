@@ -76,8 +76,14 @@ a later `FinishedLaunching` handler. Android still initializes immediately.
 This is an experimental compatibility path, not a general delegate coordinator:
 
 - Replacing `UNUserNotificationCenter.Current.Delegate` after
-  `OneSignal.Initialize` is not protected.
+  `OneSignal.Initialize` is not protected. The prototype only reports this
+  through `Debug.WriteLine`, so Release/AOT apps receive no warning.
 - It relies on private native OneSignal class and selector names.
+- If post-initialization IMP repair fails, initialization throws after the
+  native SDK has already started; there is no safe rollback to the original
+  managed delegate.
+- The low-level binding helper and proxy model are internal implementation
+  details and are not supported consumer APIs.
 - Each bundled native iOS SDK version must be verified in both Debug and
   Release/AOT builds.
 

@@ -13,8 +13,15 @@ public static class MauiProgram
 
     public static MauiApp CreateMauiApp()
     {
+        DotEnv.Load();
+
+        var envAppId = DotEnv.Get("ONESIGNAL_APP_ID");
+        var appId =
+            string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
+                ? DefaultAppId
+                : envAppId.Trim();
+
         var builder = MauiApp.CreateBuilder();
-        var appId = DefaultAppId;
 
         builder.UseMauiApp<App>().UseLocalNotification();
 
@@ -36,14 +43,6 @@ public static class MauiProgram
 
         var app = builder.Build();
 
-        DotEnv.Load();
-
-        var envAppId = DotEnv.Get("ONESIGNAL_APP_ID");
-        appId =
-            string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
-                ? DefaultAppId
-                : envAppId.Trim();
-
         OneSignal.Debug.LogLevel = OsLogLevel.VERBOSE;
         OneSignal.Notifications.WillDisplay += (s, e) =>
             System.Diagnostics.Debug.WriteLine("OneSignal notification will display");
@@ -51,6 +50,7 @@ public static class MauiProgram
             System.Diagnostics.Debug.WriteLine("OneSignal notification clicked");
 
 #if !IOS
+        // iOS initializes in FinishedLaunching after the plugin installs its delegate.
         InitializeOneSignal(appId);
 #endif
 
