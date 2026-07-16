@@ -104,6 +104,28 @@ jobs:
       - name: Clone and update native SDKs
         if: inputs.android_version != '' || inputs.ios_version != ''
         run: |
+          if [ -n "${{ inputs.android_version }}" ]; then
+            VERSION="${{ inputs.android_version }}"
+            if ! curl --fail --silent --show-error --retry 4 --retry-delay 30 \
+              -H "Authorization: token ${{ github.token }}" \
+              "https://api.github.com/repos/OneSignal/OneSignal-Android-SDK/releases/tags/${VERSION}" \
+              >/dev/null; then
+              echo "✗ Android SDK version ${VERSION} not found"
+              exit 1
+            fi
+          fi
+
+          if [ -n "${{ inputs.ios_version }}" ]; then
+            VERSION="${{ inputs.ios_version }}"
+            if ! curl --fail --silent --show-error --retry 4 --retry-delay 30 \
+              -H "Authorization: token ${{ github.token }}" \
+              "https://api.github.com/repos/OneSignal/OneSignal-iOS-SDK/releases/tags/${VERSION}" \
+              >/dev/null; then
+              echo "✗ iOS SDK version ${VERSION} not found"
+              exit 1
+            fi
+          fi
+
           # Clone iOS SDK if ios_version is provided
           if [ -n "${{ inputs.ios_version }}" ]; then
             echo "Cloning iOS SDK..."
