@@ -23,7 +23,14 @@ onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler:
 
 Both failures point at the same interaction: OneSignal's native iOS SDK swizzles
 `UNUserNotificationCenterDelegate` methods, while `Plugin.LocalNotification`
-installs its own delegate that only implements the normal Apple selectors.
+installs its own managed delegate that only implements the normal Apple
+selectors. The .NET runtime cannot marshal the OneSignal-prefixed selector back
+to that managed type.
+
+This branch prototypes an SDK-owned delegate proxy. The proxy is installed
+between OneSignal and the existing local-notification delegate, provides
+registrar metadata for both selector names, and restores OneSignal's native
+implementations after swizzling.
 
 ## Run
 
@@ -50,7 +57,10 @@ devices.
 3. Tap `Request LocalNotification Permission`.
 4. Tap `Show Local Notification` while the app is foregrounded.
 5. If the notification is delivered, tap it from Notification Center.
-6. Watch device logs for the `onesignalUserNotificationCenter:*` selector crash.
+6. Send a OneSignal push while the app is foregrounded, then tap a push from
+   Notification Center.
+7. Confirm local callbacks and OneSignal `WillDisplay`/`Clicked` callbacks run
+   without an `ObjCRuntime.RuntimeException`.
 
 The bundled app ID matches the main demo app's default ID when
 `ONESIGNAL_APP_ID` is missing or still set to the placeholder. To test against a
@@ -58,8 +68,20 @@ different OneSignal app, set `ONESIGNAL_APP_ID` in `.env`.
 
 ## Notes
 
-The native OneSignal iOS SDK now documents disabling swizzling via
+The proxy must capture the third-party delegate before OneSignal starts native
+initialization. `UseLocalNotification` installs its delegate during
+`FinishedLaunching`, so this sample registers OneSignal's iOS initialization in
+a later `FinishedLaunching` handler. Android still initializes immediately.
+
+This is an experimental compatibility path, not a general delegate coordinator:
+
+- Replacing `UNUserNotificationCenter.Current.Delegate` after
+  `OneSignal.Initialize` is not protected.
+- It relies on private native OneSignal class and selector names.
+- Each bundled native iOS SDK version must be verified in both Debug and
+  Release/AOT builds.
+
+The supported fallback remains disabling swizzling with
 `OneSignal_disable_swizzling` and manually forwarding notification delegate
-methods. This .NET binding currently does not expose the newer manual forwarding
-APIs, so this sample keeps swizzling enabled and demonstrates the reported
-interaction directly.
+methods. Those native manual-integration APIs are not currently exposed by this
+.NET binding.

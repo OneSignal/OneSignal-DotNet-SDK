@@ -8,6 +8,54 @@ using WebKit;
 
 namespace Com.OneSignal.iOS
 {
+    [BaseType(typeof(NSObject))]
+    interface OneSignalCoreHelper
+    {
+        [Static]
+        [Export("isOneSignalPayload:")]
+        bool IsOneSignalPayload(NSDictionary payload);
+    }
+
+    [Protocol]
+    [Model]
+    [BaseType(typeof(NSObject))]
+    interface OneSignalNotificationCenterDelegateProxy
+    {
+        [Abstract]
+        [Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
+        void WillPresentNotification(
+            UNUserNotificationCenter center,
+            UNNotification notification,
+            Action<UNNotificationPresentationOptions> completionHandler
+        );
+
+        [Abstract]
+        [Export("onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler:")]
+        void OneSignalWillPresentNotification(
+            UNUserNotificationCenter center,
+            UNNotification notification,
+            Action<UNNotificationPresentationOptions> completionHandler
+        );
+
+        [Abstract]
+        [Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
+        void DidReceiveNotificationResponse(
+            UNUserNotificationCenter center,
+            UNNotificationResponse response,
+            Action completionHandler
+        );
+
+        [Abstract]
+        [Export(
+            "onesignalUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:"
+        )]
+        void OneSignalDidReceiveNotificationResponse(
+            UNUserNotificationCenter center,
+            UNNotificationResponse response,
+            Action completionHandler
+        );
+    }
+
     // @interface OSNotification : NSObject
     [BaseType(typeof(NSObject))]
     interface OSNotification
