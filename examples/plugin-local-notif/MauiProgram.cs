@@ -37,9 +37,9 @@ public static class MauiProgram
 
         OneSignal.Debug.LogLevel = OsLogLevel.VERBOSE;
         OneSignal.Notifications.WillDisplay += (s, e) =>
-            System.Diagnostics.Debug.WriteLine("OneSignal notification will display");
+            Console.WriteLine("OneSignal notification will display");
         OneSignal.Notifications.Clicked += (s, e) =>
-            System.Diagnostics.Debug.WriteLine("OneSignal notification clicked");
+            Console.WriteLine("OneSignal notification clicked");
 
 #if !IOS
         InitializeOneSignal();
