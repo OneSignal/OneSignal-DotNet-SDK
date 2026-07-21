@@ -3,6 +3,11 @@
 Minimal .NET MAUI app for investigating the iOS interaction reported in
 [GitHub issue #132](https://github.com/OneSignal/OneSignal-DotNet-SDK/issues/132).
 
+This example is a temporary compatibility workaround, not a first-party
+OneSignal local notification implementation. OneSignal hopes to support local
+notifications directly in a future SDK release, at which point that support
+should replace this delegate shim. No release timeline is currently committed.
+
 ## What This Reproduces
 
 Issue #132 reports an iOS crash when `OneSignalSDK.DotNet` and
