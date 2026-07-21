@@ -10,7 +10,8 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
 
-        builder.UseMauiApp<App>()
+        builder
+            .UseMauiApp<App>()
             .UseLocalNotification(options =>
             {
 #if IOS
@@ -34,7 +35,9 @@ public static class MauiProgram
         }
         else
         {
-            System.Diagnostics.Debug.WriteLine("Set ONESIGNAL_APP_ID in .env to initialize OneSignal.");
+            System.Diagnostics.Debug.WriteLine(
+                "Set ONESIGNAL_APP_ID in .env to initialize OneSignal."
+            );
         }
 
         OneSignal.Notifications.WillDisplay += (s, e) =>

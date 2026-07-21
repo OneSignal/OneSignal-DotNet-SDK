@@ -222,7 +222,9 @@ public class MainPage : ContentPage
         var pushSubscriptionId = OneSignal.User.PushSubscription.Id;
         if (string.IsNullOrWhiteSpace(pushSubscriptionId))
         {
-            SetStatus("No OneSignal push subscription ID yet. Refresh after permission is granted.");
+            SetStatus(
+                "No OneSignal push subscription ID yet. Refresh after permission is granted."
+            );
             return;
         }
 

@@ -50,7 +50,9 @@ public sealed class OneSignalCompatibleNotificationDelegate : UserNotificationCe
         base.WillPresentNotification(center, notification, completionHandler);
     }
 
-    [Export("onesignalUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
+    [Export(
+        "onesignalUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:"
+    )]
     public void OneSignalDidReceiveNotificationResponse(
         UNUserNotificationCenter center,
         UNNotificationResponse response,
