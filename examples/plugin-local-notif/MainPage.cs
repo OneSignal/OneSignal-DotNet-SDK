@@ -35,9 +35,12 @@ public class MainPage : ContentPage
             LineBreakMode = LineBreakMode.WordWrap,
         };
 
-        OneSignal.Notifications.PermissionChanged += OnPermissionChanged;
-        OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
-        OneSignal.User.Changed += OnUserChanged;
+        if (DotEnv.HasOneSignalAppId)
+        {
+            OneSignal.Notifications.PermissionChanged += OnPermissionChanged;
+            OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
+            OneSignal.User.Changed += OnUserChanged;
+        }
 
         var requestOneSignalPermissionButton = new Button
         {
@@ -108,6 +111,10 @@ public class MainPage : ContentPage
             {
                 await SendSimpleOneSignalNotificationAsync();
             }
+            catch (Exception exception)
+            {
+                SetStatus($"OneSignal notification failed: {exception.Message}");
+            }
             finally
             {
                 showOneSignalNotificationButton.IsEnabled = true;
@@ -121,6 +128,12 @@ public class MainPage : ContentPage
         };
         clearButton.Clicked += (s, e) =>
         {
+            if (!DotEnv.HasOneSignalAppId)
+            {
+                SetStatus("Set ONESIGNAL_APP_ID in .env before clearing OneSignal notifications.");
+                return;
+            }
+
             OneSignal.Notifications.ClearAllNotifications();
             SetStatus("Cleared delivered notifications through OneSignal.");
         };
@@ -180,11 +193,23 @@ public class MainPage : ContentPage
 
     private void RefreshPermissionLabel()
     {
+        if (!DotEnv.HasOneSignalAppId)
+        {
+            _permissionLabel.Text = "OneSignal permission: unavailable (app ID not set)";
+            return;
+        }
+
         _permissionLabel.Text = $"OneSignal permission: {OneSignal.Notifications.Permission}";
     }
 
     private void RefreshPushInfoLabel()
     {
+        if (!DotEnv.HasOneSignalAppId)
+        {
+            _pushInfoLabel.Text = "OneSignal push subscription: unavailable (app ID not set)";
+            return;
+        }
+
         var pushSubscription = OneSignal.User.PushSubscription;
         _pushInfoLabel.Text =
             $"OneSignal ID:\n{FormatValue(OneSignal.User.OneSignalId)}\n"
