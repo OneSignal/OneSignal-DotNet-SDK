@@ -8,11 +8,7 @@ using OneSignalSDK.DotNet.Core.User.Subscriptions;
 
 namespace OneSignalAndroidServiceExtension;
 
-[Activity(
-    Label = "OneSignal Service Extension",
-    MainLauncher = true,
-    Exported = true
-)]
+[Activity(Label = "OneSignal Service Extension", MainLauncher = true, Exported = true)]
 public sealed class MainActivity : Activity
 {
     private TextView? _message;
@@ -51,10 +47,7 @@ public sealed class MainActivity : Activity
         base.OnDestroy();
     }
 
-    private void OnPushSubscriptionChanged(
-        object? sender,
-        PushSubscriptionChangedEventArgs args
-    )
+    private void OnPushSubscriptionChanged(object? sender, PushSubscriptionChangedEventArgs args)
     {
         RunOnUiThread(RefreshPushId);
     }

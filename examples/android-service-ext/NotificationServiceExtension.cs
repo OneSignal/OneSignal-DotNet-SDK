@@ -5,9 +5,7 @@ using Com.OneSignal.Android.Notifications;
 namespace OneSignalAndroidServiceExtension;
 
 [Register("com/onesignal/example/NotificationServiceExtension")]
-public sealed class NotificationServiceExtension
-    : Java.Lang.Object,
-        INotificationServiceExtension
+public sealed class NotificationServiceExtension : Java.Lang.Object, INotificationServiceExtension
 {
     public void OnNotificationReceived(INotificationReceivedEvent notificationEvent)
     {
