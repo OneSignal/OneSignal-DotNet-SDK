@@ -14,19 +14,18 @@ namespace OneSignalAndroidServiceExtension;
 )]
 public sealed class MainActivity : Activity
 {
-    private const string OneSignalAppId = "YOUR-ONESIGNAL-APP-ID";
-
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
 
-        var isConfigured = OneSignalAppId != "YOUR-ONESIGNAL-APP-ID";
+        var appId = DotEnv.Get("ONESIGNAL_APP_ID");
+        var isConfigured = Guid.TryParse(appId, out _);
         var message = new TextView(this)
         {
             Gravity = GravityFlags.Center,
             Text = isConfigured
                 ? "Send a push notification to test the blue accent color."
-                : "Set OneSignalAppId in MainActivity.cs, then run the app again.",
+                : "Set ONESIGNAL_APP_ID in .env, then run the app again.",
             TextSize = 18,
         };
         message.SetBackgroundColor(Color.White);
@@ -37,7 +36,7 @@ public sealed class MainActivity : Activity
         if (!isConfigured)
             return;
 
-        OneSignal.Initialize(OneSignalAppId);
+        OneSignal.Initialize(appId);
         _ = OneSignal.Notifications.RequestPermissionAsync(false);
     }
 }

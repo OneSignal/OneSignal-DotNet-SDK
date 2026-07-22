@@ -2,7 +2,17 @@
 
 This Android app changes the notification accent color before OneSignal displays it.
 
-Replace `YOUR-ONESIGNAL-APP-ID` in `MainActivity.cs`, start an emulator or connect a device, then run:
+Create `.env` and set your OneSignal App ID:
+
+```shell
+cp examples/android-service-ext/.env.example examples/android-service-ext/.env
+```
+
+```dotenv
+ONESIGNAL_APP_ID=your-onesignal-app-id
+```
+
+Start an emulator or connect a device, then run:
 
 ```shell
 ./examples/android-service-ext/run-android.sh
