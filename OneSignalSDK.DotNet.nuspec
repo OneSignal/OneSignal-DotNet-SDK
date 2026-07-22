@@ -28,6 +28,7 @@
                 <dependency id="Xamarin.KotlinX.Serialization.Json" version="1.7.3.5" />
 
                 <dependency id="Xamarin.AndroidX.CardView" version="1.0.0.16" />
+                <dependency id="Xamarin.AndroidX.Core" version="1.12.0.1" />
                 <dependency id="Xamarin.AndroidX.Legacy.Support.V4" version="1.0.0.14" />
                 <dependency id="Xamarin.AndroidX.Browser" version="1.4.0.2" />
                 <dependency id="Xamarin.AndroidX.AppCompat" version="1.4.2.1" />
