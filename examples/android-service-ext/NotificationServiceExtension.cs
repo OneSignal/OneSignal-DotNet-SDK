@@ -19,6 +19,8 @@ public sealed class NotificationExtender : Java.Lang.Object, NotificationCompat.
 {
     public NotificationCompat.Builder Extend(NotificationCompat.Builder builder)
     {
-        return builder.SetColor(unchecked((int)0xFF0066FF));
+        return builder
+            .SetColor(unchecked((int)0xFF0066FF))
+            .SetContentTitle(new Java.Lang.String("[Extended] Test"));
     }
 }
