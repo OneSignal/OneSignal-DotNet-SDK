@@ -12,8 +12,9 @@ namespace OneSignalAndroidServiceExtension;
 public sealed class MainActivity : Activity
 {
     private TextView? _message;
+    private bool _isSubscribed;
 
-    protected override void OnCreate(Bundle? savedInstanceState)
+    protected override async void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
 
@@ -37,13 +38,30 @@ public sealed class MainActivity : Activity
 
         OneSignal.Initialize(appId);
         OneSignal.User.PushSubscription.Changed += OnPushSubscriptionChanged;
+        _isSubscribed = true;
         RefreshPushId();
-        _ = OneSignal.Notifications.RequestPermissionAsync(false);
+
+        try
+        {
+            await OneSignal.Notifications.RequestPermissionAsync(false);
+        }
+        catch (Exception exception)
+        {
+            Toast
+                .MakeText(
+                    this,
+                    $"Notification permission request failed: {exception.Message}",
+                    ToastLength.Long
+                )
+                ?.Show();
+        }
     }
 
     protected override void OnDestroy()
     {
-        OneSignal.User.PushSubscription.Changed -= OnPushSubscriptionChanged;
+        if (_isSubscribed)
+            OneSignal.User.PushSubscription.Changed -= OnPushSubscriptionChanged;
+
         base.OnDestroy();
     }
 
