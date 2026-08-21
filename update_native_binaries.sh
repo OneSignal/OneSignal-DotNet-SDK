@@ -64,6 +64,10 @@ update_android_binaries() {
          --output OneSignalSDK.DotNet.Android.Core.Binding/Jars/core-release.aar \
          --fail --retry 50 --retry-delay 60 --retry-all-errors
 
+    curl https://repo1.maven.org/maven2/com/onesignal/kmp-android/${ANDROID_NATIVE_VERSION}/kmp-android-${ANDROID_NATIVE_VERSION}.aar \
+         --output OneSignalSDK.DotNet.Android.Core.Binding/Jars/kmp-android-release.aar \
+         --fail --retry 50 --retry-delay 60 --retry-all-errors
+
     curl https://repo1.maven.org/maven2/com/onesignal/notifications/${ANDROID_NATIVE_VERSION}/notifications-${ANDROID_NATIVE_VERSION}.aar \
          --output OneSignalSDK.DotNet.Android.Notifications.Binding/Jars/notifications-release.aar \
          --fail --retry 50 --retry-delay 60 --retry-all-errors
