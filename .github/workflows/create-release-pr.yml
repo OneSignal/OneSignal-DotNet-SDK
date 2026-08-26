@@ -34,8 +34,8 @@ on:
   workflow_dispatch:
     inputs:
       dotnet_version:
-        description: ".NET release version (e.g., 5.0.0 or 5.0.0-beta1)"
-        required: true
+        description: "Override the auto-detected version (e.g., 5.0.0 or 5.0.0-beta1). Leave blank to auto-detect."
+        required: false
         type: string
       android_version:
         description: "New Android SDK Version (e.g., 2.3.0). Leave blank to skip."
@@ -52,19 +52,37 @@ on:
         default: main
 
 jobs:
+  determine_version:
+    runs-on: ubuntu-latest
+    outputs:
+      dotnet_version: ${{ inputs.dotnet_version || steps.next_version.outputs.version }}
+      release_needed: ${{ inputs.dotnet_version != '' || steps.next_version.outputs.release-needed == 'true' }}
+
+    steps:
+      - name: Determine .NET SDK version
+        if: github.event_name == 'workflow_dispatch' && inputs.dotnet_version == ''
+        id: next_version
+        uses: OneSignal/sdk-shared/.github/actions/determine-next-version@main
+        with:
+          github-token: ${{ secrets.GH_PUSH_TOKEN || github.token }}
+          target-repo: OneSignal/OneSignal-DotNet-SDK
+          target-branch: ${{ inputs.target_branch }}
+
   prep:
+    needs: determine_version
+    if: needs.determine_version.outputs.release_needed == 'true'
     uses: OneSignal/sdk-shared/.github/workflows/prep-release.yml@main
     secrets:
       # Need this cross-repo token (sdk-shared & this repo) to perform changes
       GH_PUSH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
     with:
       target_repo: OneSignal/OneSignal-DotNet-SDK
-      version: ${{ inputs.dotnet_version }}
+      version: ${{ needs.determine_version.outputs.dotnet_version }}
 
   # DOTNET specific steps
   update-version:
     name: Create Release PR
-    needs: prep
+    needs: [determine_version, prep]
     runs-on: macos-latest
     outputs:
       dotnet_from: ${{ steps.current_versions.outputs.dotnet_from }}
@@ -151,8 +169,10 @@ jobs:
           ./update_native_binaries.sh $ARGS
 
       - name: Update .NET version in nuspec
+        env:
+          NEW_VERSION: ${{ needs.determine_version.outputs.dotnet_version }}
         run: |
-          VERSION=${{ inputs.dotnet_version }}
+          VERSION="$NEW_VERSION"
           echo "🔧 Updating .NET SDK version to $VERSION"
 
           sed -i '' "s|<version>.*</version>|<version>${VERSION}</version>|" OneSignalSDK.DotNet.nuspec
