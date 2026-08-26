@@ -77,6 +77,7 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\OneSignalSDK.DotNet.Android.Notifications.Binding.pdb" target="lib\net10.0-android21.0" />
 
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\core-release.aar" target="lib\net10.0-android21.0" />
+        <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\kmp-android-release.aar" target="lib\net10.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\in-app-messages-release.aar" target="lib\net10.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\location-release.aar" target="lib\net10.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\notifications-release.aar" target="lib\net10.0-android21.0" />
