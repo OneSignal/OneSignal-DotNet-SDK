@@ -71,6 +71,13 @@ jobs:
       - name: Pack
         run: dotnet pack OneSignalSDK.DotNet/OneSignalSDK.DotNet.csproj --no-build -c Release /p:NuspecFile=../OneSignalSDK.DotNet.nuspec -o ./artifacts
 
+      - name: Verify Android feature flags dependency
+        run: |
+          PACKAGE=$(ls artifacts/*.nupkg)
+          unzip -p "$PACKAGE" lib/net10.0-android21.0/kmp-android-release.aar > "$RUNNER_TEMP/kmp-android-release.aar"
+          unzip -p "$RUNNER_TEMP/kmp-android-release.aar" classes.jar > "$RUNNER_TEMP/kmp-android-classes.jar"
+          jar tf "$RUNNER_TEMP/kmp-android-classes.jar" | grep -q '^com/onesignal/features/FeatureFlag.class$'
+
       - name: Publish to NuGet
         run: dotnet nuget push ./artifacts/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
