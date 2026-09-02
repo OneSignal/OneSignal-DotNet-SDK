@@ -44,4 +44,66 @@ else
   selected="${devices[$idx]}"
 fi
 
-dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run -p:AdbTarget="-s $selected" "$@"
+application_id=$(
+  dotnet msbuild "$PROJECT_FILE" \
+    -getProperty:ApplicationId \
+    -p:TargetFramework=net10.0-android 2>/dev/null || true
+)
+
+build_log=$(mktemp)
+trap 'rm -f "$build_log"' EXIT
+
+set +e
+dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run -p:AdbTarget="-s $selected" "$@" 2>&1 |
+  tee "$build_log"
+build_status=${PIPESTATUS[0]}
+set -e
+
+if [ "$build_status" -ne 0 ] &&
+  grep -q "Requested internal only, but not enough space" "$build_log"; then
+  echo
+  echo "The selected Android device does not have enough internal storage to install the app."
+  echo "Device storage:"
+  adb -s "$selected" shell df -h /data || true
+
+  if [ -t 0 ] &&
+    [ -n "$application_id" ] &&
+    adb -s "$selected" shell pm path "$application_id" >/dev/null 2>&1; then
+    echo
+    printf "Uninstall %s from the device and retry? This deletes its app data. [y/N] " \
+      "$application_id"
+    read -r retry || retry=""
+
+    if [[ "$retry" =~ ^[Yy]$ ]]; then
+      adb -s "$selected" uninstall "$application_id"
+      echo "Retrying..."
+
+      set +e
+      dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run \
+        -p:AdbTarget="-s $selected" "$@"
+      build_status=$?
+      set -e
+    fi
+  else
+    echo "Free space or wipe the emulator's data, then run this script again."
+  fi
+fi
+
+if [ "$build_status" -eq 0 ] && [ -n "$application_id" ]; then
+  app_pid=""
+  for _ in {1..20}; do
+    app_pid=$(adb -s "$selected" shell pidof "$application_id" || true)
+    [ -n "$app_pid" ] && break
+    sleep 0.25
+  done
+
+  if [ -n "$app_pid" ]; then
+    echo
+    echo "Streaming $application_id logs. Press Ctrl-C to stop."
+    adb -s "$selected" logcat --pid="$app_pid" -v time
+  else
+    echo "The app launched, but its process is no longer running."
+  fi
+fi
+
+exit "$build_status"
