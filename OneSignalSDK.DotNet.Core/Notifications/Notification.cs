@@ -262,15 +262,36 @@ namespace OneSignalSDK.DotNet.Core.Notifications
         public string? Text { get; }
 
         /// <summary>
-        /// The icon displayed on the action button.
+        /// (Android Only) The icon displayed on the action button.
         /// </summary>
         public string? Icon { get; }
 
+        /// <summary>
+        /// (iOS Only) The template image displayed on the action button.
+        /// </summary>
+        public string? TemplateIcon { get; }
+
+        /// <summary>
+        /// (iOS Only) The system image displayed on the action button.
+        /// </summary>
+        public string? SystemIcon { get; }
+
         public ActionButton(string? id, string? text, string? icon)
+            : this(id, text, icon, null, null) { }
+
+        public ActionButton(
+            string? id,
+            string? text,
+            string? icon,
+            string? templateIcon,
+            string? systemIcon
+        )
         {
             Id = id;
             Text = text;
             Icon = icon;
+            TemplateIcon = templateIcon;
+            SystemIcon = systemIcon;
         }
     }
 

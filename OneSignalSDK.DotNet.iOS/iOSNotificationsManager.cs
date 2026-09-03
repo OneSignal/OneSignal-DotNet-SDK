@@ -161,7 +161,9 @@ public class iOSNotificationsManager : INotificationsManager
                             new ActionButton(
                                 id: actionButtonXam.GetValueOrDefault("id"),
                                 text: actionButtonXam.GetValueOrDefault("text"),
-                                icon: actionButtonXam.GetValueOrDefault("icon")
+                                icon: null,
+                                templateIcon: actionButtonXam.GetValueOrDefault("templateIcon"),
+                                systemIcon: actionButtonXam.GetValueOrDefault("systemIcon")
                             )
                         );
                     }
