@@ -99,6 +99,14 @@
     <ProjectReference Include="NotificationServiceExtension\NotificationServiceExtension.csproj">
       <IsAppExtension>true</IsAppExtension>
     </ProjectReference>
+    <BundleResource
+      Include="Platforms\iOS\template-bookmark-icon.png"
+      LogicalName="template-bookmark-icon.png"
+    />
+    <BundleResource
+      Include="Platforms\iOS\template-share-icon.png"
+      LogicalName="template-share-icon.png"
+    />
   </ItemGroup>
 
   <!-- Bundle the pre-built OneSignalWidget extension (Live Activities) -->
