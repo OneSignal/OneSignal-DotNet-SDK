@@ -33,5 +33,15 @@
 
   <ItemGroup>
     <TrimmerRootAssembly Include="System.Net.Mail" />
+    <BundleResource
+      Include="..\Platforms\iOS\template-bookmark-icon.png"
+      Link="template-bookmark-icon.png"
+      LogicalName="template-bookmark-icon.png"
+    />
+    <BundleResource
+      Include="..\Platforms\iOS\template-share-icon.png"
+      Link="template-share-icon.png"
+      LogicalName="template-share-icon.png"
+    />
   </ItemGroup>
 </Project>
