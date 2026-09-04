@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.Json;
 using CommunityToolkit.Maui;
 using MauiIcons.Material;
@@ -123,11 +122,16 @@ public static class MauiProgram
 
         // Register observers
         var jsonOpts = new JsonSerializerOptions { WriteIndented = true };
-        OneSignal.InAppMessages.WillDisplay += (s, e) => Debug.WriteLine("IAM WillDisplay");
-        OneSignal.InAppMessages.DidDisplay += (s, e) => Debug.WriteLine("IAM DidDisplay");
-        OneSignal.InAppMessages.WillDismiss += (s, e) => Debug.WriteLine("IAM WillDismiss");
-        OneSignal.InAppMessages.DidDismiss += (s, e) => Debug.WriteLine("IAM DidDismiss");
-        OneSignal.InAppMessages.Clicked += (s, e) => Debug.WriteLine("IAM Clicked");
+        OneSignal.InAppMessages.WillDisplay += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM willDisplay: {e.Message.MessageId}");
+        OneSignal.InAppMessages.DidDisplay += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM didDisplay: {e.Message.MessageId}");
+        OneSignal.InAppMessages.WillDismiss += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM willDismiss: {e.Message.MessageId}");
+        OneSignal.InAppMessages.DidDismiss += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM didDismiss: {e.Message.MessageId}");
+        OneSignal.InAppMessages.Clicked += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM click: {e.Message.MessageId}");
         OneSignal.Notifications.Clicked += (s, e) =>
         {
             Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
