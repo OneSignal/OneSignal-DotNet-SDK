@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json;
 using CommunityToolkit.Maui;
 using MauiIcons.Material;
 using OneSignalDemo.Pages;
@@ -121,14 +122,24 @@ public static class MauiProgram
 #endif
 
         // Register observers
+        var jsonOpts = new JsonSerializerOptions { WriteIndented = true };
         OneSignal.InAppMessages.WillDisplay += (s, e) => Debug.WriteLine("IAM WillDisplay");
         OneSignal.InAppMessages.DidDisplay += (s, e) => Debug.WriteLine("IAM DidDisplay");
         OneSignal.InAppMessages.WillDismiss += (s, e) => Debug.WriteLine("IAM WillDismiss");
         OneSignal.InAppMessages.DidDismiss += (s, e) => Debug.WriteLine("IAM DidDismiss");
         OneSignal.InAppMessages.Clicked += (s, e) => Debug.WriteLine("IAM Clicked");
-        OneSignal.Notifications.Clicked += (s, e) => Debug.WriteLine("Notification clicked");
+        OneSignal.Notifications.Clicked += (s, e) =>
+        {
+            Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
+            Console.WriteLine(JsonSerializer.Serialize(new { e.Notification, e.Result }, jsonOpts));
+        };
         OneSignal.Notifications.WillDisplay += (s, e) =>
-            Debug.WriteLine("Notification willDisplay");
+        {
+            Console.WriteLine(
+                $"[OneSignal] Notification foregroundWillDisplay: {e.Notification.Title ?? ""}"
+            );
+            Console.WriteLine(JsonSerializer.Serialize(e.Notification, jsonOpts));
+        };
 
         // Restore SDK state from prefs (after Initialize)
         OneSignal.InAppMessages.Paused = prefs.IamPaused;
