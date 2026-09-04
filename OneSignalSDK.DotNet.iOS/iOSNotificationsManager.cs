@@ -148,26 +148,6 @@ public class iOSNotificationsManager : INotificationsManager
                     ?? additionalDataXam;
             }
 
-            List<ActionButton> actionButtonsXam = new List<ActionButton>();
-            if (notification.ActionButtons != null)
-            {
-                foreach (NSObject actionButton in notification.ActionButtons)
-                {
-                    Dictionary<string, string>? actionButtonXam =
-                        FromNativeConversion.NSObjectToPureDict(actionButton);
-                    if (actionButtonXam != null)
-                    {
-                        actionButtonsXam.Add(
-                            new ActionButton(
-                                id: actionButtonXam.GetValueOrDefault("id"),
-                                text: actionButtonXam.GetValueOrDefault("text"),
-                                icon: actionButtonXam.GetValueOrDefault("icon")
-                            )
-                        );
-                    }
-                }
-            }
-
             return new iOSDisplayableNotification(
                 displayableNotification: notification,
                 notificationId: notification.NotificationId,
@@ -176,6 +156,8 @@ public class iOSNotificationsManager : INotificationsManager
                 title: notification.Title,
                 body: notification.Body,
                 additionalData: additionalDataXam,
+                rawPayload: FromNativeConversion.NSDictToPureDict(notification.RawPayload)
+                    ?? new Dictionary<string, object>(),
                 launchUrl: notification.LaunchURL,
                 sound: notification.Sound,
                 relevanceScore: notification.RelevanceScore != null
@@ -183,7 +165,7 @@ public class iOSNotificationsManager : INotificationsManager
                     : 0,
                 badge: (int)notification.Badge,
                 badgeIncrement: (int)notification.BadgeIncrement,
-                actionButtons: actionButtonsXam,
+                actionButtons: FromNativeConversion.ToActionButtons(notification.ActionButtons),
                 category: notification.Category,
                 threadId: notification.ThreadId,
                 subtitle: notification.Subtitle,
@@ -228,7 +210,8 @@ public class iOSNotificationsManager : INotificationsManager
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string? interruptionLevel = null
+            string? interruptionLevel = null,
+            IDictionary<string, object>? rawPayload = null
         )
             : base(
                 title,
@@ -238,6 +221,7 @@ public class iOSNotificationsManager : INotificationsManager
                 actionButtons,
                 additionalData,
                 notificationId,
+                rawPayload ?? new Dictionary<string, object>(),
                 groupedNotifications,
                 backgroundImageLayout,
                 templateId,

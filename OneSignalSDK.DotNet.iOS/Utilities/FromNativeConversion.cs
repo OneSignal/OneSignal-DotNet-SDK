@@ -48,25 +48,6 @@ public static class FromNativeConversion
             additionalDataXam = NSDictToPureDict(notification.AdditionalData) ?? additionalDataXam;
         }
 
-        List<ActionButton> actionButtonsXam = new List<ActionButton>();
-        if (notification.ActionButtons != null)
-        {
-            foreach (NSObject actionButton in notification.ActionButtons)
-            {
-                Dictionary<string, string>? actionButtonXam = NSObjectToPureDict(actionButton);
-                if (actionButtonXam != null)
-                {
-                    actionButtonsXam.Add(
-                        new ActionButton(
-                            id: actionButtonXam.GetValueOrDefault("id"),
-                            text: actionButtonXam.GetValueOrDefault("text"),
-                            icon: actionButtonXam.GetValueOrDefault("icon")
-                        )
-                    );
-                }
-            }
-        }
-
         return new Notification(
             notificationId: notification.NotificationId,
             templateName: notification.TemplateName,
@@ -74,6 +55,8 @@ public static class FromNativeConversion
             title: notification.Title,
             body: notification.Body,
             additionalData: additionalDataXam,
+            rawPayload: NSDictToPureDict(notification.RawPayload)
+                ?? new Dictionary<string, object>(),
             launchUrl: notification.LaunchURL,
             sound: notification.Sound,
             relevanceScore: notification.RelevanceScore != null
@@ -81,7 +64,7 @@ public static class FromNativeConversion
                 : 0,
             badge: (int)notification.Badge,
             badgeIncrement: (int)notification.BadgeIncrement,
-            actionButtons: actionButtonsXam,
+            actionButtons: ToActionButtons(notification.ActionButtons),
             category: notification.Category,
             threadId: notification.ThreadId,
             subtitle: notification.Subtitle,
@@ -89,6 +72,32 @@ public static class FromNativeConversion
             contentAvailable: notification.ContentAvailable,
             interruptionLevel: notification.InterruptionLevel
         );
+    }
+
+    public static List<ActionButton> ToActionButtons(NSObject[]? actionButtons)
+    {
+        var result = new List<ActionButton>();
+        if (actionButtons == null)
+            return result;
+
+        foreach (NSObject actionButton in actionButtons)
+        {
+            Dictionary<string, string>? values = NSObjectToPureDict(actionButton);
+            if (values == null)
+                continue;
+
+            result.Add(
+                new ActionButton(
+                    id: values.GetValueOrDefault("id"),
+                    text: values.GetValueOrDefault("text"),
+                    icon: null,
+                    templateIcon: values.GetValueOrDefault("templateIcon"),
+                    systemIcon: values.GetValueOrDefault("systemIcon")
+                )
+            );
+        }
+
+        return result;
     }
 
     public static NotificationClickResult ToNotificationClickResult(

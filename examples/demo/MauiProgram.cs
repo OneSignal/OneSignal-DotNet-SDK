@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.Text.Json;
 using CommunityToolkit.Maui;
 using MauiIcons.Material;
 using OneSignalDemo.Pages;
@@ -121,14 +121,53 @@ public static class MauiProgram
 #endif
 
         // Register observers
-        OneSignal.InAppMessages.WillDisplay += (s, e) => Debug.WriteLine("IAM WillDisplay");
-        OneSignal.InAppMessages.DidDisplay += (s, e) => Debug.WriteLine("IAM DidDisplay");
-        OneSignal.InAppMessages.WillDismiss += (s, e) => Debug.WriteLine("IAM WillDismiss");
-        OneSignal.InAppMessages.DidDismiss += (s, e) => Debug.WriteLine("IAM DidDismiss");
-        OneSignal.InAppMessages.Clicked += (s, e) => Debug.WriteLine("IAM Clicked");
-        OneSignal.Notifications.Clicked += (s, e) => Debug.WriteLine("Notification clicked");
+        var jsonOpts = new JsonSerializerOptions { WriteIndented = true };
+        OneSignal.InAppMessages.WillDisplay += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM willDisplay: {e.Message.MessageId}");
+        OneSignal.InAppMessages.DidDisplay += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM didDisplay: {e.Message.MessageId}");
+        OneSignal.InAppMessages.WillDismiss += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM willDismiss: {e.Message.MessageId}");
+        OneSignal.InAppMessages.DidDismiss += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM didDismiss: {e.Message.MessageId}");
+        OneSignal.InAppMessages.Clicked += (s, e) =>
+            Console.WriteLine($"[OneSignal] IAM click: {e.Message.MessageId}");
+        OneSignal.Notifications.Clicked += (s, e) =>
+        {
+            Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
+            Console.WriteLine(
+                $"[OneSignal] event: {JsonSerializer.Serialize(new { e.Notification, e.Result }, jsonOpts)}"
+            );
+        };
         OneSignal.Notifications.WillDisplay += (s, e) =>
-            Debug.WriteLine("Notification willDisplay");
+        {
+            Console.WriteLine(
+                $"[OneSignal] Notification foregroundWillDisplay: {e.Notification.Title ?? ""}"
+            );
+            Console.WriteLine(
+                $"[OneSignal] event: {JsonSerializer.Serialize(e.Notification, jsonOpts)}"
+            );
+
+            // Uncomment to test preventing the default display behavior.
+            // e.PreventDefault();
+
+            // Call this after PreventDefault() (within about 25 seconds) to force display.
+            // e.Notification.display();
+
+            // Example with a delay (assumes PreventDefault() was called).
+            // Console.WriteLine("[OneSignal] Forcing notification display in 24 seconds");
+            // _ = Task.Run(async () =>
+            // {
+            //     for (var seconds = 24; seconds > 0; seconds--)
+            //     {
+            //         Console.WriteLine($"[OneSignal] Displaying notification in {seconds} seconds");
+            //         await Task.Delay(TimeSpan.FromSeconds(1));
+            //     }
+            //
+            //     Console.WriteLine("[OneSignal] Displaying notification");
+            //     e.Notification.display();
+            // });
+        };
 
         // Restore SDK state from prefs (after Initialize)
         OneSignal.InAppMessages.Paused = prefs.IamPaused;
