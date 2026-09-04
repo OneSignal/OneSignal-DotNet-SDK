@@ -265,6 +265,7 @@ public class MainPage : ContentPage
                 ["en"] = "This is a simple push notification",
             },
             ["include_subscription_ids"] = new[] { pushSubscriptionId },
+            ["android_group"] = "demo-group",
         };
 
         var json = JsonSerializer.Serialize(payload);
