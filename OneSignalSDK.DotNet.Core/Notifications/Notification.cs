@@ -40,6 +40,11 @@ namespace OneSignalSDK.DotNet.Core.Notifications
             new Dictionary<string, object>();
 
         /// <summary>
+        /// The raw notification payload received from the push service.
+        /// </summary>
+        public IDictionary<string, object> RawPayload { get; } = new Dictionary<string, object>();
+
+        /// <summary>
         /// The OneSignal notification id.
         /// </summary>
         public string? NotificationId { get; }
@@ -210,6 +215,77 @@ namespace OneSignalSDK.DotNet.Core.Notifications
             Nullable<bool> contentAvailable = null,
             string? interruptionLevel = null
         )
+            : this(
+                title,
+                body,
+                sound,
+                launchUrl,
+                actionButtons,
+                additionalData,
+                notificationId,
+                new Dictionary<string, object>(),
+                groupedNotifications,
+                backgroundImageLayout,
+                templateId,
+                templateName,
+                groupKey,
+                groupMessage,
+                ledColor,
+                priority,
+                smallIcon,
+                largeIcon,
+                bigPicture,
+                collapseId,
+                fromProjectNumber,
+                smallIconAccentColor,
+                lockScreenVisibility,
+                androidNotificationId,
+                badge,
+                badgeIncrement,
+                category,
+                threadId,
+                subtitle,
+                relevanceScore,
+                mutableContent,
+                contentAvailable,
+                interruptionLevel
+            ) { }
+
+        public Notification(
+            string? title,
+            string? body,
+            string? sound,
+            string? launchUrl,
+            IList<ActionButton> actionButtons,
+            IDictionary<string, object> additionalData,
+            string? notificationId,
+            IDictionary<string, object> rawPayload,
+            IList<Notification>? groupedNotifications = null,
+            BackgroundImageLayout? backgroundImageLayout = null,
+            string? templateId = null,
+            string? templateName = null,
+            string? groupKey = null,
+            string? groupMessage = null,
+            string? ledColor = null,
+            Nullable<int> priority = null,
+            string? smallIcon = null,
+            string? largeIcon = null,
+            string? bigPicture = null,
+            string? collapseId = null,
+            string? fromProjectNumber = null,
+            string? smallIconAccentColor = null,
+            Nullable<int> lockScreenVisibility = null,
+            Nullable<int> androidNotificationId = null,
+            Nullable<int> badge = null,
+            Nullable<int> badgeIncrement = null,
+            string? category = null,
+            string? threadId = null,
+            string? subtitle = null,
+            Nullable<float> relevanceScore = null,
+            Nullable<bool> mutableContent = null,
+            Nullable<bool> contentAvailable = null,
+            string? interruptionLevel = null
+        )
         {
             Title = title;
             Body = body;
@@ -217,6 +293,7 @@ namespace OneSignalSDK.DotNet.Core.Notifications
             LaunchUrl = launchUrl;
             ActionButtons = actionButtons;
             AdditionalData = additionalData;
+            RawPayload = rawPayload;
             NotificationId = notificationId;
             GroupedNotifications = groupedNotifications;
             BackgroundImageLayout = backgroundImageLayout;
