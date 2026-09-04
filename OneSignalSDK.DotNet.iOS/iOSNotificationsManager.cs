@@ -156,6 +156,8 @@ public class iOSNotificationsManager : INotificationsManager
                 title: notification.Title,
                 body: notification.Body,
                 additionalData: additionalDataXam,
+                rawPayload: FromNativeConversion.NSDictToPureDict(notification.RawPayload)
+                    ?? new Dictionary<string, object>(),
                 launchUrl: notification.LaunchURL,
                 sound: notification.Sound,
                 relevanceScore: notification.RelevanceScore != null
@@ -208,7 +210,8 @@ public class iOSNotificationsManager : INotificationsManager
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string? interruptionLevel = null
+            string? interruptionLevel = null,
+            IDictionary<string, object>? rawPayload = null
         )
             : base(
                 title,
@@ -218,6 +221,7 @@ public class iOSNotificationsManager : INotificationsManager
                 actionButtons,
                 additionalData,
                 notificationId,
+                rawPayload ?? new Dictionary<string, object>(),
                 groupedNotifications,
                 backgroundImageLayout,
                 templateId,

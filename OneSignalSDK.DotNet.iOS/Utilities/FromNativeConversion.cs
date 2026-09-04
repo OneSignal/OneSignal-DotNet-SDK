@@ -55,6 +55,8 @@ public static class FromNativeConversion
             title: notification.Title,
             body: notification.Body,
             additionalData: additionalDataXam,
+            rawPayload: NSDictToPureDict(notification.RawPayload)
+                ?? new Dictionary<string, object>(),
             launchUrl: notification.LaunchURL,
             sound: notification.Sound,
             relevanceScore: notification.RelevanceScore != null

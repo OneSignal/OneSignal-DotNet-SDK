@@ -23,6 +23,10 @@ public static class FromNativeConversion
                     as IDictionary<string, object>
                 ?? new Dictionary<string, object>();
 
+        IDictionary<string, object> rawPayload =
+            Json.Deserialize(notification.RawPayload) as IDictionary<string, object>
+            ?? new Dictionary<string, object>();
+
         IList<OneSignalSDK.DotNet.Core.Notifications.Notification>? groupedNotifications = null;
         if (notification.GroupedNotifications != null)
         {
@@ -63,6 +67,7 @@ public static class FromNativeConversion
             actionButtons: actionButtons,
             additionalData: additionalData,
             notificationId: notification.NotificationId,
+            rawPayload: rawPayload,
             groupedNotifications: groupedNotifications,
             backgroundImageLayout: backgroundImageLayout,
             groupKey: notification.GroupKey,

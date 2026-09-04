@@ -124,6 +124,10 @@ public class AndroidNotificationsManager : INotificationsManager
                         as IDictionary<string, object>
                     ?? new Dictionary<string, object>();
 
+            IDictionary<string, object> rawPayload =
+                Json.Deserialize(notification.RawPayload) as IDictionary<string, object>
+                ?? new Dictionary<string, object>();
+
             IList<OneSignalSDK.DotNet.Core.Notifications.Notification>? groupedNotifications = null;
             if (notification.GroupedNotifications != null)
             {
@@ -169,6 +173,7 @@ public class AndroidNotificationsManager : INotificationsManager
                 actionButtons: actionButtons,
                 additionalData: additionalData,
                 notificationId: notification.NotificationId,
+                rawPayload: rawPayload,
                 groupedNotifications: groupedNotifications,
                 backgroundImageLayout: backgroundImageLayout,
                 groupKey: notification.GroupKey,
@@ -221,7 +226,8 @@ public class AndroidNotificationsManager : INotificationsManager
             float? relevanceScore = null,
             bool? mutableContent = null,
             bool? contentAvailable = null,
-            string? interruptionLevel = null
+            string? interruptionLevel = null,
+            IDictionary<string, object>? rawPayload = null
         )
             : base(
                 title,
@@ -231,6 +237,7 @@ public class AndroidNotificationsManager : INotificationsManager
                 actionButtons,
                 additionalData,
                 notificationId,
+                rawPayload ?? new Dictionary<string, object>(),
                 groupedNotifications,
                 backgroundImageLayout,
                 templateId,
