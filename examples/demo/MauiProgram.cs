@@ -144,7 +144,29 @@ public static class MauiProgram
             Console.WriteLine(
                 $"[OneSignal] Notification foregroundWillDisplay: {e.Notification.Title ?? ""}"
             );
-            Console.WriteLine(JsonSerializer.Serialize(e.Notification, jsonOpts));
+            Console.WriteLine(
+                $"[OneSignal] event: {JsonSerializer.Serialize(e.Notification, jsonOpts)}"
+            );
+
+            // Uncomment to test preventing the default display behavior.
+            // e.PreventDefault();
+
+            // Call this after PreventDefault() (within about 25 seconds) to force display.
+            // e.Notification.display();
+
+            // Example with a delay (assumes PreventDefault() was called).
+            // Console.WriteLine("[OneSignal] Forcing notification display in 24 seconds");
+            // _ = Task.Run(async () =>
+            // {
+            //     for (var seconds = 24; seconds > 0; seconds--)
+            //     {
+            //         Console.WriteLine($"[OneSignal] Displaying notification in {seconds} seconds");
+            //         await Task.Delay(TimeSpan.FromSeconds(1));
+            //     }
+            //
+            //     Console.WriteLine("[OneSignal] Displaying notification");
+            //     e.Notification.display();
+            // });
         };
 
         // Restore SDK state from prefs (after Initialize)
