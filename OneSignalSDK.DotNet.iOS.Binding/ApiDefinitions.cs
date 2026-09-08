@@ -985,14 +985,6 @@ namespace Com.OneSignal.iOS
         //[Verify(MethodToProperty)]
         OSSession Session { get; }
 
-        // +(UNMutableNotificationContent *)didReceiveNotificationExtensionRequest:(UNNotificationRequest * _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent * _Nullable)replacementContent __attribute__((deprecated("Please use didReceiveNotificationExtensionRequest:withMutableNotificationContent:withContentHandler: instead.")));
-        [Static]
-        [Export("didReceiveNotificationExtensionRequest:withMutableNotificationContent:")]
-        UNMutableNotificationContent DidReceiveNotificationExtensionRequest(
-            UNNotificationRequest request,
-            [NullAllowed] UNMutableNotificationContent replacementContent
-        );
-
         // +(UNMutableNotificationContent *)didReceiveNotificationExtensionRequest:(UNNotificationRequest * _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent * _Nullable)replacementContent withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler;
         [Static]
         [Export(
