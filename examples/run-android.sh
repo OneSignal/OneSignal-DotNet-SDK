@@ -128,7 +128,8 @@ build_status=${PIPESTATUS[0]}
 set -e
 
 if [ "$build_status" -ne 0 ] &&
-  grep -q "Requested internal only, but not enough space" "$build_log"; then
+  grep -Eq "Requested internal only, but not enough space|InsufficientSpaceException|There is not enough storage space" \
+    "$build_log"; then
   echo
   echo "The selected Android device does not have enough internal storage to install the app."
   echo "Device storage:"
