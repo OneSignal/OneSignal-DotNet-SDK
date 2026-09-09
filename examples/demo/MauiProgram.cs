@@ -135,18 +135,22 @@ public static class MauiProgram
         OneSignal.Notifications.Clicked += (s, e) =>
         {
             Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
-            Console.WriteLine(
-                $"[OneSignal] event: {JsonSerializer.Serialize(new { e.Notification, e.Result }, jsonOpts)}"
-            );
+            
+            // Uncomment to see the full event object
+            // Console.WriteLine(
+            //     $"[OneSignal] click event: {JsonSerializer.Serialize(new { e.Notification, e.Result }, jsonOpts)}"
+            // );
         };
         OneSignal.Notifications.WillDisplay += (s, e) =>
         {
             Console.WriteLine(
                 $"[OneSignal] Notification foregroundWillDisplay: {e.Notification.Title ?? ""}"
             );
-            Console.WriteLine(
-                $"[OneSignal] event: {JsonSerializer.Serialize(e.Notification, jsonOpts)}"
-            );
+
+            // Uncomment to see the full event object
+            // Console.WriteLine(
+            //     $"[OneSignal] event: {JsonSerializer.Serialize(e.Notification, jsonOpts)}"
+            // );
 
             // Uncomment to test preventing the default display behavior.
             // e.PreventDefault();
