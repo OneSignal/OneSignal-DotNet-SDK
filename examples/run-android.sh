@@ -18,15 +18,18 @@ fi
 
 labels=()
 devices=()
+avds=()
 while IFS= read -r serial; do
   avd=$(adb -s "$serial" emu avd name 2>/dev/null | head -1 | tr -d '\r')
   label="${avd:-$serial} ($serial)"
   labels+=("$label")
   devices+=("$serial")
+  avds+=("$avd")
 done <<< "$serials"
 
 if [ ${#devices[@]} -eq 1 ]; then
   selected="${devices[0]}"
+  selected_avd="${avds[0]}"
   echo "Using device: ${labels[0]}"
 else
   echo "Select a device:"
@@ -42,6 +45,7 @@ else
     exit 1
   fi
   selected="${devices[$idx]}"
+  selected_avd="${avds[$idx]}"
 fi
 
 application_id=$(
@@ -51,7 +55,71 @@ application_id=$(
 )
 
 build_log=$(mktemp)
-trap 'rm -f "$build_log"' EXIT
+emulator_log=$(mktemp)
+trap 'rm -f "$build_log" "$emulator_log"' EXIT
+
+find_emulator_binary() {
+  if command -v emulator >/dev/null 2>&1; then
+    command -v emulator
+  elif [ -n "${ANDROID_SDK_ROOT:-}" ] && [ -x "$ANDROID_SDK_ROOT/emulator/emulator" ]; then
+    echo "$ANDROID_SDK_ROOT/emulator/emulator"
+  elif [ -n "${ANDROID_HOME:-}" ] && [ -x "$ANDROID_HOME/emulator/emulator" ]; then
+    echo "$ANDROID_HOME/emulator/emulator"
+  elif [ -x "$HOME/Library/Android/sdk/emulator/emulator" ]; then
+    echo "$HOME/Library/Android/sdk/emulator/emulator"
+  fi
+}
+
+wipe_emulator() {
+  local emulator_binary="$1"
+  local port="${selected#emulator-}"
+
+  echo "Stopping $selected..."
+  adb -s "$selected" emu kill >/dev/null
+
+  for _ in {1..20}; do
+    if ! adb devices | awk '/\tdevice$/{print $1}' | grep -qx "$selected"; then
+      break
+    fi
+    sleep 0.5
+  done
+
+  echo "Wiping and restarting $selected_avd..."
+  nohup "$emulator_binary" -avd "$selected_avd" -port "$port" -wipe-data \
+    -no-snapshot-load >"$emulator_log" 2>&1 &
+  local emulator_pid=$!
+
+  local connected=false
+  for _ in {1..120}; do
+    if [ "$(adb -s "$selected" get-state 2>/dev/null || true)" = "device" ]; then
+      connected=true
+      break
+    fi
+    if ! kill -0 "$emulator_pid" 2>/dev/null; then
+      echo "The emulator stopped before connecting. Emulator output:"
+      cat "$emulator_log"
+      return 1
+    fi
+    sleep 1
+  done
+
+  if [ "$connected" != true ]; then
+    echo "The emulator did not reconnect. Emulator output:"
+    cat "$emulator_log"
+    return 1
+  fi
+
+  for _ in {1..180}; do
+    if [ "$(adb -s "$selected" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ]; then
+      return 0
+    fi
+    sleep 1
+  done
+
+  echo "The emulator did not finish booting. Emulator output:"
+  cat "$emulator_log"
+  return 1
+}
 
 set +e
 dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run -p:AdbTarget="-s $selected" "$@" 2>&1 |
@@ -84,7 +152,29 @@ if [ "$build_status" -ne 0 ] &&
       build_status=$?
       set -e
     fi
-  else
+  fi
+
+  if [ "$build_status" -ne 0 ] && [ -t 0 ] && [ -n "$selected_avd" ]; then
+    emulator_binary=$(find_emulator_binary)
+    if [ -n "$emulator_binary" ]; then
+      echo
+      printf "Factory-reset %s and retry? This deletes all emulator data. [y/N] " \
+        "$selected_avd"
+      read -r wipe || wipe=""
+
+      if [[ "$wipe" =~ ^[Yy]$ ]] && wipe_emulator "$emulator_binary"; then
+        echo "Retrying..."
+
+        set +e
+        dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run \
+          -p:AdbTarget="-s $selected" "$@"
+        build_status=$?
+        set -e
+      fi
+    fi
+  fi
+
+  if [ "$build_status" -ne 0 ]; then
     echo "Free space or wipe the emulator's data, then run this script again."
   fi
 fi
