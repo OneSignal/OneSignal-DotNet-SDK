@@ -132,16 +132,16 @@ public static class MauiProgram
             Console.WriteLine($"[OneSignal] IAM didDismiss: {e.Message.MessageId}");
         OneSignal.InAppMessages.Clicked += (s, e) =>
             Console.WriteLine($"[OneSignal] IAM click: {e.Message.MessageId}");
-        OneSignal.Notifications.Clicked += (s, e) =>
+
+        OneSignal.Notifications.Clicked += (_, e) =>
         {
             Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
 
             // Uncomment to see the full event object
-            // Console.WriteLine(
-            //     $"[OneSignal] click event: {JsonSerializer.Serialize(new { e.Notification, e.Result }, jsonOpts)}"
-            // );
+            // Console.WriteLine($"[OneSignal] click event: {JsonSerializer.Serialize(e, jsonOpts)}");
         };
-        OneSignal.Notifications.WillDisplay += (s, e) =>
+
+        OneSignal.Notifications.WillDisplay += (_, e) =>
         {
             Console.WriteLine(
                 $"[OneSignal] Notification foregroundWillDisplay: {e.Notification.Title ?? ""}"
@@ -149,7 +149,7 @@ public static class MauiProgram
 
             // Uncomment to see the full event object
             // Console.WriteLine(
-            //     $"[OneSignal] event: {JsonSerializer.Serialize(e.Notification, jsonOpts)}"
+            //     $"[OneSignal] will display event: {JsonSerializer.Serialize(e.Notification, jsonOpts)}"
             // );
 
             // Uncomment to test preventing the default display behavior.
