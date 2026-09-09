@@ -135,7 +135,7 @@ public static class MauiProgram
         OneSignal.Notifications.Clicked += (s, e) =>
         {
             Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
-            
+
             // Uncomment to see the full event object
             // Console.WriteLine(
             //     $"[OneSignal] click event: {JsonSerializer.Serialize(new { e.Notification, e.Result }, jsonOpts)}"
