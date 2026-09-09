@@ -111,6 +111,7 @@ public class OneSignalApiService
             ["headings"] = new Dictionary<string, string> { ["en"] = title },
             ["contents"] = new Dictionary<string, string> { ["en"] = body },
             ["include_subscription_ids"] = new[] { subscriptionId },
+            ["android_group"] = "demo-group",
         };
 
         if (extra != null)

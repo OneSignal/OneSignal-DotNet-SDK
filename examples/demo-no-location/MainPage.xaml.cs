@@ -144,6 +144,7 @@ public partial class MainPage : ContentPage
         {
             ["app_id"] = _appId,
             ["include_subscription_ids"] = new[] { pushSubscriptionId },
+            ["android_group"] = "demo-group",
             ["headings"] = new Dictionary<string, string> { ["en"] = "OneSignal No-Location Demo" },
             ["contents"] = new Dictionary<string, string>
             {
