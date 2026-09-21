@@ -82,7 +82,7 @@
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\location-release.aar" target="lib\net10.0-android21.0" />
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-android\notifications-release.aar" target="lib\net10.0-android21.0" />
 
-        <!--net10.0-ios (minimum iOS 12.2)-->
+        <!--net10.0-ios (minimum iOS 15.0)-->
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-ios\OneSignalSDK.DotNet.dll" target="lib\net10.0-ios12.2" />
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-ios\OneSignalSDK.DotNet.Core.dll" target="lib\net10.0-ios12.2" />
         <file src="OneSignalSDK.DotNet\bin\Release\net10.0-ios\OneSignalSDK.DotNet.iOS.dll" target="lib\net10.0-ios12.2" />

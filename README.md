@@ -93,6 +93,6 @@ For Android, run: `dotnet build -t:Run -f net10.0-android`
 
 #### Supports:
 
-- iOS 12.2 and higher.
+- iOS 15.0 and higher.
 - Android 5.0 (API Level 21) and higher.
 - Multi-platform App UI (MAUI) applications.
