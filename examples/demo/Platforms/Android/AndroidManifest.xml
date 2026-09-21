@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   package="com.onesignal.example"
 >
   <uses-permission android:name="android.permission.INTERNET" />
@@ -15,5 +16,11 @@
     android:icon="@mipmap/appicon"
     android:roundIcon="@mipmap/appicon_round"
     android:supportsRtl="true"
-  ></application>
+  >
+    <meta-data
+      android:name="firebase_messaging_installation_id_enabled"
+      android:value="true"
+      tools:replace="android:value"
+    />
+  </application>
 </manifest>
