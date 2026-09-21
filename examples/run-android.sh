@@ -51,7 +51,8 @@ fi
 application_id=$(
   dotnet msbuild "$PROJECT_FILE" \
     -getProperty:ApplicationId \
-    -p:TargetFramework=net10.0-android 2>/dev/null || true
+    -p:TargetFramework=net10.0-android \
+    -p:OneSignalAndroidOnly=true 2>/dev/null || true
 )
 
 build_log=$(mktemp)
@@ -122,7 +123,8 @@ wipe_emulator() {
 }
 
 set +e
-dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run -p:AdbTarget="-s $selected" "$@" 2>&1 |
+dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run \
+  -p:OneSignalAndroidOnly=true -p:AdbTarget="-s $selected" "$@" 2>&1 |
   tee "$build_log"
 build_status=${PIPESTATUS[0]}
 set -e
@@ -149,7 +151,7 @@ if [ "$build_status" -ne 0 ] &&
 
       set +e
       dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run \
-        -p:AdbTarget="-s $selected" "$@"
+        -p:OneSignalAndroidOnly=true -p:AdbTarget="-s $selected" "$@"
       build_status=$?
       set -e
     fi
@@ -168,7 +170,7 @@ if [ "$build_status" -ne 0 ] &&
 
         set +e
         dotnet build "$PROJECT_FILE" -f net10.0-android -t:Run \
-          -p:AdbTarget="-s $selected" "$@"
+          -p:OneSignalAndroidOnly=true -p:AdbTarget="-s $selected" "$@"
         build_status=$?
         set -e
       fi

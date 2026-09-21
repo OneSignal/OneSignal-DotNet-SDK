@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))"
+    <TargetFrameworks
+      Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$(OneSignalAndroidOnly)' != 'true'"
       >$(TargetFrameworks);net10.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>OneSignalDemoNoLocation</RootNamespace>
