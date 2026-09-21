@@ -44,3 +44,6 @@ Thumbs.db
 
 # Environment files
 .env
+
+# Firebase credentials
+examples/demo/Platforms/Android/google-services.json
