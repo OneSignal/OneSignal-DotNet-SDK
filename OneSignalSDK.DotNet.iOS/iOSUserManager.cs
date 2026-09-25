@@ -18,7 +18,9 @@ namespace OneSignalSDK.DotNet.iOS
                 // Empty string is the reset to the device language. Null is not.
                 if (value == null)
                 {
-                    global::System.Diagnostics.Debug.WriteLine("OneSignal: setLanguage: language is required");
+                    global::System.Diagnostics.Debug.WriteLine(
+                        "OneSignal: setLanguage: language is required"
+                    );
                     return;
                 }
                 OneSignalNative.User.SetLanguage(value);
@@ -43,55 +45,67 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void AddAlias(string label, string id)
         {
-            if (InputGuard.Missing(label, "addAlias: label") || InputGuard.Missing(id, "addAlias: id")) return;
+            if (
+                InputGuard.Missing(label, "addAlias: label")
+                || InputGuard.Missing(id, "addAlias: id")
+            )
+                return;
             OneSignalNative.User.AddAliasWithLabel(label, id);
         }
 
         public void AddAliases(IDictionary<string, string> aliases)
         {
-            if (InputGuard.MissingEntries(aliases, "addAliases", false)) return;
+            if (InputGuard.MissingEntries(aliases, "addAliases", false))
+                return;
             OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases)!);
         }
 
         public void RemoveAlias(string label)
         {
-            if (InputGuard.Missing(label, "removeAlias: label")) return;
+            if (InputGuard.Missing(label, "removeAlias: label"))
+                return;
             OneSignalNative.User.RemoveAlias(label);
         }
 
         public void RemoveAliases(params string[] labels)
         {
-            if (InputGuard.MissingAny(labels, "removeAliases: label")) return;
+            if (InputGuard.MissingAny(labels, "removeAliases: label"))
+                return;
             OneSignalNative.User.RemoveAliases(labels);
         }
 
         public void AddEmail(string email)
         {
-            if (InputGuard.Missing(email, "addEmail: email")) return;
+            if (InputGuard.Missing(email, "addEmail: email"))
+                return;
             OneSignalNative.User.AddEmail(email);
         }
 
         public void RemoveEmail(string email)
         {
-            if (InputGuard.Missing(email, "removeEmail: email")) return;
+            if (InputGuard.Missing(email, "removeEmail: email"))
+                return;
             OneSignalNative.User.RemoveEmail(email);
         }
 
         public void AddSms(string sms)
         {
-            if (InputGuard.Missing(sms, "addSms: sms")) return;
+            if (InputGuard.Missing(sms, "addSms: sms"))
+                return;
             OneSignalNative.User.AddSms(sms);
         }
 
         public void RemoveSms(string sms)
         {
-            if (InputGuard.Missing(sms, "removeSms: sms")) return;
+            if (InputGuard.Missing(sms, "removeSms: sms"))
+                return;
             OneSignalNative.User.RemoveSms(sms);
         }
 
         public void AddTag(string key, string value)
         {
-            if (InputGuard.Missing(key, "addTag: key")) return;
+            if (InputGuard.Missing(key, "addTag: key"))
+                return;
             if (value == null)
             {
                 System.Diagnostics.Debug.WriteLine("OneSignal: addTag: value is required");
@@ -102,19 +116,22 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void AddTags(IDictionary<string, string> tags)
         {
-            if (InputGuard.MissingEntries(tags, "addTags", true)) return;
+            if (InputGuard.MissingEntries(tags, "addTags", true))
+                return;
             OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags)!);
         }
 
         public void RemoveTag(string key)
         {
-            if (InputGuard.Missing(key, "removeTag: key")) return;
+            if (InputGuard.Missing(key, "removeTag: key"))
+                return;
             OneSignalNative.User.RemoveTag(key);
         }
 
         public void RemoveTags(params string[] keys)
         {
-            if (InputGuard.MissingAny(keys, "removeTags: key")) return;
+            if (InputGuard.MissingAny(keys, "removeTags: key"))
+                return;
             OneSignalNative.User.RemoveTags(keys);
         }
 
@@ -123,7 +140,8 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
-            if (InputGuard.Missing(name, "trackEvent: name")) return;
+            if (InputGuard.Missing(name, "trackEvent: name"))
+                return;
             OneSignalNative.User.TrackEventWithName(
                 name,
                 properties == null ? null : NativeConversion.DictToNSDict(properties)
