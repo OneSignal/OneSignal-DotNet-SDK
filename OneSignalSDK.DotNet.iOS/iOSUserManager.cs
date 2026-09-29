@@ -46,8 +46,8 @@ namespace OneSignalSDK.DotNet.iOS
         public void AddAlias(string label, string id)
         {
             if (
-                InputGuard.Missing(label, "addAlias: label")
-                || InputGuard.Missing(id, "addAlias: id")
+                InputGuard.IsMissing(label, "addAlias: label")
+                || InputGuard.IsMissing(id, "addAlias: id")
             )
                 return;
             OneSignalNative.User.AddAliasWithLabel(label, id);
@@ -55,56 +55,56 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void AddAliases(IDictionary<string, string> aliases)
         {
-            if (InputGuard.MissingEntries(aliases, "addAliases", false))
+            if (InputGuard.HasMissingEntries(aliases, "addAliases", false))
                 return;
             OneSignalNative.User.AddAliases(NativeConversion.DictToNSDict(aliases)!);
         }
 
         public void RemoveAlias(string label)
         {
-            if (InputGuard.Missing(label, "removeAlias: label"))
+            if (InputGuard.IsMissing(label, "removeAlias: label"))
                 return;
             OneSignalNative.User.RemoveAlias(label);
         }
 
         public void RemoveAliases(params string[] labels)
         {
-            if (InputGuard.MissingAny(labels, "removeAliases: label"))
+            if (InputGuard.IsMissingAny(labels, "removeAliases: label"))
                 return;
             OneSignalNative.User.RemoveAliases(labels);
         }
 
         public void AddEmail(string email)
         {
-            if (InputGuard.Missing(email, "addEmail: email"))
+            if (InputGuard.IsMissing(email, "addEmail: email"))
                 return;
             OneSignalNative.User.AddEmail(email);
         }
 
         public void RemoveEmail(string email)
         {
-            if (InputGuard.Missing(email, "removeEmail: email"))
+            if (InputGuard.IsMissing(email, "removeEmail: email"))
                 return;
             OneSignalNative.User.RemoveEmail(email);
         }
 
         public void AddSms(string sms)
         {
-            if (InputGuard.Missing(sms, "addSms: sms"))
+            if (InputGuard.IsMissing(sms, "addSms: sms"))
                 return;
             OneSignalNative.User.AddSms(sms);
         }
 
         public void RemoveSms(string sms)
         {
-            if (InputGuard.Missing(sms, "removeSms: sms"))
+            if (InputGuard.IsMissing(sms, "removeSms: sms"))
                 return;
             OneSignalNative.User.RemoveSms(sms);
         }
 
         public void AddTag(string key, string value)
         {
-            if (InputGuard.Missing(key, "addTag: key"))
+            if (InputGuard.IsMissing(key, "addTag: key"))
                 return;
             if (value == null)
             {
@@ -116,21 +116,21 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void AddTags(IDictionary<string, string> tags)
         {
-            if (InputGuard.MissingEntries(tags, "addTags", true))
+            if (InputGuard.HasMissingEntries(tags, "addTags", true))
                 return;
             OneSignalNative.User.AddTags(NativeConversion.DictToNSDict(tags)!);
         }
 
         public void RemoveTag(string key)
         {
-            if (InputGuard.Missing(key, "removeTag: key"))
+            if (InputGuard.IsMissing(key, "removeTag: key"))
                 return;
             OneSignalNative.User.RemoveTag(key);
         }
 
         public void RemoveTags(params string[] keys)
         {
-            if (InputGuard.MissingAny(keys, "removeTags: key"))
+            if (InputGuard.IsMissingAny(keys, "removeTags: key"))
                 return;
             OneSignalNative.User.RemoveTags(keys);
         }
@@ -140,7 +140,7 @@ namespace OneSignalSDK.DotNet.iOS
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
-            if (InputGuard.Missing(name, "trackEvent: name"))
+            if (InputGuard.IsMissing(name, "trackEvent: name"))
                 return;
             OneSignalNative.User.TrackEventWithName(
                 name,

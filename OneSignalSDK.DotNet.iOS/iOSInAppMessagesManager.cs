@@ -35,7 +35,7 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
 
     public void AddTrigger(string key, string value)
     {
-        if (InputGuard.Missing(key, "addTrigger: key"))
+        if (InputGuard.IsMissing(key, "addTrigger: key"))
             return;
         if (value == null)
         {
@@ -47,7 +47,7 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
 
     public void AddTriggers(IDictionary<string, string> triggers)
     {
-        if (InputGuard.MissingEntries(triggers, "addTriggers", true))
+        if (InputGuard.HasMissingEntries(triggers, "addTriggers", true))
             return;
         OneSignalNative.InAppMessages.AddTriggers(NativeConversion.DictToNSDict(triggers)!);
     }
@@ -56,14 +56,14 @@ public class iOSInAppMessagesManager : Core.InAppMessages.IInAppMessagesManager
 
     public void RemoveTrigger(string key)
     {
-        if (InputGuard.Missing(key, "removeTrigger: key"))
+        if (InputGuard.IsMissing(key, "removeTrigger: key"))
             return;
         OneSignalNative.InAppMessages.RemoveTrigger(key);
     }
 
     public void RemoveTriggers(params string[] keys)
     {
-        if (InputGuard.MissingAny(keys, "removeTriggers: key"))
+        if (InputGuard.IsMissingAny(keys, "removeTriggers: key"))
             return;
         OneSignalNative.InAppMessages.RemoveTriggers(keys);
     }

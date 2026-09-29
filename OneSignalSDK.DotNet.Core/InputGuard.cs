@@ -4,7 +4,7 @@ namespace OneSignalSDK.DotNet.Core
 {
     internal static class InputGuard
     {
-        public static bool Missing(string? value, string api)
+        public static bool IsMissing(string? value, string api)
         {
             if (!string.IsNullOrEmpty(value))
                 return false;
@@ -12,29 +12,29 @@ namespace OneSignalSDK.DotNet.Core
             return true;
         }
 
-        public static bool MissingAny(string[]? values, string api)
+        public static bool IsMissingAny(string[]? values, string api)
         {
             if (values == null)
-                return Missing(null, api);
+                return IsMissing(null, api);
             foreach (var value in values)
             {
-                if (Missing(value, api))
+                if (IsMissing(value, api))
                     return true;
             }
             return false;
         }
 
-        public static bool MissingEntries(
+        public static bool HasMissingEntries(
             IDictionary<string, string>? values,
             string api,
             bool allowEmptyValue
         )
         {
             if (values == null)
-                return Missing(null, api);
+                return IsMissing(null, api);
             foreach (var pair in values)
             {
-                if (Missing(pair.Key, api + ": key"))
+                if (IsMissing(pair.Key, api + ": key"))
                     return true;
                 if (allowEmptyValue)
                 {
@@ -45,7 +45,7 @@ namespace OneSignalSDK.DotNet.Core
                     );
                     return true;
                 }
-                if (Missing(pair.Value, api + ": value"))
+                if (IsMissing(pair.Value, api + ": value"))
                     return true;
             }
             return false;
