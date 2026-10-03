@@ -12,6 +12,11 @@ namespace OneSignalSDK.DotNet.iOS
     {
         public async Task<bool> Enter(string activityId, string token)
         {
+            if (
+                InputGuard.IsMissing(activityId, "enter: activityId")
+                || InputGuard.IsMissing(token, "enter: token")
+            )
+                return false;
             BooleanCallbackProxy proxy = new BooleanCallbackProxy();
             OneSignalNative.LiveActivities.Enter(
                 activityId,
@@ -25,6 +30,8 @@ namespace OneSignalSDK.DotNet.iOS
         [Obsolete("Currently unsupported, avoid using this method.")]
         public async Task<bool> Exit(string activityId)
         {
+            if (InputGuard.IsMissing(activityId, "exit: activityId"))
+                return false;
             BooleanCallbackProxy proxy = new BooleanCallbackProxy();
             OneSignalNative.LiveActivities.Exit(
                 activityId,
@@ -43,6 +50,8 @@ namespace OneSignalSDK.DotNet.iOS
                 );
                 return;
             }
+            if (InputGuard.IsMissing(activityType, "removePushToStartToken: activityType"))
+                return;
 
             NSError? error;
             OneSignalLiveActivityNative.RemovePushToStartToken(activityType, out error);
@@ -60,6 +69,11 @@ namespace OneSignalSDK.DotNet.iOS
                 Console.WriteLine("SetPushToStartToken is only available on iOS 17.2 and later.");
                 return;
             }
+            if (
+                InputGuard.IsMissing(activityType, "setPushToStartToken: activityType")
+                || InputGuard.IsMissing(token, "setPushToStartToken: token")
+            )
+                return;
 
             NSError? error;
             OneSignalLiveActivityNative.SetPushToStartToken(activityType, token, out error);
@@ -102,6 +116,12 @@ namespace OneSignalSDK.DotNet.iOS
                 Console.WriteLine("StartDefault is only available on iOS 16.1 and later.");
                 return;
             }
+            if (
+                InputGuard.IsMissing(activityId, "startDefault: activityId")
+                || InputGuard.IsMissing(attributes, "startDefault: attributes")
+                || InputGuard.IsMissing(content, "startDefault: content")
+            )
+                return;
 
             OneSignalLiveActivityNative.StartDefault(
                 activityId,

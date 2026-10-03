@@ -41,6 +41,8 @@ public class iOSOneSignal : IOneSignal
 
     public void Initialize(string appId)
     {
+        if (InputGuard.IsMissing(appId, "initialize: appId"))
+            return;
         Com.OneSignal.iOS.OneSignalWrapper.SdkType = WrapperSDK.Type;
 
         var version = WrapperSDK.Version;
@@ -58,6 +60,8 @@ public class iOSOneSignal : IOneSignal
 
     public void Login(string externalId, string? jwtBearerToken = null)
     {
+        if (InputGuard.IsMissing(externalId, "login: externalId"))
+            return;
         if (String.IsNullOrWhiteSpace(jwtBearerToken))
         {
             OneSignalNative.Login(externalId);
