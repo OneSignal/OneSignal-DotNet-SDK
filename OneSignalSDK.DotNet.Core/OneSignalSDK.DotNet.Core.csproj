@@ -25,7 +25,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="OneSignalSDK.DotNet" />
     <InternalsVisibleTo Include="OneSignalSDK.DotNet.Android" />
     <InternalsVisibleTo Include="OneSignalSDK.DotNet.iOS" />
   </ItemGroup>
