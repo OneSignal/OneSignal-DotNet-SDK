@@ -6,10 +6,27 @@ namespace OneSignalSDK.DotNet.Android;
 
 public class AndroidSessionManager : ISessionManager
 {
-    public void AddOutcome(string name) => OneSignalNative.Session.AddOutcome(name);
+    public void AddOutcome(string name)
+    {
+        if (InputGuard.IsMissing(name, "addOutcome: name"))
+            return;
+        OneSignalNative.Session.AddOutcome(name);
+    }
 
-    public void AddUniqueOutcome(string name) => OneSignalNative.Session.AddUniqueOutcome(name);
+    public void AddUniqueOutcome(string name)
+    {
+        if (InputGuard.IsMissing(name, "addUniqueOutcome: name"))
+            return;
+        OneSignalNative.Session.AddUniqueOutcome(name);
+    }
 
-    public void AddOutcomeWithValue(string name, float value) =>
+    public void AddOutcomeWithValue(string name, float value)
+    {
+        if (
+            InputGuard.IsMissing(name, "addOutcomeWithValue: name")
+            || InputGuard.IsNotFinite(value, "addOutcomeWithValue: value")
+        )
+            return;
         OneSignalNative.Session.AddOutcomeWithValue(name, value);
+    }
 }

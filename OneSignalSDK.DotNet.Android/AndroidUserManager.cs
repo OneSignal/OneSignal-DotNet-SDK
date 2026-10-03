@@ -154,7 +154,10 @@ namespace OneSignalSDK.DotNet.Android
         {
             if (InputGuard.IsMissing(name, "trackEvent: name"))
                 return;
-            OneSignalNative.User.TrackEvent(name, ToNativeConversion.DictToJavaMap(properties)!);
+            OneSignalNative.User.TrackEvent(
+                name,
+                ToNativeConversion.DictToJavaMap(InputGuard.ReplaceNonFiniteNumbers(properties))!
+            );
         }
 
         private sealed class InternalUserState : IUserState

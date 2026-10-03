@@ -144,7 +144,9 @@ namespace OneSignalSDK.DotNet.iOS
                 return;
             OneSignalNative.User.TrackEventWithName(
                 name,
-                properties == null ? null : NativeConversion.DictToNSDict(properties)
+                properties == null
+                    ? null
+                    : NativeConversion.DictToNSDict(InputGuard.ReplaceNonFiniteNumbers(properties))
             );
         }
 
