@@ -23,12 +23,20 @@ public class AndroidDebugManager : IDebugManager
     public OneSignalSDK.DotNet.Core.Debug.LogLevel LogLevel
     {
         get => _logLevel;
-        set => OneSignalNative.Debug.LogLevel = ToNativeConversion.ToLogLevel(value);
+        set
+        {
+            _logLevel = value;
+            OneSignalNative.Debug.LogLevel = ToNativeConversion.ToLogLevel(value);
+        }
     }
 
     public OneSignalSDK.DotNet.Core.Debug.LogLevel AlertLevel
     {
         get => _alertLevel;
-        set => OneSignalNative.Debug.AlertLevel = ToNativeConversion.ToLogLevel(value);
+        set
+        {
+            _alertLevel = value;
+            OneSignalNative.Debug.AlertLevel = ToNativeConversion.ToLogLevel(value);
+        }
     }
 }
