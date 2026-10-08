@@ -13,17 +13,12 @@ public class AndroidNotificationsManager : INotificationsManager
     public event EventHandler<NotificationClickedEventArgs>? Clicked;
 
     public bool Permission =>
-        AndroidInit
-            .Require("notifications.permission", () => OneSignalNative.Notifications)
-            ?.Permission
-        ?? false;
+        NativeCall.Get("permission", () => OneSignalNative.Notifications.Permission, false);
 
     private InternalNotificationsEventsHandler? _notificationsEventsHandler;
 
     public void Initialize()
     {
-        if (AndroidInit.Reject("notifications"))
-            return;
         _notificationsEventsHandler = new InternalNotificationsEventsHandler(this);
 
         OneSignalNative.Notifications.AddPermissionObserver(_notificationsEventsHandler);
@@ -38,21 +33,24 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
-        if (AndroidInit.Reject("requestPermission"))
-            return false;
         var consumer = new AndroidBoolConsumer();
-        OneSignalNative.Notifications.RequestPermission(
-            fallbackToSettings,
-            Com.OneSignal.Android.Continue.With(consumer)
+        var requested = NativeCall.Run(
+            "requestPermission",
+            () =>
+                OneSignalNative.Notifications.RequestPermission(
+                    fallbackToSettings,
+                    Com.OneSignal.Android.Continue.With(consumer)
+                )
         );
-        return await consumer;
+        return requested && await consumer;
     }
 
     public void ClearAllNotifications()
     {
-        if (AndroidInit.Reject("clearAllNotifications"))
-            return;
-        OneSignalNative.Notifications.ClearAllNotifications();
+        NativeCall.Run(
+            "clearAllNotifications",
+            () => OneSignalNative.Notifications.ClearAllNotifications()
+        );
     }
 
     private class InternalNotificationsEventsHandler

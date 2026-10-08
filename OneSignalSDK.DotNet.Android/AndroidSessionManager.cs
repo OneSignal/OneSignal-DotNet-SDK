@@ -10,18 +10,14 @@ public class AndroidSessionManager : ISessionManager
     {
         if (InputGuard.IsMissing(name, "addOutcome: name"))
             return;
-        if (AndroidInit.Reject("addOutcome"))
-            return;
-        OneSignalNative.Session.AddOutcome(name);
+        NativeCall.Run("addOutcome", () => OneSignalNative.Session.AddOutcome(name));
     }
 
     public void AddUniqueOutcome(string name)
     {
         if (InputGuard.IsMissing(name, "addUniqueOutcome: name"))
             return;
-        if (AndroidInit.Reject("addUniqueOutcome"))
-            return;
-        OneSignalNative.Session.AddUniqueOutcome(name);
+        NativeCall.Run("addUniqueOutcome", () => OneSignalNative.Session.AddUniqueOutcome(name));
     }
 
     public void AddOutcomeWithValue(string name, float value)
@@ -31,8 +27,9 @@ public class AndroidSessionManager : ISessionManager
             || InputGuard.IsNotFinite(value, "addOutcomeWithValue: value")
         )
             return;
-        if (AndroidInit.Reject("addOutcomeWithValue"))
-            return;
-        OneSignalNative.Session.AddOutcomeWithValue(name, value);
+        NativeCall.Run(
+            "addOutcomeWithValue",
+            () => OneSignalNative.Session.AddOutcomeWithValue(name, value)
+        );
     }
 }

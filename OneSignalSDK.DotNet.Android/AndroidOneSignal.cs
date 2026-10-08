@@ -52,7 +52,7 @@ public class AndroidOneSignal : IOneSignal
     {
         if (string.IsNullOrEmpty(appId))
         {
-            Log.Warn("OneSignal", "initialize: appId is required");
+            Log.Error("OneSignal", "initialize: appId is required");
             return;
         }
         Context context = Application.Context;
@@ -65,14 +65,7 @@ public class AndroidOneSignal : IOneSignal
             Com.OneSignal.Android.Common.OneSignalWrapper.SdkVersion = version;
         }
 
-        try
-        {
-            OneSignalNative.InitWithContext(context, appId);
-        }
-        finally
-        {
-            AndroidInit.MarkStarted();
-        }
+        OneSignalNative.InitWithContext(context, appId);
 
         ((AndroidUserManager)User).Initialize();
         ((AndroidNotificationsManager)Notifications).Initialize();
@@ -83,15 +76,11 @@ public class AndroidOneSignal : IOneSignal
     {
         if (InputGuard.IsMissing(externalId, "login: externalId"))
             return;
-        if (AndroidInit.Reject("login"))
-            return;
-        OneSignalNative.Login(externalId, jwtBearerToken);
+        NativeCall.Run("login", () => OneSignalNative.Login(externalId, jwtBearerToken));
     }
 
     public void Logout()
     {
-        if (AndroidInit.Reject("logout"))
-            return;
-        OneSignalNative.Logout();
+        NativeCall.Run("logout", () => OneSignalNative.Logout());
     }
 }
