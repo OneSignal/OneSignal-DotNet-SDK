@@ -21,7 +21,9 @@ namespace OneSignalSDK.DotNet.Android
                     );
                     return;
                 }
-                OneSignalNative.User.SetLanguage(value);
+                AndroidInit
+                    .Require("user.language", () => OneSignalNative.User)
+                    ?.SetLanguage(value);
             }
         }
 
@@ -31,6 +33,8 @@ namespace OneSignalSDK.DotNet.Android
 
         public void Initialize()
         {
+            if (AndroidInit.Reject("user"))
+                return;
             _userChangedHandler = new InternalUserChangedHandler(this);
             OneSignalNative.User.AddObserver(_userChangedHandler);
             ((AndroidPushSubscription)PushSubscription).Initialize();
@@ -40,7 +44,9 @@ namespace OneSignalSDK.DotNet.Android
         {
             get
             {
-                string? id = OneSignalNative.User.OnesignalId;
+                string? id = AndroidInit
+                    .Require("user.oneSignalId", () => OneSignalNative.User)
+                    ?.OnesignalId;
                 return string.IsNullOrEmpty(id) ? null : id;
             }
         }
@@ -49,7 +55,9 @@ namespace OneSignalSDK.DotNet.Android
         {
             get
             {
-                string? id = OneSignalNative.User.ExternalId;
+                string? id = AndroidInit
+                    .Require("user.externalId", () => OneSignalNative.User)
+                    ?.ExternalId;
                 return string.IsNullOrEmpty(id) ? null : id;
             }
         }
@@ -63,56 +71,56 @@ namespace OneSignalSDK.DotNet.Android
                 || InputGuard.IsMissing(id, "addAlias: id")
             )
                 return;
-            OneSignalNative.User.AddAlias(label, id);
+            AndroidInit.Require("addAlias", () => OneSignalNative.User)?.AddAlias(label, id);
         }
 
         public void AddAliases(IDictionary<string, string> aliases)
         {
             if (InputGuard.HasMissingEntries(aliases, "addAliases", false))
                 return;
-            OneSignalNative.User.AddAliases(aliases);
+            AndroidInit.Require("addAliases", () => OneSignalNative.User)?.AddAliases(aliases);
         }
 
         public void RemoveAlias(string label)
         {
             if (InputGuard.IsMissing(label, "removeAlias: label"))
                 return;
-            OneSignalNative.User.RemoveAlias(label);
+            AndroidInit.Require("removeAlias", () => OneSignalNative.User)?.RemoveAlias(label);
         }
 
         public void RemoveAliases(params string[] labels)
         {
             if (InputGuard.IsMissingAny(labels, "removeAliases: label"))
                 return;
-            OneSignalNative.User.RemoveAliases(labels);
+            AndroidInit.Require("removeAliases", () => OneSignalNative.User)?.RemoveAliases(labels);
         }
 
         public void AddEmail(string email)
         {
             if (InputGuard.IsMissing(email, "addEmail: email"))
                 return;
-            OneSignalNative.User.AddEmail(email);
+            AndroidInit.Require("addEmail", () => OneSignalNative.User)?.AddEmail(email);
         }
 
         public void RemoveEmail(string email)
         {
             if (InputGuard.IsMissing(email, "removeEmail: email"))
                 return;
-            OneSignalNative.User.RemoveEmail(email);
+            AndroidInit.Require("removeEmail", () => OneSignalNative.User)?.RemoveEmail(email);
         }
 
         public void AddSms(string sms)
         {
             if (InputGuard.IsMissing(sms, "addSms: sms"))
                 return;
-            OneSignalNative.User.AddSms(sms);
+            AndroidInit.Require("addSms", () => OneSignalNative.User)?.AddSms(sms);
         }
 
         public void RemoveSms(string sms)
         {
             if (InputGuard.IsMissing(sms, "removeSms: sms"))
                 return;
-            OneSignalNative.User.RemoveSms(sms);
+            AndroidInit.Require("removeSms", () => OneSignalNative.User)?.RemoveSms(sms);
         }
 
         public void AddTag(string key, string value)
@@ -124,40 +132,45 @@ namespace OneSignalSDK.DotNet.Android
                 System.Diagnostics.Debug.WriteLine("OneSignal: addTag: value is required");
                 return;
             }
-            OneSignalNative.User.AddTag(key, value);
+            AndroidInit.Require("addTag", () => OneSignalNative.User)?.AddTag(key, value);
         }
 
         public void AddTags(IDictionary<string, string> tags)
         {
             if (InputGuard.HasMissingEntries(tags, "addTags", true))
                 return;
-            OneSignalNative.User.AddTags(tags);
+            AndroidInit.Require("addTags", () => OneSignalNative.User)?.AddTags(tags);
         }
 
         public void RemoveTag(string key)
         {
             if (InputGuard.IsMissing(key, "removeTag: key"))
                 return;
-            OneSignalNative.User.RemoveTag(key);
+            AndroidInit.Require("removeTag", () => OneSignalNative.User)?.RemoveTag(key);
         }
 
         public void RemoveTags(params string[] keys)
         {
             if (InputGuard.IsMissingAny(keys, "removeTags: key"))
                 return;
-            OneSignalNative.User.RemoveTags(keys);
+            AndroidInit.Require("removeTags", () => OneSignalNative.User)?.RemoveTags(keys);
         }
 
-        public IDictionary<string, string>? GetTags() => OneSignalNative.User.Tags;
+        public IDictionary<string, string>? GetTags() =>
+            AndroidInit.Require("getTags", () => OneSignalNative.User)?.Tags;
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
             if (InputGuard.IsMissing(name, "trackEvent: name"))
                 return;
-            OneSignalNative.User.TrackEvent(
-                name,
-                ToNativeConversion.DictToJavaMap(InputGuard.ReplaceNonFiniteNumbers(properties))!
-            );
+            AndroidInit
+                .Require("trackEvent", () => OneSignalNative.User)
+                ?.TrackEvent(
+                    name,
+                    ToNativeConversion.DictToJavaMap(
+                        InputGuard.ReplaceNonFiniteNumbers(properties)
+                    )!
+                );
         }
 
         private sealed class InternalUserState : IUserState
@@ -198,11 +211,21 @@ namespace OneSignalSDK.DotNet.Android
 
     public class AndroidPushSubscription : IPushSubscription
     {
-        public string? Token => OneSignalNative.User.PushSubscription.Token;
+        public string? Token =>
+            AndroidInit
+                .Require("pushSubscription.token", () => OneSignalNative.User)
+                ?.PushSubscription.Token;
 
-        public bool OptedIn => OneSignalNative.User.PushSubscription.OptedIn;
+        public bool OptedIn =>
+            AndroidInit
+                .Require("pushSubscription.optedIn", () => OneSignalNative.User)
+                ?.PushSubscription.OptedIn
+            ?? false;
 
-        public string? Id => OneSignalNative.User.PushSubscription.Id;
+        public string? Id =>
+            AndroidInit
+                .Require("pushSubscription.id", () => OneSignalNative.User)
+                ?.PushSubscription.Id;
 
         public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
@@ -210,18 +233,20 @@ namespace OneSignalSDK.DotNet.Android
 
         public void Initialize()
         {
+            if (AndroidInit.Reject("pushSubscription"))
+                return;
             _subscriptionChangedHandler = new InternalSubscriptionChangedHandler(this);
             OneSignalNative.User.PushSubscription.AddObserver(_subscriptionChangedHandler);
         }
 
         public void OptIn()
         {
-            OneSignalNative.User.PushSubscription.OptIn();
+            AndroidInit.Require("optIn", () => OneSignalNative.User)?.PushSubscription.OptIn();
         }
 
         public void OptOut()
         {
-            OneSignalNative.User.PushSubscription.OptOut();
+            AndroidInit.Require("optOut", () => OneSignalNative.User)?.PushSubscription.OptOut();
         }
 
         private sealed class InternalPushSubscriptionState : IPushSubscriptionState

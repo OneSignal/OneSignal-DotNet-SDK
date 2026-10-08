@@ -17,14 +17,23 @@ public class AndroidInAppMessagesManager
 
     public bool Paused
     {
-        get => OneSignalNative.InAppMessages.Paused;
-        set => OneSignalNative.InAppMessages.Paused = value;
+        get =>
+            AndroidInit.Require("inAppMessages.paused", () => OneSignalNative.InAppMessages)?.Paused
+            ?? false;
+        set
+        {
+            if (AndroidInit.Reject("inAppMessages.paused"))
+                return;
+            OneSignalNative.InAppMessages.Paused = value;
+        }
     }
 
     private InternalInAppMessageEventsHandler? _inAppMessageEventsHandler;
 
     public void Initialize()
     {
+        if (AndroidInit.Reject("inAppMessages"))
+            return;
         _inAppMessageEventsHandler = new InternalInAppMessageEventsHandler(this);
         OneSignalNative.InAppMessages.AddClickListener(_inAppMessageEventsHandler);
         OneSignalNative.InAppMessages.AddLifecycleListener(_inAppMessageEventsHandler);
@@ -39,12 +48,16 @@ public class AndroidInAppMessagesManager
             System.Diagnostics.Debug.WriteLine("OneSignal: addTrigger: value is required");
             return;
         }
+        if (AndroidInit.Reject("addTrigger"))
+            return;
         OneSignalNative.InAppMessages.AddTrigger(key, value);
     }
 
     public void AddTriggers(IDictionary<string, string> triggers)
     {
         if (InputGuard.HasMissingEntries(triggers, "addTriggers", true))
+            return;
+        if (AndroidInit.Reject("addTriggers"))
             return;
         IDictionary<string, string> jTriggers = new Dictionary<string, string>();
         foreach (var trigger in triggers)
@@ -57,6 +70,8 @@ public class AndroidInAppMessagesManager
 
     public void ClearTriggers()
     {
+        if (AndroidInit.Reject("clearTriggers"))
+            return;
         OneSignalNative.InAppMessages.ClearTriggers();
     }
 
@@ -64,12 +79,16 @@ public class AndroidInAppMessagesManager
     {
         if (InputGuard.IsMissing(key, "removeTrigger: key"))
             return;
+        if (AndroidInit.Reject("removeTrigger"))
+            return;
         OneSignalNative.InAppMessages.RemoveTrigger(key);
     }
 
     public void RemoveTriggers(params string[] keys)
     {
         if (InputGuard.IsMissingAny(keys, "removeTriggers: key"))
+            return;
+        if (AndroidInit.Reject("removeTriggers"))
             return;
         OneSignalNative.InAppMessages.RemoveTriggers(keys);
     }

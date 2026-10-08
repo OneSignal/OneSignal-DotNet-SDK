@@ -55,14 +55,26 @@ public class AndroidLocationManager : ILocationManager
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static bool GetShared() => OneSignalNative.Location.Shared;
+    private static bool GetShared()
+    {
+        if (AndroidInit.Reject("location.isShared"))
+            return false;
+        return OneSignalNative.Location.Shared;
+    }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static void SetShared(bool shared) => OneSignalNative.Location.Shared = shared;
+    private static void SetShared(bool shared)
+    {
+        if (AndroidInit.Reject("location.isShared"))
+            return;
+        OneSignalNative.Location.Shared = shared;
+    }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static void RequestNativePermission()
     {
+        if (AndroidInit.Reject("location.requestPermission"))
+            return;
         var consumer = new AndroidBoolConsumer();
         OneSignalNative.Location.RequestPermission(Com.OneSignal.Android.Continue.With(consumer));
     }

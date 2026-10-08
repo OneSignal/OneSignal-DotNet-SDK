@@ -12,12 +12,18 @@ public class AndroidNotificationsManager : INotificationsManager
     public event EventHandler<NotificationWillDisplayEventArgs>? WillDisplay;
     public event EventHandler<NotificationClickedEventArgs>? Clicked;
 
-    public bool Permission => OneSignalNative.Notifications.Permission;
+    public bool Permission =>
+        AndroidInit
+            .Require("notifications.permission", () => OneSignalNative.Notifications)
+            ?.Permission
+        ?? false;
 
     private InternalNotificationsEventsHandler? _notificationsEventsHandler;
 
     public void Initialize()
     {
+        if (AndroidInit.Reject("notifications"))
+            return;
         _notificationsEventsHandler = new InternalNotificationsEventsHandler(this);
 
         OneSignalNative.Notifications.AddPermissionObserver(_notificationsEventsHandler);
@@ -32,6 +38,8 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
+        if (AndroidInit.Reject("requestPermission"))
+            return false;
         var consumer = new AndroidBoolConsumer();
         OneSignalNative.Notifications.RequestPermission(
             fallbackToSettings,
@@ -42,6 +50,8 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public void ClearAllNotifications()
     {
+        if (AndroidInit.Reject("clearAllNotifications"))
+            return;
         OneSignalNative.Notifications.ClearAllNotifications();
     }
 
