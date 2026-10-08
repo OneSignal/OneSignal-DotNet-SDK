@@ -21,7 +21,7 @@ namespace OneSignalSDK.DotNet.Android
                     );
                     return;
                 }
-                OneSignalNative.User.SetLanguage(value);
+                NativeCall.Run("setLanguage", () => OneSignalNative.User.SetLanguage(value));
             }
         }
 
@@ -40,7 +40,11 @@ namespace OneSignalSDK.DotNet.Android
         {
             get
             {
-                string? id = OneSignalNative.User.OnesignalId;
+                string? id = NativeCall.Get<string?>(
+                    "oneSignalId",
+                    () => OneSignalNative.User.OnesignalId,
+                    null
+                );
                 return string.IsNullOrEmpty(id) ? null : id;
             }
         }
@@ -49,7 +53,11 @@ namespace OneSignalSDK.DotNet.Android
         {
             get
             {
-                string? id = OneSignalNative.User.ExternalId;
+                string? id = NativeCall.Get<string?>(
+                    "externalId",
+                    () => OneSignalNative.User.ExternalId,
+                    null
+                );
                 return string.IsNullOrEmpty(id) ? null : id;
             }
         }
@@ -63,56 +71,56 @@ namespace OneSignalSDK.DotNet.Android
                 || InputGuard.IsMissing(id, "addAlias: id")
             )
                 return;
-            OneSignalNative.User.AddAlias(label, id);
+            NativeCall.Run("addAlias", () => OneSignalNative.User.AddAlias(label, id));
         }
 
         public void AddAliases(IDictionary<string, string> aliases)
         {
             if (InputGuard.HasMissingEntries(aliases, "addAliases", false))
                 return;
-            OneSignalNative.User.AddAliases(aliases);
+            NativeCall.Run("addAliases", () => OneSignalNative.User.AddAliases(aliases));
         }
 
         public void RemoveAlias(string label)
         {
             if (InputGuard.IsMissing(label, "removeAlias: label"))
                 return;
-            OneSignalNative.User.RemoveAlias(label);
+            NativeCall.Run("removeAlias", () => OneSignalNative.User.RemoveAlias(label));
         }
 
         public void RemoveAliases(params string[] labels)
         {
             if (InputGuard.IsMissingAny(labels, "removeAliases: label"))
                 return;
-            OneSignalNative.User.RemoveAliases(labels);
+            NativeCall.Run("removeAliases", () => OneSignalNative.User.RemoveAliases(labels));
         }
 
         public void AddEmail(string email)
         {
             if (InputGuard.IsMissing(email, "addEmail: email"))
                 return;
-            OneSignalNative.User.AddEmail(email);
+            NativeCall.Run("addEmail", () => OneSignalNative.User.AddEmail(email));
         }
 
         public void RemoveEmail(string email)
         {
             if (InputGuard.IsMissing(email, "removeEmail: email"))
                 return;
-            OneSignalNative.User.RemoveEmail(email);
+            NativeCall.Run("removeEmail", () => OneSignalNative.User.RemoveEmail(email));
         }
 
         public void AddSms(string sms)
         {
             if (InputGuard.IsMissing(sms, "addSms: sms"))
                 return;
-            OneSignalNative.User.AddSms(sms);
+            NativeCall.Run("addSms", () => OneSignalNative.User.AddSms(sms));
         }
 
         public void RemoveSms(string sms)
         {
             if (InputGuard.IsMissing(sms, "removeSms: sms"))
                 return;
-            OneSignalNative.User.RemoveSms(sms);
+            NativeCall.Run("removeSms", () => OneSignalNative.User.RemoveSms(sms));
         }
 
         public void AddTag(string key, string value)
@@ -124,39 +132,50 @@ namespace OneSignalSDK.DotNet.Android
                 System.Diagnostics.Debug.WriteLine("OneSignal: addTag: value is required");
                 return;
             }
-            OneSignalNative.User.AddTag(key, value);
+            NativeCall.Run("addTag", () => OneSignalNative.User.AddTag(key, value));
         }
 
         public void AddTags(IDictionary<string, string> tags)
         {
             if (InputGuard.HasMissingEntries(tags, "addTags", true))
                 return;
-            OneSignalNative.User.AddTags(tags);
+            NativeCall.Run("addTags", () => OneSignalNative.User.AddTags(tags));
         }
 
         public void RemoveTag(string key)
         {
             if (InputGuard.IsMissing(key, "removeTag: key"))
                 return;
-            OneSignalNative.User.RemoveTag(key);
+            NativeCall.Run("removeTag", () => OneSignalNative.User.RemoveTag(key));
         }
 
         public void RemoveTags(params string[] keys)
         {
             if (InputGuard.IsMissingAny(keys, "removeTags: key"))
                 return;
-            OneSignalNative.User.RemoveTags(keys);
+            NativeCall.Run("removeTags", () => OneSignalNative.User.RemoveTags(keys));
         }
 
-        public IDictionary<string, string>? GetTags() => OneSignalNative.User.Tags;
+        public IDictionary<string, string>? GetTags() =>
+            NativeCall.Get<IDictionary<string, string>?>(
+                "getTags",
+                () => OneSignalNative.User.Tags,
+                null
+            );
 
         public void TrackEvent(string name, IDictionary<string, object>? properties = null)
         {
             if (InputGuard.IsMissing(name, "trackEvent: name"))
                 return;
-            OneSignalNative.User.TrackEvent(
-                name,
-                ToNativeConversion.DictToJavaMap(InputGuard.ReplaceNonFiniteNumbers(properties))!
+            NativeCall.Run(
+                "trackEvent",
+                () =>
+                    OneSignalNative.User.TrackEvent(
+                        name,
+                        ToNativeConversion.DictToJavaMap(
+                            InputGuard.ReplaceNonFiniteNumbers(properties)
+                        )!
+                    )
             );
         }
 
@@ -198,11 +217,22 @@ namespace OneSignalSDK.DotNet.Android
 
     public class AndroidPushSubscription : IPushSubscription
     {
-        public string? Token => OneSignalNative.User.PushSubscription.Token;
+        public string? Token =>
+            NativeCall.Get<string?>(
+                "token",
+                () => OneSignalNative.User.PushSubscription.Token,
+                null
+            );
 
-        public bool OptedIn => OneSignalNative.User.PushSubscription.OptedIn;
+        public bool OptedIn =>
+            NativeCall.Get("optedIn", () => OneSignalNative.User.PushSubscription.OptedIn, false);
 
-        public string? Id => OneSignalNative.User.PushSubscription.Id;
+        public string? Id =>
+            NativeCall.Get<string?>(
+                "pushSubscriptionId",
+                () => OneSignalNative.User.PushSubscription.Id,
+                null
+            );
 
         public event EventHandler<PushSubscriptionChangedEventArgs>? Changed;
 
@@ -216,12 +246,12 @@ namespace OneSignalSDK.DotNet.Android
 
         public void OptIn()
         {
-            OneSignalNative.User.PushSubscription.OptIn();
+            NativeCall.Run("optIn", () => OneSignalNative.User.PushSubscription.OptIn());
         }
 
         public void OptOut()
         {
-            OneSignalNative.User.PushSubscription.OptOut();
+            NativeCall.Run("optOut", () => OneSignalNative.User.PushSubscription.OptOut());
         }
 
         private sealed class InternalPushSubscriptionState : IPushSubscriptionState
