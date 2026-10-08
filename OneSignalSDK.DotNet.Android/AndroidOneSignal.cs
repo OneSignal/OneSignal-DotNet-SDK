@@ -67,9 +67,16 @@ public class AndroidOneSignal : IOneSignal
 
         OneSignalNative.InitWithContext(context, appId);
 
-        ((AndroidUserManager)User).Initialize();
-        ((AndroidNotificationsManager)Notifications).Initialize();
-        ((AndroidInAppMessagesManager)InAppMessages).Initialize();
+        // InitWithContext returns before native init finishes, so these can see a failed init.
+        NativeCall.Run("user observers", ((AndroidUserManager)User).Initialize);
+        NativeCall.Run(
+            "notification observers",
+            ((AndroidNotificationsManager)Notifications).Initialize
+        );
+        NativeCall.Run(
+            "in-app message observers",
+            ((AndroidInAppMessagesManager)InAppMessages).Initialize
+        );
     }
 
     public void Login(string externalId, string? jwtBearerToken = null)

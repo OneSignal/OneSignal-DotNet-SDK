@@ -28,7 +28,14 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public NotificationPermission PermissionNative()
     {
-        return this.Permission ? NotificationPermission.Authorized : NotificationPermission.Denied;
+        return NativeCall.Get(
+            "permission",
+            () =>
+                OneSignalNative.Notifications.Permission
+                    ? NotificationPermission.Authorized
+                    : NotificationPermission.Denied,
+            NotificationPermission.NotDetermined
+        );
     }
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
