@@ -16,6 +16,8 @@ namespace OneSignalSDK.DotNet.Android;
 
 public class AndroidOneSignal : IOneSignal
 {
+    static AndroidOneSignal() => InputGuard.AlsoLog = detail => Log.Error("OneSignal", detail);
+
     /** Retain binding assembly references so optional module DLLs are copied to output. */
     private static readonly Type[] BindingRetentionTypes =
     {
@@ -50,11 +52,8 @@ public class AndroidOneSignal : IOneSignal
 
     public void Initialize(string appId)
     {
-        if (string.IsNullOrEmpty(appId))
-        {
-            Log.Error("OneSignal", "initialize: appId is required");
+        if (InputGuard.IsMissing(appId, "initialize: appId"))
             return;
-        }
         Context context = Application.Context;
 
         Com.OneSignal.Android.Common.OneSignalWrapper.SdkType = WrapperSDK.Type;
