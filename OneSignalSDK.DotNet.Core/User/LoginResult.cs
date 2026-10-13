@@ -43,6 +43,8 @@ namespace OneSignalSDK.DotNet.Core.User
 
             if (success)
             {
+                if (Get(map, "error") is IList<object> successErrors && successErrors.Count > 0)
+                    return Malformed("success carries errors");
                 var data = LoginData.FromMap(Get(map, "data"));
                 return data == null
                     ? Malformed("data is missing")

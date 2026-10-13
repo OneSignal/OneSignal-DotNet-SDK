@@ -56,7 +56,17 @@ internal sealed class LoginResultContinuation : Java.Lang.Object, Kotlin.Corouti
         if (result == null)
             return LoginResult.Failure("UNKNOWN", "loginWithProfile returned no result");
         if (result.Class.Name == "kotlin.Result$Failure")
-            return LoginResult.Failure("UNKNOWN", "loginWithProfile failed: " + result);
+        {
+            var exception = result
+                .Class.GetField("exception")
+                .Get(result)
+                ?.JavaCast<Java.Lang.Throwable>();
+            global::Android.Util.Log.Error("OneSignal", $"loginWithProfile failed: {exception}");
+            return LoginResult.Failure(
+                "UNKNOWN",
+                exception?.Message ?? exception?.ToString() ?? "loginWithProfile failed"
+            );
+        }
 
         var nativeResult = result.JavaCast<Com.OneSignal.Android.OneSignalResult>();
         var json = new Org.Json.JSONObject((System.Collections.IDictionary)nativeResult.ToMap());
