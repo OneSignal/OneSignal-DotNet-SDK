@@ -72,6 +72,17 @@ public class iOSOneSignal : IOneSignal
         }
     }
 
+    public Task<LoginResult> LoginWithProfileAsync(
+        string externalId,
+        OneSignalUserProfile profile,
+        string? jwtBearerToken = null
+    )
+    {
+        return Task.FromResult(
+            LoginResult.Failure("UNKNOWN", LoginResult.UnsupportedPlatformMessage)
+        );
+    }
+
     public void Logout()
     {
         OneSignalNative.Logout();
