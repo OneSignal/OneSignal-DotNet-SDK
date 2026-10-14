@@ -99,12 +99,12 @@ public class AndroidOneSignal : IOneSignal
         var continuation = new LoginResultContinuation();
         try
         {
-            var nativeProfile = new Com.OneSignal.Android.OneSignalUserProfile(
-                profile.Email,
-                profile.Sms,
-                profile.Tags ?? new Dictionary<string, string>(),
-                profile.Aliases ?? new Dictionary<string, string>()
-            );
+            var nativeProfile = new Com.OneSignal.Android.OneSignalUserProfile.Builder()
+                .SetEmail(profile.Email)
+                .SetSms(profile.Sms)
+                .SetTags(profile.Tags ?? new Dictionary<string, string>())
+                .SetAliases(profile.Aliases ?? new Dictionary<string, string>())
+                .Build();
             var returned = OneSignalNative.Login(
                 externalId,
                 nativeProfile,
