@@ -75,6 +75,56 @@ public class AndroidOneSignal : IOneSignal
         OneSignalNative.Login(externalId, jwtBearerToken);
     }
 
+    public Task<LoginResult> LoginWithProfileAsync(
+        string externalId,
+        OneSignalUserProfile profile,
+        string? jwtBearerToken = null
+    )
+    {
+        if (InputGuard.IsMissing(externalId, "loginWithProfile: externalId"))
+            return InvalidArgument("externalId is required");
+        if (InputGuard.IsMissing(profile, "loginWithProfile: profile"))
+            return InvalidArgument("profile is required");
+        if (
+            profile.Tags != null
+            && InputGuard.HasMissingEntries(profile.Tags, "loginWithProfile: tags", true)
+        )
+            return InvalidArgument("tags must not contain empty keys or null values");
+        if (
+            profile.Aliases != null
+            && InputGuard.HasMissingEntries(profile.Aliases, "loginWithProfile: aliases", false)
+        )
+            return InvalidArgument("aliases must not contain empty keys or values");
+
+        var continuation = new LoginResultContinuation();
+        try
+        {
+            var nativeProfile = new Com.OneSignal.Android.OneSignalUserProfile.Builder()
+                .SetEmail(profile.Email)
+                .SetSms(profile.Sms)
+                .SetTags(profile.Tags ?? new Dictionary<string, string>())
+                .SetAliases(profile.Aliases ?? new Dictionary<string, string>())
+                .Build();
+            var returned = OneSignalNative.Login(
+                externalId,
+                nativeProfile,
+                jwtBearerToken!,
+                continuation
+            );
+            continuation.OnReturned(returned);
+        }
+        catch (Exception e)
+        {
+            continuation.Fail("loginWithProfile failed: " + e.Message);
+        }
+        return continuation.Task;
+    }
+
+    private static Task<LoginResult> InvalidArgument(string message)
+    {
+        return Task.FromResult(LoginResult.Failure("INVALID_ARGUMENT", message));
+    }
+
     public void Logout()
     {
         OneSignalNative.Logout();

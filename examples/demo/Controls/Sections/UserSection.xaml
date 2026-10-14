@@ -59,6 +59,14 @@
       AutomationId="login_user_button"
     />
     <Button
+      x:Name="CompositeLoginButton"
+      Text="LOGIN WITH PROFILE"
+      Style="{StaticResource OutlineButtonStyle}"
+      IsVisible="False"
+      Clicked="OnCompositeLoginClicked"
+      AutomationId="composite_login_button"
+    />
+    <Button
       x:Name="LogoutButton"
       Text="LOGOUT USER"
       Style="{StaticResource OutlineButtonStyle}"

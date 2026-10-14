@@ -17,6 +17,9 @@ public partial class UserSection : ContentView
     {
         _viewModel = viewModel;
         _parentPage = parentPage;
+#if ANDROID
+        CompositeLoginButton.IsVisible = true;
+#endif
         UpdateUserDisplay(viewModel);
 
         viewModel.PropertyChanged += (s, e) =>
@@ -61,6 +64,58 @@ public partial class UserSection : ContentView
             return;
 
         await _viewModel.LoginUserAsync(userId);
+    }
+
+    private async void OnCompositeLoginClicked(object? sender, EventArgs e)
+    {
+        if (_parentPage == null || _viewModel == null)
+            return;
+
+        var form = await DialogInputHelper.ShowForm(
+            _parentPage,
+            "Login With Profile",
+            new[]
+            {
+                new DialogInputField
+                {
+                    Key = "externalId",
+                    Placeholder = "External User Id",
+                    AutomationId = "composite_login_user_id_input",
+                },
+                new DialogInputField
+                {
+                    Key = "email",
+                    Placeholder = "Email (optional)",
+                    AutomationId = "composite_login_email_input",
+                    Keyboard = Keyboard.Email,
+                },
+                new DialogInputField
+                {
+                    Key = "sms",
+                    Placeholder = "SMS (optional)",
+                    AutomationId = "composite_login_sms_input",
+                    Keyboard = Keyboard.Telephone,
+                },
+                new DialogInputField
+                {
+                    Key = "jwt",
+                    Placeholder = "JWT Token (optional)",
+                    AutomationId = "composite_login_jwt_input",
+                },
+            },
+            "Login",
+            "composite_login_confirm_button"
+        );
+
+        if (form == null || string.IsNullOrEmpty(form["externalId"]))
+            return;
+
+        await _viewModel.LoginWithProfileAsync(
+            form["externalId"],
+            form["email"],
+            form["sms"],
+            form["jwt"]
+        );
     }
 
     private async void OnLogoutClicked(object? sender, EventArgs e)

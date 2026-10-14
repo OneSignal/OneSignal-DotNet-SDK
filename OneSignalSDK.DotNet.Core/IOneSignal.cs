@@ -105,6 +105,16 @@ namespace OneSignalSDK.DotNet.Core
         void Login(String externalId, String? jwtBearerToken = null);
 
         /// <summary>
+        /// Logs in <paramref name="externalId"/> and applies <paramref name="profile"/> in one request.
+        /// Android only for now; on iOS this returns a failure result.
+        /// </summary>
+        Task<LoginResult> LoginWithProfileAsync(
+            String externalId,
+            OneSignalUserProfile profile,
+            String? jwtBearerToken = null
+        );
+
+        /// <summary>
         /// Logout the user previously logged in via <see cref="Login(string, string?)"/>. The
         /// <see cref="User"/> property now references a new device-scoped user.A device-scoped
         /// user has no user identity that can later be retrieved, except through this device as

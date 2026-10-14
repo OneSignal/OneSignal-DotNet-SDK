@@ -172,6 +172,42 @@ public partial class AppViewModel : ObservableObject
         Debug.WriteLine($"Login: {externalUserId}");
     }
 
+    public async Task LoginWithProfileAsync(
+        string externalUserId,
+        string? email,
+        string? sms,
+        string? jwtBearerToken
+    )
+    {
+        if (string.IsNullOrWhiteSpace(externalUserId))
+            return;
+        IsLoading = true;
+        ClearUserData();
+        var profile = new OneSignalUserProfile(
+            email: string.IsNullOrEmpty(email) ? null : email,
+            sms: string.IsNullOrEmpty(sms) ? null : sms
+        );
+        var result = await OneSignal.LoginWithProfileAsync(
+            externalUserId,
+            profile,
+            string.IsNullOrEmpty(jwtBearerToken) ? null : jwtBearerToken
+        );
+
+        if (!result.Success)
+        {
+            var error = result.Error?.FirstOrDefault();
+            Debug.WriteLine($"Login with profile failed: {error?.Code} {error?.Message}");
+            IsLoading = false;
+            return;
+        }
+
+        _prefs.ExternalUserId = externalUserId;
+        UpdateUserStatus(externalUserId);
+        Debug.WriteLine($"Login with profile: {externalUserId}");
+        // User.Changed does not fire when the external id is unchanged.
+        await FetchUserDataFromApiAsync();
+    }
+
     [RelayCommand]
     public async Task LogoutUserAsync()
     {
