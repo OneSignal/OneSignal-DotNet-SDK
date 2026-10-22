@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OneSignalDemo.Models;
@@ -110,8 +109,13 @@ public partial class AppViewModel : ObservableObject
 
     private static string FormatId(string? value) => string.IsNullOrEmpty(value) ? "—" : value;
 
+    private static string NullIfEmpty(string? value) =>
+        string.IsNullOrEmpty(value) ? "null" : value;
+
+    private static string FormatBool(bool value) => value ? "true" : "false";
+
     private static string FormatToken(string? value) =>
-        string.IsNullOrEmpty(value) ? "null" : $"{value[..Math.Min(8, value.Length)]}...";
+        string.IsNullOrEmpty(value) ? "null" : $"{value[..Math.Min(8, value.Length)]}…";
 
     public async Task LoadInitialStateAsync()
     {
@@ -169,7 +173,7 @@ public partial class AppViewModel : ObservableObject
         _prefs.ExternalUserId = externalUserId;
         UpdateUserStatus(externalUserId);
         IsLoading = false;
-        Debug.WriteLine($"Login: {externalUserId}");
+        LogService.Info($"Login: {externalUserId}");
     }
 
     [RelayCommand]
@@ -181,7 +185,7 @@ public partial class AppViewModel : ObservableObject
         ClearUserData();
         UpdateUserStatus(null);
         IsLoading = false;
-        Debug.WriteLine("Logged out");
+        LogService.Info("Logged out");
     }
 
     private void ClearUserData()
@@ -199,7 +203,7 @@ public partial class AppViewModel : ObservableObject
     {
         OneSignal.User.AddAlias(pair.Key, pair.Value);
         UpsertAlias(pair.Key, pair.Value);
-        Debug.WriteLine($"Alias added: {pair.Key}");
+        LogService.Info($"Alias added: {pair.Key}");
     }
 
     [RelayCommand]
@@ -208,7 +212,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.User.AddAliases(aliases);
         foreach (var kv in aliases)
             UpsertAlias(kv.Key, kv.Value);
-        Debug.WriteLine($"{aliases.Count} alias(es) added");
+        LogService.Info($"{aliases.Count} alias(es) added");
     }
 
     private void UpsertAlias(string key, string value)
@@ -232,7 +236,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.User.AddEmail(email);
         if (!EmailsList.Contains(email))
             EmailsList.Add(email);
-        Debug.WriteLine($"Email added: {email}");
+        LogService.Info($"Email added: {email}");
     }
 
     [RelayCommand]
@@ -240,7 +244,7 @@ public partial class AppViewModel : ObservableObject
     {
         OneSignal.User.RemoveEmail(email);
         EmailsList.Remove(email);
-        Debug.WriteLine($"Email removed: {email}");
+        LogService.Info($"Email removed: {email}");
     }
 
     // SMS
@@ -250,7 +254,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.User.AddSms(sms);
         if (!SmsNumbersList.Contains(sms))
             SmsNumbersList.Add(sms);
-        Debug.WriteLine($"SMS added: {sms}");
+        LogService.Info($"SMS added: {sms}");
     }
 
     [RelayCommand]
@@ -258,7 +262,7 @@ public partial class AppViewModel : ObservableObject
     {
         OneSignal.User.RemoveSms(sms);
         SmsNumbersList.Remove(sms);
-        Debug.WriteLine($"SMS removed: {sms}");
+        LogService.Info($"SMS removed: {sms}");
     }
 
     // Tags
@@ -267,7 +271,7 @@ public partial class AppViewModel : ObservableObject
     {
         OneSignal.User.AddTag(pair.Key, pair.Value);
         UpsertTag(pair.Key, pair.Value);
-        Debug.WriteLine($"Tag added: {pair.Key}");
+        LogService.Info($"Tag added: {pair.Key}");
     }
 
     [RelayCommand]
@@ -276,7 +280,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.User.AddTags(tags);
         foreach (var kv in tags)
             UpsertTag(kv.Key, kv.Value);
-        Debug.WriteLine($"{tags.Count} tag(s) added");
+        LogService.Info($"{tags.Count} tag(s) added");
     }
 
     [RelayCommand]
@@ -286,7 +290,7 @@ public partial class AppViewModel : ObservableObject
         var item = TagsList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TagsList.Remove(item);
-        Debug.WriteLine($"Tag removed: {key}");
+        LogService.Info($"Tag removed: {key}");
     }
 
     [RelayCommand]
@@ -300,7 +304,7 @@ public partial class AppViewModel : ObservableObject
             if (item.Key != null)
                 TagsList.Remove(item);
         }
-        Debug.WriteLine($"{keyList.Count} tag(s) removed");
+        LogService.Info($"{keyList.Count} tag(s) removed");
     }
 
     private void UpsertTag(string key, string value)
@@ -323,7 +327,7 @@ public partial class AppViewModel : ObservableObject
     {
         OneSignal.InAppMessages.AddTrigger(pair.Key, pair.Value);
         UpsertTrigger(pair.Key, pair.Value);
-        Debug.WriteLine($"Trigger added: {pair.Key}");
+        LogService.Info($"Trigger added: {pair.Key}");
     }
 
     [RelayCommand]
@@ -332,7 +336,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.InAppMessages.AddTriggers(triggers);
         foreach (var kv in triggers)
             UpsertTrigger(kv.Key, kv.Value);
-        Debug.WriteLine($"{triggers.Count} trigger(s) added");
+        LogService.Info($"{triggers.Count} trigger(s) added");
     }
 
     [RelayCommand]
@@ -342,7 +346,7 @@ public partial class AppViewModel : ObservableObject
         var item = TriggersList.FirstOrDefault(t => t.Key == key);
         if (item.Key != null)
             TriggersList.Remove(item);
-        Debug.WriteLine($"Trigger removed: {key}");
+        LogService.Info($"Trigger removed: {key}");
     }
 
     [RelayCommand]
@@ -356,7 +360,7 @@ public partial class AppViewModel : ObservableObject
             if (item.Key != null)
                 TriggersList.Remove(item);
         }
-        Debug.WriteLine($"{keyList.Count} trigger(s) removed");
+        LogService.Info($"{keyList.Count} trigger(s) removed");
     }
 
     [RelayCommand]
@@ -364,7 +368,7 @@ public partial class AppViewModel : ObservableObject
     {
         OneSignal.InAppMessages.ClearTriggers();
         TriggersList.Clear();
-        Debug.WriteLine("All triggers cleared");
+        LogService.Info("All triggers cleared");
     }
 
     public void UpsertTrigger(string key, string value)
@@ -386,27 +390,27 @@ public partial class AppViewModel : ObservableObject
     public void SendOutcome(string name)
     {
         OneSignal.Session.AddOutcome(name);
-        Debug.WriteLine($"Outcome sent: {name}");
+        LogService.Info($"Outcome sent: {name}");
     }
 
     [RelayCommand]
     public void SendUniqueOutcome(string name)
     {
         OneSignal.Session.AddUniqueOutcome(name);
-        Debug.WriteLine($"Unique outcome sent: {name}");
+        LogService.Info($"Unique outcome sent: {name}");
     }
 
     public void SendOutcomeWithValue(string name, float value)
     {
         OneSignal.Session.AddOutcomeWithValue(name, value);
-        Debug.WriteLine($"Outcome with value sent: {name} = {value}");
+        LogService.Info($"Outcome with value sent: {name} = {value}");
     }
 
     // Track Event
     public void TrackEvent(string name, IDictionary<string, object>? properties = null)
     {
         OneSignal.User.TrackEvent(name, properties);
-        Debug.WriteLine($"Event tracked: {name}");
+        LogService.Info($"Event tracked: {name}");
     }
 
     // Notifications
@@ -416,18 +420,18 @@ public partial class AppViewModel : ObservableObject
         var pushId = OneSignal.User.PushSubscription.Id;
         if (string.IsNullOrEmpty(pushId))
         {
-            Debug.WriteLine("Failed to send notification");
+            LogService.Info("Failed to send notification");
             return;
         }
         var success = await _apiService.SendNotificationAsync(type, pushId);
-        Debug.WriteLine(success ? $"Notification sent: {type}" : "Failed to send notification");
+        LogService.Info(success ? $"Notification sent: {type}" : "Failed to send notification");
     }
 
     [RelayCommand]
     public void ClearAllNotifications()
     {
         OneSignal.Notifications.ClearAllNotifications();
-        Debug.WriteLine("All notifications cleared");
+        LogService.Info("All notifications cleared");
     }
 
     public async Task SendCustomNotificationAsync(string title, string body)
@@ -435,11 +439,11 @@ public partial class AppViewModel : ObservableObject
         var pushId = OneSignal.User.PushSubscription.Id;
         if (string.IsNullOrEmpty(pushId))
         {
-            Debug.WriteLine("Failed to send notification");
+            LogService.Info("Failed to send notification");
             return;
         }
         var success = await _apiService.SendCustomNotificationAsync(title, body, pushId);
-        Debug.WriteLine(success ? $"Notification sent: {title}" : "Failed to send notification");
+        LogService.Info(success ? $"Notification sent: {title}" : "Failed to send notification");
     }
 
     // IAM
@@ -448,7 +452,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.InAppMessages.Paused = paused;
         _prefs.IamPaused = paused;
         InAppMessagesPaused = paused;
-        Debug.WriteLine(paused ? "In-App Messages paused" : "In-App Messages resumed");
+        LogService.Info(paused ? "In-App Messages paused" : "In-App Messages resumed");
     }
 
     public void SendInAppMessage(InAppMessageType type)
@@ -456,7 +460,7 @@ public partial class AppViewModel : ObservableObject
         var triggerValue = type.GetTriggerValue();
         OneSignal.InAppMessages.AddTrigger("iam_type", triggerValue);
         UpsertTrigger("iam_type", triggerValue);
-        Debug.WriteLine($"Sent In-App Message: {type.GetDisplayName()}");
+        LogService.Info($"Sent In-App Message: {type.GetDisplayName()}");
     }
 
     // Location
@@ -465,14 +469,14 @@ public partial class AppViewModel : ObservableObject
         OneSignal.Location.IsShared = shared;
         _prefs.LocationShared = shared;
         LocationShared = shared;
-        Debug.WriteLine(shared ? "Location sharing enabled" : "Location sharing disabled");
+        LogService.Info(shared ? "Location sharing enabled" : "Location sharing disabled");
     }
 
     [RelayCommand]
     public void PromptLocation()
     {
         OneSignal.Location.RequestPermission();
-        Debug.WriteLine("Location permission requested");
+        LogService.Info("Location permission requested");
     }
 
     // Live Activities
@@ -499,7 +503,7 @@ public partial class AppViewModel : ObservableObject
         OneSignal.LiveActivities.StartDefault(activityId, attributes, content);
         LiveActivityStatusIndex = 0;
         UpdateLiveActivityButtonText();
-        Debug.WriteLine($"Started Live Activity: {activityId}");
+        LogService.Info($"Started Live Activity: {activityId}");
     }
 
     public async Task UpdateLiveActivityAsync()
@@ -528,11 +532,11 @@ public partial class AppViewModel : ObservableObject
         {
             LiveActivityStatusIndex = nextIndex;
             UpdateLiveActivityButtonText();
-            Debug.WriteLine($"Updated Live Activity: {activityId}");
+            LogService.Info($"Updated Live Activity: {activityId}");
         }
         else
         {
-            Debug.WriteLine("Failed to update Live Activity");
+            LogService.Info("Failed to update Live Activity");
         }
 
         IsLiveActivityUpdating = false;
@@ -554,11 +558,11 @@ public partial class AppViewModel : ObservableObject
         {
             LiveActivityStatusIndex = 0;
             UpdateLiveActivityButtonText();
-            Debug.WriteLine($"Ended Live Activity: {activityId}");
+            LogService.Info($"Ended Live Activity: {activityId}");
         }
         else
         {
-            Debug.WriteLine("Failed to end Live Activity");
+            LogService.Info("Failed to end Live Activity");
         }
 
         IsLiveActivityUpdating = false;
@@ -597,7 +601,7 @@ public partial class AppViewModel : ObservableObject
         else
             OneSignal.User.PushSubscription.OptOut();
         IsPushEnabled = enabled;
-        Debug.WriteLine(enabled ? "Push enabled" : "Push disabled");
+        LogService.Info(enabled ? "Push enabled" : "Push disabled");
     }
 
     // Observers
@@ -609,8 +613,8 @@ public partial class AppViewModel : ObservableObject
             var current = args.State.Current;
             PushSubscriptionId = FormatPushId(current.Id, HasNotificationPermission);
             IsPushEnabled = current.OptedIn;
-            Debug.WriteLine(
-                $"Push subscription changed: id={previous.Id} -> {current.Id}, optedIn={previous.OptedIn} -> {current.OptedIn}, token={FormatToken(previous.Token)} -> {FormatToken(current.Token)}"
+            LogService.Show(
+                $"Push subscription changed: id={NullIfEmpty(previous.Id)} → {NullIfEmpty(current.Id)}, optedIn={FormatBool(previous.OptedIn)} → {FormatBool(current.OptedIn)}, token={FormatToken(previous.Token)} → {FormatToken(current.Token)}"
             );
         });
     }
@@ -627,7 +631,7 @@ public partial class AppViewModel : ObservableObject
                 OneSignal.User.PushSubscription.Id,
                 HasNotificationPermission
             );
-            Debug.WriteLine($"Permission changed: {args.Permission}");
+            LogService.Show($"Permission changed: {FormatBool(args.Permission)}");
         });
     }
 
@@ -645,7 +649,7 @@ public partial class AppViewModel : ObservableObject
                 ? null
                 : args.State.Current.ExternalId;
 
-            Debug.WriteLine(
+            LogService.Show(
                 $"User changed: onesignalId={nextOneSignalId ?? "null"}, externalId={nextExternalId ?? "null"}"
             );
 
@@ -693,7 +697,7 @@ public partial class AppViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            Debug.WriteLine($"Error fetching user data: {e.Message}");
+            LogService.Error($"Error fetching user data: {e.Message}");
         }
         finally
         {

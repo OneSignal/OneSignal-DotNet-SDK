@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+  x:Class="OneSignalDemo.Controls.LogView"
+  x:Name="self"
+  AutomationId="log_view"
+  BackgroundColor="{StaticResource OsLogBackground}"
+>
+  <VerticalStackLayout>
+    <Grid HeightRequest="24" Padding="16,0" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+      <Label
+        x:Name="HeaderLabel"
+        Text="LOGS (0)"
+        FontFamily="DroidSansMono"
+        FontSize="11"
+        FontAttributes="Bold"
+        CharacterSpacing="0.5"
+        TextColor="{StaticResource OsGrey500}"
+        VerticalOptions="Center"
+      />
+      <ImageButton
+        Grid.Column="1"
+        AutomationId="log_clear_button"
+        SemanticProperties.Description="Clear logs"
+        Source="{mi:Material Icon=Delete, IconSize=14, IconColor=#9E9E9E}"
+        Aspect="Center"
+        WidthRequest="24"
+        HeightRequest="24"
+        Padding="0"
+        BackgroundColor="Transparent"
+        VerticalOptions="Center"
+        Clicked="OnClearClicked"
+      />
+      <ImageButton
+        Grid.Column="2"
+        x:Name="ToggleButton"
+        AutomationId="log_toggle_button"
+        SemanticProperties.Description="Collapse logs"
+        Source="{mi:Material Icon=ExpandLess, IconSize=18, IconColor=#9E9E9E}"
+        Aspect="Center"
+        WidthRequest="24"
+        HeightRequest="24"
+        Padding="0"
+        BackgroundColor="Transparent"
+        VerticalOptions="Center"
+        Clicked="OnToggleClicked"
+      >
+        <ImageButton.Triggers>
+          <DataTrigger
+            TargetType="ImageButton"
+            Binding="{Binding IsCollapsed, Source={x:Reference self}}"
+            Value="True"
+          >
+            <Setter
+              Property="Source"
+              Value="{mi:Material Icon=ExpandMore, IconSize=18, IconColor=#9E9E9E}"
+            />
+            <Setter Property="SemanticProperties.Description" Value="Expand logs" />
+          </DataTrigger>
+        </ImageButton.Triggers>
+      </ImageButton>
+    </Grid>
+
+    <ScrollView x:Name="LogScroll" HeightRequest="100">
+      <VerticalStackLayout x:Name="EntriesLayout" Padding="16,0,16,6" />
+    </ScrollView>
+  </VerticalStackLayout>
+</ContentView>

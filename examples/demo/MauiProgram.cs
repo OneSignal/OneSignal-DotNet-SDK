@@ -123,19 +123,21 @@ public static class MauiProgram
         // Register observers
         var jsonOpts = new JsonSerializerOptions { WriteIndented = true };
         OneSignal.InAppMessages.WillDisplay += (s, e) =>
-            Console.WriteLine($"[OneSignal] IAM willDisplay: {e.Message.MessageId}");
+            LogService.Show($"IAM willDisplay: {e.Message.MessageId}");
         OneSignal.InAppMessages.DidDisplay += (s, e) =>
-            Console.WriteLine($"[OneSignal] IAM didDisplay: {e.Message.MessageId}");
+            LogService.Show($"IAM didDisplay: {e.Message.MessageId}");
         OneSignal.InAppMessages.WillDismiss += (s, e) =>
-            Console.WriteLine($"[OneSignal] IAM willDismiss: {e.Message.MessageId}");
+            LogService.Show($"IAM willDismiss: {e.Message.MessageId}");
         OneSignal.InAppMessages.DidDismiss += (s, e) =>
-            Console.WriteLine($"[OneSignal] IAM didDismiss: {e.Message.MessageId}");
+            LogService.Show($"IAM didDismiss: {e.Message.MessageId}");
         OneSignal.InAppMessages.Clicked += (s, e) =>
-            Console.WriteLine($"[OneSignal] IAM click: {e.Message.MessageId}");
+            LogService.Show($"IAM click: {e.Message.MessageId}");
 
         OneSignal.Notifications.Clicked += (_, e) =>
         {
-            Console.WriteLine($"[OneSignal] Notification click: {e.Notification.Title ?? ""}");
+            LogService.Show(
+                $"Notification click: {e.Notification.NotificationId ?? "null"} {e.Notification.Title ?? ""}"
+            );
 
             // Uncomment to see the full event object
             // Console.WriteLine($"[OneSignal] click event: {JsonSerializer.Serialize(e, jsonOpts)}");
@@ -143,8 +145,8 @@ public static class MauiProgram
 
         OneSignal.Notifications.WillDisplay += (_, e) =>
         {
-            Console.WriteLine(
-                $"[OneSignal] Notification foregroundWillDisplay: {e.Notification.Title ?? ""}"
+            LogService.Show(
+                $"Notification foregroundWillDisplay: {e.Notification.NotificationId ?? "null"} {e.Notification.Title ?? ""}"
             );
 
             // Uncomment to see the full event object

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using OneSignalDemo.Models;
@@ -145,7 +144,7 @@ public class OneSignalApiService
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine($"Send notification failed: {responseJson}");
+                    LogService.Info($"Send notification failed: {responseJson}");
                     return false;
                 }
 
@@ -157,7 +156,7 @@ public class OneSignalApiService
                         await Task.Delay(delayMs);
                         continue;
                     }
-                    Debug.WriteLine($"Send notification failed: {responseJson}");
+                    LogService.Info($"Send notification failed: {responseJson}");
                     return false;
                 }
 
@@ -165,7 +164,7 @@ public class OneSignalApiService
             }
             catch (Exception err)
             {
-                Debug.WriteLine($"Send notification error: {err}");
+                LogService.Info($"Send notification error: {err}");
                 return false;
             }
         }
