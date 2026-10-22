@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Util;
 using OneSignalSDK.DotNet.Core;
 using OneSignalSDK.DotNet.Core.Debug;
 using OneSignalSDK.DotNet.Core.InAppMessages;
@@ -15,6 +16,8 @@ namespace OneSignalSDK.DotNet.Android;
 
 public class AndroidOneSignal : IOneSignal
 {
+    static AndroidOneSignal() => InputGuard.AlsoLog = detail => Log.Error("OneSignal", detail);
+
     /** Retain binding assembly references so optional module DLLs are copied to output. */
     private static readonly Type[] BindingRetentionTypes =
     {
@@ -63,20 +66,27 @@ public class AndroidOneSignal : IOneSignal
 
         OneSignalNative.InitWithContext(context, appId);
 
-        ((AndroidUserManager)User).Initialize();
-        ((AndroidNotificationsManager)Notifications).Initialize();
-        ((AndroidInAppMessagesManager)InAppMessages).Initialize();
+        // InitWithContext returns before native init finishes, so these can see a failed init.
+        NativeCall.Run("user observers", ((AndroidUserManager)User).Initialize);
+        NativeCall.Run(
+            "notification observers",
+            ((AndroidNotificationsManager)Notifications).Initialize
+        );
+        NativeCall.Run(
+            "in-app message observers",
+            ((AndroidInAppMessagesManager)InAppMessages).Initialize
+        );
     }
 
     public void Login(string externalId, string? jwtBearerToken = null)
     {
         if (InputGuard.IsMissing(externalId, "login: externalId"))
             return;
-        OneSignalNative.Login(externalId, jwtBearerToken);
+        NativeCall.Run("login", () => OneSignalNative.Login(externalId, jwtBearerToken));
     }
 
     public void Logout()
     {
-        OneSignalNative.Logout();
+        NativeCall.Run("logout", () => OneSignalNative.Logout());
     }
 }
