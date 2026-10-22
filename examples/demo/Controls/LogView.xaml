@@ -46,21 +46,7 @@
         BackgroundColor="Transparent"
         VerticalOptions="Center"
         Clicked="OnToggleClicked"
-      >
-        <ImageButton.Triggers>
-          <DataTrigger
-            TargetType="ImageButton"
-            Binding="{Binding IsCollapsed, Source={x:Reference self}}"
-            Value="True"
-          >
-            <Setter
-              Property="Source"
-              Value="{mi:Material Icon=ExpandMore, IconSize=18, IconColor=#9E9E9E}"
-            />
-            <Setter Property="SemanticProperties.Description" Value="Expand logs" />
-          </DataTrigger>
-        </ImageButton.Triggers>
-      </ImageButton>
+      />
     </Grid>
 
     <ScrollView x:Name="LogScroll" HeightRequest="100">

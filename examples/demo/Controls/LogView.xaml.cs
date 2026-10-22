@@ -1,4 +1,6 @@
 using System.Collections.Specialized;
+using MauiIcons.Core;
+using MauiIcons.Material;
 using OneSignalDemo.Services;
 
 namespace OneSignalDemo.Controls;
@@ -16,6 +18,7 @@ public partial class LogView : ContentView
 
     private readonly Color _textColor;
     private readonly Color _mutedColor;
+    private readonly Color _iconColor;
 
     public LogView()
     {
@@ -23,6 +26,7 @@ public partial class LogView : ContentView
         var resources = Application.Current!.Resources;
         _textColor = (Color)resources["OsLogText"];
         _mutedColor = (Color)resources["OsGrey600"];
+        _iconColor = (Color)resources["OsGrey500"];
 
         EntriesLayout.SizeChanged += (_, _) => ScrollToEnd();
         // Entries is static, so only stay subscribed while attached or old views leak on Android activity recreation.
@@ -49,6 +53,13 @@ public partial class LogView : ContentView
     private void OnCollapsedChanged(bool collapsed)
     {
         LogScroll.IsVisible = !collapsed;
+        ToggleButton.Source = (
+            collapsed ? MaterialIcons.ExpandMore : MaterialIcons.ExpandLess
+        ).ToImageSource(_iconColor, 18);
+        SemanticProperties.SetDescription(
+            ToggleButton,
+            collapsed ? "Expand logs" : "Collapse logs"
+        );
         if (!collapsed)
             ScrollToEnd();
     }
