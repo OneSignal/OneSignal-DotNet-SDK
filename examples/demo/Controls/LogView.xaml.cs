@@ -25,8 +25,13 @@ public partial class LogView : ContentView
         _mutedColor = (Color)resources["OsGrey600"];
 
         EntriesLayout.SizeChanged += (_, _) => ScrollToEnd();
-        LogService.Entries.CollectionChanged += OnEntriesChanged;
-        Render();
+        // Entries is static, so only stay subscribed while attached or old views leak on Android activity recreation.
+        Loaded += (_, _) =>
+        {
+            LogService.Entries.CollectionChanged += OnEntriesChanged;
+            Render();
+        };
+        Unloaded += (_, _) => LogService.Entries.CollectionChanged -= OnEntriesChanged;
     }
 
     public bool IsCollapsed
