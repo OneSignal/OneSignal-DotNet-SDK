@@ -16,6 +16,8 @@
   <Color x:Key="OsCardBorder">#1A000000</Color>
   <Color x:Key="OsDivider">#E8EAED</Color>
   <Color x:Key="OsWarningBackground">#FFF8E1</Color>
+  <Color x:Key="OsLogBackground">#1E1E1E</Color>
+  <Color x:Key="OsLogText">#D4D4D4</Color>
 
   <!-- Legacy aliases kept so existing XAML references still compile -->
   <Color x:Key="OneSignalRed">#E54B4D</Color>
