@@ -5,68 +5,68 @@ namespace OneSignalDemo.Controls.Sections;
 
 public partial class UserSection : ContentView
 {
-    private static readonly (string Name, string Code)[] LanguageOptions =
+    private static readonly DropdownOption[] LanguageOptions =
     {
-        ("Device Default", ""),
-        ("English", "en"),
-        ("Arabic", "ar"),
-        ("Azerbaijani", "az"),
-        ("Bosnian", "bs"),
-        ("Catalan", "ca"),
-        ("Chinese (Simplified)", "zh-Hans"),
-        ("Chinese (Traditional)", "zh-Hant"),
-        ("Croatian", "hr"),
-        ("Czech", "cs"),
-        ("Danish", "da"),
-        ("Dutch", "nl"),
-        ("Estonian", "et"),
-        ("Finnish", "fi"),
-        ("French", "fr"),
-        ("Georgian", "ka"),
-        ("Bulgarian", "bg"),
-        ("German", "de"),
-        ("Greek", "el"),
-        ("Hindi", "hi"),
-        ("Hebrew", "he"),
-        ("Hungarian", "hu"),
-        ("Indonesian", "id"),
-        ("Italian", "it"),
-        ("Japanese", "ja"),
-        ("Korean", "ko"),
-        ("Latvian", "lv"),
-        ("Lithuanian", "lt"),
-        ("Malay", "ms"),
-        ("Norwegian", "nb"),
-        ("Persian", "fa"),
-        ("Polish", "pl"),
-        ("Portuguese", "pt"),
-        ("Punjabi", "pa"),
-        ("Romanian", "ro"),
-        ("Russian", "ru"),
-        ("Serbian", "sr"),
-        ("Slovak", "sk"),
-        ("Spanish", "es"),
-        ("Swedish", "sv"),
-        ("Thai", "th"),
-        ("Turkish", "tr"),
-        ("Ukrainian", "uk"),
-        ("Vietnamese", "vi"),
+        new("Device Default", ""),
+        new("English", "en"),
+        new("Arabic", "ar"),
+        new("Azerbaijani", "az"),
+        new("Bosnian", "bs"),
+        new("Catalan", "ca"),
+        new("Chinese (Simplified)", "zh-Hans"),
+        new("Chinese (Traditional)", "zh-Hant"),
+        new("Croatian", "hr"),
+        new("Czech", "cs"),
+        new("Danish", "da"),
+        new("Dutch", "nl"),
+        new("Estonian", "et"),
+        new("Finnish", "fi"),
+        new("French", "fr"),
+        new("Georgian", "ka"),
+        new("Bulgarian", "bg"),
+        new("German", "de"),
+        new("Greek", "el"),
+        new("Hindi", "hi"),
+        new("Hebrew", "he"),
+        new("Hungarian", "hu"),
+        new("Indonesian", "id"),
+        new("Italian", "it"),
+        new("Japanese", "ja"),
+        new("Korean", "ko"),
+        new("Latvian", "lv"),
+        new("Lithuanian", "lt"),
+        new("Malay", "ms"),
+        new("Norwegian", "nb"),
+        new("Persian", "fa"),
+        new("Polish", "pl"),
+        new("Portuguese", "pt"),
+        new("Punjabi", "pa"),
+        new("Romanian", "ro"),
+        new("Russian", "ru"),
+        new("Serbian", "sr"),
+        new("Slovak", "sk"),
+        new("Spanish", "es"),
+        new("Swedish", "sv"),
+        new("Thai", "th"),
+        new("Turkish", "tr"),
+        new("Ukrainian", "uk"),
+        new("Vietnamese", "vi"),
     };
 
     private AppViewModel? _viewModel;
     private Page? _parentPage;
-    private bool _suppressLanguageSelection;
+    private DropdownMenu? _dropdownMenu;
 
     public UserSection()
     {
         InitializeComponent();
-        LanguagePicker.ItemsSource = LanguageOptions.Select(o => o.Name).ToList();
     }
 
-    public void Initialize(AppViewModel viewModel, Page parentPage)
+    public void Initialize(AppViewModel viewModel, Page parentPage, DropdownMenu dropdownMenu)
     {
         _viewModel = viewModel;
         _parentPage = parentPage;
+        _dropdownMenu = dropdownMenu;
         UpdateUserDisplay(viewModel);
         UpdateLanguageSelection(viewModel);
 
@@ -100,18 +100,22 @@ public partial class UserSection : ContentView
 
     private void UpdateLanguageSelection(AppViewModel vm)
     {
-        var index = Array.FindIndex(LanguageOptions, o => o.Code == vm.Language);
-        _suppressLanguageSelection = true;
-        LanguagePicker.SelectedIndex = Math.Max(index, 0);
-        _suppressLanguageSelection = false;
+        var option =
+            LanguageOptions.FirstOrDefault(o => o.Value == vm.Language) ?? LanguageOptions[0];
+        LanguageLabel.Text = option.Label;
     }
 
-    private void OnLanguageSelected(object? sender, EventArgs e)
+    private async void OnLanguageTapped(object? sender, TappedEventArgs e)
     {
-        if (_suppressLanguageSelection || _viewModel == null || LanguagePicker.SelectedIndex < 0)
+        if (_dropdownMenu == null || _viewModel == null)
             return;
-        var code = LanguageOptions[LanguagePicker.SelectedIndex].Code;
-        if (code != _viewModel.Language)
+        var code = await _dropdownMenu.ShowAsync(
+            LanguageDropdown,
+            LanguageOptions,
+            _viewModel.Language,
+            "language_option"
+        );
+        if (code != null && code != _viewModel.Language)
             _viewModel.SetLanguage(code);
     }
 

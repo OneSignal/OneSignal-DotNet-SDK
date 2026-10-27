@@ -16,7 +16,7 @@ public partial class MainPage : ContentPage
 
         AppSectionControl.Initialize(_viewModel);
 
-        UserSectionControl.Initialize(_viewModel, this);
+        UserSectionControl.Initialize(_viewModel, this, DropdownMenuOverlay);
 
         PushSectionControl.Initialize(_viewModel);
         PushSectionControl.InfoTapped += (s, e) => ShowTooltip("push");
@@ -59,6 +59,14 @@ public partial class MainPage : ContentPage
         LiveActivitiesSectionControl.Initialize(_viewModel);
         LiveActivitiesSectionControl.InfoTapped += (s, e) => ShowTooltip("liveActivities");
 #endif
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        if (!DropdownMenuOverlay.IsOpen)
+            return base.OnBackButtonPressed();
+        DropdownMenuOverlay.Close(null);
+        return true;
     }
 
     protected override async void OnAppearing()

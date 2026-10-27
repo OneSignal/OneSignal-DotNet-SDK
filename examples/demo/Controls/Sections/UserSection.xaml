@@ -2,7 +2,7 @@
 <ContentView
   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-  xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+  xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.UserSection"
   x:Name="root"
 >
@@ -56,18 +56,28 @@
             Style="{StaticResource BodyMediumStyle}"
             VerticalOptions="Center"
           />
-          <Picker
+          <HorizontalStackLayout
+            x:Name="LanguageDropdown"
             Grid.Column="1"
-            x:Name="LanguagePicker"
-            Title="Language"
-            FontSize="12"
-            TextColor="{StaticResource OsGrey600}"
-            HorizontalTextAlignment="End"
+            Spacing="2"
+            Padding="8,8,0,8"
             VerticalOptions="Center"
-            SelectedIndexChanged="OnLanguageSelected"
-            ios:Picker.UpdateMode="WhenFinished"
             AutomationId="user_language_dropdown"
-          />
+          >
+            <HorizontalStackLayout.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnLanguageTapped" />
+            </HorizontalStackLayout.GestureRecognizers>
+            <Label
+              x:Name="LanguageLabel"
+              Style="{StaticResource BodySmallStyle}"
+              VerticalOptions="Center"
+              AutomationId="user_language_value"
+            />
+            <Image
+              Source="{mi:Material Icon=ArrowDropDown, IconSize=20, IconColor=#757575}"
+              VerticalOptions="Center"
+            />
+          </HorizontalStackLayout>
         </Grid>
       </VerticalStackLayout>
     </Border>
