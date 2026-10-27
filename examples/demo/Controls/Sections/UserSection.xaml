@@ -47,6 +47,26 @@
             AutomationId="user_external_id_value"
           />
         </Grid>
+        <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
+        <Grid Padding="12,4" ColumnDefinitions="*,Auto">
+          <Label
+            Grid.Column="0"
+            Text="Language"
+            Style="{StaticResource BodyMediumStyle}"
+            VerticalOptions="Center"
+          />
+          <Picker
+            Grid.Column="1"
+            x:Name="LanguagePicker"
+            Title="Language"
+            FontSize="12"
+            TextColor="{StaticResource OsGrey600}"
+            HorizontalTextAlignment="End"
+            VerticalOptions="Center"
+            SelectedIndexChanged="OnLanguageSelected"
+            AutomationId="user_language_dropdown"
+          />
+        </Grid>
       </VerticalStackLayout>
     </Border>
 

@@ -27,6 +27,7 @@ public partial class PushSection : ContentView
                 is nameof(AppViewModel.PushSubscriptionId)
                     or nameof(AppViewModel.IsPushEnabled)
                     or nameof(AppViewModel.HasNotificationPermission)
+                    or nameof(AppViewModel.PushSubscriptionStatus)
             )
             {
                 Refresh();
@@ -39,6 +40,7 @@ public partial class PushSection : ContentView
         if (_viewModel == null)
             return;
         PushIdLabel.Text = _viewModel.PushSubscriptionId;
+        PushStatusLabel.Text = _viewModel.PushSubscriptionStatus;
 
         _suppressToggle = true;
         PushEnabledSwitch.IsToggled = _viewModel.IsPushEnabled;
