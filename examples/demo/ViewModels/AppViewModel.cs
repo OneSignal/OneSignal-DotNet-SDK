@@ -187,6 +187,7 @@ public partial class AppViewModel : ObservableObject
         ClearUserData();
         OneSignal.Login(externalUserId);
         _prefs.ExternalUserId = externalUserId;
+        ResetLanguagePicker();
         UpdateUserStatus(externalUserId);
         IsLoading = false;
         LogService.Info($"Login: {externalUserId}");
@@ -200,9 +201,17 @@ public partial class AppViewModel : ObservableObject
         _prefs.ExternalUserId = null;
         ClearUserData();
         UpdateUserStatus(null);
-        SetLanguage("");
+        ResetLanguagePicker();
         IsLoading = false;
         LogService.Info("Logged out");
+    }
+
+    // Clears only the cached choice. SetLanguage("") would send the device
+    // language and overwrite the user's backend value.
+    private void ResetLanguagePicker()
+    {
+        _prefs.Language = "";
+        Language = "";
     }
 
     // Empty string resets the SDK to the device language.

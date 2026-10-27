@@ -182,7 +182,7 @@ OneSignal.User.Changed += OnUserChanged;
 - Navigate to the secondary page via `Navigation.PushAsync(new SecondaryPage())` -- no Shell.
 - Triggers list state: `ObservableCollection<KeyValuePair<string, string>>`.
 - Push section rows, top to bottom: Push ID, Status (read-only: `Subscribed` when opted in AND permission granted AND a push token is present, else `Unsubscribed`; `AutomationId="push_subscription_status"`), Opted In toggle (`push_enabled_toggle`).
-- User section card ends with a Language `Picker` (`user_language_dropdown`): "Device Default" (empty code) followed by the shared language list. The selection is cached in `PreferencesService.Language` and reset to Device Default on logout.
+- User section card ends with a Language `Picker` (`user_language_dropdown`): "Device Default" (empty code) followed by the shared language list. The selection is cached in `PreferencesService.Language`. Login and logout reset the picker to Device Default locally (clear the cached value and UI state) without calling `SetLanguage`, since an empty code would send the device language and overwrite the user's backend value.
 - Track Event JSON parsing: `System.Text.Json` into `Dictionary<string, object>`; show inline red error label on invalid JSON; TRACK button does NOT close the modal when validation fails.
 
 ---
