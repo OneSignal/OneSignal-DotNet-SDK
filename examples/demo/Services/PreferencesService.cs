@@ -9,6 +9,7 @@ public class PreferencesService
     private const string KeyExternalUserId = "external_user_id";
     private const string KeyLocationShared = "location_shared";
     private const string KeyIamPaused = "iam_paused";
+    private const string KeyLanguage = "language";
 
     public bool ConsentRequired
     {
@@ -44,5 +45,11 @@ public class PreferencesService
     {
         get => Preferences.Get(KeyIamPaused, false);
         set => Preferences.Set(KeyIamPaused, value);
+    }
+
+    public string Language
+    {
+        get => Preferences.Get(KeyLanguage, "");
+        set => Preferences.Set(KeyLanguage, value);
     }
 }

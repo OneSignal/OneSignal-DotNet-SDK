@@ -39,15 +39,29 @@ public partial class AppViewModel : ObservableObject
     [ObservableProperty]
     private string _oneSignalId = "—";
 
+    [ObservableProperty]
+    private string _language = "";
+
     // Push section
     [ObservableProperty]
     private string _pushSubscriptionId = "—";
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PushSubscriptionStatus))]
     private bool _isPushEnabled;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PushSubscriptionStatus))]
     private bool _hasNotificationPermission;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PushSubscriptionStatus))]
+    private string? _pushToken;
+
+    public string PushSubscriptionStatus =>
+        IsPushEnabled && HasNotificationPermission && !string.IsNullOrEmpty(PushToken)
+            ? "Subscribed"
+            : "Unsubscribed";
 
     // IAM section
     [ObservableProperty]
@@ -125,6 +139,7 @@ public partial class AppViewModel : ObservableObject
         InAppMessagesPaused = OneSignal.InAppMessages.Paused;
         LocationShared = OneSignal.Location.IsShared;
         HasNotificationPermission = OneSignal.Notifications.Permission;
+        Language = _prefs.Language;
 
         var extId = OneSignal.User.ExternalId ?? _prefs.ExternalUserId;
         UpdateUserStatus(extId);
@@ -134,6 +149,7 @@ public partial class AppViewModel : ObservableObject
             HasNotificationPermission
         );
         IsPushEnabled = OneSignal.User.PushSubscription.OptedIn;
+        PushToken = OneSignal.User.PushSubscription.Token;
 
         var onesignalId = OneSignal.User.OneSignalId;
         OneSignalId = FormatId(onesignalId);
@@ -171,6 +187,7 @@ public partial class AppViewModel : ObservableObject
         ClearUserData();
         OneSignal.Login(externalUserId);
         _prefs.ExternalUserId = externalUserId;
+        ResetLanguagePicker();
         UpdateUserStatus(externalUserId);
         IsLoading = false;
         LogService.Info($"Login: {externalUserId}");
@@ -184,8 +201,28 @@ public partial class AppViewModel : ObservableObject
         _prefs.ExternalUserId = null;
         ClearUserData();
         UpdateUserStatus(null);
+        ResetLanguagePicker();
         IsLoading = false;
         LogService.Info("Logged out");
+    }
+
+    // Clears only the cached choice. SetLanguage("") would send the device
+    // language and overwrite the user's backend value.
+    private void ResetLanguagePicker()
+    {
+        _prefs.Language = "";
+        Language = "";
+    }
+
+    // Empty string resets the SDK to the device language.
+    public void SetLanguage(string language)
+    {
+        OneSignal.User.Language = language;
+        _prefs.Language = language;
+        Language = language;
+        LogService.Info(
+            $"Language set to: {(string.IsNullOrEmpty(language) ? "device default" : language)}"
+        );
     }
 
     private void ClearUserData()
@@ -613,6 +650,7 @@ public partial class AppViewModel : ObservableObject
             var current = args.State.Current;
             PushSubscriptionId = FormatPushId(current.Id, HasNotificationPermission);
             IsPushEnabled = current.OptedIn;
+            PushToken = current.Token;
             LogService.Show(
                 $"Push subscription changed: id={NullIfEmpty(previous.Id)} → {NullIfEmpty(current.Id)}, optedIn={FormatBool(previous.OptedIn)} → {FormatBool(current.OptedIn)}, token={FormatToken(previous.Token)} → {FormatToken(current.Token)}"
             );

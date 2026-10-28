@@ -2,6 +2,7 @@
 <ContentView
   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.UserSection"
   x:Name="root"
 >
@@ -46,6 +47,37 @@
             VerticalOptions="Center"
             AutomationId="user_external_id_value"
           />
+        </Grid>
+        <BoxView HeightRequest="1" Color="{StaticResource OsDivider}" Margin="12,0" />
+        <Grid Padding="12,4" ColumnDefinitions="*,Auto">
+          <Label
+            Grid.Column="0"
+            Text="Language"
+            Style="{StaticResource BodyMediumStyle}"
+            VerticalOptions="Center"
+          />
+          <HorizontalStackLayout
+            x:Name="LanguageDropdown"
+            Grid.Column="1"
+            Spacing="2"
+            Padding="8,8,0,8"
+            VerticalOptions="Center"
+            AutomationId="user_language_dropdown"
+          >
+            <HorizontalStackLayout.GestureRecognizers>
+              <TapGestureRecognizer Tapped="OnLanguageTapped" />
+            </HorizontalStackLayout.GestureRecognizers>
+            <Label
+              x:Name="LanguageLabel"
+              Style="{StaticResource BodySmallStyle}"
+              VerticalOptions="Center"
+              AutomationId="user_language_value"
+            />
+            <Image
+              Source="{mi:Material Icon=ArrowDropDown, IconSize=20, IconColor=#757575}"
+              VerticalOptions="Center"
+            />
+          </HorizontalStackLayout>
         </Grid>
       </VerticalStackLayout>
     </Border>
