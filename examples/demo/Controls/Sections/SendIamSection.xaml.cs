@@ -42,8 +42,19 @@ public partial class SendIamSection : ContentView
     private void OnCenterModalTapped(object? sender, EventArgs e) =>
         SendIam(InAppMessageType.CenterModal);
 
+    private void OnHtmlTapped(object? sender, EventArgs e) => SendIam(InAppMessageType.Html);
+
     private void OnFullScreenTapped(object? sender, EventArgs e) =>
         SendIam(InAppMessageType.FullScreen);
+
+    private void OnFullBleedTapped(object? sender, EventArgs e) =>
+        SendIam(InAppMessageType.FullBleed);
+
+    private void OnCarouselTapped(object? sender, EventArgs e) =>
+        SendIam(InAppMessageType.Carousel);
+
+    private void OnCarouselBleedTapped(object? sender, EventArgs e) =>
+        SendIam(InAppMessageType.CarouselBleed);
 
     private void SendIam(InAppMessageType type)
     {

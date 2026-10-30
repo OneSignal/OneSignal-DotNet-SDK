@@ -12,29 +12,87 @@
       InfoTapped="OnInfoTapped"
     />
 
-    <Button
-      Text="TOP BANNER"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnTopBannerTapped"
-      AutomationId="send_iam_top_banner_button"
-    />
-    <Button
-      Text="BOTTOM BANNER"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnBottomBannerTapped"
-      AutomationId="send_iam_bottom_banner_button"
-    />
-    <Button
-      Text="CENTER MODAL"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnCenterModalTapped"
-      AutomationId="send_iam_center_modal_button"
-    />
-    <Button
-      Text="FULL SCREEN"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnFullScreenTapped"
-      AutomationId="send_iam_full_screen_button"
-    />
+    <Grid
+      ColumnDefinitions="*,*"
+      RowDefinitions="Auto,Auto,Auto,Auto"
+      RowSpacing="8"
+      ColumnSpacing="8"
+    >
+      <Grid.Resources>
+        <Style
+          TargetType="Button"
+          x:Key="IamTypeButtonStyle"
+          BasedOn="{StaticResource PrimaryButtonStyle}"
+        >
+          <Setter Property="FontSize" Value="13" />
+          <Setter Property="Padding" Value="8,0" />
+          <Setter Property="LineBreakMode" Value="NoWrap" />
+        </Style>
+      </Grid.Resources>
+      <Button
+        Grid.Row="0"
+        Grid.Column="0"
+        Text="TOP"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnTopBannerTapped"
+        AutomationId="send_iam_top_banner_button"
+      />
+      <Button
+        Grid.Row="0"
+        Grid.Column="1"
+        Text="BOTTOM"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnBottomBannerTapped"
+        AutomationId="send_iam_bottom_banner_button"
+      />
+      <Button
+        Grid.Row="1"
+        Grid.Column="0"
+        Text="CENTER"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnCenterModalTapped"
+        AutomationId="send_iam_center_modal_button"
+      />
+      <Button
+        Grid.Row="1"
+        Grid.Column="1"
+        Text="HTML"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnHtmlTapped"
+        AutomationId="send_iam_html_button"
+      />
+      <Button
+        Grid.Row="2"
+        Grid.Column="0"
+        Text="FULL"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnFullScreenTapped"
+        AutomationId="send_iam_full_screen_button"
+      />
+      <Button
+        Grid.Row="2"
+        Grid.Column="1"
+        Text="FULL BLEED"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnFullBleedTapped"
+        AutomationId="send_iam_full_bleed_button"
+      />
+      <Button
+        Grid.Row="3"
+        Grid.Column="0"
+        Text="CAROUSEL"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnCarouselTapped"
+        AutomationId="send_iam_carousel_button"
+      />
+      <Button
+        Grid.Row="3"
+        Grid.Column="1"
+        Text="CAROUSEL BLEED"
+        Style="{StaticResource IamTypeButtonStyle}"
+        Clicked="OnCarouselBleedTapped"
+        AutomationId="send_iam_carousel_bleed_button"
+      />
+    </Grid>
   </VerticalStackLayout>
 </ContentView>
