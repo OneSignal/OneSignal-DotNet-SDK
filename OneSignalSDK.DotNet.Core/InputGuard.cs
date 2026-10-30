@@ -1,14 +1,24 @@
+using System;
 using System.Collections.Generic;
 
 namespace OneSignalSDK.DotNet.Core
 {
     internal static class InputGuard
     {
+        // Android points this at logcat. This assembly cannot reference Android.Util.
+        internal static Action<string>? AlsoLog;
+
+        private static void Log(string detail)
+        {
+            global::System.Diagnostics.Debug.WriteLine("OneSignal: " + detail);
+            AlsoLog?.Invoke(detail);
+        }
+
         public static bool IsMissing(string? value, string api)
         {
             if (!string.IsNullOrEmpty(value))
                 return false;
-            global::System.Diagnostics.Debug.WriteLine("OneSignal: " + api + " is required");
+            Log(api + " is required");
             return true;
         }
 
@@ -28,7 +38,7 @@ namespace OneSignalSDK.DotNet.Core
         {
             if (value != null)
                 return false;
-            global::System.Diagnostics.Debug.WriteLine("OneSignal: " + api + " is required");
+            Log(api + " is required");
             return true;
         }
 
@@ -36,9 +46,7 @@ namespace OneSignalSDK.DotNet.Core
         {
             if (!float.IsNaN(value) && !float.IsInfinity(value))
                 return false;
-            global::System.Diagnostics.Debug.WriteLine(
-                "OneSignal: " + api + " must be a finite number"
-            );
+            Log(api + " must be a finite number");
             return true;
         }
 
@@ -90,9 +98,7 @@ namespace OneSignalSDK.DotNet.Core
                 {
                     if (pair.Value != null)
                         continue;
-                    global::System.Diagnostics.Debug.WriteLine(
-                        "OneSignal: " + api + ": value is required"
-                    );
+                    Log(api + ": value is required");
                     return true;
                 }
                 if (IsMissing(pair.Value, api + ": value"))
