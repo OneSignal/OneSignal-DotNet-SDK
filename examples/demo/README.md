@@ -1,6 +1,8 @@
 # OneSignal Demo App
 
-A .NET MAUI sample app demonstrating the OneSignal .NET SDK on Android and iOS.
+A .NET MAUI sample app demonstrating the OneSignal .NET SDK on Android and iOS. It references the SDK source in this repository (`OneSignalSDK.DotNet`) as a project reference, so SDK changes are built with the demo.
+
+The demo uses package/bundle id `com.onesignal.example`.
 
 ## Prerequisites
 
@@ -9,26 +11,39 @@ A .NET MAUI sample app demonstrating the OneSignal .NET SDK on Android and iOS.
   dotnet workload install maui-android maui-ios
   ```
 - For Android: Android SDK and an emulator or physical device
-- For iOS: Xcode and an iOS simulator or physical device (macOS only)
+- For iOS: Xcode and an iOS simulator or physical device (macOS only; the iOS target is only added when building on macOS)
 
 ## Setup
 
-From the repo root, copy the Firebase config file needed for Android:
+Copy `.env.example` to `.env` in `examples/demo`:
 
 ```sh
-./examples/setup-devapp.sh
+cd examples/demo
+cp .env.example .env
 ```
 
-> This copies `google-services.json` from one directory above the repo root into `Platforms/Android/`. The file must match the `com.onesignal.example` package name.
+```sh
+ONESIGNAL_APP_ID=your-onesignal-app-id
+ONESIGNAL_API_KEY=your_rest_api_key
+ONESIGNAL_ANDROID_CHANNEL_ID=
+```
+
+- `ONESIGNAL_APP_ID`: falls back to the default demo app ID in `MauiProgram.cs` when empty or still set to the placeholder.
+- `ONESIGNAL_API_KEY`: REST API key, used to update and end live activities. Sending notifications from the demo doesn't need it.
+- `ONESIGNAL_ANDROID_CHANNEL_ID`: optional Android notification channel for the sound test notification. Falls back to a built-in default channel.
+
+The real `.env` file is gitignored. It's bundled into the app at build time (as the `appenv` asset), so rebuild after changing it.
+
+Android uses the committed `Platforms/Android/google-services.json` for the `com.onesignal.example` package. The OneSignal app needs FCM credentials for Android and APNs credentials for the `com.onesignal.example` bundle ID on iOS.
 
 ## Running on Android
 
 **Emulator or connected device:**
 
-Use the helper script from the `examples/` directory to pick from connected devices interactively:
+Use the helper script to pick from connected devices interactively:
 
 ```sh
-cd examples
+cd examples/demo
 ./run-android.sh
 ```
 
@@ -49,10 +64,10 @@ dotnet build -f net10.0-android
 
 **Simulator:**
 
-Use the helper script from the `examples/` directory to pick from booted simulators interactively:
+Use the helper script to pick from booted simulators interactively:
 
 ```sh
-cd examples
+cd examples/demo
 ./run-ios.sh
 ```
 
@@ -63,21 +78,11 @@ cd examples/demo
 dotnet build -f net10.0-ios -t:Build,Run -p:_DeviceName=:v2:udid=<simulator-udid>
 ```
 
-**Physical device** — set your team ID first:
+**Physical device** — set your signing identity and provisioning profile:
 
 ```sh
 dotnet build -f net10.0-ios -t:Run -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="Apple Development" -p:CodesignProvision="<your-provisioning-profile>"
 ```
-
-## Configuration
-
-The real `.env` file is intentionally gitignored. Copy `.env.example` to `.env` and set your OneSignal app ID:
-
-```sh
-cp .env.example .env
-```
-
-If `ONESIGNAL_APP_ID` is empty or still set to the placeholder, the app falls back to the default demo app ID in `MauiProgram.cs`.
 
 ## Troubleshooting
 
@@ -97,7 +102,18 @@ your active Xcode and the installed `Microsoft.iOS.Sdk.net10.0_X.Y` workload pac
   ```
 - **Xcode is older than the workload, or you keep multiple Xcodes around** (e.g. workload `_26.4` + Xcode 26.3): side-install a matching Xcode under `/Applications/Xcode_<version>.app` and point only this build at it via `DEVELOPER_DIR`. Your global `xcode-select -p` stays untouched, so simulators booted against the default Xcode keep working.
   ```sh
+  # from examples/demo
   DEVELOPER_DIR="/Applications/Xcode_26.4.app/Contents/Developer" ./run-ios.sh
   ```
 
 The repo's CI pins `runs-on: macos-26` for the same reason: it's the GitHub-hosted runner that currently ships an Xcode (26.4.1) compatible with the latest .NET 10 iOS workload. See [aka.ms/xcode-requirement](https://aka.ms/xcode-requirement) for the current compatibility matrix.
+
+## Other demos
+
+- [`demo-no-location`](../demo-no-location): app without the native location module
+- [`android-service-ext`](../android-service-ext): Android notification service extension
+- [`plugin-local-notif`](../plugin-local-notif): OneSignal alongside `Plugin.LocalNotification`
+
+## Build Guide
+
+See [../build.md](../build.md) for the full set of prompts and requirements used to build this app, and [../build_ios.md](../build_ios.md) for iOS verification prompts.
