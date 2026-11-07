@@ -12,7 +12,8 @@ public class AndroidNotificationsManager : INotificationsManager
     public event EventHandler<NotificationWillDisplayEventArgs>? WillDisplay;
     public event EventHandler<NotificationClickedEventArgs>? Clicked;
 
-    public bool Permission => OneSignalNative.Notifications.Permission;
+    public bool Permission =>
+        NativeCall.Get("permission", () => OneSignalNative.Notifications.Permission, false);
 
     private InternalNotificationsEventsHandler? _notificationsEventsHandler;
 
@@ -27,22 +28,36 @@ public class AndroidNotificationsManager : INotificationsManager
 
     public NotificationPermission PermissionNative()
     {
-        return this.Permission ? NotificationPermission.Authorized : NotificationPermission.Denied;
+        return NativeCall.Get(
+            "permission",
+            () =>
+                OneSignalNative.Notifications.Permission
+                    ? NotificationPermission.Authorized
+                    : NotificationPermission.Denied,
+            NotificationPermission.NotDetermined
+        );
     }
 
     public async Task<bool> RequestPermissionAsync(bool fallbackToSettings)
     {
         var consumer = new AndroidBoolConsumer();
-        OneSignalNative.Notifications.RequestPermission(
-            fallbackToSettings,
-            Com.OneSignal.Android.Continue.With(consumer)
+        var requested = NativeCall.Run(
+            "requestPermission",
+            () =>
+                OneSignalNative.Notifications.RequestPermission(
+                    fallbackToSettings,
+                    Com.OneSignal.Android.Continue.With(consumer)
+                )
         );
-        return await consumer;
+        return requested && await consumer;
     }
 
     public void ClearAllNotifications()
     {
-        OneSignalNative.Notifications.ClearAllNotifications();
+        NativeCall.Run(
+            "clearAllNotifications",
+            () => OneSignalNative.Notifications.ClearAllNotifications()
+        );
     }
 
     private class InternalNotificationsEventsHandler
