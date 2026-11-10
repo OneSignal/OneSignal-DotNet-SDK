@@ -73,7 +73,8 @@
     nothing without the default FirebaseApp from google-services.json.
   -->
   <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
-    <FIREBASE_INSTALLATION_ID_ENABLED Condition="'$(FIREBASE_INSTALLATION_ID_ENABLED)' == ''">false</FIREBASE_INSTALLATION_ID_ENABLED>
+    <FIREBASE_INSTALLATION_ID_ENABLED Condition="'$(FIREBASE_INSTALLATION_ID_ENABLED)' == ''"
+      >false</FIREBASE_INSTALLATION_ID_ENABLED>
     <AndroidManifestPlaceholders>firebaseInstallationIdEnabled=$(FIREBASE_INSTALLATION_ID_ENABLED.Trim().ToLowerInvariant())</AndroidManifestPlaceholders>
   </PropertyGroup>
 
@@ -96,7 +97,11 @@
     <Error Text="FIREBASE_INSTALLATION_ID_ENABLED requires examples/demo/Platforms/Android/google-services.json" />
   </Target>
 
-  <Target Name="RequireOneSignalAppId" BeforeTargets="PrepareForBuild" Condition="'$(TargetFramework)' != ''">
+  <Target
+    Name="RequireOneSignalAppId"
+    BeforeTargets="PrepareForBuild"
+    Condition="'$(TargetFramework)' != ''"
+  >
     <ReadLinesFromFile File=".env" Condition="Exists('.env')">
       <Output TaskParameter="Lines" ItemName="_DemoEnvLine" />
     </ReadLinesFromFile>
