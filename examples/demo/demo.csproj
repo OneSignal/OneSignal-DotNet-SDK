@@ -109,7 +109,7 @@
       <_DemoEnv>@(_DemoEnvLine, '%0A')</_DemoEnv>
     </PropertyGroup>
     <Error
-      Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('$(_DemoEnv)', '(?m)^\s*ONESIGNAL_APP_ID\s*=\s*[^\s#]'))"
+      Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('$(_DemoEnv)', '(?m)^[ \t]*ONESIGNAL_APP_ID[ \t]*=[ \t]*[^\s#]'))"
       Text="ONESIGNAL_APP_ID is not set. Add it to examples/demo/.env (see .env.example)."
     />
   </Target>
