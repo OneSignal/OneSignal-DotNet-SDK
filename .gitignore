@@ -46,4 +46,4 @@ Thumbs.db
 .env
 
 # Firebase config
-examples/demo/Platforms/Android/google-services.json
+examples/**/Platforms/Android/google-services.json

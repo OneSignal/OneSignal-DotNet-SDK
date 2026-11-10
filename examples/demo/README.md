@@ -23,7 +23,7 @@ cp .env.example .env
 ```
 
 ```sh
-ONESIGNAL_APP_ID=your-onesignal-app-id
+ONESIGNAL_APP_ID=
 ONESIGNAL_API_KEY=your_rest_api_key
 ONESIGNAL_ANDROID_CHANNEL_ID=
 ```
