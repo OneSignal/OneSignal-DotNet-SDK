@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugSymbols>true</DebugSymbols>
     <Optimize></Optimize>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ConsolePause>true</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

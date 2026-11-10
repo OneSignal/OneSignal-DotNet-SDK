@@ -17,8 +17,8 @@ public class AndroidInAppMessagesManager
 
     public bool Paused
     {
-        get => OneSignalNative.InAppMessages.Paused;
-        set => OneSignalNative.InAppMessages.Paused = value;
+        get => NativeCall.Get("paused", () => OneSignalNative.InAppMessages.Paused, false);
+        set => NativeCall.Run("paused", () => OneSignalNative.InAppMessages.Paused = value);
     }
 
     private InternalInAppMessageEventsHandler? _inAppMessageEventsHandler;
@@ -39,7 +39,7 @@ public class AndroidInAppMessagesManager
             System.Diagnostics.Debug.WriteLine("OneSignal: addTrigger: value is required");
             return;
         }
-        OneSignalNative.InAppMessages.AddTrigger(key, value);
+        NativeCall.Run("addTrigger", () => OneSignalNative.InAppMessages.AddTrigger(key, value));
     }
 
     public void AddTriggers(IDictionary<string, string> triggers)
@@ -52,26 +52,26 @@ public class AndroidInAppMessagesManager
             jTriggers[trigger.Key] = trigger.Value;
         }
 
-        OneSignalNative.InAppMessages.AddTriggers(jTriggers);
+        NativeCall.Run("addTriggers", () => OneSignalNative.InAppMessages.AddTriggers(jTriggers));
     }
 
     public void ClearTriggers()
     {
-        OneSignalNative.InAppMessages.ClearTriggers();
+        NativeCall.Run("clearTriggers", () => OneSignalNative.InAppMessages.ClearTriggers());
     }
 
     public void RemoveTrigger(string key)
     {
         if (InputGuard.IsMissing(key, "removeTrigger: key"))
             return;
-        OneSignalNative.InAppMessages.RemoveTrigger(key);
+        NativeCall.Run("removeTrigger", () => OneSignalNative.InAppMessages.RemoveTrigger(key));
     }
 
     public void RemoveTriggers(params string[] keys)
     {
         if (InputGuard.IsMissingAny(keys, "removeTriggers: key"))
             return;
-        OneSignalNative.InAppMessages.RemoveTriggers(keys);
+        NativeCall.Run("removeTriggers", () => OneSignalNative.InAppMessages.RemoveTriggers(keys));
     }
 
     private class InternalInAppMessageEventsHandler
