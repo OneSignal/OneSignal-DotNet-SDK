@@ -12,6 +12,9 @@
 
     <ApplicationTitle>OneSignal LocalNotification Repro</ApplicationTitle>
     <ApplicationId>com.onesignal.example</ApplicationId>
+    <ApplicationId
+      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
+      >com.onesignal.sdkdemo</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <SupportedOSPlatformVersion

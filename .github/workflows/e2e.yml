@@ -58,6 +58,12 @@ jobs:
           echo "ONESIGNAL_APP_ID=${{ vars.APPIUM_ONESIGNAL_APP_ID }}" > .env
           echo "ONESIGNAL_API_KEY=${{ secrets.APPIUM_ONESIGNAL_API_KEY }}" >> .env
 
+      - name: Write demo google-services.json
+        uses: OneSignal/sdk-shared/.github/actions/setup-google-services@main
+        with:
+          google-services-json: ${{ secrets.APPIUM_GOOGLE_SERVICES_JSON }}
+          path: examples/demo/Platforms/Android/google-services.json
+
       # RuntimeIdentifier=android-arm64 ships native code only for arm64-v8a,
       # which is what BrowserStack's modern Android device farm runs. This
       # roughly halves the APK size (~30MB → ~19MB) versus the default
@@ -69,7 +75,8 @@ jobs:
             -f net10.0-android \
             -c Release \
             -p:AndroidPackageFormat=apk \
-            -p:RuntimeIdentifier=android-arm64
+            -p:RuntimeIdentifier=android-arm64 \
+            -p:FIREBASE_INSTALLATION_ID_ENABLED=true
 
       - name: Locate APK
         id: apk
@@ -192,6 +199,7 @@ jobs:
       platform: android
       app-artifact: demo-apk
       app-filename: demo.apk
+      bundle-id: com.onesignal.sdkdemo
       sdk-type: dotnet
       build-name: dotnet-android-${{ github.ref_name }}-${{ github.run_number }}
 

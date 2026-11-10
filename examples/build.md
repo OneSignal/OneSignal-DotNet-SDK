@@ -57,7 +57,9 @@ SDK reference via project reference:
 ## Platform Setup
 
 ### Android
-- `Platforms/Android/google-services.json` is pre-committed (no setup script). The csproj wires it as a `<GoogleServicesJson>` item only for Android target frameworks.
+- `Platforms/Android/google-services.json` is gitignored; E2E writes it from a secret. The csproj wires it as a `<GoogleServicesJson>` item only for Android target frameworks and only when the file exists.
+- `ApplicationId` is `com.onesignal.sdkdemo` for Android and `com.onesignal.example` for iOS.
+- `-p:FIREBASE_INSTALLATION_ID_ENABLED=true` sets the `firebase_messaging_installation_id_enabled` manifest meta-data through `AndroidManifestPlaceholders`. It defaults to `false` and fails the build without `google-services.json`.
 - AndroidManifest.xml must include:
 ```xml
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -81,7 +83,7 @@ SDK reference via project reference:
 - Files: `.env` and `.env.example` at the demo root.
 - Bundled as a `MauiAsset` with `LogicalName="appenv"` (Android's aapt2 silently drops assets whose name starts with `.`; the workaround is documented inline in `demo.csproj` and `DotEnv.cs`).
 - Loaded keys: `ONESIGNAL_APP_ID`, `ONESIGNAL_API_KEY`, `ONESIGNAL_ANDROID_CHANNEL_ID`.
-- `MauiProgram.cs` calls `DotEnv.Load()` after `builder.Build()` and falls back to a built-in default App ID if the env value is missing or still the placeholder string.
+- `MauiProgram.cs` calls `DotEnv.Load()` after `builder.Build()`. There is no default App ID; `demo.csproj` fails the build when `ONESIGNAL_APP_ID` is missing or empty in `.env`.
 
 ---
 
@@ -410,7 +412,7 @@ examples/demo/
 │   │   ├── MainActivity.cs
 │   │   ├── MainApplication.cs
 │   │   ├── Resources/drawable/switch_thumb_white_shadow.xml
-│   │   └── google-services.json            # Pre-committed
+│   │   └── google-services.json            # Gitignored, optional
 │   └── iOS/
 │       ├── AppDelegate.cs
 │       ├── Info.plist
