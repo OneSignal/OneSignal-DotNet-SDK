@@ -2,7 +2,7 @@
 
 A .NET MAUI sample app demonstrating the OneSignal .NET SDK on Android and iOS. It references the SDK source in this repository (`OneSignalSDK.DotNet`) as a project reference, so SDK changes are built with the demo.
 
-The demo uses package/bundle id `com.onesignal.example`.
+The demo uses Android package `com.onesignal.sdkdemo` and iOS bundle id `com.onesignal.example`.
 
 ## Prerequisites
 
@@ -23,18 +23,22 @@ cp .env.example .env
 ```
 
 ```sh
-ONESIGNAL_APP_ID=your-onesignal-app-id
+ONESIGNAL_APP_ID=
 ONESIGNAL_API_KEY=your_rest_api_key
 ONESIGNAL_ANDROID_CHANNEL_ID=
 ```
 
-- `ONESIGNAL_APP_ID`: falls back to the default demo app ID in `MauiProgram.cs` when empty or still set to the placeholder.
+- `ONESIGNAL_APP_ID`: required. The build fails when it is missing or empty.
 - `ONESIGNAL_API_KEY`: REST API key, used to update and end live activities. Sending notifications from the demo doesn't need it.
 - `ONESIGNAL_ANDROID_CHANNEL_ID`: optional Android notification channel for the sound test notification. Falls back to a built-in default channel.
 
 The real `.env` file is gitignored. It's bundled into the app at build time (as the `appenv` asset), so rebuild after changing it.
 
-Android uses the committed `Platforms/Android/google-services.json` for the `com.onesignal.example` package. The OneSignal app needs FCM credentials for Android and APNs credentials for the `com.onesignal.example` bundle ID on iOS.
+The OneSignal app needs FCM credentials for the `com.onesignal.sdkdemo` Android package and APNs credentials for the `com.onesignal.example` bundle ID on iOS.
+
+### Firebase Installation IDs (optional)
+
+E2E builds register with Firebase Installation IDs. To match locally, put a `google-services.json` for `com.onesignal.sdkdemo` in `Platforms/Android/` (it is gitignored) and build with `-p:FIREBASE_INSTALLATION_ID_ENABLED=true`. The flag is off by default, and the build fails if it is on without `google-services.json`.
 
 ## Running on Android
 

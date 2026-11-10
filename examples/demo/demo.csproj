@@ -19,6 +19,9 @@
 
     <ApplicationTitle>OneSignal Demo</ApplicationTitle>
     <ApplicationId>com.onesignal.example</ApplicationId>
+    <ApplicationId
+      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
+      >com.onesignal.sdkdemo</ApplicationId>
     <ApplicationVersion>2</ApplicationVersion>
     <ApplicationDisplayVersion>3</ApplicationDisplayVersion>
 
@@ -64,13 +67,52 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
   </ItemGroup>
 
-  <!-- Android -->
+  <!--
+    Android. google-services.json is gitignored; E2E writes it from a secret.
+    E2E builds pass -p:FIREBASE_INSTALLATION_ID_ENABLED=true. The flag does
+    nothing without the default FirebaseApp from google-services.json.
+  -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
+    <FIREBASE_INSTALLATION_ID_ENABLED Condition="'$(FIREBASE_INSTALLATION_ID_ENABLED)' == ''"
+      >false</FIREBASE_INSTALLATION_ID_ENABLED>
+    <AndroidManifestPlaceholders>firebaseInstallationIdEnabled=$(FIREBASE_INSTALLATION_ID_ENABLED.Trim().ToLowerInvariant())</AndroidManifestPlaceholders>
+  </PropertyGroup>
+
   <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
     <GoogleServicesJson
       Include="Platforms\Android\google-services.json"
       Condition="Exists('Platforms\Android\google-services.json')"
     />
+    <!-- OneSignal resolves firebase-messaging 23.x; Installation ID registration needs 25.1.2+. -->
+    <PackageReference Include="Xamarin.Firebase.Messaging" Version="125.1.3" />
+    <!-- Firebase pulls Fragment 1.9, which absorbed fragment-ktx; an older Fragment.Ktx duplicates its classes. -->
+    <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.9.0" />
   </ItemGroup>
+
+  <Target
+    Name="RequireGoogleServicesForFirebaseInstallationId"
+    BeforeTargets="PrepareForBuild"
+    Condition="$(TargetFramework.Contains('-android')) AND '$(FIREBASE_INSTALLATION_ID_ENABLED.Trim().ToLowerInvariant())' == 'true' AND !Exists('Platforms\Android\google-services.json')"
+  >
+    <Error Text="FIREBASE_INSTALLATION_ID_ENABLED requires examples/demo/Platforms/Android/google-services.json" />
+  </Target>
+
+  <Target
+    Name="RequireOneSignalAppId"
+    BeforeTargets="PrepareForBuild"
+    Condition="'$(TargetFramework)' != ''"
+  >
+    <ReadLinesFromFile File=".env" Condition="Exists('.env')">
+      <Output TaskParameter="Lines" ItemName="_DemoEnvLine" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <_DemoEnv>@(_DemoEnvLine, '%0A')</_DemoEnv>
+    </PropertyGroup>
+    <Error
+      Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('$(_DemoEnv)', '(?m)^[ \t]*ONESIGNAL_APP_ID[ \t]*=[ \t]*[^\s#]'))"
+      Text="ONESIGNAL_APP_ID is not set. Add it to examples/demo/.env (see .env.example)."
+    />
+  </Target>
 
   <!-- iOS -->
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">

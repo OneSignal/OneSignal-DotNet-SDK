@@ -18,8 +18,6 @@ namespace OneSignalDemo;
 
 public static class MauiProgram
 {
-    private const string DefaultAppId = "77e32082-ea27-42e3-a898-c72e141824ef";
-
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -97,12 +95,8 @@ public static class MauiProgram
         // Load .env file for API keys
         DotEnv.Load();
 
-        // Load App ID from .env (fall back to default if empty or missing)
-        var envAppId = DotEnv.Get("ONESIGNAL_APP_ID");
-        var appId =
-            string.IsNullOrWhiteSpace(envAppId) || envAppId == "your-onesignal-app-id"
-                ? DefaultAppId
-                : envAppId;
+        // demo.csproj fails the build when this is unset.
+        var appId = DotEnv.Get("ONESIGNAL_APP_ID");
 
         var prefs = app.Services.GetRequiredService<PreferencesService>();
         var apiService = app.Services.GetRequiredService<OneSignalApiService>();
