@@ -30,6 +30,9 @@ jobs:
       github.event.inputs.platform == 'android' ||
       github.event.inputs.platform == 'both'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fid: ['on', 'off']
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -62,6 +65,7 @@ jobs:
         uses: OneSignal/sdk-shared/.github/actions/setup-google-services@main
         with:
           google-services-json: ${{ secrets.APPIUM_GOOGLE_SERVICES_JSON }}
+          enabled: ${{ matrix.fid == 'on' }}
           path: examples/demo/Platforms/Android/google-services.json
 
       # RuntimeIdentifier=android-arm64 ships native code only for arm64-v8a,
@@ -76,7 +80,7 @@ jobs:
             -c Release \
             -p:AndroidPackageFormat=apk \
             -p:RuntimeIdentifier=android-arm64 \
-            -p:FIREBASE_INSTALLATION_ID_ENABLED=true
+            -p:FIREBASE_INSTALLATION_ID_ENABLED=${{ matrix.fid == 'on' }}
 
       - name: Locate APK
         id: apk
@@ -93,7 +97,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: demo-apk
+          name: demo-apk${{ matrix.fid == 'off' && '-fid-off' || '' }}
           path: ${{ steps.apk.outputs.path }}
           retention-days: 1
           compression-level: 0
@@ -198,6 +202,7 @@ jobs:
     with:
       platform: android
       app-artifact: demo-apk
+      fid-off-app-artifact: demo-apk-fid-off
       app-filename: demo.apk
       bundle-id: com.onesignal.sdkdemo
       sdk-type: dotnet
