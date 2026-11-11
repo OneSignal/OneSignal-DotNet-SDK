@@ -19,6 +19,7 @@ public partial class LogView : ContentView
     private readonly Color _textColor;
     private readonly Color _mutedColor;
     private readonly Color _iconColor;
+    private bool _hasEntryLabels;
 
     public LogView()
     {
@@ -44,7 +45,28 @@ public partial class LogView : ContentView
         set => SetValue(IsCollapsedProperty, value);
     }
 
-    private void OnEntriesChanged(object? sender, NotifyCollectionChangedEventArgs e) => Render();
+    // Append in place: a full rebuild recreates every native view, and a UI read mid-rebuild
+    // sees no entries. AutomationId can only be set before the platform view exists, so any
+    // change that would shift indices still rebuilds.
+    private void OnEntriesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        var entries = LogService.Entries;
+        var isAppend =
+            e.Action == NotifyCollectionChangedAction.Add
+            && _hasEntryLabels
+            && e.NewStartingIndex == EntriesLayout.Children.Count;
+        if (!isAppend)
+        {
+            Render();
+            return;
+        }
+
+        for (var i = 0; i < e.NewItems!.Count; i++)
+            EntriesLayout.Children.Add(
+                CreateLogLabel((LogEntry)e.NewItems[i]!, e.NewStartingIndex + i)
+            );
+        HeaderLabel.Text = $"LOGS ({entries.Count})";
+    }
 
     private void OnClearClicked(object? sender, EventArgs e) => LogService.Clear();
 
@@ -70,6 +92,7 @@ public partial class LogView : ContentView
         var entries = LogService.Entries;
         HeaderLabel.Text = $"LOGS ({entries.Count})";
         EntriesLayout.Children.Clear();
+        _hasEntryLabels = entries.Count > 0;
 
         if (entries.Count == 0)
         {
@@ -88,20 +111,23 @@ public partial class LogView : ContentView
         }
 
         for (var i = 0; i < entries.Count; i++)
-        {
-            var label = CreateEntryLabel(
-                new FormattedString
+            EntriesLayout.Children.Add(CreateLogLabel(entries[i], i));
+    }
+
+    private Label CreateLogLabel(LogEntry entry, int index)
+    {
+        var label = CreateEntryLabel(
+            new FormattedString
+            {
+                Spans =
                 {
-                    Spans =
-                    {
-                        new Span { Text = entries[i].Time, TextColor = _mutedColor },
-                        new Span { Text = $" {entries[i].Message}", TextColor = _textColor },
-                    },
-                }
-            );
-            label.AutomationId = $"log_entry_{i}";
-            EntriesLayout.Children.Add(label);
-        }
+                    new Span { Text = entry.Time, TextColor = _mutedColor },
+                    new Span { Text = $" {entry.Message}", TextColor = _textColor },
+                },
+            }
+        );
+        label.AutomationId = $"log_entry_{index}";
+        return label;
     }
 
     private static Label CreateEntryLabel(FormattedString text) =>
