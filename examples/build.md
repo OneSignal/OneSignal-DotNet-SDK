@@ -58,7 +58,7 @@ SDK reference via project reference:
 
 ### Android
 - `Platforms/Android/google-services.json` is gitignored; E2E writes it from a secret. The csproj wires it as a `<GoogleServicesJson>` item only for Android target frameworks and only when the file exists.
-- `ApplicationId` is `com.onesignal.sdkdemo` for Android and `com.onesignal.example` for iOS.
+- `ApplicationId` is `com.onesignal.sdkdemo` on Android and iOS.
 - `-p:FIREBASE_INSTALLATION_ID_ENABLED=true` sets the `firebase_messaging_installation_id_enabled` manifest meta-data through `AndroidManifestPlaceholders`. It defaults to `false` and fails the build without `google-services.json`.
 - AndroidManifest.xml must include:
 ```xml
@@ -67,7 +67,7 @@ SDK reference via project reference:
 ```
 
 ### iOS
-- `Platforms/iOS/Entitlements.plist` with push notification entitlement (`aps-environment = development`).
+- `Platforms/iOS/Entitlements.plist` with push notification entitlement (`aps-environment = development`). Device builds signed with the default In House profile override it to `production` through a `CustomEntitlements` item.
 - `Platforms/iOS/Info.plist` with `NSLocationWhenInUseUsageDescription` for location prompts.
 - Info.plist must include `XSAppIconAssets` so the build system passes `--app-icon` to actool:
 ```xml
@@ -218,6 +218,7 @@ Persistence: `Microsoft.Maui.Storage.Preferences`.
 
 XAML controls in `Controls/`:
 - Sections use `Controls/SectionHeader.xaml` (title + info-icon `ImageButton`) wrapped by an inline `<Border Style="{StaticResource CardBorderStyle}">` for the card chrome. See `Controls/Sections/AliasesSection.xaml`, `PushSection.xaml` for examples.
+- Sections with two or more buttons wrap them in `Controls/ButtonGrid.cs` (`<controls:ButtonGrid>`): two equal columns, an odd last visible button spans both, and hidden buttons (`IsVisible="False"`) drop out so the rest reflow. On iOS a `ButtonHandler` mapping in `MauiProgram.cs` keeps button titles on one line and shrinks them to fit.
 - Toggle rows are inline `Grid` / `VerticalStackLayout` + `Switch` per-section (see `InAppSection.xaml`, `PushSection.xaml`, `LocationSection.xaml`). There is no shared `ToggleRow` control.
 - `LoadingState.xaml` -- inline `ActivityIndicator` shown by list-bearing sections (Aliases, Emails, SMS, Tags) while `AppViewModel.IsLoading` is true and the list is empty.
 
@@ -246,6 +247,8 @@ Button styles are defined in `Resources/Styles/Styles.xaml` (not `App.xaml`, whi
 ### Dialogs
 
 Use CommunityToolkit.Maui popup overlays for all flows (do not use `DisplayPromptAsync`):
+
+- `MauiProgram.cs` sets CommunityToolkit popup defaults (`SetPopupDefaults`) to `VerticalOptions = Start` with a `16,24` margin, so dialogs anchor below the safe area at the top instead of centering. A dialog that moves while open desyncs XCUITest frames from the rendered layout.
 
 - `MainPage` owns layout + tooltip popups only (`ShowTooltip(key)`). Each section's `InfoTapped` event is wired to the matching tooltip key.
 - Section initialization (see `MainPage.xaml.cs`):
@@ -332,7 +335,7 @@ public class UserData
   );
   ```
 - Update / end flows hit OneSignal's REST API directly from `AppViewModel` (no SDK helper is used for those).
-- `Platforms/iOS/PlugIns/OneSignalWidgetExtension.appex` is a pre-built widget extension bundled by `demo.csproj` (`Content Include="Platforms\iOS\PlugIns\OneSignalWidgetExtension.appex\**"`, iOS-only `ItemGroup`).
+- `Platforms/iOS/PlugIns/OneSignalWidgetExtension.appex` is a pre-built widget extension bundled by `demo.csproj` (`Content Include="Platforms\iOS\PlugIns\OneSignalWidgetExtension.appex\**"`, iOS-only `ItemGroup`). The committed copy is a simulator build; E2E rebuilds it for `iphoneos` (signed with the `Appium Demo - Live Activity` profile) before publishing the IPA.
 - `Platforms/iOS/PopupKeyboardAvoider.cs` is installed from `MauiProgram.cs` (iOS only) and works around iOS keyboard overlap on popups.
 
 ---
@@ -380,6 +383,7 @@ examples/demo/
 │   ├── SectionHeader.xaml(.cs)             # Title Label + InfoOutline ImageButton; InfoTapped event; SectionKey BindableProperty
 │   ├── LoadingState.xaml                   # Inline list loading spinner
 │   ├── DemoSnackbar.cs                     # Static wrapper around CommunityToolkit.Maui Snackbar
+│   ├── ButtonGrid.cs                       # Two-column button layout; odd last button spans
 │   ├── DialogInputHelper.cs                # ShowSingleInput / ShowPairInput / ShowForm popups
 │   ├── MultiPairDialogHelper.cs            # Multi-row input + multi-select remove popups
 │   ├── TooltipDialogHelper.cs              # Tooltip popup

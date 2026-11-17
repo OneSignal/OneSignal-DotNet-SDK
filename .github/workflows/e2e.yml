@@ -150,6 +150,24 @@ jobs:
           asc-issuer-id: ${{ secrets.APPIUM_APP_STORE_CONNECT_ISSUER_ID }}
           asc-private-key: ${{ secrets.APPIUM_APP_STORE_CONNECT_PRIVATE_KEY }}
 
+      # The committed widget .appex is a simulator build. Device IPAs need an
+      # iphoneos build signed with the Live Activity In House profile, or
+      # BrowserStack can't install the IPA without re-signing it.
+      - name: Build Live Activity widget for device
+        working-directory: examples/demo/OneSignalWidget
+        run: |
+          xcodebuild \
+            -project OneSignalWidgetExtension.xcodeproj \
+            -scheme OneSignalWidgetExtension \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            SYMROOT="$PWD/build" \
+            -quiet
+          PLUGINS=../Platforms/iOS/PlugIns
+          rm -rf "$PLUGINS/OneSignalWidgetExtension.appex"
+          cp -R build/Release-iphoneos/OneSignalWidgetExtension.appex "$PLUGINS/"
+
       # RuntimeIdentifier=ios-arm64 is required for a real device build that
       # BrowserStack can install.
       # Do NOT add -p:UseInterpreter=true here. It shrinks the IPA but breaks
@@ -217,5 +235,6 @@ jobs:
       platform: ios
       app-artifact: demo-ipa
       app-filename: demo.ipa
+      bundle-id: com.onesignal.sdkdemo
       sdk-type: dotnet
       build-name: dotnet-ios-${{ github.ref_name }}-${{ github.run_number }}

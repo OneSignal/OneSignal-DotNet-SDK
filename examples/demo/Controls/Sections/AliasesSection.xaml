@@ -20,17 +20,19 @@
       </VerticalStackLayout>
     </Border>
 
-    <Button
-      Text="ADD ALIAS"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnAddClicked"
-      AutomationId="add_alias_button"
-    />
-    <Button
-      Text="ADD MULTIPLE ALIASES"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnAddMultipleClicked"
-      AutomationId="add_multiple_aliases_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        Text="ADD ALIAS"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnAddClicked"
+        AutomationId="add_alias_button"
+      />
+      <Button
+        Text="ADD ALIASES"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnAddMultipleClicked"
+        AutomationId="add_multiple_aliases_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

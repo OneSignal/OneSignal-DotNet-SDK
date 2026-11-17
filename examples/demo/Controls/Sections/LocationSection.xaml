@@ -27,17 +27,19 @@
       </Grid>
     </Border>
 
-    <Button
-      Text="PROMPT LOCATION"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnPromptLocationClicked"
-      AutomationId="prompt_location_button"
-    />
-    <Button
-      Text="CHECK LOCATION SHARED"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnCheckLocationSharedClicked"
-      AutomationId="check_location_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        Text="PROMPT LOCATION"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnPromptLocationClicked"
+        AutomationId="prompt_location_button"
+      />
+      <Button
+        Text="CHECK LOCATION"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnCheckLocationSharedClicked"
+        AutomationId="check_location_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

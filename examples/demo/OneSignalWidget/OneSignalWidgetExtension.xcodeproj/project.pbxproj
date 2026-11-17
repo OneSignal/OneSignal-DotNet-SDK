@@ -285,7 +285,8 @@
 		A9BD0B97CB422669E0CEB1AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 99SW8E36CT;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = DL8TF3X4K3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -299,7 +300,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.onesignal.example.LA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onesignal.sdkdemo.LA;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Appium Demo - Live Activity";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
@@ -310,7 +311,8 @@
 		CA9BA50AEAECC58F96AE9952 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 99SW8E36CT;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = DL8TF3X4K3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,7 +326,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.onesignal.example.LA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onesignal.sdkdemo.LA;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Appium Demo - Live Activity";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;

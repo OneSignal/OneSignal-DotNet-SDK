@@ -19,7 +19,7 @@ name: OneSignalWidgetExtension
 # extension @rpath chain (@executable_path/../../Frameworks).
 
 options:
-  bundleIdPrefix: com.onesignal.example
+  bundleIdPrefix: com.onesignal.sdkdemo
   deploymentTarget:
     iOS: "16.2"
   createIntermediateGroups: true
@@ -52,7 +52,10 @@ targets:
     # Info.plist below and disable auto-generation.
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.onesignal.example.LA
+        PRODUCT_BUNDLE_IDENTIFIER: com.onesignal.sdkdemo.LA
+        "DEVELOPMENT_TEAM[sdk=iphoneos*]": DL8TF3X4K3
+        "CODE_SIGN_IDENTITY[sdk=iphoneos*]": iPhone Distribution
+        "PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]": Appium Demo - Live Activity
         INFOPLIST_FILE: Info.plist
         GENERATE_INFOPLIST_FILE: NO
         SKIP_INSTALL: NO

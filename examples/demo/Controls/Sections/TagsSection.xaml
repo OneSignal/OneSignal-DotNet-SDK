@@ -20,25 +20,27 @@
       </VerticalStackLayout>
     </Border>
 
-    <Button
-      Text="ADD TAG"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnAddClicked"
-      AutomationId="add_tag_button"
-    />
-    <Button
-      Text="ADD MULTIPLE TAGS"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnAddMultipleClicked"
-      AutomationId="add_multiple_tags_button"
-    />
-    <Button
-      x:Name="RemoveSelectedButton"
-      Text="REMOVE TAGS"
-      Style="{StaticResource PrimaryButtonStyle}"
-      IsVisible="False"
-      Clicked="OnRemoveSelectedClicked"
-      AutomationId="remove_tags_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        Text="ADD TAG"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnAddClicked"
+        AutomationId="add_tag_button"
+      />
+      <Button
+        Text="ADD TAGS"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnAddMultipleClicked"
+        AutomationId="add_multiple_tags_button"
+      />
+      <Button
+        x:Name="RemoveSelectedButton"
+        Text="REMOVE TAGS"
+        Style="{StaticResource PrimaryButtonStyle}"
+        IsVisible="False"
+        Clicked="OnRemoveSelectedClicked"
+        AutomationId="remove_tags_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

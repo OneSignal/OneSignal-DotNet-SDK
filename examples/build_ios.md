@@ -69,7 +69,7 @@ Add a Notification Service Extension to support rich push notifications (images,
     <TargetFramework>net10.0-ios</TargetFramework>
     <OutputType>Library</OutputType>
     <IsAppExtension>true</IsAppExtension>
-    <ApplicationId>com.onesignal.example.NotificationServiceExtensionDotNet</ApplicationId>
+    <ApplicationId>com.onesignal.sdkdemo.NSE</ApplicationId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -163,7 +163,7 @@ Two things are required here:
 - `<Compile Remove>` — the extension folder lives inside the main project directory, so MSBuild's default `**/*.cs` glob would otherwise pull in the extension's source and generated `obj/` files, causing duplicate assembly attribute errors.
 - `<IsAppExtension>true</IsAppExtension>` on the `ProjectReference` — this tells the iOS build targets to copy the built `.appex` into the main app's `PlugIns/` folder. Setting it only in the extension's own csproj is not sufficient; without it on the reference, the extension builds but is never embedded.
 
-The extension bundle ID must be prefixed with the main app's bundle ID (`com.onesignal.example`).
+The extension bundle ID must be prefixed with the main app's bundle ID (`com.onesignal.sdkdemo`).
 
 ### Prompt iOS.4 - Add App Groups
 
@@ -174,7 +174,7 @@ App Groups are required for the NSE and main app to share data (e.g. badge count
 ```xml
 <key>com.apple.security.application-groups</key>
 <array>
-    <string>group.com.onesignal.example.onesignal</string>
+    <string>group.com.onesignal.sdkdemo.onesignal</string>
 </array>
 ```
 
@@ -187,7 +187,7 @@ App Groups are required for the NSE and main app to share data (e.g. badge count
 <dict>
     <key>com.apple.security.application-groups</key>
     <array>
-        <string>group.com.onesignal.example.onesignal</string>
+        <string>group.com.onesignal.sdkdemo.onesignal</string>
 </array>
 </dict>
 </plist>
@@ -216,9 +216,21 @@ Set the Apple Developer Team ID in both the main app and the Notification Servic
 ```xml
 <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
   <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
-  <CodesignTeamId>99SW8E36CT</CodesignTeamId>
 </PropertyGroup>
+
+<PropertyGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
+  <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
+  <CodesignKey>iPhone Distribution</CodesignKey>
+  <CodesignProvision>Appium Demo - Main</CodesignProvision>
+</PropertyGroup>
+
+<!-- In House profiles only grant the production APNs environment. -->
+<ItemGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(CodesignProvision)' == 'Appium Demo - Main'">
+  <CustomEntitlements Include="aps-environment" Type="String" Value="production" />
+</ItemGroup>
 ```
+
+`DL8TF3X4K3` is the OneSignal Enterprise team. Device builds sign with the in-house "iPhone Distribution" certificate and In House profiles, so BrowserStack can install the IPA without re-signing it. Signing is limited to device builds because a simulator build with `CodesignTeamId` set looks for a provisioning profile and fails.
 
 **2. In `NotificationServiceExtension/NotificationServiceExtension.csproj`:**
 
@@ -227,9 +239,14 @@ Set the Apple Developer Team ID in both the main app and the Notification Servic
   <TargetFramework>net10.0-ios</TargetFramework>
   <OutputType>Library</OutputType>
   <IsAppExtension>true</IsAppExtension>
-  <ApplicationId>com.onesignal.example.NotificationServiceExtensionDotNet</ApplicationId>
+  <ApplicationId>com.onesignal.sdkdemo.NSE</ApplicationId>
   <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-  <CodesignTeamId>99SW8E36CT</CodesignTeamId>
+</PropertyGroup>
+
+<PropertyGroup Condition="'$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
+  <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
+  <CodesignKey>iPhone Distribution</CodesignKey>
+  <CodesignProvision>Appium Demo - NSE</CodesignProvision>
 </PropertyGroup>
 ```
 

@@ -24,7 +24,17 @@ public static class MauiProgram
 
         builder
             .UseMauiApp<App>()
-            .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkit(options =>
+                // Top-anchored so a dialog doesn't move while open; a moving
+                // dialog desyncs XCUITest frames from the rendered layout.
+                options.SetPopupDefaults(
+                    new DefaultPopupSettings
+                    {
+                        VerticalOptions = LayoutOptions.Start,
+                        Margin = new Thickness(16, 24),
+                    }
+                )
+            )
             .UseMaterialMauiIcons()
             .ConfigureFonts(fonts =>
             {
@@ -79,6 +89,16 @@ public static class MauiProgram
                 EditorHandler.Mapper.AppendToMapping(
                     "RemoveInputAccessoryView",
                     (handler, _) => handler.PlatformView.InputAccessoryView = null
+                );
+                ButtonHandler.Mapper.AppendToMapping(
+                    "ShrinkTitleToFit",
+                    (handler, _) =>
+                    {
+                        var label = handler.PlatformView.TitleLabel;
+                        label.Lines = 1;
+                        label.AdjustsFontSizeToFitWidth = true;
+                        label.MinimumScaleFactor = 0.6f;
+                    }
                 );
 #endif
             });
