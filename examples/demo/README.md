@@ -2,7 +2,7 @@
 
 A .NET MAUI sample app demonstrating the OneSignal .NET SDK on Android and iOS. It references the SDK source in this repository (`OneSignalSDK.DotNet`) as a project reference, so SDK changes are built with the demo.
 
-The demo uses Android package `com.onesignal.sdkdemo` and iOS bundle id `com.onesignal.example`.
+The demo uses the app ID `com.onesignal.sdkdemo` on both Android and iOS.
 
 ## Prerequisites
 
@@ -34,7 +34,7 @@ ONESIGNAL_ANDROID_CHANNEL_ID=
 
 The real `.env` file is gitignored. It's bundled into the app at build time (as the `appenv` asset), so rebuild after changing it.
 
-The OneSignal app needs FCM credentials for the `com.onesignal.sdkdemo` Android package and APNs credentials for the `com.onesignal.example` bundle ID on iOS.
+The OneSignal app needs FCM credentials for the `com.onesignal.sdkdemo` Android package and APNs credentials for the `com.onesignal.sdkdemo` bundle ID on iOS.
 
 ### Firebase Installation IDs (optional)
 
@@ -82,7 +82,7 @@ cd examples/demo
 dotnet build -f net10.0-ios -t:Build,Run -p:_DeviceName=:v2:udid=<simulator-udid>
 ```
 
-**Physical device** — set your signing identity and provisioning profile:
+**Physical device** — device builds sign with the OneSignal Enterprise team (`DL8TF3X4K3`) and its In House profiles by default. Without access to that team, pass your own signing identity and provisioning profile:
 
 ```sh
 dotnet build -f net10.0-ios -t:Run -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="Apple Development" -p:CodesignProvision="<your-provisioning-profile>"

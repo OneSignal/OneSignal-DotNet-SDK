@@ -18,10 +18,7 @@
     <Nullable>enable</Nullable>
 
     <ApplicationTitle>OneSignal Demo</ApplicationTitle>
-    <ApplicationId>com.onesignal.example</ApplicationId>
-    <ApplicationId
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
-      >com.onesignal.sdkdemo</ApplicationId>
+    <ApplicationId>com.onesignal.sdkdemo</ApplicationId>
     <ApplicationVersion>2</ApplicationVersion>
     <ApplicationDisplayVersion>3</ApplicationDisplayVersion>
 
@@ -127,9 +124,15 @@
     a real signing identity.
   -->
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
-    <CodesignTeamId>99SW8E36CT</CodesignTeamId>
+    <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>Appium Demo - Main</CodesignProvision>
   </PropertyGroup>
+
+  <!-- In House profiles only grant the production APNs environment. -->
+  <ItemGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(CodesignProvision)' == 'Appium Demo - Main'">
+    <CustomEntitlements Include="aps-environment" Type="String" Value="production" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="NotificationServiceExtension\**" />
