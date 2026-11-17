@@ -12,35 +12,37 @@
       InfoTapped="OnInfoTapped"
     />
 
-    <Button
-      Text="SIMPLE"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnSimpleClicked"
-      AutomationId="send_simple_button"
-    />
-    <Button
-      Text="WITH IMAGE"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnWithImageClicked"
-      AutomationId="send_image_button"
-    />
-    <Button
-      Text="WITH SOUND"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnWithSoundClicked"
-      AutomationId="send_sound_button"
-    />
-    <Button
-      Text="CUSTOM"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnCustomClicked"
-      AutomationId="send_custom_button"
-    />
-    <Button
-      Text="CLEAR ALL"
-      Style="{StaticResource OutlineButtonStyle}"
-      Clicked="OnClearAllClicked"
-      AutomationId="clear_all_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        Text="SIMPLE"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnSimpleClicked"
+        AutomationId="send_simple_button"
+      />
+      <Button
+        Text="WITH IMAGE"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnWithImageClicked"
+        AutomationId="send_image_button"
+      />
+      <Button
+        Text="WITH SOUND"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnWithSoundClicked"
+        AutomationId="send_sound_button"
+      />
+      <Button
+        Text="CUSTOM"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnCustomClicked"
+        AutomationId="send_custom_button"
+      />
+      <Button
+        Text="CLEAR ALL"
+        Style="{StaticResource OutlineButtonStyle}"
+        Clicked="OnClearAllClicked"
+        AutomationId="clear_all_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

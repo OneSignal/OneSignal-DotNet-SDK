@@ -2,6 +2,7 @@
 <ContentView
   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  xmlns:controls="clr-namespace:OneSignalDemo.Controls"
   xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
   x:Class="OneSignalDemo.Controls.Sections.UserSection"
   x:Name="root"
@@ -83,20 +84,22 @@
     </Border>
 
     <!-- Login/Logout buttons -->
-    <Button
-      x:Name="LoginButton"
-      Text="LOGIN USER"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnLoginClicked"
-      AutomationId="login_user_button"
-    />
-    <Button
-      x:Name="LogoutButton"
-      Text="LOGOUT USER"
-      Style="{StaticResource OutlineButtonStyle}"
-      IsVisible="False"
-      Clicked="OnLogoutClicked"
-      AutomationId="logout_user_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        x:Name="LoginButton"
+        Text="LOGIN USER"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnLoginClicked"
+        AutomationId="login_user_button"
+      />
+      <Button
+        x:Name="LogoutButton"
+        Text="LOGOUT USER"
+        Style="{StaticResource OutlineButtonStyle}"
+        IsVisible="False"
+        Clicked="OnLogoutClicked"
+        AutomationId="logout_user_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

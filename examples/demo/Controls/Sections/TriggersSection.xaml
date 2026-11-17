@@ -20,33 +20,35 @@
       </VerticalStackLayout>
     </Border>
 
-    <Button
-      Text="ADD TRIGGER"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnAddClicked"
-      AutomationId="add_trigger_button"
-    />
-    <Button
-      Text="ADD MULTIPLE TRIGGERS"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnAddMultipleClicked"
-      AutomationId="add_multiple_triggers_button"
-    />
-    <Button
-      x:Name="RemoveSelectedButton"
-      Text="REMOVE TRIGGERS"
-      Style="{StaticResource PrimaryButtonStyle}"
-      IsVisible="False"
-      Clicked="OnRemoveSelectedClicked"
-      AutomationId="remove_triggers_button"
-    />
-    <Button
-      x:Name="ClearAllButton"
-      Text="CLEAR ALL TRIGGERS"
-      Style="{StaticResource PrimaryButtonStyle}"
-      IsVisible="False"
-      Clicked="OnClearAllClicked"
-      AutomationId="clear_triggers_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        Text="ADD TRIGGER"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnAddClicked"
+        AutomationId="add_trigger_button"
+      />
+      <Button
+        Text="ADD TRIGGERS"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnAddMultipleClicked"
+        AutomationId="add_multiple_triggers_button"
+      />
+      <Button
+        x:Name="RemoveSelectedButton"
+        Text="REMOVE TRIGGERS"
+        Style="{StaticResource PrimaryButtonStyle}"
+        IsVisible="False"
+        Clicked="OnRemoveSelectedClicked"
+        AutomationId="remove_triggers_button"
+      />
+      <Button
+        x:Name="ClearAllButton"
+        Text="CLEAR ALL"
+        Style="{StaticResource PrimaryButtonStyle}"
+        IsVisible="False"
+        Clicked="OnClearAllClicked"
+        AutomationId="clear_triggers_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

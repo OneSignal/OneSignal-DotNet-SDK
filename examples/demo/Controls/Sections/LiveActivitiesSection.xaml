@@ -58,28 +58,30 @@
       </VerticalStackLayout>
     </Border>
 
-    <Button
-      x:Name="StartButton"
-      Text="START LIVE ACTIVITY"
-      Style="{StaticResource PrimaryButtonStyle}"
-      Clicked="OnStartClicked"
-      AutomationId="start_live_activity_button"
-    />
-    <Button
-      x:Name="UpdateButton"
-      Text="UPDATE → ON THE WAY"
-      Style="{StaticResource PrimaryButtonStyle}"
-      IsEnabled="False"
-      Clicked="OnUpdateClicked"
-      AutomationId="update_live_activity_button"
-    />
-    <Button
-      x:Name="EndButton"
-      Text="END LIVE ACTIVITY"
-      Style="{StaticResource OutlineButtonStyle}"
-      IsEnabled="False"
-      Clicked="OnEndClicked"
-      AutomationId="end_live_activity_button"
-    />
+    <controls:ButtonGrid>
+      <Button
+        x:Name="StartButton"
+        Text="START ACTIVITY"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Clicked="OnStartClicked"
+        AutomationId="start_live_activity_button"
+      />
+      <Button
+        x:Name="UpdateButton"
+        Text="UPDATE → ON THE WAY"
+        Style="{StaticResource PrimaryButtonStyle}"
+        IsEnabled="False"
+        Clicked="OnUpdateClicked"
+        AutomationId="update_live_activity_button"
+      />
+      <Button
+        x:Name="EndButton"
+        Text="END ACTIVITY"
+        Style="{StaticResource OutlineButtonStyle}"
+        IsEnabled="False"
+        Clicked="OnEndClicked"
+        AutomationId="end_live_activity_button"
+      />
+    </controls:ButtonGrid>
   </VerticalStackLayout>
 </ContentView>

@@ -218,6 +218,7 @@ Persistence: `Microsoft.Maui.Storage.Preferences`.
 
 XAML controls in `Controls/`:
 - Sections use `Controls/SectionHeader.xaml` (title + info-icon `ImageButton`) wrapped by an inline `<Border Style="{StaticResource CardBorderStyle}">` for the card chrome. See `Controls/Sections/AliasesSection.xaml`, `PushSection.xaml` for examples.
+- Sections with two or more buttons wrap them in `Controls/ButtonGrid.cs` (`<controls:ButtonGrid>`): two equal columns, an odd last visible button spans both, and hidden buttons (`IsVisible="False"`) drop out so the rest reflow. On iOS a `ButtonHandler` mapping in `MauiProgram.cs` keeps button titles on one line and shrinks them to fit.
 - Toggle rows are inline `Grid` / `VerticalStackLayout` + `Switch` per-section (see `InAppSection.xaml`, `PushSection.xaml`, `LocationSection.xaml`). There is no shared `ToggleRow` control.
 - `LoadingState.xaml` -- inline `ActivityIndicator` shown by list-bearing sections (Aliases, Emails, SMS, Tags) while `AppViewModel.IsLoading` is true and the list is empty.
 
@@ -246,6 +247,8 @@ Button styles are defined in `Resources/Styles/Styles.xaml` (not `App.xaml`, whi
 ### Dialogs
 
 Use CommunityToolkit.Maui popup overlays for all flows (do not use `DisplayPromptAsync`):
+
+- `MauiProgram.cs` sets CommunityToolkit popup defaults (`SetPopupDefaults`) to `VerticalOptions = Start` with a `16,24` margin, so dialogs anchor below the safe area at the top instead of centering. A dialog that moves while open desyncs XCUITest frames from the rendered layout.
 
 - `MainPage` owns layout + tooltip popups only (`ShowTooltip(key)`). Each section's `InfoTapped` event is wired to the matching tooltip key.
 - Section initialization (see `MainPage.xaml.cs`):
@@ -380,6 +383,7 @@ examples/demo/
 │   ├── SectionHeader.xaml(.cs)             # Title Label + InfoOutline ImageButton; InfoTapped event; SectionKey BindableProperty
 │   ├── LoadingState.xaml                   # Inline list loading spinner
 │   ├── DemoSnackbar.cs                     # Static wrapper around CommunityToolkit.Maui Snackbar
+│   ├── ButtonGrid.cs                       # Two-column button layout; odd last button spans
 │   ├── DialogInputHelper.cs                # ShowSingleInput / ShowPairInput / ShowForm popups
 │   ├── MultiPairDialogHelper.cs            # Multi-row input + multi-select remove popups
 │   ├── TooltipDialogHelper.cs              # Tooltip popup
