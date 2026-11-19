@@ -19,6 +19,11 @@ on:
 permissions:
   contents: read
 
+env:
+  # Workload set 10.0.403 = Microsoft.iOS.Sdk 27.1, which needs Xcode 27.1.
+  # Sets are per SDK feature band, hence dotnet-version 10.0.4xx.
+  DOTNET_WORKLOAD_VERSION: '10.0.403'
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -47,14 +52,14 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: '10.0.4xx'
 
       # Only maui-android is installable on Linux; maui-ios fails with
       # "Workload ID maui-ios isn't supported on this platform". The iOS TFM
       # is gated on macOS in OneSignalSDK.DotNet.csproj and demo.csproj, so
       # restore won't try to walk it here.
       - name: Install MAUI Android workload
-        run: dotnet workload install maui-android
+        run: dotnet workload install maui-android --version "$DOTNET_WORKLOAD_VERSION"
 
       - name: Create demo .env
         working-directory: examples/demo
@@ -108,10 +113,9 @@ jobs:
       github.event_name == 'push' ||
       github.event.inputs.platform == 'ios' ||
       github.event.inputs.platform == 'both'
-    # Each Microsoft.iOS.Sdk workload requires one exact Xcode major.minor, and
-    # `dotnet workload install` always pulls the newest. The current workload
-    # (27.1) needs Xcode 27.1, which only ships on the xcode-27 image. Bump
-    # xcode-version when a newer workload requires it.
+    # Each Microsoft.iOS.Sdk workload requires one exact Xcode major.minor.
+    # DOTNET_WORKLOAD_VERSION pins the workload set (iOS 27.1) so it matches
+    # xcode-version below; bump both together.
     runs-on: xcode-27
     steps:
       - name: Checkout
@@ -120,7 +124,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: '10.0.4xx'
 
       - name: Select Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -133,7 +137,7 @@ jobs:
       # follows references into the android-only OneSignalSDK.DotNet.Android*
       # projects which need the android workload.
       - name: Install MAUI workloads
-        run: dotnet workload install maui-android maui-ios
+        run: dotnet workload install maui-android maui-ios --version "$DOTNET_WORKLOAD_VERSION"
 
       - name: Create demo .env
         working-directory: examples/demo
