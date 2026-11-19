@@ -143,9 +143,9 @@ public class iOSNotificationsManager : INotificationsManager
             Dictionary<string, object> additionalDataXam = new Dictionary<string, object>();
             if (notification.AdditionalData != null)
             {
-                additionalDataXam =
-                    FromNativeConversion.NSDictToPureDict(notification.AdditionalData)
-                    ?? additionalDataXam;
+                additionalDataXam = FromNativeConversion.NSDictToPureDict(
+                    notification.AdditionalData
+                ) ?? additionalDataXam;
             }
 
             return new iOSDisplayableNotification(

@@ -100,8 +100,8 @@ public partial class UserSection : ContentView
 
     private void UpdateLanguageSelection(AppViewModel vm)
     {
-        var option =
-            LanguageOptions.FirstOrDefault(o => o.Value == vm.Language) ?? LanguageOptions[0];
+        var option = LanguageOptions.FirstOrDefault(o => o.Value == vm.Language)
+            ?? LanguageOptions[0];
         LanguageLabel.Text = option.Label;
     }
 

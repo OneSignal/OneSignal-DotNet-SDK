@@ -50,8 +50,8 @@ internal static class PopupKeyboardAvoider
         }
 
         var keyboardFrameInWindow = UIKeyboard.FrameEndFromNotification(note);
-        var viewFrameInWindow =
-            vc.View.Superview?.ConvertRectToView(vc.View.Frame, null) ?? vc.View.Frame;
+        var viewFrameInWindow = vc.View.Superview?.ConvertRectToView(vc.View.Frame, null)
+            ?? vc.View.Frame;
         var bottomOverlap =
             viewFrameInWindow.Y + viewFrameInWindow.Height - keyboardFrameInWindow.Y;
         if (bottomOverlap < 0)
@@ -84,16 +84,13 @@ internal static class PopupKeyboardAvoider
         if (duration <= 0)
             duration = 0.25;
 
-        UIView.Animate(
-            duration,
-            () =>
-            {
-                var insets = vc.AdditionalSafeAreaInsets;
-                insets.Bottom = bottom;
-                vc.AdditionalSafeAreaInsets = insets;
-                vc.View?.LayoutIfNeeded();
-            }
-        );
+        UIView.Animate(duration, () =>
+        {
+            var insets = vc.AdditionalSafeAreaInsets;
+            insets.Bottom = bottom;
+            vc.AdditionalSafeAreaInsets = insets;
+            vc.View?.LayoutIfNeeded();
+        });
     }
 
     private static UIViewController? GetTopPresentedPopupVc(UIWindow? window)
