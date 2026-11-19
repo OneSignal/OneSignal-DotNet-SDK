@@ -45,29 +45,26 @@ public static class MauiProgram
             .ConfigureMauiHandlers(handlers =>
             {
 #if ANDROID
-                SwitchHandler.Mapper.AppendToMapping(
-                    "ThumbShadow",
-                    (handler, _) =>
+                SwitchHandler.Mapper.AppendToMapping("ThumbShadow", (handler, _) =>
+                {
+                    var context = handler.PlatformView.Context;
+                    if (context is null)
                     {
-                        var context = handler.PlatformView.Context;
-                        if (context is null)
-                        {
-                            return;
-                        }
-
-                        var thumb = AppCompatResources.GetDrawable(
-                            context,
-                            global::OneSignalDemo.Resource.Drawable.switch_thumb_white_shadow
-                        );
-                        if (thumb is null)
-                        {
-                            return;
-                        }
-
-                        handler.PlatformView.ThumbTintList = null;
-                        handler.PlatformView.ThumbDrawable = thumb.Mutate();
+                        return;
                     }
-                );
+
+                    var thumb = AppCompatResources.GetDrawable(
+                        context,
+                        global::OneSignalDemo.Resource.Drawable.switch_thumb_white_shadow
+                    );
+                    if (thumb is null)
+                    {
+                        return;
+                    }
+
+                    handler.PlatformView.ThumbTintList = null;
+                    handler.PlatformView.ThumbDrawable = thumb.Mutate();
+                });
 #endif
 
 #if IOS
@@ -82,24 +79,19 @@ public static class MauiProgram
                 // the accessory view restores normal hit-testing and matches
                 // the React Native demo's behavior (RN doesn't attach one
                 // by default).
-                EntryHandler.Mapper.AppendToMapping(
-                    "RemoveInputAccessoryView",
-                    (handler, _) => handler.PlatformView.InputAccessoryView = null
+                EntryHandler.Mapper.AppendToMapping("RemoveInputAccessoryView", (handler, _) =>
+                    handler.PlatformView.InputAccessoryView = null
                 );
-                EditorHandler.Mapper.AppendToMapping(
-                    "RemoveInputAccessoryView",
-                    (handler, _) => handler.PlatformView.InputAccessoryView = null
+                EditorHandler.Mapper.AppendToMapping("RemoveInputAccessoryView", (handler, _) =>
+                    handler.PlatformView.InputAccessoryView = null
                 );
-                ButtonHandler.Mapper.AppendToMapping(
-                    "ShrinkTitleToFit",
-                    (handler, _) =>
-                    {
-                        var label = handler.PlatformView.TitleLabel;
-                        label.Lines = 1;
-                        label.AdjustsFontSizeToFitWidth = true;
-                        label.MinimumScaleFactor = 0.6f;
-                    }
-                );
+                ButtonHandler.Mapper.AppendToMapping("ShrinkTitleToFit", (handler, _) =>
+                {
+                    var label = handler.PlatformView.TitleLabel;
+                    label.Lines = 1;
+                    label.AdjustsFontSizeToFitWidth = true;
+                    label.MinimumScaleFactor = 0.6f;
+                });
 #endif
             });
 
