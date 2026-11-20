@@ -39,9 +39,12 @@ public class iOSOneSignal : IOneSignal
         set => OneSignalNative.SetConsentGiven(value);
     }
 
-    public void Initialize(string appId)
+    public void Initialize(string? appId)
     {
-        if (InputGuard.IsMissing(appId, "initialize: appId"))
+        // Native iOS declares appId non-optional, so the binding throws on null before any
+        // native call. This guard is what turns that into the log-and-return the API promises.
+        // IsMissing already covers null; the second check only narrows it for the compiler.
+        if (InputGuard.IsMissing(appId, "initialize: appId") || appId == null)
             return;
         Com.OneSignal.iOS.OneSignalWrapper.SdkType = WrapperSDK.Type;
 
@@ -58,9 +61,11 @@ public class iOSOneSignal : IOneSignal
         ((iOSInAppMessagesManager)InAppMessages).Initialize();
     }
 
-    public void Login(string externalId, string? jwtBearerToken = null)
+    public void Login(string? externalId, string? jwtBearerToken = null)
     {
-        if (InputGuard.IsMissing(externalId, "login: externalId"))
+        // Same as Initialize: native iOS externalId is non-optional, so null must stop here.
+        // IsMissing already covers null; the second check only narrows it for the compiler.
+        if (InputGuard.IsMissing(externalId, "login: externalId") || externalId == null)
             return;
         if (String.IsNullOrWhiteSpace(jwtBearerToken))
         {
