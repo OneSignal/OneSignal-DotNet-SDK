@@ -2,7 +2,7 @@
 
 A .NET MAUI sample app demonstrating the OneSignal .NET SDK on Android and iOS. It references the SDK source in this repository (`OneSignalSDK.DotNet`) as a project reference, so SDK changes are built with the demo.
 
-The demo uses the app ID `com.onesignal.sdkdemo` on both Android and iOS.
+The demo uses the app ID `com.onesignal.example` on Android and iOS (team `99SW8E36CT` on iOS) and the shared OneSignal demo app (`1154c350-e715-4b71-a58b-1b84b6745baa`).
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ The demo uses the app ID `com.onesignal.sdkdemo` on both Android and iOS.
 
 ## Setup
 
-Copy `.env.example` to `.env` in `examples/demo`:
+To use your own credentials, copy `.env.example` to `.env` in `examples/demo`:
 
 ```sh
 cd examples/demo
@@ -28,17 +28,19 @@ ONESIGNAL_API_KEY=your_rest_api_key
 ONESIGNAL_ANDROID_CHANNEL_ID=
 ```
 
-- `ONESIGNAL_APP_ID`: required. The build fails when it is missing or empty.
+- `ONESIGNAL_APP_ID`: optional. Defaults to the shared demo app.
 - `ONESIGNAL_API_KEY`: REST API key, used to update and end live activities. Sending notifications from the demo doesn't need it.
 - `ONESIGNAL_ANDROID_CHANNEL_ID`: optional Android notification channel for the sound test notification. Falls back to a built-in default channel.
 
 The real `.env` file is gitignored. It's bundled into the app at build time (as the `appenv` asset), so rebuild after changing it.
 
-The OneSignal app needs FCM credentials for the `com.onesignal.sdkdemo` Android package and APNs credentials for the `com.onesignal.sdkdemo` bundle ID on iOS.
+The OneSignal app needs FCM credentials for the `com.onesignal.example` Android package and APNs credentials for the `com.onesignal.example` bundle ID on iOS.
+
+`demo.props` sets `DEMO_BUNDLE_ID` (default `com.onesignal.example`) and `DEMO_TEAM_ID` (default `99SW8E36CT`). Pass `-p:DEMO_BUNDLE_ID=<id> -p:DEMO_TEAM_ID=<team>` to use your own; the NSE, Live Activity widget and app group IDs derive from `DEMO_BUNDLE_ID`. E2E builds pass `-p:DEMO_BUNDLE_ID=com.onesignal.sdkdemo -p:DEMO_TEAM_ID=DL8TF3X4K3`, which also switches device builds to the enterprise In House profiles.
 
 ### Firebase Installation IDs (optional)
 
-E2E builds register with Firebase Installation IDs. To match locally, put a `google-services.json` for `com.onesignal.sdkdemo` in `Platforms/Android/` (it is gitignored) and build with `-p:FIREBASE_INSTALLATION_ID_ENABLED=true`. The flag is off by default, and the build fails if it is on without `google-services.json`.
+E2E builds register with Firebase Installation IDs. To match locally, put a `google-services.json` for your package in `Platforms/Android/` (it is gitignored) and build with `-p:FIREBASE_INSTALLATION_ID_ENABLED=true`. The flag is off by default, and the build fails if it is on without `google-services.json`.
 
 ## Running on Android
 
@@ -82,11 +84,13 @@ cd examples/demo
 dotnet build -f net10.0-ios -t:Build,Run -p:_DeviceName=:v2:udid=<simulator-udid>
 ```
 
-**Physical device** — device builds sign with the OneSignal Enterprise team (`DL8TF3X4K3`) and its In House profiles by default. Without access to that team, pass your own signing identity and provisioning profile:
+**Physical device** — device builds sign with team `$(DEMO_TEAM_ID)` and pick a matching development profile. To use your own team:
 
 ```sh
-dotnet build -f net10.0-ios -t:Run -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="Apple Development" -p:CodesignProvision="<your-provisioning-profile>"
+dotnet build -f net10.0-ios -t:Run -p:RuntimeIdentifier=ios-arm64 -p:DEMO_BUNDLE_ID=<your-bundle-id> -p:DEMO_TEAM_ID=<your-team-id>
 ```
+
+The committed Live Activity widget is a simulator build, so device builds still need a device build of `OneSignalWidget` (see the E2E workflow).
 
 ## Troubleshooting
 

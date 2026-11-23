@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../demo.props" />
+
   <PropertyGroup>
     <TargetFramework>net10.0-ios</TargetFramework>
     <OutputType>Library</OutputType>
     <IsAppExtension>true</IsAppExtension>
-    <ApplicationId>com.onesignal.sdkdemo.NSE</ApplicationId>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <ApplicationId>$(DEMO_BUNDLE_ID).NSE</ApplicationId>
     <!--
       Must match (or be lower than) the host app's MinimumOSVersion. Without
       this, MSBuild defaults to the current iOS SDK (e.g. 26.2), which is
@@ -19,11 +20,13 @@
   <!--
     Codesigning for device builds only. Setting CodesignTeamId on a simulator
     build triggers provisioning-profile lookup, which fails because no profile
-    is issued for simulator. The simulator still applies CodesignEntitlements
-    (above) so app groups keep working without a real signing identity.
+    is issued for simulator. The simulator still applies the app group
+    entitlement from demo.props without a real signing identity.
   -->
-  <PropertyGroup Condition="'$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
-    <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
+  <PropertyGroup Condition="'$(IsDemoDeviceBuild)' == 'true'">
+    <CodesignTeamId>$(DEMO_TEAM_ID)</CodesignTeamId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsDemoE2ESigning)' == 'true'">
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>Appium Demo - NSE</CodesignProvision>
   </PropertyGroup>

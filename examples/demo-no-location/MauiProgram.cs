@@ -6,7 +6,7 @@ namespace OneSignalDemoNoLocation;
 
 public static class MauiProgram
 {
-    private const string DefaultAppId = "YOUR-ONESIGNAL-APP-ID";
+    private const string DefaultAppId = "1154c350-e715-4b71-a58b-1b84b6745baa";
 
     public static MauiApp CreateMauiApp()
     {

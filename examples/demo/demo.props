@@ -1,0 +1,24 @@
+<Project>
+  <!--
+    Shared by demo.csproj and the NSE. E2E passes
+    -p:DEMO_BUNDLE_ID=com.onesignal.sdkdemo -p:DEMO_TEAM_ID=DL8TF3X4K3, which
+    MSBuild forwards to referenced projects; that bundle ID is registered to the
+    enterprise team only.
+  -->
+  <PropertyGroup>
+    <DEMO_BUNDLE_ID Condition="'$(DEMO_BUNDLE_ID)' == ''">com.onesignal.example</DEMO_BUNDLE_ID>
+    <DEMO_TEAM_ID Condition="'$(DEMO_TEAM_ID)' == ''">99SW8E36CT</DEMO_TEAM_ID>
+    <IsDemoDeviceBuild Condition="$(RuntimeIdentifier.StartsWith('ios-'))">true</IsDemoDeviceBuild>
+    <IsDemoE2ESigning
+      Condition="'$(IsDemoDeviceBuild)' == 'true' AND '$(DEMO_BUNDLE_ID)' == 'com.onesignal.sdkdemo'"
+      >true</IsDemoE2ESigning>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
+    <CustomEntitlements
+      Include="com.apple.security.application-groups"
+      Type="StringArray"
+      Value="group.$(DEMO_BUNDLE_ID).onesignal"
+    />
+  </ItemGroup>
+</Project>
