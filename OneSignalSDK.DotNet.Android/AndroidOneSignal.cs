@@ -47,10 +47,8 @@ public class AndroidOneSignal : IOneSignal
         set => OneSignalNative.ConsentGiven = value;
     }
 
-    public void Initialize(string appId)
+    public void Initialize(string? appId)
     {
-        if (InputGuard.IsMissing(appId, "initialize: appId"))
-            return;
         Context context = Application.Context;
 
         Com.OneSignal.Android.Common.OneSignalWrapper.SdkType = WrapperSDK.Type;
@@ -68,10 +66,8 @@ public class AndroidOneSignal : IOneSignal
         ((AndroidInAppMessagesManager)InAppMessages).Initialize();
     }
 
-    public void Login(string externalId, string? jwtBearerToken = null)
+    public void Login(string? externalId, string? jwtBearerToken = null)
     {
-        if (InputGuard.IsMissing(externalId, "login: externalId"))
-            return;
         OneSignalNative.Login(externalId, jwtBearerToken);
     }
 
