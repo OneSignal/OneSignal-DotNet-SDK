@@ -21,4 +21,27 @@
       Value="group.$(DEMO_BUNDLE_ID).onesignal"
     />
   </ItemGroup>
+
+  <!--
+    Incremental iOS builds don't relink when only the bundle ID changes, so the
+    binary keeps the old application-identifier entitlement and Web Inspector
+    (and Appium's WEBVIEW contexts) ignores the app. Start clean when it changes.
+  -->
+  <Target
+    Name="CleanOnDemoBundleIdChange"
+    BeforeTargets="PrepareForBuild"
+    Condition="$(TargetFramework.Contains('-ios'))"
+  >
+    <PropertyGroup>
+      <_DemoBundleIdStamp>$(IntermediateOutputPath)demo-bundle-id.txt</_DemoBundleIdStamp>
+    </PropertyGroup>
+    <ReadLinesFromFile File="$(_DemoBundleIdStamp)" Condition="Exists('$(_DemoBundleIdStamp)')">
+      <Output TaskParameter="Lines" PropertyName="_DemoLastBundleId" />
+    </ReadLinesFromFile>
+    <RemoveDir
+      Directories="$(IntermediateOutputPath);$(OutputPath)"
+      Condition="'$(_DemoLastBundleId)' != '$(ApplicationId)' AND Exists('$(IntermediateOutputPath)')"
+    />
+    <WriteLinesToFile File="$(_DemoBundleIdStamp)" Lines="$(ApplicationId)" Overwrite="true" />
+  </Target>
 </Project>

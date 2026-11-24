@@ -163,6 +163,7 @@
   <Target
     Name="MatchDemoWidgetBundleId"
     BeforeTargets="PrepareForBuild"
+    DependsOnTargets="CleanOnDemoBundleIdChange"
     Condition="$(TargetFramework.Contains('-ios')) AND '$(IsDemoDeviceBuild)' != 'true' AND '@(_DemoWidget)' != ''"
   >
     <PropertyGroup>
