@@ -69,7 +69,7 @@ Add a Notification Service Extension to support rich push notifications (images,
     <TargetFramework>net10.0-ios</TargetFramework>
     <OutputType>Library</OutputType>
     <IsAppExtension>true</IsAppExtension>
-    <ApplicationId>com.onesignal.sdkdemo.NSE</ApplicationId>
+    <ApplicationId>$(DEMO_BUNDLE_ID).NSE</ApplicationId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -163,91 +163,22 @@ Two things are required here:
 - `<Compile Remove>` — the extension folder lives inside the main project directory, so MSBuild's default `**/*.cs` glob would otherwise pull in the extension's source and generated `obj/` files, causing duplicate assembly attribute errors.
 - `<IsAppExtension>true</IsAppExtension>` on the `ProjectReference` — this tells the iOS build targets to copy the built `.appex` into the main app's `PlugIns/` folder. Setting it only in the extension's own csproj is not sufficient; without it on the reference, the extension builds but is never embedded.
 
-The extension bundle ID must be prefixed with the main app's bundle ID (`com.onesignal.sdkdemo`).
+The extension bundle ID must be prefixed with the main app's bundle ID (`$(DEMO_BUNDLE_ID)`).
 
-### Prompt iOS.4 - Add App Groups
+### Prompt iOS.4 - Shared IDs, App Groups and signing
 
-App Groups are required for the NSE and main app to share data (e.g. badge counts, notification state). The group ID must be registered in the Apple Developer portal under the app's identifier.
+`examples/demo/demo.props` is imported at the top of both `demo.csproj` and `NotificationServiceExtension.csproj`. It sets:
 
-**1. Add to the main app's `Platforms/iOS/Entitlements.plist`:**
+- `DEMO_BUNDLE_ID` (default `com.onesignal.example`) and `DEMO_TEAM_ID` (default `99SW8E36CT`). E2E passes `-p:DEMO_BUNDLE_ID=com.onesignal.sdkdemo -p:DEMO_TEAM_ID=DL8TF3X4K3`; MSBuild forwards global properties to the referenced NSE project.
+- The `com.apple.security.application-groups` entitlement `group.$(DEMO_BUNDLE_ID).onesignal` as a `CustomEntitlements` item, so the main app and NSE share it without hardcoding it in `Entitlements.plist`.
+- `IsDemoDeviceBuild` (an `ios-*` RuntimeIdentifier) and `IsDemoE2ESigning` (a device build of `com.onesignal.sdkdemo`).
 
-```xml
-<key>com.apple.security.application-groups</key>
-<array>
-    <string>group.com.onesignal.sdkdemo.onesignal</string>
-</array>
-```
+`ApplicationId` is `$(DEMO_BUNDLE_ID)` in `demo.csproj` and `$(DEMO_BUNDLE_ID).NSE` in the NSE. `Platforms/iOS/Info.plist` must not set `CFBundleIdentifier`, because it would override `ApplicationId`.
 
-**2. Create `NotificationServiceExtension/Entitlements.plist` with the same group:**
+Device builds set `CodesignTeamId` to `$(DEMO_TEAM_ID)`. E2E signing builds also use the in-house "iPhone Distribution" certificate and the "Appium Demo - Main" / "Appium Demo - NSE" In House profiles (OneSignal Enterprise team `DL8TF3X4K3`), so BrowserStack can install the IPA without re-signing it, and add `aps-environment = production` because In House profiles only grant production APNs. Signing is limited to device builds because a simulator build with `CodesignTeamId` set looks for a provisioning profile and fails.
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>com.apple.security.application-groups</key>
-    <array>
-        <string>group.com.onesignal.sdkdemo.onesignal</string>
-</array>
-</dict>
-</plist>
-```
+The committed Live Activity widget (`Platforms/iOS/PlugIns/OneSignalWidgetExtension.appex`) is an ad hoc signed simulator build with bundle ID `com.onesignal.sdkdemo.LA`. iOS won't install an extension whose ID doesn't start with the app's, so the `MatchDemoWidgetBundleId` target in `demo.csproj` bundles a copy with `CFBundleIdentifier` set to `$(ApplicationId).LA` and re-signs it ad hoc for simulator builds when the IDs differ. E2E device builds replace the appex with an `xcodebuild` of `OneSignalWidget` signed with the "Appium Demo - Live Activity" profile.
 
-**3. Reference the entitlements file in `NotificationServiceExtension/NotificationServiceExtension.csproj`:**
-
-```xml
-<PropertyGroup>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-</PropertyGroup>
-```
-
-App Groups must be registered in the Apple Developer portal — this cannot be skipped even for simulator builds.
-
----
-
-## Phase iOS: Code Signing
-
-### Prompt iOS.5 - Set Team ID
-
-Set the Apple Developer Team ID in both the main app and the Notification Service Extension so the build system can find the correct signing identity and provisioning profile automatically.
-
-**1. In `demo.csproj`, inside the iOS-conditional `PropertyGroup`:**
-
-```xml
-<PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
-  <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
-</PropertyGroup>
-
-<PropertyGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
-  <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
-  <CodesignKey>iPhone Distribution</CodesignKey>
-  <CodesignProvision>Appium Demo - Main</CodesignProvision>
-</PropertyGroup>
-
-<!-- In House profiles only grant the production APNs environment. -->
-<ItemGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(CodesignProvision)' == 'Appium Demo - Main'">
-  <CustomEntitlements Include="aps-environment" Type="String" Value="production" />
-</ItemGroup>
-```
-
-`DL8TF3X4K3` is the OneSignal Enterprise team. Device builds sign with the in-house "iPhone Distribution" certificate and In House profiles, so BrowserStack can install the IPA without re-signing it. Signing is limited to device builds because a simulator build with `CodesignTeamId` set looks for a provisioning profile and fails.
-
-**2. In `NotificationServiceExtension/NotificationServiceExtension.csproj`:**
-
-```xml
-<PropertyGroup>
-  <TargetFramework>net10.0-ios</TargetFramework>
-  <OutputType>Library</OutputType>
-  <IsAppExtension>true</IsAppExtension>
-  <ApplicationId>com.onesignal.sdkdemo.NSE</ApplicationId>
-  <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-</PropertyGroup>
-
-<PropertyGroup Condition="'$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
-  <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
-  <CodesignKey>iPhone Distribution</CodesignKey>
-  <CodesignProvision>Appium Demo - NSE</CodesignProvision>
-</PropertyGroup>
-```
+App Groups must be registered in the Apple Developer portal under the app's identifier; this cannot be skipped even for simulator builds.
 
 Both targets must use the same Team ID so the extension is signed consistently with the main app.

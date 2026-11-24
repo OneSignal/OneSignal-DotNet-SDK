@@ -1,8 +1,8 @@
 # OneSignal No-Location Demo
 
-This lightweight MAUI example uses the app ID `com.onesignal.sdkdemo` on Android and iOS, enables APNs for iOS, and builds with the native OneSignal location module disabled.
+This lightweight MAUI example uses the app ID `com.onesignal.example` on Android and iOS and the shared OneSignal demo app (`1154c350-e715-4b71-a58b-1b84b6745baa`) by default, enables APNs for iOS, and builds with the native OneSignal location module disabled.
 
-The real `.env` file is intentionally gitignored. Copy `.env.example` to `.env` and set your OneSignal app ID:
+To use your own app, copy `.env.example` to `.env` (gitignored) and set your OneSignal app ID:
 
 ```sh
 cp .env.example .env
@@ -25,7 +25,7 @@ The project disables location with:
 
 ```sh
 rm -rf bin obj
-xcrun simctl uninstall booted com.onesignal.sdkdemo
+xcrun simctl uninstall booted com.onesignal.example
 ```
 
 The app initializes OneSignal, requests notification permission only when you tap the button, sends a test push to the current push subscription, and includes a location test button that exercises the no-location path.

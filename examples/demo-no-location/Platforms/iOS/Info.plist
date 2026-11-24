@@ -4,8 +4,6 @@
 <dict>
     <key>CFBundleDisplayName</key>
     <string>OneSignal No-Location Demo</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.onesignal.sdkdemo</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>UIDeviceFamily</key>

@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="demo.props" />
+
   <PropertyGroup>
     <!--
       iOS targets only on macOS hosts. Linux/Windows CI runners (e.g. the
@@ -18,7 +20,7 @@
     <Nullable>enable</Nullable>
 
     <ApplicationTitle>OneSignal Demo</ApplicationTitle>
-    <ApplicationId>com.onesignal.sdkdemo</ApplicationId>
+    <ApplicationId>$(DEMO_BUNDLE_ID)</ApplicationId>
     <ApplicationVersion>2</ApplicationVersion>
     <ApplicationDisplayVersion>3</ApplicationDisplayVersion>
 
@@ -94,23 +96,6 @@
     <Error Text="FIREBASE_INSTALLATION_ID_ENABLED requires examples/demo/Platforms/Android/google-services.json" />
   </Target>
 
-  <Target
-    Name="RequireOneSignalAppId"
-    BeforeTargets="PrepareForBuild"
-    Condition="'$(TargetFramework)' != ''"
-  >
-    <ReadLinesFromFile File=".env" Condition="Exists('.env')">
-      <Output TaskParameter="Lines" ItemName="_DemoEnvLine" />
-    </ReadLinesFromFile>
-    <PropertyGroup>
-      <_DemoEnv>@(_DemoEnvLine, '%0A')</_DemoEnv>
-    </PropertyGroup>
-    <Error
-      Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('$(_DemoEnv)', '(?m)^[ \t]*ONESIGNAL_APP_ID[ \t]*=[ \t]*[^\s#]'))"
-      Text="ONESIGNAL_APP_ID is not set. Add it to examples/demo/.env (see .env.example)."
-    />
-  </Target>
-
   <!-- iOS -->
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
     <CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
@@ -123,8 +108,10 @@
     applied on simulator so app groups / aps-environment keep working without
     a real signing identity.
   -->
-  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) AND '$(RuntimeIdentifier)' != '' AND !$(RuntimeIdentifier.StartsWith('iossimulator'))">
-    <CodesignTeamId>DL8TF3X4K3</CodesignTeamId>
+  <PropertyGroup Condition="'$(IsDemoDeviceBuild)' == 'true'">
+    <CodesignTeamId>$(DEMO_TEAM_ID)</CodesignTeamId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsDemoE2ESigning)' == 'true'">
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>Appium Demo - Main</CodesignProvision>
   </PropertyGroup>
@@ -156,11 +143,46 @@
 
   <!-- Bundle the pre-built OneSignalWidget extension (Live Activities) -->
   <ItemGroup Condition="$(TargetFramework.Contains('-ios'))">
-    <Content
+    <_DemoWidget
       Include="Platforms\iOS\PlugIns\OneSignalWidgetExtension.appex\**"
       Condition="Exists('Platforms\iOS\PlugIns\OneSignalWidgetExtension.appex')"
+    />
+    <Content
+      Include="@(_DemoWidget)"
       Link="PlugIns\OneSignalWidgetExtension.appex\%(RecursiveDir)%(Filename)%(Extension)"
       CopyToOutputDirectory="PreserveNewest"
     />
   </ItemGroup>
+
+  <!--
+    The committed widget is an ad hoc signed simulator build, and iOS refuses
+    to install an extension whose bundle ID doesn't start with the app's.
+    Simulator builds bundle a copy with the ID rewritten and re-signed. It is
+    restaged every build so switching DEMO_BUNDLE_ID can't leave a stale copy.
+  -->
+  <Target
+    Name="MatchDemoWidgetBundleId"
+    BeforeTargets="PrepareForBuild"
+    DependsOnTargets="CleanOnDemoBundleIdChange"
+    Condition="$(TargetFramework.Contains('-ios')) AND '$(IsDemoDeviceBuild)' != 'true' AND '@(_DemoWidget)' != ''"
+  >
+    <PropertyGroup>
+      <_DemoWidgetStaged>$(IntermediateOutputPath)widget/OneSignalWidgetExtension.appex/</_DemoWidgetStaged>
+    </PropertyGroup>
+    <RemoveDir Directories="$(_DemoWidgetStaged)" />
+    <Copy
+      SourceFiles="@(_DemoWidget)"
+      DestinationFiles="@(_DemoWidget->'$(_DemoWidgetStaged)%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+    <Exec Command="/usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier $(ApplicationId).LA' '$(_DemoWidgetStaged)Info.plist' &amp;&amp; codesign --force --sign - '$(_DemoWidgetStaged)'" />
+    <ItemGroup>
+      <Content Remove="@(_DemoWidget)" />
+      <_DemoWidgetStagedFile Include="$(_DemoWidgetStaged)**" />
+      <Content
+        Include="@(_DemoWidgetStagedFile)"
+        Link="PlugIns\OneSignalWidgetExtension.appex\%(RecursiveDir)%(Filename)%(Extension)"
+        CopyToOutputDirectory="PreserveNewest"
+      />
+    </ItemGroup>
+  </Target>
 </Project>
